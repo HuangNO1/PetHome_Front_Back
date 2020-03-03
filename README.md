@@ -32,3 +32,6 @@ yarn lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## Lincense
+[The MIT License](https://github.com/HuangNO1/PetHome_Front_Back/blob/master/LICENSE)
