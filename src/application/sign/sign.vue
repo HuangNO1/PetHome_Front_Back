@@ -1,31 +1,27 @@
 <template>
   <v-app>
-    <v-navigation-drawer app>
-      <!-- -->
-    </v-navigation-drawer>
-
-    <v-app-bar app>
+    <v-app-bar id="bar" app>
       <!-- -->
     </v-app-bar>
 
     <!-- Sizes your content based upon application components -->
-    <v-content>
-      <!-- Provides the application the proper gutter -->
-      <v-container fluid>
-        <!-- If using vue-router -->
-        sign
-        <router-view></router-view>
-      </v-container>
+    <v-content id="content">
+      <!-- If using vue-router -->
+      <div class="flexBox">
+        <div class="signCard">
+          <router-view></router-view>
+        </div>
+      </div>
     </v-content>
-
-    <v-footer app>
-      <!-- -->
+    <v-footer id="footer" absolute class="font-weight-medium" color="primary lighten-1" app>
+      <v-col class="py-4 text-center white--text" cols="12">
+        {{ new Date().getFullYear() }} — <strong>Pet Home</strong>
+      </v-col>
     </v-footer>
   </v-app>
 </template>
 
 <script>
-
 export default {
   name: "App",
 
@@ -36,3 +32,28 @@ export default {
   })
 };
 </script>
+<style>
+#bar {
+  opacity: 70%;
+}
+#content {
+  background: url("../../assets/img/thumb-1920-667923.png") no-repeat fixed
+    center center/cover;
+}
+#footer {
+  opacity: 70%;
+}
+.flexBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10rem;
+}
+.signCard {
+  width: 30rem;
+  background-color: white;
+  opacity: 70%;
+  box-shadow: 0 0 50px #cccccc;
+  padding: 2rem;
+}
+</style>
