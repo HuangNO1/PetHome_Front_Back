@@ -5,8 +5,7 @@
       <v-text-field
         v-model="name"
         :error-messages="nameErrors"
-        :counter="10"
-        label="Name"
+        label="Username / E-mail"
         required
         @input="$v.name.$touch()"
         @blur="$v.name.$touch()"
@@ -17,7 +16,7 @@
         v-model="password"
         :type="seePwd"
         :error-messages="passwordErrors"
-        label="password"
+        label="Password"
         required
         @input="$v.password.$touch()"
         @blur="$v.password.$touch()"
@@ -34,9 +33,9 @@
         @blur="$v.checkbox.$touch()"
       ></v-checkbox>
 
-      <v-btn class="mr-4" color="primary" @click="submit">Sign Up</v-btn>
+      <v-btn class="mr-4" color="primary" @click="submit">sign in</v-btn>
       <v-btn @click="clear">clear</v-btn><br><br>
-      No account?To <a href="sign#/Register">Sign up</a>.
+      No account?To <a href="sign#/Register">sign up</a>.
     </form>
   </div>
 </template>
@@ -44,7 +43,6 @@
 import { validationMixin } from "vuelidate";
 import {
   required,
-  maxLength,
   minLength,
   email
 } from "vuelidate/lib/validators";
@@ -53,7 +51,7 @@ export default {
   mixins: [validationMixin],
 
   validations: {
-    name: { required, maxLength: maxLength(10) },
+    name: { required},
     password: { required, minLength: minLength(6) },
     checkbox: {
       checked(val) {
@@ -65,7 +63,7 @@ export default {
   data: () => ({
     name: "",
     password: "",
-    checkbox: false,
+    checkbox: true,
     eye: "mdi-eye-off",
     seePwd: "password"
   }),
@@ -80,9 +78,7 @@ export default {
     nameErrors() {
       const errors = [];
       if (!this.$v.name.$dirty) return errors;
-      !this.$v.name.maxLength &&
-        errors.push("Name must be at most 10 characters long");
-      !this.$v.name.required && errors.push("Name is required.");
+      !this.$v.name.required && errors.push("Username / E-mail is required.");
       return errors;
     },
     passwordErrors() {
