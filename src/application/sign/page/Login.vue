@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div style="font-size: 3rem; text-align: center;">Login</div>
     <form>
       <v-text-field
         v-model="name"
@@ -18,15 +19,6 @@
         @input="$v.email.$touch()"
         @blur="$v.email.$touch()"
       ></v-text-field>
-      <v-select
-        v-model="select"
-        :items="items"
-        :error-messages="selectErrors"
-        label="Item"
-        required
-        @change="$v.select.$touch()"
-        @blur="$v.select.$touch()"
-      ></v-select>
       <v-checkbox
         v-model="checkbox"
         :error-messages="checkboxErrors"
@@ -62,8 +54,6 @@ export default {
   data: () => ({
     name: "",
     email: "",
-    select: null,
-    items: ["Item 1", "Item 2", "Item 3", "Item 4"],
     checkbox: false
   }),
 
@@ -72,12 +62,6 @@ export default {
       const errors = [];
       if (!this.$v.checkbox.$dirty) return errors;
       !this.$v.checkbox.checked && errors.push("You must agree to continue!");
-      return errors;
-    },
-    selectErrors() {
-      const errors = [];
-      if (!this.$v.select.$dirty) return errors;
-      !this.$v.select.required && errors.push("Item is required");
       return errors;
     },
     nameErrors() {
@@ -105,7 +89,6 @@ export default {
       this.$v.$reset();
       this.name = "";
       this.email = "";
-      this.select = null;
       this.checkbox = false;
     }
   }

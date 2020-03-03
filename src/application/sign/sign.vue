@@ -2,6 +2,12 @@
   <v-app>
     <v-app-bar id="bar" app>
       <!-- -->
+        <v-avatar @click="Home" class="icon" size="108">
+          <img
+            alt="Avatar"
+            src="../../assets/icons/webapp/apple-touch-icon-180x180.png"
+          />
+        </v-avatar>
     </v-app-bar>
 
     <!-- Sizes your content based upon application components -->
@@ -13,7 +19,13 @@
         </div>
       </div>
     </v-content>
-    <v-footer id="footer" absolute class="font-weight-medium" color="primary lighten-1" app>
+    <v-footer
+      id="footer"
+      absolute
+      class="font-weight-medium"
+      color="primary lighten-1"
+      app
+    >
       <v-col class="py-4 text-center white--text" cols="12">
         {{ new Date().getFullYear() }} — <strong>Pet Home</strong>
       </v-col>
@@ -29,7 +41,13 @@ export default {
 
   data: () => ({
     //
-  })
+  }),
+  methods: {
+    Home() {
+      document.location.href = "/work";
+    }
+  }
+
 };
 </script>
 <style>
@@ -43,6 +61,14 @@ export default {
 #footer {
   opacity: 70%;
 }
+.title {
+  
+}
+.icon {
+  display: absolute;
+  top: 3rem;
+  left: 3rem;
+}
 .flexBox {
   display: flex;
   justify-content: center;
@@ -53,7 +79,7 @@ export default {
   width: 30rem;
   background-color: white;
   opacity: 70%;
-  box-shadow: 0 0 50px #cccccc;
+  box-shadow: 0 0 50px black;
   padding: 2rem;
 }
 </style>
