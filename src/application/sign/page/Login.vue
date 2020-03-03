@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="font-size: 3rem; text-align: center;">Login</div>
+    <div style="font-size: 3rem; text-align: center;">Sign In</div>
     <form>
       <v-text-field
         v-model="name"
@@ -10,15 +10,21 @@
         required
         @input="$v.name.$touch()"
         @blur="$v.name.$touch()"
-      ></v-text-field>
+      >
+        <v-icon slot="prepend" color="green">mdi-account</v-icon>
+      </v-text-field>
       <v-text-field
-        v-model="email"
-        :error-messages="emailErrors"
-        label="E-mail"
+        v-model="password"
+        :type="seePwd"
+        :error-messages="passwordErrors"
+        label="password"
         required
-        @input="$v.email.$touch()"
-        @blur="$v.email.$touch()"
-      ></v-text-field>
+        @input="$v.password.$touch()"
+        @blur="$v.password.$touch()"
+      >
+        <v-icon slot="prepend" color="green">mdi-lock-outline</v-icon>
+        <v-icon slot="append" color="red" @click="eyeClick">{{ eye }}</v-icon>
+      </v-text-field>
       <v-checkbox
         v-model="checkbox"
         :error-messages="checkboxErrors"
@@ -28,22 +34,27 @@
         @blur="$v.checkbox.$touch()"
       ></v-checkbox>
 
-      <v-btn class="mr-4" @click="submit">submit</v-btn>
-      <v-btn @click="clear">clear</v-btn>
+      <v-btn class="mr-4" color="primary" @click="submit">Sign Up</v-btn>
+      <v-btn @click="clear">clear</v-btn><br><br>
+      No account?To <a href="sign#/Register">Sign up</a>.
     </form>
   </div>
 </template>
 <script>
 import { validationMixin } from "vuelidate";
-import { required, maxLength, email } from "vuelidate/lib/validators";
+import {
+  required,
+  maxLength,
+  minLength,
+  email
+} from "vuelidate/lib/validators";
 
 export default {
   mixins: [validationMixin],
 
   validations: {
     name: { required, maxLength: maxLength(10) },
-    email: { required, email },
-    select: { required },
+    password: { required, minLength: minLength(6) },
     checkbox: {
       checked(val) {
         return val;
@@ -53,8 +64,10 @@ export default {
 
   data: () => ({
     name: "",
-    email: "",
-    checkbox: false
+    password: "",
+    checkbox: false,
+    eye: "mdi-eye-off",
+    seePwd: "password"
   }),
 
   computed: {
@@ -72,11 +85,12 @@ export default {
       !this.$v.name.required && errors.push("Name is required.");
       return errors;
     },
-    emailErrors() {
+    passwordErrors() {
       const errors = [];
-      if (!this.$v.email.$dirty) return errors;
-      !this.$v.email.email && errors.push("Must be valid e-mail");
-      !this.$v.email.required && errors.push("E-mail is required");
+      if (!this.$v.password.$dirty) return errors;
+      !this.$v.password.minLength &&
+        errors.push("Password must have at least 6 letters.");
+      !this.$v.password.required && errors.push("Password is required.");
       return errors;
     }
   },
@@ -88,8 +102,18 @@ export default {
     clear() {
       this.$v.$reset();
       this.name = "";
-      this.email = "";
+      this.password = "";
       this.checkbox = false;
+    },
+    eyeClick() {
+        if(this.eye === "mdi-eye-off") {
+            this.eye = "mdi-eye";
+            this.seePwd = "";
+        }
+        else {
+            this.eye = "mdi-eye-off";
+            this.seePwd = "password";
+        }
     }
   }
 };

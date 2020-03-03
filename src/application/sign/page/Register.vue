@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="font-size: 3rem; text-align: center;">Register</div>
+    <div style="font-size: 3rem; text-align: center;">Sign Up</div>
     <form>
       <v-text-field
         v-model="name"
