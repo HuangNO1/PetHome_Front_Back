@@ -2,6 +2,7 @@
   <div>
     <div style="font-size: 3rem; text-align: center;">Sign Up</div>
     <form>
+      <!-- name -->
       <v-text-field
         v-model="name"
         :error-messages="nameErrors"
@@ -13,6 +14,7 @@
       >
         <v-icon slot="prepend" color="green">mdi-account</v-icon>
       </v-text-field>
+      <!-- email -->
       <v-text-field
         v-model="email"
         :error-messages="emailErrors"
@@ -23,6 +25,7 @@
       >
         <v-icon slot="prepend" color="green">mdi-email</v-icon>
       </v-text-field>
+      <!-- password -->
       <v-text-field
         v-model="password"
         :type="seePwd"
@@ -35,6 +38,7 @@
         <v-icon slot="prepend" color="green">mdi-lock-outline</v-icon>
         <v-icon slot="append" color="red" @click="eyeClick">{{ eye }}</v-icon>
       </v-text-field>
+      <!-- repeat password -->
       <v-text-field
         v-model="repeatPassword"
         :type="seeRepeatPwd"
@@ -49,6 +53,27 @@
           repeatEye
         }}</v-icon>
       </v-text-field>
+      <!-- email verify -->
+      <v-row>
+        <v-col cols="12" md="6">
+          <v-text-field
+            v-model="captcha"
+            :counter="4"
+            :error-messages="captchaErrors"
+            label="Captcha"
+            required
+            @input="$v.captcha.$touch()"
+            @blur="$v.captcha.$touch()"
+          >
+            <v-icon slot="prepend" color="green">mdi-alpha-c-circle</v-icon>
+          </v-text-field>
+        </v-col>
+
+        <v-col cols="12" md="6">
+          <v-btn block color="primary" rounded dark x-large>Get Captcha</v-btn>
+        </v-col>
+      </v-row>
+      <!-- agree -->
       <v-checkbox
         v-model="checkbox"
         :error-messages="checkboxErrors"
@@ -70,7 +95,7 @@ import {
   required,
   maxLength,
   minLength,
-  email
+  email,
 } from "vuelidate/lib/validators";
 
 export default {
@@ -84,6 +109,11 @@ export default {
       required,
       minLength: minLength(6)
     },
+    captcha: {
+      required,
+      maxLength: maxLength(4),
+      minLength: minLength(4),
+    },
     checkbox: {
       checked(val) {
         return val;
@@ -96,6 +126,7 @@ export default {
     email: "",
     password: "",
     repeatPassword: "",
+    captcha: "",
     checkbox: true,
     eye: "mdi-eye-off",
     repeatEye: "mdi-eye-off",
@@ -140,6 +171,17 @@ export default {
         errors.push("Password must have at least 6 letters.");
       !this.$v.repeatPassword.required &&
         errors.push("Repeat password is required.");
+      return errors;
+    },
+    captchaErrors() {
+      const errors = [];
+      if (!this.$v.captcha.$dirty) return errors;
+      !this.$v.captcha.minLength &&
+        errors.push("captcha must have 4 letters.");
+      !this.$v.captcha.maxLength &&
+        errors.push("captcha must have 4 letters.");
+      !this.$v.captcha.required &&
+        errors.push("captcha password is required.");
       return errors;
     }
   },
