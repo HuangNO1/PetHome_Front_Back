@@ -44,7 +44,7 @@ export default {
   }),
   methods: {
     Home() {
-      document.location.href = "/work";
+      document.location.href = "/introduce";
     }
   }
 

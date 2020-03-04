@@ -34,7 +34,7 @@
         @change="$v.checkbox.$touch()"
         @blur="$v.checkbox.$touch()"
       ></v-checkbox>
-      <!-- verity -->
+      <!-- verify -->
       <v-dialog v-model="dialog" width="500" :disabled="openDialog" persistent>
         <template v-slot:activator="{ on }">
           <v-btn class="mr-4" color="primary" v-on="on" @click="submit"
@@ -43,14 +43,14 @@
         </template>
         <v-card>
           <v-card-title class="headline grey lighten-2" primary-title>
-            verity
+            <p v-if="loginSuccess">Verify</p>
+            <p v-if="!loginSuccess">OOPS...</p>
           </v-card-title>
 
           <v-card-text>
-            <div
-              style="display: flex; justify-content: center; padding: 1rem; background: white;"
-            >
+            <div class="verify">
               <slide-verify
+                v-if="loginSuccess"
                 :l="42"
                 :r="10"
                 :w="310"
@@ -60,6 +60,14 @@
                 @fail="onFail"
                 @refresh="onRefresh"
               ></slide-verify>
+              <div v-if="!loginSuccess" style="font-size: 1rem;">
+                <span>
+                  <v-icon color="red" x-large>mdi-alert-circle</v-icon>
+                </span>
+                <span
+                  >Confirm the username and password are correct.</span
+                >
+              </div>
             </div>
           </v-card-text>
 
@@ -68,7 +76,8 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="primary" text @click="dialog = false">
-              Cancel
+              <span v-if="loginSuccess">Cancel</span>
+              <span v-if="!loginSuccess">Got it</span>
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -225,3 +234,11 @@ export default {
   }
 };
 </script>
+<style>
+.verify {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  background: white;
+}
+</style>
