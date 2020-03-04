@@ -35,7 +35,7 @@
         @blur="$v.checkbox.$touch()"
       ></v-checkbox>
       <!-- verity -->
-      <v-dialog v-model="dialog" width="500" :disabled="openDialog">
+      <v-dialog v-model="dialog" width="500" :disabled="openDialog" persistent>
         <template v-slot:activator="{ on }">
           <v-btn class="mr-4" color="primary" v-on="on" @click="submit"
             >sign in</v-btn
@@ -153,7 +153,7 @@ export default {
         this.passwordError = false;
         console.log("passwordSuccess");
       }
-    },
+    }
     // checkboxSuccess() {
     //   if (this.checkbox === true && this.$v.checkbox.checked) {
     //     this.checkboxError = false;
