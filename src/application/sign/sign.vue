@@ -2,12 +2,12 @@
   <v-app>
     <v-app-bar id="bar" app>
       <!-- -->
-        <v-avatar @click="Home" class="icon" size="108">
-          <img
-            alt="Avatar"
-            src="../../assets/icons/webapp/apple-touch-icon-180x180.png"
-          />
-        </v-avatar>
+      <v-avatar @click="Home" class="icon" size="108">
+        <img
+          alt="Avatar"
+          src="../../assets/icons/webapp/apple-touch-icon-180x180.png"
+        />
+      </v-avatar>
     </v-app-bar>
 
     <!-- Sizes your content based upon application components -->
@@ -27,7 +27,12 @@
       app
     >
       <v-col class="py-4 text-center white--text" cols="12">
-        {{ new Date().getFullYear() }} — <strong>Pet Home</strong>
+        <v-avatar size="36" @click="Home" style="margin-right: 1rem;">
+          <img
+            alt="Avatar"
+            src="../../assets/icons/webapp/apple-touch-icon-180x180.png"
+          /> </v-avatar
+        >{{ new Date().getFullYear() }} — <strong>Pet Home</strong>
       </v-col>
     </v-footer>
   </v-app>
@@ -47,12 +52,10 @@ export default {
       document.location.href = "/introduce";
     }
   }
-
 };
 </script>
 <style>
 #bar {
-  opacity: 70%;
 }
 #content {
   background: url("../../assets/img/thumb-1920-667923.png") no-repeat fixed
@@ -60,9 +63,6 @@ export default {
 }
 #footer {
   opacity: 70%;
-}
-.title {
-  
 }
 .icon {
   display: absolute;
