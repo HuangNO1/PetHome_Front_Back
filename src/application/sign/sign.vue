@@ -3,10 +3,7 @@
     <v-app-bar id="bar" class="indigo" app>
       <!-- -->
       <v-avatar @click="Home" class="icon" size="108">
-        <img
-          alt="Avatar"
-          src="../../assets/icons/sign.png"
-        />
+        <img alt="Avatar" src="../../assets/icons/sign.png" />
       </v-avatar>
       <span class="display-1 white--text" style="margin-left: 5rem;"
         >Pet Home</span
@@ -31,10 +28,7 @@
     >
       <v-col class="py-4 text-center white--text" cols="12">
         <v-avatar size="36" @click="Home" style="margin-right: 1rem;">
-          <img
-            alt="Avatar"
-            src="../../assets/icons/sign.png"
-          /> </v-avatar
+          <img alt="Avatar" src="../../assets/icons/sign.png" /> </v-avatar
         >{{ new Date().getFullYear() }} — <strong>Pet Home</strong>
       </v-col>
     </v-footer>
@@ -50,6 +44,9 @@ export default {
   data: () => ({
     //
   }),
+  created() {
+    document.location.href = "/sign#/Login";
+  },
   methods: {
     Home() {
       document.location.href = "/introduce";
@@ -81,8 +78,9 @@ export default {
 .signCard {
   width: 30rem;
   background-color: white;
-  opacity: 70%;
+  opacity: 80%;
   box-shadow: 0 0 50px black;
   padding: 2rem;
+  border-radius: 3px;
 }
 </style>
