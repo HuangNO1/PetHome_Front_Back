@@ -2,6 +2,7 @@
   <div>
     <div style="font-size: 3rem; text-align: center;">Sign In</div>
     <form>
+    <!-- name -->
       <v-text-field
         v-model="name"
         :error-messages="nameErrors"
@@ -13,6 +14,7 @@
       >
         <v-icon slot="prepend" color="green">mdi-account</v-icon>
       </v-text-field>
+      <!-- password -->
       <v-text-field
         v-model="password"
         :type="seePwd"
@@ -23,9 +25,10 @@
         @input="$v.password.$touch()"
         @blur="$v.password.$touch()"
       >
-        <v-icon slot="prepend" color="green">mdi-lock-outline</v-icon>
+        <v-icon slot="prepend" color="green">mdi-lock</v-icon>
         <v-icon slot="append" color="red" @click="eyeClick">{{ eye }}</v-icon>
       </v-text-field>
+      <!-- checkbox -->
       <v-checkbox
         v-model="checkbox"
         :error-messages="checkboxErrors"
@@ -120,7 +123,7 @@ export default {
     passwordError: true,
     // checkboxError: false,
     loginURL: "",
-    loginSuccess: false,
+    loginSuccess: true,
     openDialog: true
   }),
 
@@ -130,7 +133,7 @@ export default {
       if (!this.$v.checkbox.$dirty) return errors;
       !this.$v.checkbox.checked && errors.push("You must agree to continue!");
       // this.checkboxError = true;
-      this.openDialog = true;
+      // this.openDialog = true;
       return errors;
     },
     nameErrors() {
@@ -138,7 +141,7 @@ export default {
       if (!this.$v.name.$dirty) return errors;
       !this.$v.name.required && errors.push("Username / E-mail is required.");
       this.nameError = true;
-      this.openDialog = true;
+      // this.openDialog = true;
       return errors;
     },
     passwordErrors() {
@@ -148,7 +151,7 @@ export default {
         errors.push("Password must have at least 6 letters.");
       !this.$v.password.required && errors.push("Password is required.");
       this.passwordError = true;
-      this.openDialog = true;
+      // this.openDialog = true;
       return errors;
     },
     nameSuccess() {
@@ -174,6 +177,7 @@ export default {
   methods: {
     submit() {
       this.openDialog = true;
+      this.dialog = false;
       this.$v.$touch();
       console.log("this.nameError: " + this.nameError);
       console.log("this.passwordError: " + this.passwordError);
@@ -200,6 +204,8 @@ export default {
           });*/
         this.openDialog = false;
         this.dialog = true;
+      } else {
+        this.dialog = false;
       }
     },
     clear() {

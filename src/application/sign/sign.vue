@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar id="bar" app>
+    <v-app-bar id="bar" class="indigo" app>
       <!-- -->
       <v-avatar @click="Home" class="icon" size="108">
         <img
@@ -8,6 +8,9 @@
           src="../../assets/icons/webapp/apple-touch-icon-180x180.png"
         />
       </v-avatar>
+      <span class="display-1 white--text" style="margin-left: 5rem;"
+        >Pet Home</span
+      >
     </v-app-bar>
 
     <!-- Sizes your content based upon application components -->
