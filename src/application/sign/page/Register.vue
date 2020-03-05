@@ -131,7 +131,39 @@
         </v-card>
       </v-dialog>
       <!-- clear -->
-      <v-btn class="mr-4" @click="clear">clear</v-btn>
+      <v-dialog v-model="clearDialog" width="500" persistent>
+        <template v-slot:activator="{ on }">
+          <v-btn class="mr-4" @click="comfirmClear">clear</v-btn>
+        </template>
+        <v-card>
+          <v-card-title
+            class="headline grey lighten-2 red--text"
+            primary-title
+          >
+            <p>Clear</p>
+          </v-card-title>
+
+          <v-card-text style="padding: 1rem;">
+            <span><v-icon color="red" large>mdi-alert-circle</v-icon></span>
+            <span class="title"
+              >Are you sure you want to clear the form?</span
+            >
+          </v-card-text>
+
+          <v-divider></v-divider>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" text @click="clear">
+              <span>Sure</span>
+            </v-btn>
+            <v-btn color="error" text @click="clearDialog = false">
+              <span>Cancel</span>
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+      
       <!-- Privacy Policy -->
       <v-dialog v-model="statementDialog" width="500" persistent>
         <template v-slot:activator="{ on }">
@@ -315,6 +347,7 @@ export default {
     dialog: false,
     openDialog: true,
     statementDialog: false,
+    clearDialog: false,
     checkSameNameURL: "",
     checkSameEmailURL: "",
     requestCaptchaURL: "",
@@ -464,6 +497,9 @@ export default {
         this.dialog = true;
       }
     },
+    comfirmClear() {
+      this.clearDialog = true;
+    },
     clear() {
       this.$v.$reset();
       this.name = "";
@@ -472,6 +508,7 @@ export default {
       this.repeatPassword = "";
       this.captcha = "";
       this.checkbox = true;
+      this.clearDialog = false;
     },
     eyeClick() {
       if (this.eye === "mdi-eye-off") {
