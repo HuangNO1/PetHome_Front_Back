@@ -5,7 +5,7 @@
       <v-avatar @click="Sign" class="icon" size="108">
         <img
           alt="Avatar"
-          src="../../assets/icons/webapp/apple-touch-icon-152x152.png"
+          src="../../assets/icons/introduce.png"
         />
       </v-avatar>
       <span class="display-1 white--text" style="margin-left: 5rem;"
@@ -49,7 +49,7 @@
           <v-avatar size="36" style="margin-right: 1rem;">
             <img
               alt="Avatar"
-              src="../../assets/icons/webapp/apple-touch-icon-152x152.png"
+              src="../../assets/icons/introduce.png"
             />
           </v-avatar>
           {{ new Date().getFullYear() }} — <strong>Pet Home</strong>
