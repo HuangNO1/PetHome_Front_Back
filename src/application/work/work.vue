@@ -52,9 +52,9 @@
       <v-menu
         transition="slide-x-reverse-transition"
         offset-y="true"
+        open-on-hover="true"
         bottom
         left
-        min-width="100"
       >
         <template v-slot:activator="{ on }">
           <span class="ml-2" v-on="on">Hi, {{ username }}!</span>
@@ -73,12 +73,25 @@
         </template>
 
         <v-list>
-          <v-list-item v-for="(item, i) in menuItem" :key="i" @click="">
+          <v-list-item
+            v-for="(item, i) in menuItem"
+            :key="i"
+            @click="changePage(item.url)"
+          >
             <v-list-item-title
               ><v-icon>{{ item.icon }}</v-icon>
               {{ item.title }}</v-list-item-title
             >
           </v-list-item>
+          <v-divider></v-divider>
+          <!-- Sign Out-->
+          <v-list-item @click.stop="signOutDialog = true">
+            <v-list-item-title class="red--text">
+              <v-icon color="red">mdi-arrow-right-bold-circle</v-icon>
+              Sign Out
+            </v-list-item-title>
+          </v-list-item>
+
           <v-divider></v-divider>
           <v-list-item>
             <v-switch
@@ -91,7 +104,30 @@
         </v-list>
       </v-menu>
     </v-app-bar>
+    <!-- comfirm Sign Out Dialog-->
+    <v-dialog v-model="signOutDialog" width="500" persistent>
+      <v-card>
+        <v-card-title class="headline red white--text lighten-2" primary-title>
+          <p>WARRING</p>
+        </v-card-title>
 
+        <v-card-text style="padding: 1rem;" class="title">
+          Are you sure you want to sign out?
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="error" text @click="signOut">
+            <span>Sure</span>
+          </v-btn>
+          <v-btn color="primary" text @click="signOutDialog = false">
+            <span>Cancel</span>
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <!-- Sizes your content based upon application components -->
     <v-content>
       <!-- Provides the application the proper gutter -->
@@ -157,14 +193,12 @@ export default {
     miniVariant: false,
     background: false,
     menuIsClose: false,
-    showMenu: false,
-    x: 0,
-    y: 0,
     menuItem: [
-      { title: "Account", icon: "mdi-account" },
-      { title: "Cart", icon: "mdi-cart" },
-      { title: "Setting", icon: "mdi-cogs" },
-    ]
+      { title: "Account", icon: "mdi-account", url: "User" },
+      { title: "Cart", icon: "mdi-cart", url: "Cart" },
+      { title: "Setting", icon: "mdi-cogs", url: "Setting" }
+    ],
+    signOutDialog: false
   }),
   methods: {
     changePage(page) {
@@ -256,14 +290,8 @@ export default {
       console.log("draw - " + this.drawer);
       console.log("miniVariant - " + this.miniVariant);
     },
-    show(e) {
-      e.preventDefault();
-      this.showMenu = false;
-      this.x = e.clientX;
-      this.y = e.clientY;
-      this.$nextTick(() => {
-        this.showMenu = true;
-      });
+    signOut() {
+      document.location.href = "/introduce";
     }
   },
   computed: {
