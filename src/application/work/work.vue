@@ -148,6 +148,8 @@ const data = localStorage.getItem("todoList")
 
 // import HelloWorld from "./components/HelloWorld";
 import { mapState, mapMutations } from "vuex";
+import { UPDATE_NAV_THEME } from "./store/mutations-types/theme";
+
 export default {
   name: "App",
 
@@ -168,7 +170,13 @@ export default {
 
     this.$vuetify.theme.dark = this.initialDark;
   },
-
+  created() {
+    // data.todo.push("navTheme");
+    // localStorage.setItem("todoList", JSON.stringify(data));
+    if(this.navTheme === "") {
+      this.$store.commit(UPDATE_NAV_THEME, "primary");
+    }
+  },
   data: () => ({
     //
     username: "Rem",
@@ -287,7 +295,11 @@ export default {
     }
   },
   computed: {
-    ...mapState(["theme"]),
+    ...mapState({
+      navTheme: state => {
+        return state.theme.navTheme;
+      }
+    }),
     bg() {
       return this.background
         ? "https://cdn.vuetifyjs.com/images/backgrounds/bg-2.jpg"

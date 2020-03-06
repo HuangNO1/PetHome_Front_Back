@@ -28,8 +28,12 @@ export default {
   created() {
     // data.todo.push("navTheme");
     // localStorage.setItem("todoList", JSON.stringify(data));
-
-    this.$store.commit("updateNavTheme", this.color);
+    if(this.navTheme === "") {
+      this.$store.commit(UPDATE_NAV_THEME, this.color);
+    } else {
+      this.color = this.navTheme;
+    }
+    
   },
   data() {
     return {
@@ -46,7 +50,7 @@ export default {
   },
   computed: {
     ...mapState({
-      theme: state => {
+      navTheme: state => {
         return state.theme.navTheme;
       }
     })
