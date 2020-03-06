@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app ref="contentStyle">
     <v-navigation-drawer
       v-model="drawer"
       :color="color"
@@ -23,11 +23,15 @@
 
         <v-divider></v-divider>
 
-        <v-list-item v-for="item in items" :key="item.title" @click="changePage(item.title)" link>
+        <v-list-item
+          v-for="item in items"
+          :key="item.title"
+          @click="changePage(item.title)"
+          link
+        >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
-
           <v-list-item-content>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
@@ -37,6 +41,10 @@
 
     <v-app-bar app>
       <!-- -->
+      <v-app-bar-nav-icon @click="miniMenu"></v-app-bar-nav-icon>
+      <v-spacer></v-spacer>
+      <v-app-bar-title>Pet Home</v-app-bar-title>
+      <v-spacer></v-spacer>
       <v-switch
         v-model="$vuetify.theme.dark"
         hide-details
@@ -91,6 +99,15 @@ export default {
   name: "App",
 
   components: {},
+  beforeCreate: function() {
+    const contentWidth = this.$refs.contentStyle.$el.clientWidth;
+    console.log("contentWidth: " + contentWidth);
+    if (contentWidth < 1264) {
+      this.drawer = false;
+    } else {
+      this.drawer = true;
+    }
+  },
   props: {
     attrs: {
       type: Object,
@@ -117,18 +134,105 @@ export default {
       { title: "Record", icon: "mdi-google-spreadsheet" },
       { title: "User", icon: "mdi-account" },
       { title: "Setting", icon: "mdi-cogs" },
-      { title: "About", icon: "mdi-help-box" },
+      { title: "About", icon: "mdi-help-box" }
     ],
     color: "primary",
     colors: ["primary", "blue", "success", "red", "teal"],
     right: true,
     miniVariant: false,
     expandOnHover: false,
-    background: false
+    background: false,
+    menuIsClose: false
   }),
   methods: {
     changePage(page) {
       document.location.href = "/work#/" + page;
+    },
+    miniMenu() {
+      const contentWidth = this.$refs.contentStyle.$el.clientWidth;
+      console.log("contentWidth: " + contentWidth);
+      console.log(
+        "click Menu => " +
+          "miniVariant: " +
+          this.miniVariant +
+          ", drawer: " +
+          this.drawer +
+          ", menuIsClose: " +
+          this.menuIsClose
+      );
+      // open menu
+      if (this.menuIsClose === true) {
+        console.log("enter open");
+        this.miniVariant = false;
+        this.drawer = true;
+        this.menuIsClose = false;
+        console.log(
+          "open Menu 1=> " +
+            "miniVariant: " +
+            this.miniVariant +
+            ", drawer: " +
+            this.drawer +
+            ", menuIsClose: " +
+            this.menuIsClose
+        );
+      } else {
+        // close menu
+        console.log("enter close");
+        if (this.drawer === true) {
+          this.miniVariant = true;
+          // can't mini variant
+          console.log(
+            "close Menu 1=> " +
+              "miniVariant: " +
+              this.miniVariant +
+              ", drawer: " +
+              this.drawer +
+              ", menuIsClose: " +
+              this.menuIsClose
+          );
+          if (this.miniVariant === false) {
+            // just close menu
+            this.drawer = false;
+            console.log(
+              "close Menu 2=> " +
+                "miniVariant: " +
+                this.miniVariant +
+                ", drawer: " +
+                this.drawer +
+                ", menuIsClose: " +
+                this.menuIsClose
+            );
+          } else {
+            this.drawer = true;
+            console.log(
+              "close Menu 3=> " +
+                "miniVariant: " +
+                this.miniVariant +
+                ", drawer: " +
+                this.drawer +
+                ", menuIsClose: " +
+                this.menuIsClose
+            );
+          }
+          this.menuIsClose = true;
+        } else {
+          // menu is close, open it.
+          this.miniVariant = false;
+          this.drawer = true;
+          this.menuIsClose = false;
+          console.log(
+            "open Menu 2=> " +
+              "miniVariant: " +
+              this.miniVariant +
+              ", drawer: " +
+              this.drawer +
+              ", menuIsClose: " +
+              this.menuIsClose
+          );
+        }
+      }
+      console.log("draw - " + this.drawer);
+      console.log("miniVariant - " + this.miniVariant);
     }
   },
   computed: {
