@@ -3,7 +3,6 @@
     <v-navigation-drawer
       v-model="drawer"
       :color="color"
-      :expand-on-hover="expandOnHover"
       :mini-variant="miniVariant"
       :src="bg"
       absolute
@@ -43,14 +42,54 @@
       <!-- -->
       <v-app-bar-nav-icon @click="miniMenu"></v-app-bar-nav-icon>
       <v-spacer></v-spacer>
-      <v-app-bar-title>Pet Home</v-app-bar-title>
+      <v-app-bar-title
+        ><v-avatar size="36" style="margin-right: 1rem;">
+          <img alt="Avatar" src="../../assets/icons/work.png" /> </v-avatar
+        >Pet Home</v-app-bar-title
+      >
       <v-spacer></v-spacer>
-      <v-switch
-        v-model="$vuetify.theme.dark"
-        hide-details
-        inset
-        label="Theme Dark"
-      ></v-switch>
+
+      <v-menu
+        transition="slide-x-reverse-transition"
+        offset-y="true"
+        bottom
+        left
+        min-width="100"
+      >
+        <template v-slot:activator="{ on }">
+          <span class="ml-2" v-on="on">Hi, {{ username }}!</span>
+          <v-card
+            class="portrait"
+            img="../../assets/icons/webapp/android-touch-icon.png"
+            height="36"
+            width="36"
+            v-on="on"
+          >
+            <img
+              style="height: 36px; width: 36px;"
+              src="../../assets/icons/webapp/android-touch-icon.png"
+            />
+          </v-card>
+        </template>
+
+        <v-list>
+          <v-list-item v-for="(item, i) in menuItem" :key="i" @click="">
+            <v-list-item-title
+              ><v-icon>{{ item.icon }}</v-icon>
+              {{ item.title }}</v-list-item-title
+            >
+          </v-list-item>
+          <v-divider></v-divider>
+          <v-list-item>
+            <v-switch
+              v-model="$vuetify.theme.dark"
+              hide-details
+              inset
+              label="DARK"
+            ></v-switch>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
 
     <!-- Sizes your content based upon application components -->
@@ -63,27 +102,11 @@
             <v-select v-model="color" :items="colors" label="Color"></v-select>
           </v-col>
 
-          <v-switch v-model="drawer" class="ma-2" label="v-model"></v-switch>
-
-          <v-switch
-            v-model="miniVariant"
-            class="ma-2"
-            label="Mini variant"
-          ></v-switch>
-
-          <v-switch
-            v-model="expandOnHover"
-            class="ma-2"
-            label="Expand on hover"
-          ></v-switch>
-
           <v-switch
             v-model="background"
             class="ma-2"
             label="Background"
           ></v-switch>
-
-          <v-switch v-model="right" class="ma-2" label="Right"></v-switch>
         </v-row>
 
         <router-view></router-view>
@@ -99,15 +122,6 @@ export default {
   name: "App",
 
   components: {},
-  beforeCreate: function() {
-    const contentWidth = this.$refs.contentStyle.$el.clientWidth;
-    console.log("contentWidth: " + contentWidth);
-    if (contentWidth < 1264) {
-      this.drawer = false;
-    } else {
-      this.drawer = true;
-    }
-  },
   props: {
     attrs: {
       type: Object,
@@ -127,6 +141,7 @@ export default {
 
   data: () => ({
     //
+    username: "Rem",
     drawer: true,
     items: [
       { title: "Home", icon: "mdi-view-dashboard" },
@@ -140,9 +155,16 @@ export default {
     colors: ["primary", "blue", "success", "red", "teal"],
     right: true,
     miniVariant: false,
-    expandOnHover: false,
     background: false,
-    menuIsClose: false
+    menuIsClose: false,
+    showMenu: false,
+    x: 0,
+    y: 0,
+    menuItem: [
+      { title: "Account", icon: "mdi-account" },
+      { title: "Cart", icon: "mdi-cart" },
+      { title: "Setting", icon: "mdi-cogs" },
+    ]
   }),
   methods: {
     changePage(page) {
@@ -233,6 +255,15 @@ export default {
       }
       console.log("draw - " + this.drawer);
       console.log("miniVariant - " + this.miniVariant);
+    },
+    show(e) {
+      e.preventDefault();
+      this.showMenu = false;
+      this.x = e.clientX;
+      this.y = e.clientY;
+      this.$nextTick(() => {
+        this.showMenu = true;
+      });
     }
   },
   computed: {
