@@ -2,7 +2,7 @@
   <v-app ref="contentStyle">
     <v-navigation-drawer
       v-model="drawer"
-      :color="color"
+      :color="this.$store.state.theme.navTheme"
       :mini-variant="miniVariant"
       :src="bg"
       absolute
@@ -111,13 +111,13 @@
           <p>WARRING</p>
         </v-card-title>
 
-        <v-card-text style="padding: 1rem;" class="title">
+        <v-card-text class="white title black--text" style="padding: 1rem;">
           Are you sure you want to sign out?
         </v-card-text>
 
         <v-divider></v-divider>
 
-        <v-card-actions>
+        <v-card-actions class="white">
           <v-spacer></v-spacer>
           <v-btn color="error" text @click="signOut">
             <span>Sure</span>
@@ -133,18 +133,6 @@
       <!-- Provides the application the proper gutter -->
       <v-container fluid>
         <!-- If using vue-router -->
-        <v-row justify="space-around">
-          <v-col cols="12">
-            <v-select v-model="color" :items="colors" label="Color"></v-select>
-          </v-col>
-
-          <v-switch
-            v-model="background"
-            class="ma-2"
-            label="Background"
-          ></v-switch>
-        </v-row>
-
         <router-view></router-view>
       </v-container>
     </v-content>
@@ -152,8 +140,14 @@
 </template>
 
 <script>
-// import HelloWorld from "./components/HelloWorld";
+const data = localStorage.getItem("todoList")
+  ? JSON.parse(localStorage.getItem("todoList"))
+  : {
+      todo: []
+    };
 
+// import HelloWorld from "./components/HelloWorld";
+import { mapState, mapMutations } from "vuex";
 export default {
   name: "App",
 
@@ -187,8 +181,6 @@ export default {
       { title: "Setting", icon: "mdi-cogs" },
       { title: "About", icon: "mdi-help-box" }
     ],
-    color: "primary",
-    colors: ["primary", "blue", "success", "red", "teal"],
     right: true,
     miniVariant: false,
     background: false,
@@ -295,6 +287,7 @@ export default {
     }
   },
   computed: {
+    ...mapState(["theme"]),
     bg() {
       return this.background
         ? "https://cdn.vuetifyjs.com/images/backgrounds/bg-2.jpg"

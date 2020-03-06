@@ -40,12 +40,6 @@ export default new VueRouter({
             component: User
         },
         {
-            name: 'Cart',
-            path: '/Cart',
-            component: Cart
-        },
-
-        {
             name: 'About',
             path: '/About',
             component: About
