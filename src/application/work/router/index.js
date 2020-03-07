@@ -6,8 +6,6 @@ import Setting from '@/application/work/page/Setting.vue'
 import Record from '@/application/work/page/Record.vue'
 import User from '@/application/work/page/User.vue'
 import About from '@/application/work/page/About.vue'
-import Checkout from '@/application/work/page/Checkout.vue'
-import FinishDeal from '@/application/work/page/FinishDeal.vue'
 
 //使用 vue-router
 Vue.use(VueRouter)
@@ -44,15 +42,5 @@ export default new VueRouter({
             path: '/About',
             component: About
         },
-        {
-            name: 'Checkout',
-            path: '/Checkout',
-            component: Checkout
-        },
-        {
-            name: 'FinishDeal',
-            path: '/FinishDeal',
-            component: FinishDeal
-        }
     ]
 })
