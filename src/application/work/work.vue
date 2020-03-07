@@ -8,7 +8,7 @@
       fixed
       app
     >
-      <v-list dense nav class="py-0">
+      <v-list nav class="py-0">
         <v-list-item two-line :class="miniVariant && 'px-0'">
           <v-list-item-avatar>
             <img src="../../assets/icons/work.png" />
