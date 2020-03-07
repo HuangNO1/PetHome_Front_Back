@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@guillaumebriday/vue-scroll-progress-bar": "^0.5.0",
     "axios": "^0.19.2",
     "core-js": "^3.6.4",
     "es6-promise": "^4.2.8",

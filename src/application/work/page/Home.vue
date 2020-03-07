@@ -50,31 +50,34 @@
     <!-- product list menu - if width >= 1264 -->
     <v-row class="mb-6">
       <v-col md="auto">
-      <div style="width: 256px;">
-        <affix :offset="80">
-          <v-card elevation="12" width="256">
-            <!--<v-navigation-drawer floating permanent>-->
-            <v-list rounded shaped>
-              <v-list-item v-for="item in productItems" :key="item.title" link>
-                <v-list-item-icon>
-                  <v-icon>{{ item.icon }}</v-icon>
-                </v-list-item-icon>
+        <div style="width: 256px;">
+          <affix :offset="80">
+            <v-card elevation="12" width="256">
+              <!--<v-navigation-drawer floating permanent>-->
+              <v-list rounded shaped>
+                <v-list-item
+                  v-for="item in productItems"
+                  :key="item.title"
+                  link
+                >
+                  <v-list-item-icon>
+                    <v-icon>{{ item.icon }}</v-icon>
+                  </v-list-item-icon>
 
-                <v-list-item-content>
-                  <v-list-item-title>{{ item.title }}</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
-            <!--</v-navigation-drawer>-->
-          </v-card>
-        </affix>
-      </div>
-        
+                  <v-list-item-content>
+                    <v-list-item-title>{{ item.title }}</v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list>
+              <!--</v-navigation-drawer>-->
+            </v-card>
+          </affix>
+        </div>
       </v-col>
       <v-col>
         <v-card
           class="mx-auto mb-4 mr-4"
-          elevation="12"
+          elevation="8"
           max-width="900"
           style="display: inline-block;"
           v-for="i in 20"
