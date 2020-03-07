@@ -38,7 +38,7 @@
     <!-- product list menu - if width < 1264 -->
     <v-row justify="space-around">
       <v-col cols="12">
-        <v-sheet elevation="10" class="py-4 px-1">
+        <v-sheet elevation="8" class="py-4 px-1">
           <v-chip-group mandatory active-class="primary--text">
             <v-chip v-for="tag in tags" :key="tag">
               {{ tag }}
@@ -50,9 +50,9 @@
     <!-- product list menu - if width >= 1264 -->
     <v-row class="mb-6">
       <v-col md="auto">
-        <div style="width: 256px;">
+        <div style="width: 256px;" class="mr-4">
           <affix :offset="80">
-            <v-card elevation="12" width="256">
+            <v-card elevation="10" width="256" class="mr-4 mb-4">
               <!--<v-navigation-drawer floating permanent>-->
               <v-list rounded shaped>
                 <v-list-item
@@ -71,13 +71,40 @@
               </v-list>
               <!--</v-navigation-drawer>-->
             </v-card>
+            <!-- sale sheet -->
+            <v-card
+              class="mx-auto text-center"
+              :color="this.$store.state.theme.navTheme"
+              dark
+              max-width="256"
+              elevation="12"
+            >
+              <v-card-text>
+                <v-sheet color="rgba(0, 0, 0, .12)">
+                  <v-sparkline
+                    :value="saleValue"
+                    color="rgba(255, 255, 255, .7)"
+                    height="100"
+                    padding="24"
+                    stroke-linecap="round"
+                    smooth
+                  >
+                    <template v-slot:label="item"> ${{ item.value }} </template>
+                  </v-sparkline>
+                </v-sheet>
+              </v-card-text>
+
+              <v-card-text>
+                <div class="display-1 font-weight-thin">Sales Last 24h</div>
+              </v-card-text>
+            </v-card>
           </affix>
         </div>
       </v-col>
       <v-col>
         <v-card
           class="mx-auto mb-4 mr-4"
-          elevation="8"
+          elevation="10"
           max-width="900"
           style="display: inline-block;"
           v-for="i in 20"
@@ -142,7 +169,16 @@ export default {
         "Art",
         "Tech",
         "Creative Writing"
-      ]
+      ],
+      saleValue: [
+        423,
+        446,
+        675,
+        510,
+        590,
+        610,
+        760,
+      ],
     };
   },
   watch: {

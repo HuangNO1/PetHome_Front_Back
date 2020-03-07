@@ -38,7 +38,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar app>
+    <v-app-bar :color="this.$store.state.theme.navTheme" app>
       <!-- -->
       <v-app-bar-nav-icon @click="miniMenu"></v-app-bar-nav-icon>
       <v-spacer></v-spacer>
@@ -127,10 +127,12 @@
     <!-- Sizes your content based upon application components -->
     <v-content>
       <!-- Provides the application the proper gutter -->
-      <v-container fluid>
-        <!-- If using vue-router -->
-        <router-view></router-view>
-      </v-container>
+      <div style="padding: 1rem;">
+        <v-container fluid>
+          <!-- If using vue-router -->
+          <router-view></router-view>
+        </v-container>
+      </div>
     </v-content>
   </v-app>
 </template>
