@@ -4,8 +4,8 @@
       v-model="drawer"
       :color="this.$store.state.theme.navTheme"
       :mini-variant="miniVariant"
-      :src="bg"
-      absolute
+      :src="this.$store.state.theme.navImage"
+      fixed
       app
     >
       <v-list dense nav class="py-0">
@@ -21,20 +21,19 @@
         </v-list-item>
 
         <v-divider></v-divider>
-
-        <v-list-item
-          v-for="item in items"
-          :key="item.title"
-          @click="changePage(item.title)"
-          link
-        >
-          <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+          <v-list-item
+            v-for="item in items"
+            :key="item.title"
+            :to="item.title"
+            link
+          >
+            <v-list-item-icon>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
@@ -73,11 +72,7 @@
         </template>
 
         <v-list>
-          <v-list-item
-            v-for="(item, i) in menuItem"
-            :key="i"
-            @click="changePage(item.url)"
-          >
+          <v-list-item v-for="(item, i) in menuItem" :key="i" :to="item.url">
             <v-list-item-title
               ><v-icon>{{ item.icon }}</v-icon>
               {{ item.title }}</v-list-item-title
@@ -171,10 +166,12 @@ export default {
     this.$vuetify.theme.dark = this.initialDark;
   },
   created() {
-    // data.todo.push("navTheme");
-    // localStorage.setItem("todoList", JSON.stringify(data));
-    if(this.navTheme === "") {
-      this.$store.commit(UPDATE_NAV_THEME, "primary");
+    if (this.navTheme === "") {
+      this.$store.commit(UPDATE_NAV_THEME, "teal");
+    }
+    // document.location.href = "/work#/Home";
+    if (document.location.href === "/work#/") {
+      document.location.href = "/work#/Home";
     }
   },
   data: () => ({
@@ -187,7 +184,7 @@ export default {
       { title: "Record", icon: "mdi-google-spreadsheet" },
       { title: "User", icon: "mdi-account" },
       { title: "Setting", icon: "mdi-cogs" },
-      { title: "About", icon: "mdi-help-box" }
+      { title: "About", icon: "mdi-forum" }
     ],
     right: true,
     miniVariant: false,
@@ -201,9 +198,6 @@ export default {
     signOutDialog: false
   }),
   methods: {
-    changePage(page) {
-      document.location.href = "/work#/" + page;
-    },
     miniMenu() {
       const contentWidth = this.$refs.contentStyle.$el.clientWidth;
       console.log("contentWidth: " + contentWidth);
@@ -299,12 +293,7 @@ export default {
       navTheme: state => {
         return state.theme.navTheme;
       }
-    }),
-    bg() {
-      return this.background
-        ? "https://cdn.vuetifyjs.com/images/backgrounds/bg-2.jpg"
-        : undefined;
-    }
+    })
   }
 };
 </script>

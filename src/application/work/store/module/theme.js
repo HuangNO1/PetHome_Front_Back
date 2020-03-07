@@ -1,12 +1,16 @@
-import { UPDATE_NAV_THEME } from '../mutations-types/theme'
+import { UPDATE_NAV_THEME, UPDATE_NAV_IMAGE } from '../mutations-types/theme'
 
 const theme = {
     state: {
-        navTheme: ""
+        navTheme: "",
+        navImage: "",
     },
     mutations: {
         [UPDATE_NAV_THEME](state, navTheme) {
             state.navTheme = navTheme;
+        },
+        [UPDATE_NAV_IMAGE](state, navImage) {
+            state.navImage = navImage;
         }
     },
     actions: {},
