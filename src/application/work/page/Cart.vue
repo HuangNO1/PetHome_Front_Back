@@ -101,7 +101,7 @@
                     </td>
                     <td>{{ item.total }}</td>
                     <td>
-                      <v-btn color="red" @click="deleteItemDialog(index)" icon>
+                      <v-btn color="red" @click="deleteItemDialog(item.name)" icon>
                         <v-icon>mdi-delete</v-icon>
                       </v-btn>
                     </td>
@@ -339,8 +339,9 @@ export default {
       else if (calories > 4) return "orange";
       else return "green";
     },
-    deleteItemDialog(index) {
-      this.deleteItem = this.cartProduct[index];
+    deleteItemDialog(name) {
+      console.log(name)
+      this.deleteItem.name = name;
       console.log(this.deleteItem);
       this.deleteDialog = true;
     }
