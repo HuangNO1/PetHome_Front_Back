@@ -101,7 +101,7 @@
                     </td>
                     <td>{{ item.total }}</td>
                     <td>
-                      <v-btn color="red" @click="deleteItemDialog(item.name)" icon>
+                      <v-btn color="red" @click="deleteItemDialog(index)" icon>
                         <v-icon>mdi-delete</v-icon>
                       </v-btn>
                     </td>
@@ -163,18 +163,18 @@
         <v-card-title class="headline red--text">WARNING</v-card-title>
 
         <v-card-text>
-          Are you sure you want to remove {{ defaultItem.name }}?
+          Are you sure you want to remove <b>{{ deleteItem.name }}</b>?
         </v-card-text>
 
         <v-card-actions>
           <v-spacer></v-spacer>
 
           <v-btn color="green darken-1" text @click="deleteDialog = false">
-            Disagree
+            Cancel
           </v-btn>
 
-          <v-btn color="green darken-1" text @click="deleteDialog = false">
-            Agree
+          <v-btn color="green darken-1" text @click="deleteProduct(deleteItem.index)">
+            Remove
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -313,11 +313,7 @@ export default {
       deleteDialog: false,
       comfirmDelete: false,
       deleteItem: {
-        name: "",
-        price: 0,
-        number: 0,
-        total: 0,
-        selected: false
+        index: 0
       },
       defaultItem: {
         name: "",
@@ -339,11 +335,14 @@ export default {
       else if (calories > 4) return "orange";
       else return "green";
     },
-    deleteItemDialog(name) {
-      console.log(name)
-      this.deleteItem.name = name;
-      console.log(this.deleteItem);
+    deleteItemDialog(index) {
+      this.deleteItem.index = index;
+      this.deleteItem.name = this.cartProduct[index].name;
       this.deleteDialog = true;
+    },
+    deleteProduct(index) {
+      this.cartProduct.splice(index, 1);
+      this.deleteDialog = false;
     }
   },
   computed: {
