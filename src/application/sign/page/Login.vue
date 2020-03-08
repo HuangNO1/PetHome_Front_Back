@@ -189,10 +189,9 @@ export default {
         this.checkbox === true
       ) {
         // submit the login request
-        /*axios({
-          method: "post",
-          url: this.loginURL,
-          data: { username: this.name, password: this.password }
+        /*axios.post(this.loginURL, {
+            username: this.name,
+            password: this.password
         })
           .then(response => {
             console.log(response);
@@ -201,7 +200,8 @@ export default {
           })
           .catch(error => {
             console.log(error);
-          });*/
+          });
+          */
         this.openDialog = false;
         this.dialog = true;
       } else {

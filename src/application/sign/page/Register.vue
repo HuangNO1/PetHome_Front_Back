@@ -232,10 +232,8 @@ export default {
         if (value === "") return true;
         // axios : verity the username is registered.
         /*
-      axios({
-        method: "post",
-        url: this.checkSameNameURL,
-        data: { username: this.name }
+      axios.post(this.checkSameNameURL, {
+        username: this.name
       })
         .then(response => {
           console.log(response);
@@ -262,10 +260,8 @@ export default {
         if (value === "") return true;
         // axios : verity the username is registered.
         /*
-      axios({
-        method: "post",
-        url: this.checkSameEmailURL,
-        data: { username: this.email }
+      axios.post(this.checkSameEmailURL, {
+        username: this.email
       })
         .then(response => {
           console.log(response);
@@ -298,10 +294,8 @@ export default {
         if (value === "") return true;
         // axios : verity the captcha is true.
         /*
-      axios({
-        method: "post",
-        url: this.verifyCaptchaURL,
-        data: { captcha: this.captcha }
+      axios.post(this.verifyCaptchaURL, {
+        captcha: this.captcha
       })
         .then(response => {
           console.log(response);
@@ -474,16 +468,12 @@ export default {
         this.checkbox === true
       ) {
         // submit the register requestion
-        /*axios({
-          method: "post",
-          url: this.registerURL,
-          data: {
-            username: this.name,
-            password: this.password,
-            repeatPassword: this.repeatPassword,
-            email: this.email,
-            captcha: this.captcha
-          }
+        /*axios.post(this.registerURL, {
+          username: this.name,
+          password: this.password,
+          repeatPassword: this.repeatPassword,
+          email: this.email,
+          captcha: this.captcha
         })
           .then(response => {
             console.log(response);
@@ -548,10 +538,8 @@ export default {
       this.loader = null;
       console.log("loding");
       // request captcha
-      /*axios({
-          method: "post",
-          url: this.requestCaptchaURL,
-          data: { }
+      /*axios.post(this.requestCaptchaURL, {
+          email: this.email
         })
           .then(response => {
             console.log(response);

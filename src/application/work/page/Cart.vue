@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="padding-bottom: 3rem;">
     <div>
       <v-row>
         <v-col class="pa-12">
@@ -56,7 +56,10 @@
     </div>
     <div>
       <v-card elevation="10">
-        <v-card-title :class="this.$store.state.theme.navTheme" class="white--text">
+        <v-card-title
+          :class="this.$store.state.theme.navTheme"
+          class="white--text"
+        >
           <span>{{ currentTitle }}</span>
           <v-spacer></v-spacer>
         </v-card-title>
@@ -65,17 +68,47 @@
           <v-window-item :value="1">
             <v-data-table
               :headers="headers"
-              :items="desserts"
+              :items="cartProduct"
               :search="search"
               item-key="name"
               show-select
-              v-model="cartSelected"
+              single-select
               items-per-page="7"
               hide-default-footer
               class="elevation-1"
               @page-count="pageCount = $event"
               :page.sync="page"
-            ></v-data-table>
+            >
+              <template v-slot:body="{ items }">
+                <tbody>
+                  <tr v-for="(item, index) in items" :key="item.name">
+                    <td>
+                      <v-simple-checkbox
+                        v-model="item.selected"
+                        hide-details
+                      ></v-simple-checkbox>
+                    </td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.price }}</td>
+                    <td>
+                      <number-input
+                        style="width: 10rem; color: black;"
+                        :value="item.number"
+                        inline
+                        center
+                        controls
+                      ></number-input>
+                    </td>
+                    <td>{{ item.total }}</td>
+                    <td>
+                      <v-btn color="red" @click="deleteItemDialog(index)" icon>
+                        <v-icon>mdi-delete</v-icon>
+                      </v-btn>
+                    </td>
+                  </tr>
+                </tbody>
+              </template>
+            </v-data-table>
             <v-pagination v-model="page" :length="pageCount"></v-pagination>
           </v-window-item>
           <!-- windows 2 : Checkout -->
@@ -124,10 +157,37 @@
         </v-card-actions>
       </v-card>
     </div>
+    <!-- delete dialog -->
+    <v-dialog v-model="deleteDialog" width="500" persistent>
+      <v-card>
+        <v-card-title class="headline red--text">WARNING</v-card-title>
+
+        <v-card-text>
+          Are you sure you want to remove {{ defaultItem.name }}?
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-btn color="green darken-1" text @click="deleteDialog = false">
+            Disagree
+          </v-btn>
+
+          <v-btn color="green darken-1" text @click="deleteDialog = false">
+            Agree
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script>
+import Affix from "../components/Affix";
+
 export default {
+  components: {
+    Affix
+  },
   data() {
     return {
       step: 1,
@@ -159,107 +219,113 @@ export default {
           total: ""
         }
       ],
-      //-----------------------
+      // cart data -----------------------
       search: "",
       headers: [
         {
-          text: "Dessert (100g serving)",
+          text: "name",
           align: "start",
           sortable: false,
           value: "name"
         },
-        { text: "Calories", value: "calories" },
-        { text: "Fat (g)", value: "fat" },
-        { text: "Carbs (g)", value: "carbs" },
-        { text: "Protein (g)", value: "protein" },
-        { text: "Iron (%)", value: "iron" }
+        { text: "Price($)", value: "price" },
+        { text: "number", value: "number" },
+        { text: "Total($)", value: "total" },
+        { text: "Action", value: "action" }
       ],
-      desserts: [
+      cartProduct: [
         {
           name: "Frozen Yogurt",
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          iron: "1%"
+          price: 24,
+          number: 1,
+          total: 2,
+          selected: false
         },
         {
           name: "Ice cream sandwich",
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-          iron: "1%"
+          price: 37,
+          number: 4,
+          total: 2,
+          selected: false
         },
         {
           name: "Eclair",
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-          iron: "7%"
+          price: 24,
+          number: 1,
+          total: 2,
+          selected: false
         },
         {
           name: "Cupcake",
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-          iron: "8%"
+          price: 24,
+          number: 3,
+          total: 2,
+          selected: false
         },
         {
           name: "Gingerbread",
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-          iron: "16%"
+          price: 24,
+          number: 10,
+          total: 2,
+          selected: false
         },
         {
           name: "Jelly bean",
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-          iron: "0%"
+          price: 24,
+          number: 1,
+          total: 2,
+          selected: false
         },
         {
           name: "Lollipop",
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-          iron: "2%"
+          price: 24,
+          number: 1,
+          total: 2,
+          selected: false
         },
         {
           name: "Honeycomb",
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-          iron: "45%"
+          price: 24,
+          number: 24,
+          total: 2,
+          selected: false
         },
         {
           name: "Donut",
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-          iron: "22%"
+          price: 24,
+          number: 3,
+          total: 2,
+          selected: false
         },
         {
           name: "KitKat",
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-          iron: "6%"
+          price: 24,
+          number: 1,
+          total: 2,
+          selected: false
         }
       ],
       page: 1,
       pageCount: 0,
-      cartSelected: []
+      cartSelected: [],
 
+      // delete item----------------------
+      deleteDialog: false,
+      comfirmDelete: false,
+      deleteItem: {
+        name: "",
+        price: 0,
+        number: 0,
+        total: 0,
+        selected: false
+      },
+      defaultItem: {
+        name: "",
+        price: 0,
+        number: 0,
+        total: 0,
+        selected: false
+      }
       //----------------------
     };
   },
@@ -267,6 +333,16 @@ export default {
   methods: {
     cartProgress(val) {
       return this.progressIcons[val];
+    },
+    getColor(calories) {
+      if (calories > 10) return "red";
+      else if (calories > 4) return "orange";
+      else return "green";
+    },
+    deleteItemDialog(index) {
+      this.deleteItem = this.cartProduct[index];
+      console.log(this.deleteItem);
+      this.deleteDialog = true;
     }
   },
   computed: {
@@ -286,3 +362,4 @@ export default {
   }
 };
 </script>
+<style></style>
