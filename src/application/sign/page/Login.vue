@@ -147,8 +147,8 @@ export default {
     passwordErrors() {
       const errors = [];
       if (!this.$v.password.$dirty) return errors;
-      !this.$v.password.minLength &&
-        errors.push("Password must have at least 6 letters.");
+      // !this.$v.password.minLength &&
+      //   errors.push("Password must have at least 6 letters.");
       !this.$v.password.required && errors.push("Password is required.");
       this.passwordError = true;
       // this.openDialog = true;
@@ -161,7 +161,7 @@ export default {
       }
     },
     passwordSuccess() {
-      if (this.password !== "" && this.$v.password.minLength) {
+      if (this.password !== "" /*&& this.$v.password.minLength*/) {
         this.passwordError = false;
         console.log("passwordSuccess");
       }

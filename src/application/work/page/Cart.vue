@@ -121,6 +121,7 @@
               <v-data-table
                 :headers="checkoutHeaders"
                 :items="cartSelected"
+                :search="search"
                 :items-per-page="5"
                 hide-default-footer
                 class="elevation-1"
@@ -182,7 +183,7 @@
           </v-btn>
 
           <v-btn
-            color="green darken-1"
+            color="red darken-1"
             text
             @click="deleteProduct(deleteItem.index)"
           >
@@ -262,56 +263,56 @@ export default {
         },
         {
           name: "Eclair",
-          price: 24,
+          price: 3,
           number: 1,
           total: 2,
           selected: false
         },
         {
           name: "Cupcake",
-          price: 24,
+          price: 23,
           number: 3,
           total: 2,
           selected: false
         },
         {
           name: "Gingerbread",
-          price: 24,
+          price: 30,
           number: 10,
           total: 2,
           selected: false
         },
         {
           name: "Jelly bean",
-          price: 24,
+          price: 52,
           number: 1,
           total: 2,
           selected: false
         },
         {
           name: "Lollipop",
-          price: 24,
+          price: 19,
           number: 1,
           total: 2,
           selected: false
         },
         {
           name: "Honeycomb",
-          price: 24,
+          price: 77,
           number: 24,
           total: 2,
           selected: false
         },
         {
           name: "Donut",
-          price: 24,
+          price: 35,
           number: 3,
           total: 2,
           selected: false
         },
         {
           name: "KitKat",
-          price: 24,
+          price: 49,
           number: 1,
           total: 2,
           selected: false
