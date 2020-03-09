@@ -4,11 +4,10 @@ import router from './router' //引入 router
 import store from './store'
 import vuetify from '../../plugins/vuetify';
 import VueScrollProgressBar from '@guillaumebriday/vue-scroll-progress-bar'
-import VueNumberInput from '@smartweb/vue-number-input';
-
-Vue.component('vue-number-input', VueNumberInput);
+import VueNumberInput from '@chenfengyuan/vue-number-input';
 
 Vue.use(VueScrollProgressBar)
+Vue.use(VueNumberInput);
 
 Vue.config.productionTip = false
 

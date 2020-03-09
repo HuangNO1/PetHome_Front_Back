@@ -10,6 +10,8 @@
 
 指導老師：宋鐵
 
+後端：[spring boot 後端](https://github.com/lumusen0305/springBoot-vue)
+
 ## Project setup
 ```
 yarn install

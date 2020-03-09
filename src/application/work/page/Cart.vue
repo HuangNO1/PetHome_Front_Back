@@ -92,14 +92,15 @@
                     <td>{{ item.price }}</td>
                     <td>
                       <number-input
-                        style="width: 10rem; color: black;"
-                        :value="item.number"
+                        style="width: 10rem; color: black;margin-top: 5px;"
+                        v-model="item.number"
                         inline
                         center
                         controls
-                      ></number-input>
+                      >
+                      </number-input>
                     </td>
-                    <td>{{ item.total }}</td>
+                    <td>{{ item.total = item.number * item.price }}</td>
                     <td>
                       <v-btn color="red" @click="deleteItemDialog(index)" icon>
                         <v-icon>mdi-delete</v-icon>
@@ -238,7 +239,7 @@ export default {
           name: "Frozen Yogurt",
           price: 24,
           number: 1,
-          total: 2,
+          total: 0,
           selected: false
         },
         {
@@ -358,7 +359,11 @@ export default {
           this.progressValue = [0, 3];
           return "Finish Deal";
       }
-    }
+    },
+    // countItemTotal(index) {
+    //   this.cartProduct[index].total = this.cartProduct[index].price * this.cartProduct[index].number;
+    //   return this.cartProduct[index].total;
+    // }
   }
 };
 </script>

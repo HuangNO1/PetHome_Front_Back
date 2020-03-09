@@ -229,7 +229,7 @@ export default {
     onSuccess() {
       console.log("Success verity");
       this.dialog = false;
-      document.location.href = "/work";
+      document.location.href = "/work#/Home";
     },
     onFail() {
       this.msg = "";

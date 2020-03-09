@@ -8,9 +8,9 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@chenfengyuan/vue-number-input": "^1.2.1",
     "@guillaumebriday/vue-scroll-progress-bar": "^0.5.0",
     "@mdi/font": "^4.9.95",
-    "@smartweb/vue-number-input": "^1.1.0",
     "axios": "^0.19.2",
     "core-js": "^3.6.4",
     "es6-promise": "^4.2.8",
