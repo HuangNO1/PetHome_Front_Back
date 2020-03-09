@@ -82,11 +82,13 @@
               <template v-slot:body="{ items }">
                 <tbody>
                   <tr v-for="(item, index) in items" :key="item.name">
-                    <td>
-                      <v-simple-checkbox
-                        v-model="item.selected"
+                    <td style="">
+                      <v-checkbox
+                        v-model="cartSelected"
+                        :value="item"
                         hide-details
-                      ></v-simple-checkbox>
+                        style="margin: 0;"
+                      ></v-checkbox>
                     </td>
                     <td>{{ item.name }}</td>
                     <td>{{ item.price }}</td>
@@ -100,7 +102,7 @@
                       >
                       </number-input>
                     </td>
-                    <td>{{ item.total = item.number * item.price }}</td>
+                    <td>{{ (item.total = item.number * item.price) }}</td>
                     <td>
                       <v-btn color="red" @click="deleteItemDialog(index)" icon>
                         <v-icon>mdi-delete</v-icon>
@@ -113,18 +115,22 @@
             <v-pagination v-model="page" :length="pageCount"></v-pagination>
           </v-window-item>
           <!-- windows 2 : Checkout -->
+
           <v-window-item :value="2">
             <v-card-text>
-              <v-text-field label="Password" type="password"></v-text-field>
-              <v-text-field
-                label="Confirm Password"
-                type="password"
-              ></v-text-field>
-              <span class="caption grey--text text--darken-1">
-                Please enter a password for your account
-              </span>
+              <v-data-table
+                :headers="checkoutHeaders"
+                :items="cartSelected"
+                :items-per-page="5"
+                hide-default-footer
+                class="elevation-1"
+                @page-count="checkoutPageCount = $event"
+                :page.sync="checkoutPage"
+              ></v-data-table>
+              <v-pagination v-model="checkoutPage" :length="checkoutPageCount"></v-pagination>
             </v-card-text>
           </v-window-item>
+
           <!-- windows 3 : Finish -->
           <v-window-item :value="3">
             <div class="pa-4 text-center">
@@ -164,7 +170,8 @@
         <v-card-title class="headline red--text">WARNING</v-card-title>
 
         <v-card-text>
-          Are you sure you want to remove <b>{{ deleteItem.name }}</b>?
+          Are you sure you want to remove <b>{{ deleteItem.name }}</b
+          >?
         </v-card-text>
 
         <v-card-actions>
@@ -174,7 +181,11 @@
             Cancel
           </v-btn>
 
-          <v-btn color="green darken-1" text @click="deleteProduct(deleteItem.index)">
+          <v-btn
+            color="green darken-1"
+            text
+            @click="deleteProduct(deleteItem.index)"
+          >
             Remove
           </v-btn>
         </v-card-actions>
@@ -322,8 +333,21 @@ export default {
         number: 0,
         total: 0,
         selected: false
-      }
-      //----------------------
+      },
+      // checkout----------------------
+      checkoutHeaders: [
+        {
+          text: "name",
+          align: "start",
+          sortable: false,
+          value: "name"
+        },
+        { text: "Price($)", value: "price" },
+        { text: "number", value: "number" },
+        { text: "Total($)", value: "total" },
+      ],
+      checkoutPage: 1,
+      checkoutPageCount: 0
     };
   },
   watch: {},
@@ -343,6 +367,11 @@ export default {
     },
     deleteProduct(index) {
       this.cartProduct.splice(index, 1);
+      for (let i = 0; i < this.cartSelected.length; i++) {
+        if (this.cartSelected[i].name === this.deleteItem.name) {
+          this.cartSelected.splice(i, 1);
+        }
+      }
       this.deleteDialog = false;
     }
   },
@@ -354,12 +383,13 @@ export default {
           return "Cart";
         case 2:
           this.progressValue = [0, 2];
+          console.log(this.cartSelected);
           return "Checkout";
         default:
           this.progressValue = [0, 3];
           return "Finish Deal";
       }
-    },
+    }
     // countItemTotal(index) {
     //   this.cartProduct[index].total = this.cartProduct[index].price * this.cartProduct[index].number;
     //   return this.cartProduct[index].total;
