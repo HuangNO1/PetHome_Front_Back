@@ -9,6 +9,7 @@
         flat
         tile
       >
+        <!-- auto complete -->
         <v-toolbar>
           <v-autocomplete
             v-model="select"
@@ -110,28 +111,40 @@
           v-for="i in 20"
           :key="i"
         >
-          <v-list-item three-line>
-            <v-list-item-content>
-              <div class="overline mb-4">OVERLINE</div>
-              <v-list-item-title class="headline mb-1"
-                >Headline 5</v-list-item-title
+          <v-row>
+            <v-col md="auto">
+              <v-avatar tile size="130" class="ml-4">
+                <img
+                  src="../../../assets/icons/webapp/apple-touch-icon-180x180.png"
+                />
+              </v-avatar>
+            </v-col>
+            <v-col>
+              <div class="overline mb-2">Pet Home</div>
+              <div
+                class="headline mb-2"
+                style="margin-bottom: 0; margin-top: 0;"
               >
-              <v-list-item-subtitle
-                >Greyhound divisely hello coldly
-                fonwderfully</v-list-item-subtitle
-              >
-            </v-list-item-content>
-
-            <v-list-item-avatar
-              tile
-              size="80"
-              color="grey"
-            ></v-list-item-avatar>
-          </v-list-item>
-
+                Huang Po Hsun's wife
+              </div>
+              <div style="width: 27rem;">
+                Greyhound divisely hello coldly uhdiouhvsiun jajnvivunvi
+                avvndiun avndis asdvni asdnvilun avdnilndvi asdvnin fonwderfully
+              </div>
+            </v-col>
+          </v-row>
           <v-card-actions>
-            <v-btn text>Button</v-btn>
-            <v-btn text>Button</v-btn>
+            <span class="headline ml-2">$ 1000</span>
+            <v-spacer></v-spacer>
+            <v-btn class="mx-2" fab dark small color="primary">
+              <v-icon dark>mdi-thumb-up</v-icon>
+            </v-btn>
+            <v-btn class="mx-2" fab dark small color="pink">
+              <v-icon dark>mdi-heart</v-icon>
+            </v-btn>
+            <v-btn class="mx-2" fab small dark color="success">
+              <v-icon>mdi-cart-arrow-down</v-icon>
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -170,15 +183,7 @@ export default {
         "Tech",
         "Creative Writing"
       ],
-      saleValue: [
-        423,
-        446,
-        675,
-        510,
-        590,
-        610,
-        760,
-      ],
+      saleValue: [423, 446, 675, 510, 590, 610, 760]
     };
   },
   watch: {
