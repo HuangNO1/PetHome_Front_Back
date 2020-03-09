@@ -106,7 +106,7 @@
                       <number-input
                         style="width: 10rem; color: black;margin-top: 5px;"
                         v-model="item.number"
-                        :min="0"
+                        :min="1"
                         :max="99"
                         inline
                         center
@@ -126,7 +126,7 @@
             </v-data-table>
             <v-pagination
               v-model="page"
-              v-if="items.length !== 0"
+              v-if="cartProduct.length !== 0"
               :length="pageCount"
             ></v-pagination>
 

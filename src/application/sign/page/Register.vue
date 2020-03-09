@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="font-size: 3rem; text-align: center;">Sign Up</div>
+    <div style="font-size: 2rem; text-align: center;">Sign Up</div>
     <form>
       <!-- name -->
       <v-text-field
@@ -26,6 +26,19 @@
         @blur="$v.email.$touch()"
       >
         <v-icon slot="prepend" color="green">mdi-email</v-icon>
+      </v-text-field>
+      <!-- phone number -->
+      <v-text-field
+        v-model="phone"
+        :type="tel"
+        :error-messages="phoneErrors"
+        :success-messages="phoneSuccess"
+        label="Phone"
+        required
+        @input="$v.phone.$touch()"
+        @blur="$v.phone.$touch()"
+      >
+        <v-icon slot="prepend" color="green">mdi-cellphone</v-icon>
       </v-text-field>
       <!-- password -->
       <v-text-field
@@ -73,7 +86,6 @@
             <v-icon slot="prepend" color="green">mdi-alpha-c-circle</v-icon>
           </v-text-field>
         </v-col>
-
         <v-col cols="12" md="6">
           <v-btn
             block
@@ -136,18 +148,13 @@
           <v-btn class="mr-4" @click="comfirmClear">clear</v-btn>
         </template>
         <v-card>
-          <v-card-title
-            class="headline grey lighten-2 red--text"
-            primary-title
-          >
+          <v-card-title class="headline grey lighten-2 red--text" primary-title>
             <p>Clear</p>
           </v-card-title>
 
           <v-card-text style="padding: 1rem;">
             <span><v-icon color="red" large>mdi-alert-circle</v-icon></span>
-            <span class="title"
-              >Are you sure you want to clear the form?</span
-            >
+            <span class="title">Are you sure you want to clear the form?</span>
           </v-card-text>
 
           <v-divider></v-divider>
@@ -163,7 +170,7 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-      
+
       <!-- Privacy Policy -->
       <v-dialog v-model="statementDialog" width="500" persistent>
         <template v-slot:activator="{ on }">
@@ -216,9 +223,13 @@ import {
   maxLength,
   minLength,
   email,
-  sameAs
+  sameAs,
+  withParams
 } from "vuelidate/lib/validators";
 import axios from "axios";
+
+// chinese phone number
+const isPhone = (value) => /^((13|14|15|17|18)[0-9]{1}\d{8})$/.test(value);
 
 export default {
   mixins: [validationMixin],
@@ -280,6 +291,10 @@ export default {
         return true;
       }
     },
+    phone: {
+      required,
+      phoneValid: isPhone
+    },
     password: { required, minLength: minLength(6) },
     repeatPassword: {
       required,
@@ -324,6 +339,7 @@ export default {
   data: () => ({
     name: "",
     email: "",
+    phone: "",
     password: "",
     repeatPassword: "",
     captcha: "",
@@ -334,6 +350,7 @@ export default {
     seeRepeatPwd: "password",
     nameError: true,
     emailError: true,
+    phoneError: true,
     passwordError: true,
     repeatPasswordError: true,
     captchaError: true,
@@ -376,6 +393,14 @@ export default {
       !this.$v.email.required && errors.push("E-mail is required.");
       !this.$v.email.isUnique &&
         errors.push("The e-mail is already registered.");
+      this.emailError = true;
+      return errors;
+    },
+    phoneErrors() {
+      const errors = [];
+      if (!this.$v.phone.$dirty) return errors;
+      !this.$v.phone.phoneValid && errors.push("Must be valid phone number.");
+      !this.$v.phone.required && errors.push("Phone number is required.");
       this.emailError = true;
       return errors;
     },
@@ -422,6 +447,13 @@ export default {
         return "E-mail is OK.";
       }
     },
+    phoneSuccess() {
+      if (this.phone !== "" && this.$v.phone.phoneValid) {
+        this.phoneError = false;
+        console.log("phoneSuccess");
+        return "Phone number is OK.";
+      }
+    },
     passwordSuccess() {
       if (this.password !== "" && this.$v.password.minLength) {
         this.passwordError = false;
@@ -456,12 +488,16 @@ export default {
       this.dialog = false;
       this.$v.$touch();
       console.log("this.nameError: " + this.nameError);
+      console.log("this.emailError: " + this.emailError);
+      console.log("this.phoneError: " + this.phoneError);
       console.log("this.passwordError: " + this.passwordError);
       console.log("this.repeatPasswordError: " + this.repeatPasswordError);
       console.log("this.captchaError: " + this.captchaError);
       console.log("this.checkbox: " + this.checkbox);
       if (
         this.nameError === false &&
+        this.emailError === false &&
+        this.phoneError === false &&
         this.passwordError === false &&
         this.repeatPasswordError === false &&
         this.captchaError === false &&

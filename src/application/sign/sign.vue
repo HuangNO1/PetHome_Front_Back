@@ -73,7 +73,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 6rem;
+  margin-top: 3rem;
 }
 .signCard {
   width: 30rem;
