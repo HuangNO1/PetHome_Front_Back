@@ -72,13 +72,21 @@
               :search="search"
               item-key="name"
               show-select
-              single-select
               items-per-page="7"
               hide-default-footer
               class="elevation-1"
               @page-count="pageCount = $event"
               :page.sync="page"
             >
+              <template v-slot:header.data-table-select="{ on, props }">
+                <v-simple-checkbox
+                  color="purple"
+                  v-model="selectHeader"
+                  v-on="on"
+                  @change="selectAll"
+                  :indeterminate="isNotSelectAll"
+                ></v-simple-checkbox>
+              </template>
               <template v-slot:body="{ items }">
                 <tbody>
                   <tr v-for="(item, index) in items" :key="item.name">
@@ -130,7 +138,14 @@
                 @page-count="checkoutPageCount = $event"
                 :page.sync="checkoutPage"
               ></v-data-table>
-              <v-pagination v-model="checkoutPage" :length="checkoutPageCount"></v-pagination>
+              <v-pagination
+                v-model="checkoutPage"
+                :length="checkoutPageCount"
+              ></v-pagination>
+              <div style="text-align: end;">
+                <span class="display-1">Sum: </span>
+                <span class="display-1">$ {{ countSum }}</span>
+              </div>
             </v-card-text>
           </v-window-item>
 
@@ -253,76 +268,68 @@ export default {
           name: "Frozen Yogurt",
           price: 24,
           number: 1,
-          total: 0,
-          selected: false
+          total: 0
         },
         {
           name: "Ice cream sandwich",
           price: 37,
           number: 4,
-          total: 2,
-          selected: false
+          total: 2
         },
         {
           name: "Eclair",
           price: 3,
           number: 1,
-          total: 2,
-          selected: false
+          total: 2
         },
         {
           name: "Cupcake",
           price: 23,
           number: 3,
-          total: 2,
-          selected: false
+          total: 2
         },
         {
           name: "Gingerbread",
           price: 30,
           number: 10,
-          total: 2,
-          selected: false
+          total: 2
         },
         {
           name: "Jelly bean",
           price: 52,
           number: 1,
-          total: 2,
-          selected: false
+          total: 2
         },
         {
           name: "Lollipop",
           price: 19,
           number: 1,
-          total: 2,
-          selected: false
+          total: 2
         },
         {
           name: "Honeycomb",
           price: 77,
           number: 24,
-          total: 2,
-          selected: false
+          total: 2
         },
         {
           name: "Donut",
           price: 35,
           number: 3,
-          total: 2,
-          selected: false
+          total: 2
         },
         {
           name: "KitKat",
           price: 49,
           number: 1,
-          total: 2,
-          selected: false
+          total: 2
         }
       ],
       page: 1,
       pageCount: 0,
       cartSelected: [],
+      selectHeader: false,
+      selectAllItem: false,
 
       // delete item----------------------
       deleteDialog: false,
@@ -334,8 +341,7 @@ export default {
         name: "",
         price: 0,
         number: 0,
-        total: 0,
-        selected: false
+        total: 0
       },
       // checkout----------------------
       checkoutHeaders: [
@@ -347,7 +353,7 @@ export default {
         },
         { text: "Price($)", value: "price" },
         { text: "number", value: "number" },
-        { text: "Total($)", value: "total" },
+        { text: "Total($)", value: "total" }
       ],
       checkoutPage: 1,
       checkoutPageCount: 0
@@ -392,11 +398,38 @@ export default {
           this.progressValue = [0, 3];
           return "Finish Deal";
       }
+    },
+    countSum() {
+      var sum = 0;
+      for (let i = 0; i < this.cartSelected.length; i++) {
+        sum += this.cartSelected[i].total;
+      }
+      return sum;
+    },
+    selectAll() {
+      if (this.selectHeader === true) {
+        // select is true
+        this.cartSelected = this.cartProduct;
+      } else {
+        // select is false
+        if(this.cartSelected === this.cartProduct) {
+          this.cartSelected = [];
+        } else {
+          return;
+        }
+      }
+    },
+    isNotSelectAll() {
+      if (
+        this.cartSelected !== this.cartProduct &&
+        this.cartSelected.length !== 0
+      ) {
+        this.selectHeader = false;
+        return true;
+      } else {
+        return false;
+      }
     }
-    // countItemTotal(index) {
-    //   this.cartProduct[index].total = this.cartProduct[index].price * this.cartProduct[index].number;
-    //   return this.cartProduct[index].total;
-    // }
   }
 };
 </script>
