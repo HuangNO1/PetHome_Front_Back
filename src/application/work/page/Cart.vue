@@ -66,6 +66,7 @@
         <v-window v-model="step">
           <!-- windows 1 : Cart -->
           <v-window-item :value="1">
+            <!-- if cart have items, show it -->
             <v-data-table
               :headers="headers"
               :items="cartProduct"
@@ -77,6 +78,7 @@
               class="elevation-1"
               @page-count="pageCount = $event"
               :page.sync="page"
+              v-if="cartProduct.length !== 0"
             >
               <template v-slot:header.data-table-select="{ on, props }">
                 <v-simple-checkbox
@@ -122,8 +124,29 @@
                 </tbody>
               </template>
             </v-data-table>
-            <v-pagination v-model="page" :length="pageCount"></v-pagination>
+            <v-pagination
+              v-model="page"
+              v-if="items.length !== 0"
+              :length="pageCount"
+            ></v-pagination>
+
+            <!-- if cart have no items, show it -->
+            <div class="pa-4 text-center" v-if="cartProduct.length === 0">
+              <v-img
+                class="mb-4"
+                contain
+                height="128"
+                src="../../../assets/icons/cart.svg"
+              ></v-img>
+              <h3 class="title font-weight-light mb-2">Welcome to Pet Home.</h3>
+              <div class="caption grey--text mb-2">Thanks for signing up!</div>
+              <v-btn color="primary" to="Home">
+                <v-icon left>mdi-shopping</v-icon>
+                Go Shopping
+              </v-btn>
+            </div>
           </v-window-item>
+
           <!-- windows 2 : Checkout -->
 
           <v-window-item :value="2">
@@ -172,7 +195,7 @@
           </v-btn>
           <v-spacer></v-spacer>
           <v-btn
-            :disabled="step === 3"
+            :disabled="step === 3 || cartSelected.length === 0"
             color="primary"
             depressed
             @click="step++"
@@ -356,7 +379,9 @@ export default {
         { text: "Total($)", value: "total" }
       ],
       checkoutPage: 1,
-      checkoutPageCount: 0
+      checkoutPageCount: 0,
+      // Finish Deal---------------------------
+      finishDeal: false
     };
   },
   watch: {},
@@ -412,7 +437,7 @@ export default {
         this.cartSelected = this.cartProduct;
       } else {
         // select is false
-        if(this.cartSelected === this.cartProduct) {
+        if (this.cartSelected === this.cartProduct) {
           this.cartSelected = [];
         } else {
           return;
