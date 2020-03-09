@@ -179,10 +179,14 @@
                 class="mb-4"
                 contain
                 height="128"
-                src="https://cdn.vuetifyjs.com/images/logos/v.svg"
+                src="../../../assets/icons/cart.svg"
               ></v-img>
-              <h3 class="title font-weight-light mb-2">Welcome to Vuetify</h3>
-              <span class="caption grey--text">Thanks for signing up!</span>
+              <h3 class="title font-weight-light mb-2">Welcome to Pet Home.</h3>
+              <div class="caption grey--text mb-2">Thanks for Shopping! The deal is finished.</div>
+              <v-btn color="primary" to="Home">
+                <v-icon left>mdi-shopping</v-icon>
+                Go Shopping
+              </v-btn>
             </div>
           </v-window-item>
         </v-window>
