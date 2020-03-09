@@ -1,147 +1,143 @@
 <template>
   <div>
-    <v-data-table
-      v-model="selected"
-      :headers="headers"
-      :items="desserts"
-      item-key="name"
-      select-all
-      class="elevation-1"
-    >
-      <template v-slot:items="props">
-        <td>
-          <v-checkbox
-            v-model="props.selected"
-            primary
-            hide-details
-          ></v-checkbox>
-        </td>
-        <td>{{ props.item.name }}</td>
-        <td>{{ props.item.calories }}</td>
-        <td>{{ props.item.fat }}</td>
-        <td>{{ props.item.carbs }}</td>
-        <td>{{ props.item.protein }}</td>
-        <td>{{ props.item.iron }}</td>
-        <td>
-          <v-icon v-for="icon in props.item.icons" :key="icon">{{ icon }}</v-icon>
-        </td>
-      </template>
-    </v-data-table>
-    <v-input-number v-model="number"></v-input-number>
+    <div>
+      <!-- search bar -->
+      <v-card
+        color="lighten-4"
+        hover="true"
+        style="margin-bottom: 1rem; padding: 1rem;"
+        height="90"
+      >
+        <v-row>
+          <v-col>
+            <v-text-field
+              v-model="search"
+              append-icon="mdi-magnify"
+              label="Search"
+              filled
+              dense
+              single-line
+            ></v-text-field>
+          </v-col>
+          <v-col md="auto">
+            <v-btn icon>
+              <v-icon>mdi-heart</v-icon>
+            </v-btn>
+          </v-col>
+          <v-col md="auto">
+            <v-btn icon>
+              <v-icon>mdi-dots-vertical</v-icon>
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-card>
+    </div>
+    <div>
+      <v-card elevation="10">
+        <v-card-title
+          :class="this.$store.state.theme.navTheme"
+          class="white--text"
+        >
+          <span>Record</span>
+          <v-spacer></v-spacer>
+        </v-card-title>
+          <v-data-table
+            :headers="recordHeaders"
+            :items="recordProduct"
+            :search="search"
+            :items-per-page="8"
+            hide-default-footer
+            class="elevation-1"
+            @page-count="pageCount = $event"
+            :page.sync="page"
+          ></v-data-table>
+          <v-pagination v-model="page" :length="pageCount"></v-pagination>
+      </v-card>
+    </div>
   </div>
 </template>
 <script>
 export default {
   data() {
     return {
+      search: "",
       number: 0,
       selected: [],
-      headers: [
+      recordHeaders: [
         {
-          text: "Dessert (100g serving)",
-          align: "left",
+          text: "name",
+          align: "start",
           sortable: false,
           value: "name"
         },
-        { text: "Calories", value: "calories" },
-        { text: "Fat (g)", value: "fat" },
-        { text: "Carbs (g)", value: "carbs" },
-        { text: "Protein (g)", value: "protein" },
-        { text: "Iron (%)", value: "iron" },
-        { text: "Icons", value: "icon" }
+        { text: "Price($)", value: "price" },
+        { text: "number", value: "number" },
+        { text: "Total($)", value: "total" }
       ],
-      desserts: [
+      recordProduct: [
         {
           name: "Frozen Yogurt",
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          iron: "1%",
-          icons: ["search", "dashboard", "timeline", "thumb_up"]
+          price: 24,
+          number: 1,
+          total: 0
         },
         {
           name: "Ice cream sandwich",
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-          iron: "1%",
-          icons: ["search", "dashboard", "timeline", "thumb_up"]
+          price: 37,
+          number: 4,
+          total: 2
         },
         {
           name: "Eclair",
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-          iron: "7%",
-          icons: ["search", "dashboard", "timeline", "thumb_up"]
+          price: 3,
+          number: 1,
+          total: 2
         },
         {
           name: "Cupcake",
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-          iron: "8%",
-          icons: ["search", "dashboard", "timeline", "thumb_up"]
+          price: 23,
+          number: 3,
+          total: 2
         },
         {
           name: "Gingerbread",
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-          iron: "16%",
-          icons: ["search", "dashboard", "timeline", "thumb_up"]
+          price: 30,
+          number: 10,
+          total: 2
         },
         {
           name: "Jelly bean",
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-          iron: "0%",
-          icons: ["search", "dashboard", "timeline", "thumb_up"]
+          price: 52,
+          number: 1,
+          total: 2
         },
         {
           name: "Lollipop",
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-          iron: "2%",
-          icons: ["search", "dashboard", "timeline", "thumb_up"]
+          price: 19,
+          number: 1,
+          total: 2
         },
         {
           name: "Honeycomb",
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-          iron: "45%",
-          icons: ["search", "dashboard", "timeline", "thumb_up"]
+          price: 77,
+          number: 24,
+          total: 2
         },
         {
           name: "Donut",
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-          iron: "22%",
-          icons: ["search", "dashboard", "timeline", "thumb_up"]
+          price: 35,
+          number: 3,
+          total: 2
         },
         {
           name: "KitKat",
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-          iron: "6%",
-          icons: ["search", "dashboard", "timeline", "thumb_up"]
+          price: 49,
+          number: 1,
+          total: 2
         }
-      ]
+      ],
+      page: 1,
+      pageCount: 0
     };
   }
 };

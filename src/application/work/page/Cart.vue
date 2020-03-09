@@ -251,7 +251,6 @@ export default {
       progressValue: [],
       progress: ["", "Cart", "Checkout", "Finish"],
       progressIcons: ["", "mdi-cart", "mdi-cash-usd", "mdi-briefcase-check"],
-      loading: false,
       items: [],
       search: null,
       select: null,
@@ -393,11 +392,6 @@ export default {
     cartProgress(val) {
       return this.progressIcons[val];
     },
-    getColor(calories) {
-      if (calories > 10) return "red";
-      else if (calories > 4) return "orange";
-      else return "green";
-    },
     deleteItemDialog(index) {
       this.deleteItem.index = index;
       this.deleteItem.name = this.cartProduct[index].name;
@@ -411,7 +405,7 @@ export default {
         }
       }
       this.deleteDialog = false;
-    }
+    },
   },
   computed: {
     currentTitle() {
@@ -458,7 +452,7 @@ export default {
       } else {
         return false;
       }
-    }
+    },
   }
 };
 </script>
