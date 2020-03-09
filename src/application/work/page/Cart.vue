@@ -96,6 +96,8 @@
                       <number-input
                         style="width: 10rem; color: black;margin-top: 5px;"
                         v-model="item.number"
+                        :min="0"
+                        :max="99"
                         inline
                         center
                         controls
