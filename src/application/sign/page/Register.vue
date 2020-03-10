@@ -7,7 +7,7 @@
         v-model="name"
         :error-messages="nameErrors"
         :success-messages="nameSuccess"
-        :counter="10"
+        :counter="20"
         label="Username"
         required
         @input="$v.name.$touch()"
@@ -237,7 +237,7 @@ export default {
   validations: {
     name: {
       required,
-      maxLength: maxLength(10),
+      maxLength: maxLength(20),
       isUnique(value) {
         // standalone validator ideally should not assume a field is required
         if (value === "") return true;

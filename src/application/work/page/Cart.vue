@@ -24,169 +24,99 @@
     </div>
     <div>
       <!-- search bar -->
-      <v-card
-        color="lighten-4"
-        hover="true"
-        style="margin-bottom: 1rem; padding: 1rem;"
-        height="90"
+      <v-lazy
+        v-model="isActive"
+        :options="{
+          threshold: 1
+        }"
+        transition="slide-x-reverse-transition"
+        origin="top right 50"
       >
-        <v-row>
-          <v-col>
-            <v-text-field
-              v-model="search"
-              append-icon="mdi-magnify"
-              label="Search"
-              filled
-              dense
-              single-line
-            ></v-text-field>
-          </v-col>
-          <v-col md="auto" sm="auto" xs="auto">
-            <v-btn icon>
-              <v-icon>mdi-heart</v-icon>
-            </v-btn>
-          </v-col>
-          <v-col md="auto" sm="auto" xs="auto">
-            <v-btn icon>
-              <v-icon>mdi-dots-vertical</v-icon>
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-card>
+        <v-card
+          color="lighten-4"
+          hover="true"
+          style="margin-bottom: 1rem; padding: 1rem;"
+          height="90"
+        >
+          <v-row>
+            <v-col>
+              <v-text-field
+                v-model="search"
+                append-icon="mdi-magnify"
+                label="Search"
+                filled
+                dense
+                single-line
+              ></v-text-field>
+            </v-col>
+            <v-col md="auto" sm="auto" xs="auto" lg="auto" xl="auto">
+              <v-btn icon>
+                <v-icon>mdi-heart</v-icon>
+              </v-btn>
+            </v-col>
+            <v-col md="auto" sm="auto" xs="auto" lg="auto" xl="auto">
+              <v-btn icon>
+                <v-icon>mdi-dots-vertical</v-icon>
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-lazy>
     </div>
     <div>
-      <v-card elevation="10">
-        <v-card-title
-          :class="this.$store.state.theme.navTheme"
-          class="white--text"
-        >
-          <span>{{ currentTitle }}</span>
-          <v-spacer></v-spacer>
-        </v-card-title>
-        <v-window v-model="step">
-          <!-- windows 1 : Cart -->
-          <v-window-item :value="1">
-            <!-- if cart have items, show it -->
-            <v-data-table
-              :headers="headers"
-              :items="cartProduct"
-              :search="search"
-              item-key="name"
-              show-select
-              items-per-page="7"
-              hide-default-footer
-              class="elevation-1"
-              @page-count="pageCount = $event"
-              :page.sync="page"
-              v-if="cartProduct.length !== 0"
-            >
-              <template v-slot:header.data-table-select="{ on, props }">
-                <v-simple-checkbox
-                  color="purple"
-                  v-model="selectHeader"
-                  v-on="on"
-                  @change="selectAll"
-                  :indeterminate="isNotSelectAll"
-                ></v-simple-checkbox>
-              </template>
-              <template v-slot:body="{ items }">
-                <tbody>
-                  <tr v-for="(item, index) in items" :key="item.name">
-                    <td style="">
-                      <v-checkbox
-                        v-model="cartSelected"
-                        :value="item"
-                        hide-details
-                        style="margin: 0;"
-                      ></v-checkbox>
-                    </td>
-                    <td>
-                      <v-tooltip top>
-                        <template v-slot:activator="{ on }">
-                          <v-btn
-                            class="mx-2"
-                            fab
-                            small
-                            dark
-                            color="success"
-                            v-on="on"
-                          >
-                            <v-icon>mdi-camera-image</v-icon>
-                          </v-btn>
-                        </template>
-                        <span>
-                          <v-avatar tile size="130">
-                            <img
-                              src="../../../assets/icons/webapp/apple-touch-icon-180x180.png"
-                            />
-                          </v-avatar>
-                        </span>
-                      </v-tooltip>
-                      {{ item.name }}
-                    </td>
-                    <td>{{ item.price }}</td>
-                    <td>
-                      <number-input
-                        style="width: 10rem; color: black;margin-top: 5px;"
-                        v-model="item.number"
-                        :min="1"
-                        :max="99"
-                        inline
-                        center
-                        controls
-                      >
-                      </number-input>
-                    </td>
-                    <td>{{ (item.total = item.number * item.price) }}</td>
-                    <td>
-                      <v-btn color="red" @click="deleteItemDialog(index)" icon>
-                        <v-icon>mdi-delete</v-icon>
-                      </v-btn>
-                    </td>
-                  </tr>
-                </tbody>
-              </template>
-            </v-data-table>
-            <v-pagination
-              v-model="page"
-              v-if="cartProduct.length !== 0"
-              :length="pageCount"
-            ></v-pagination>
-
-            <!-- if cart have no items, show it -->
-            <div class="pa-4 text-center" v-if="cartProduct.length === 0">
-              <v-img
-                class="mb-4"
-                contain
-                height="128"
-                src="../../../assets/icons/cart.svg"
-              ></v-img>
-              <h3 class="title font-weight-light mb-2">Welcome to Pet Home.</h3>
-              <div class="caption grey--text mb-2">Thanks for signing up!</div>
-              <v-btn color="primary" to="Home">
-                <v-icon left>mdi-shopping</v-icon>
-                Go Shopping
-              </v-btn>
-            </div>
-          </v-window-item>
-
-          <!-- windows 2 : Checkout -->
-
-          <v-window-item :value="2">
-            <v-card-text>
+      <v-lazy
+        v-model="isActive"
+        :options="{
+          threshold: 1
+        }"
+        transition="slide-x-reverse-transition"
+        origin="top right 50"
+      >
+        <v-card elevation="10">
+          <v-card-title
+            :class="this.$store.state.theme.navTheme"
+            class="white--text"
+          >
+            <span>{{ currentTitle }}</span>
+            <v-spacer></v-spacer>
+          </v-card-title>
+          <v-window v-model="step">
+            <!-- windows 1 : Cart -->
+            <v-window-item :value="1">
+              <!-- if cart have items, show it -->
               <v-data-table
-                :headers="checkoutHeaders"
-                :items="cartSelected"
+                :headers="headers"
+                :items="cartProduct"
                 :search="search"
-                :items-per-page="5"
+                item-key="name"
+                show-select
+                items-per-page="7"
                 hide-default-footer
                 class="elevation-1"
-                @page-count="checkoutPageCount = $event"
-                :page.sync="checkoutPage"
+                @page-count="pageCount = $event"
+                :page.sync="page"
+                v-if="cartProduct.length !== 0"
               >
+                <template v-slot:header.data-table-select="{ on, props }">
+                  <v-simple-checkbox
+                    color="purple"
+                    v-model="selectHeader"
+                    v-on="on"
+                    @change="selectAll"
+                    :indeterminate="isNotSelectAll"
+                  ></v-simple-checkbox>
+                </template>
                 <template v-slot:body="{ items }">
                   <tbody>
                     <tr v-for="(item, index) in items" :key="item.name">
+                      <td style="">
+                        <v-checkbox
+                          v-model="cartSelected"
+                          :value="item"
+                          hide-details
+                          style="margin: 0;"
+                        ></v-checkbox>
+                      </td>
                       <td>
                         <v-tooltip top>
                           <template v-slot:activator="{ on }">
@@ -207,8 +137,9 @@
                                 src="../../../assets/icons/webapp/apple-touch-icon-180x180.png"
                               />
                             </v-avatar>
-                          </span> </v-tooltip
-                        >{{ item.name }}
+                          </span>
+                        </v-tooltip>
+                        {{ item.name }}
                       </td>
                       <td>{{ item.price }}</td>
                       <td>
@@ -223,60 +154,157 @@
                         >
                         </number-input>
                       </td>
-                      <td>{{ item.total }}</td>
+                      <td>{{ (item.total = item.number * item.price) }}</td>
+                      <td>
+                        <v-btn
+                          color="red"
+                          @click="deleteItemDialog(index)"
+                          icon
+                        >
+                          <v-icon>mdi-delete</v-icon>
+                        </v-btn>
+                      </td>
                     </tr>
                   </tbody>
                 </template>
               </v-data-table>
               <v-pagination
-                v-model="checkoutPage"
-                :length="checkoutPageCount"
+                v-model="page"
+                v-if="cartProduct.length !== 0"
+                :length="pageCount"
               ></v-pagination>
-              <div style="text-align: end;">
-                <span class="display-1">Sum: </span>
-                <span class="display-1">$ {{ countSum }}</span>
+
+              <!-- if cart have no items, show it -->
+              <div class="pa-4 text-center" v-if="cartProduct.length === 0">
+                <v-img
+                  class="mb-4"
+                  contain
+                  height="128"
+                  src="../../../assets/icons/cart.svg"
+                ></v-img>
+                <h3 class="title font-weight-light mb-2">
+                  Welcome to Pet Home.
+                </h3>
+                <div class="caption grey--text mb-2">
+                  Thanks for signing up!
+                </div>
+                <v-btn color="primary" to="Home">
+                  <v-icon left>mdi-shopping</v-icon>
+                  Go Shopping
+                </v-btn>
               </div>
-            </v-card-text>
-          </v-window-item>
+            </v-window-item>
 
-          <!-- windows 3 : Finish -->
-          <v-window-item :value="3">
-            <div class="pa-4 text-center">
-              <v-img
-                class="mb-4"
-                contain
-                height="128"
-                src="../../../assets/icons/cart.svg"
-              ></v-img>
-              <h3 class="title font-weight-light mb-2">Welcome to Pet Home.</h3>
-              <div class="caption grey--text mb-2">
-                Thanks for Shopping! The deal is finished.
+            <!-- windows 2 : Checkout -->
+
+            <v-window-item :value="2">
+              <v-card-text>
+                <v-data-table
+                  :headers="checkoutHeaders"
+                  :items="cartSelected"
+                  :search="search"
+                  :items-per-page="5"
+                  hide-default-footer
+                  class="elevation-1"
+                  @page-count="checkoutPageCount = $event"
+                  :page.sync="checkoutPage"
+                >
+                  <template v-slot:body="{ items }">
+                    <tbody>
+                      <tr v-for="(item, index) in items" :key="item.name">
+                        <td>
+                          <v-tooltip top>
+                            <template v-slot:activator="{ on }">
+                              <v-btn
+                                class="mx-2"
+                                fab
+                                small
+                                dark
+                                color="success"
+                                v-on="on"
+                              >
+                                <v-icon>mdi-camera-image</v-icon>
+                              </v-btn>
+                            </template>
+                            <span>
+                              <v-avatar tile size="130">
+                                <img
+                                  src="../../../assets/icons/webapp/apple-touch-icon-180x180.png"
+                                />
+                              </v-avatar>
+                            </span> </v-tooltip
+                          >{{ item.name }}
+                        </td>
+                        <td>{{ item.price }}</td>
+                        <td>
+                          <number-input
+                            style="width: 10rem; color: black;margin-top: 5px;"
+                            v-model="item.number"
+                            :min="1"
+                            :max="99"
+                            inline
+                            center
+                            controls
+                          >
+                          </number-input>
+                        </td>
+                        <td>{{ item.total }}</td>
+                      </tr>
+                    </tbody>
+                  </template>
+                </v-data-table>
+                <v-pagination
+                  v-model="checkoutPage"
+                  :length="checkoutPageCount"
+                ></v-pagination>
+                <div style="text-align: end;">
+                  <span class="display-1">Sum: </span>
+                  <span class="display-1">$ {{ countSum }}</span>
+                </div>
+              </v-card-text>
+            </v-window-item>
+
+            <!-- windows 3 : Finish -->
+            <v-window-item :value="3">
+              <div class="pa-4 text-center">
+                <v-img
+                  class="mb-4"
+                  contain
+                  height="128"
+                  src="../../../assets/icons/cart.svg"
+                ></v-img>
+                <h3 class="title font-weight-light mb-2">
+                  Welcome to Pet Home.
+                </h3>
+                <div class="caption grey--text mb-2">
+                  Thanks for Shopping! The deal is finished.
+                </div>
+                <v-btn color="primary" to="Home">
+                  <v-icon left>mdi-shopping</v-icon>
+                  Go Shopping
+                </v-btn>
               </div>
-              <v-btn color="primary" to="Home">
-                <v-icon left>mdi-shopping</v-icon>
-                Go Shopping
-              </v-btn>
-            </div>
-          </v-window-item>
-        </v-window>
+            </v-window-item>
+          </v-window>
 
-        <v-divider></v-divider>
+          <v-divider></v-divider>
 
-        <v-card-actions>
-          <v-btn :disabled="step === 1" text @click="step--">
-            Back
-          </v-btn>
-          <v-spacer></v-spacer>
-          <v-btn
-            :disabled="step === 3 || cartSelected.length === 0"
-            color="primary"
-            depressed
-            @click="step++"
-          >
-            Next
-          </v-btn>
-        </v-card-actions>
-      </v-card>
+          <v-card-actions>
+            <v-btn :disabled="step === 1" text @click="step--">
+              Back
+            </v-btn>
+            <v-spacer></v-spacer>
+            <v-btn
+              :disabled="step === 3 || cartSelected.length === 0"
+              color="primary"
+              depressed
+              @click="step++"
+            >
+              Next
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-lazy>
     </div>
     <!-- delete dialog -->
     <v-dialog v-model="deleteDialog" width="500" persistent>
@@ -316,6 +344,7 @@ export default {
   },
   data() {
     return {
+      isActive: false,
       step: 1,
       progressValue: [],
       progress: ["", "Cart", "Checkout", "Finish"],

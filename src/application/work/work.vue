@@ -60,14 +60,13 @@
           <span class="ml-2" v-on="on">Hi, {{ username }}!</span>
           <v-card
             class="portrait"
-            img="../../assets/icons/webapp/android-touch-icon.png"
             height="36"
             width="36"
             v-on="on"
           >
             <img
               style="height: 36px; width: 36px;"
-              src="../../assets/icons/webapp/android-touch-icon.png"
+              src="https://avatars0.githubusercontent.com/u/48636976?s=460&v=4"
             />
           </v-card>
         </template>
