@@ -100,7 +100,29 @@
                         style="margin: 0;"
                       ></v-checkbox>
                     </td>
-                    <td>{{ item.name }}</td>
+                    <td>
+                      <v-tooltip top>
+                        <template v-slot:activator="{ on }">
+                          <v-btn
+                            class="mx-2"
+                            fab
+                            small
+                            dark
+                            color="success"
+                            v-on="on"
+                          >
+                            <v-icon>mdi-camera-image</v-icon>
+                          </v-btn>
+                        </template>
+                        <span>
+                          <v-avatar tile size="130">
+                            <img
+                              src="../../../assets/icons/webapp/apple-touch-icon-180x180.png"
+                            />
+                          </v-avatar>
+                        </span> </v-tooltip
+                      >{{ item.name }}
+                    </td>
                     <td>{{ item.price }}</td>
                     <td>
                       <number-input
@@ -160,7 +182,51 @@
                 class="elevation-1"
                 @page-count="checkoutPageCount = $event"
                 :page.sync="checkoutPage"
-              ></v-data-table>
+              >
+                <template v-slot:body="{ items }">
+                  <tbody>
+                    <tr v-for="(item, index) in items" :key="item.name">
+                      <td>
+                        <v-tooltip top>
+                          <template v-slot:activator="{ on }">
+                            <v-btn
+                              class="mx-2"
+                              fab
+                              small
+                              dark
+                              color="success"
+                              v-on="on"
+                            >
+                              <v-icon>mdi-camera-image</v-icon>
+                            </v-btn>
+                          </template>
+                          <span>
+                            <v-avatar tile size="130">
+                              <img
+                                src="../../../assets/icons/webapp/apple-touch-icon-180x180.png"
+                              />
+                            </v-avatar>
+                          </span> </v-tooltip
+                        >{{ item.name }}
+                      </td>
+                      <td>{{ item.price }}</td>
+                      <td>
+                        <number-input
+                          style="width: 10rem; color: black;margin-top: 5px;"
+                          v-model="item.number"
+                          :min="1"
+                          :max="99"
+                          inline
+                          center
+                          controls
+                        >
+                        </number-input>
+                      </td>
+                      <td>{{ item.total }}</td>
+                    </tr>
+                  </tbody>
+                </template>
+              </v-data-table>
               <v-pagination
                 v-model="checkoutPage"
                 :length="checkoutPageCount"
@@ -182,7 +248,9 @@
                 src="../../../assets/icons/cart.svg"
               ></v-img>
               <h3 class="title font-weight-light mb-2">Welcome to Pet Home.</h3>
-              <div class="caption grey--text mb-2">Thanks for Shopping! The deal is finished.</div>
+              <div class="caption grey--text mb-2">
+                Thanks for Shopping! The deal is finished.
+              </div>
               <v-btn color="primary" to="Home">
                 <v-icon left>mdi-shopping</v-icon>
                 Go Shopping
@@ -405,7 +473,7 @@ export default {
         }
       }
       this.deleteDialog = false;
-    },
+    }
   },
   computed: {
     currentTitle() {
@@ -452,7 +520,7 @@ export default {
       } else {
         return false;
       }
-    },
+    }
   }
 };
 </script>

@@ -120,21 +120,21 @@
               </v-avatar>
             </v-col>
             <v-col>
-              <div class="overline mb-2">Pet Home</div>
+              <div class="overline mb-2 ml-2">Pet Home</div>
               <div
-                class="headline mb-2"
+                class="headline mb-2 ml-2"
                 style="margin-bottom: 0; margin-top: 0;"
               >
                 Huang Po Hsun's wife
               </div>
-              <div style="width: 27rem;">
+              <div class="ml-2" style="width: 27rem;">
                 Greyhound divisely hello coldly uhdiouhvsiun jajnvivunvi
                 avvndiun avndis asdvni asdnvilun avdnilndvi asdvnin fonwderfully
               </div>
             </v-col>
           </v-row>
           <v-card-actions>
-            <span class="headline ml-2">$ 1000</span>
+            <span class="headline ml-2"><v-icon large>mdi-cash-usd-outline</v-icon> 1000</span>
             <v-spacer></v-spacer>
             <v-btn class="mx-2" fab dark small color="primary">
               <v-icon dark>mdi-thumb-up</v-icon>
@@ -142,9 +142,18 @@
             <v-btn class="mx-2" fab dark small color="pink">
               <v-icon dark>mdi-heart</v-icon>
             </v-btn>
-            <v-btn class="mx-2" fab small dark color="success">
-              <v-icon>mdi-cart-arrow-down</v-icon>
-            </v-btn>
+
+            <v-tooltip top>
+              <template v-slot:activator="{ on }">
+                <v-btn class="mx-2" fab small dark color="success" v-on="on">
+                  <v-icon>mdi-cart-arrow-down</v-icon>
+                </v-btn>
+              </template>
+              <span>
+                <v-icon>mdi-cart</v-icon>
+                 Add To Cart
+              </span>
+            </v-tooltip>
           </v-card-actions>
         </v-card>
       </v-col>
