@@ -134,15 +134,19 @@
             </v-col>
           </v-row>
           <v-card-actions>
-            <span class="headline ml-2"><v-icon large>mdi-cash-usd-outline</v-icon> 1000</span>
+            <span class="headline ml-2"
+              ><v-icon large>mdi-cash-usd-outline</v-icon> 1000</span
+            >
             <v-spacer></v-spacer>
+            <v-btn class="mx-2" fab small icon>
+              <v-icon>mdi-share-variant</v-icon>
+            </v-btn>
             <v-btn class="mx-2" fab dark small color="primary">
               <v-icon dark>mdi-thumb-up</v-icon>
             </v-btn>
             <v-btn class="mx-2" fab dark small color="pink">
               <v-icon dark>mdi-heart</v-icon>
             </v-btn>
-
             <v-tooltip top>
               <template v-slot:activator="{ on }">
                 <v-btn class="mx-2" fab small dark color="success" v-on="on">
@@ -151,7 +155,7 @@
               </template>
               <span>
                 <v-icon>mdi-cart</v-icon>
-                 Add To Cart
+                Add To Cart
               </span>
             </v-tooltip>
           </v-card-actions>

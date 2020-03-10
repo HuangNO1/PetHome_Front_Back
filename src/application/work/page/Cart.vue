@@ -41,12 +41,12 @@
               single-line
             ></v-text-field>
           </v-col>
-          <v-col md="auto">
+          <v-col md="auto" sm="auto" xs="auto">
             <v-btn icon>
               <v-icon>mdi-heart</v-icon>
             </v-btn>
           </v-col>
-          <v-col md="auto">
+          <v-col md="auto" sm="auto" xs="auto">
             <v-btn icon>
               <v-icon>mdi-dots-vertical</v-icon>
             </v-btn>
@@ -120,8 +120,9 @@
                               src="../../../assets/icons/webapp/apple-touch-icon-180x180.png"
                             />
                           </v-avatar>
-                        </span> </v-tooltip
-                      >{{ item.name }}
+                        </span>
+                      </v-tooltip>
+                      {{ item.name }}
                     </td>
                     <td>{{ item.price }}</td>
                     <td>
