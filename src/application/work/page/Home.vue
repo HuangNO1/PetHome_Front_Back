@@ -205,7 +205,7 @@
   </div>
 </template>
 <script>
-import Affix from "../components/Affix";
+import Affix from "../components/Affix/Affix";
 
 export default {
   components: {

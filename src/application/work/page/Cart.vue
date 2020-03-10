@@ -336,11 +336,9 @@
   </div>
 </template>
 <script>
-import Affix from "../components/Affix";
 
 export default {
   components: {
-    Affix
   },
   data() {
     return {
