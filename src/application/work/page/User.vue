@@ -34,7 +34,9 @@
               class="mx-auto mb-4"
               :elevation="hover ? 24 : 3"
             >
-              <v-btn block dark color="green" @click="editAvatarDialog = true">Edit</v-btn>
+              <v-btn block dark color="green" @click="editAvatarDialog = true"
+                >Edit</v-btn
+              >
             </v-card>
           </v-hover>
         </v-lazy>
@@ -47,14 +49,36 @@
             <v-img max-width="300" max-height="300" :src="user.avatar"></v-img>
           </v-card-text>
           <v-card-text>
-            <v-text-field v-model="user.avatar" label="Avatar's URL" outlined></v-text-field>
+            <v-text-field
+              v-model="user.avatar"
+              label="Avatar's URL"
+              outlined
+            ></v-text-field>
+            <v-btn>Upload</v-btn>
           </v-card-text>
           <v-card-actions>
             <v-btn text color="green">save</v-btn>
-            <v-btn text color="red" @click="editAvatarDialog = false">cencel</v-btn>
+            <v-btn text color="red" @click="editAvatarDialog = false"
+              >cencel</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-dialog>
+      <my-upload
+        field="img"
+        @crop-success="cropSuccess"
+        @crop-upload-success="cropUploadSuccess"
+        @crop-upload-fail="cropUploadFail"
+        v-model="show"
+        :width="300"
+        :height="300"
+        url="/upload"
+        :params="params"
+        :headers="headers"
+        img-format="png"
+        langType="zh-tw"
+      ></my-upload>
+      <img :src="imgDataUrl" />
       <v-col md="6">
         <!-- username -->
         <v-lazy
@@ -282,10 +306,12 @@
   </div>
 </template>
 <script>
-
-
+import myUpload from "../components/vue-image-crop-upload/upload-2";
 
 export default {
+  components: {
+    "my-upload": myUpload
+  },
   data() {
     return {
       isActive: false,
@@ -309,6 +335,16 @@ export default {
       isActiveEditPhone: false,
       clickEditAddress: false,
       isActiveEditAddress: false,
+      // clop image
+      show: true,
+      params: {
+        token: "123456798",
+        name: "avatar"
+      },
+      headers: {
+        smail: "*_~"
+      },
+      imgDataUrl: ""
     };
   },
   methods: {
@@ -356,6 +392,42 @@ export default {
       }
       console.log("this.clickEditAddress: " + this.clickEditAddress);
       isActiveEditAddress = false;
+    },
+    // clop image ------------------------------------
+    toggleShow() {
+      this.show = !this.show;
+    },
+    /**
+     * crop success
+     *
+     * [param] imgDataUrl
+     * [param] field
+     */
+    cropSuccess(imgDataUrl, field) {
+      console.log("-------- crop success --------");
+      this.imgDataUrl = imgDataUrl;
+    },
+    /**
+     * upload success
+     *
+     * [param] jsonData   服务器返回数据，已进行json转码
+     * [param] field
+     */
+    cropUploadSuccess(jsonData, field) {
+      console.log("-------- upload success --------");
+      console.log(jsonData);
+      console.log("field: " + field);
+    },
+    /**
+     * upload fail
+     *
+     * [param] status    server api return error status, like 500
+     * [param] field
+     */
+    cropUploadFail(status, field) {
+      console.log("-------- upload fail --------");
+      console.log(status);
+      console.log("field: " + field);
     }
   }
 };
