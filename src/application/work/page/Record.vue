@@ -90,7 +90,7 @@
                       <span>
                         <v-avatar tile size="130">
                           <img
-                            src="../../../assets/icons/webapp/apple-touch-icon-180x180.png"
+                            :src="item.img"
                           />
                         </v-avatar>
                       </span> </v-tooltip
@@ -104,7 +104,11 @@
               </tbody>
             </template>
           </v-data-table>
-          <v-pagination v-model="page" :length="pageCount"></v-pagination>
+          <v-pagination
+            v-model="page"
+            :length="pageCount"
+            v-if="recordProduct.length !== 0"
+          ></v-pagination>
           <!-- if have no record, show it -->
           <div class="pa-4 text-center" v-if="recordProduct.length === 0">
             <v-img
@@ -126,17 +130,15 @@
   </div>
 </template>
 <script>
-var myDate = new Date();
-var mytime =
-  myDate.getFullYear() +
-  "/" +
-  myDate.getMonth() +
-  "/" +
-  myDate.getDate() +
-  " " +
-  myDate.toLocaleTimeString();
+import { mapState, mapMutations } from "vuex";
 
 export default {
+  created() {
+    // 引入 VUEX 的數據，並初始附值。
+    this.recordProduct = this.recordProductItems;
+    console.log(this.recordProduct)
+    console.log(this.recordProductItems)
+  },
   data() {
     return {
       isActive: false,
@@ -155,81 +157,18 @@ export default {
         { text: "Total($)", value: "total" },
         { text: "Time(UTF-8)", value: "time" }
       ],
-      recordProduct: [
-        {
-          name: "Frozen Yogurt",
-          price: 24,
-          number: 1,
-          total: 0,
-          time: mytime
-        },
-        {
-          name: "Ice cream sandwich",
-          price: 37,
-          number: 4,
-          total: 2,
-          time: mytime
-        },
-        {
-          name: "Eclair",
-          price: 3,
-          number: 1,
-          total: 2,
-          time: mytime
-        },
-        {
-          name: "Cupcake",
-          price: 23,
-          number: 3,
-          total: 2,
-          time: mytime
-        },
-        {
-          name: "Gingerbread",
-          price: 30,
-          number: 10,
-          total: 2,
-          time: mytime
-        },
-        {
-          name: "Jelly bean",
-          price: 52,
-          number: 1,
-          total: 2,
-          time: mytime
-        },
-        {
-          name: "Lollipop",
-          price: 19,
-          number: 1,
-          total: 2,
-          time: mytime
-        },
-        {
-          name: "Honeycomb",
-          price: 77,
-          number: 24,
-          total: 2,
-          time: mytime
-        },
-        {
-          name: "Donut",
-          price: 35,
-          number: 3,
-          total: 2,
-          time: mytime
-        },
-        {
-          name: "KitKat",
-          price: 49,
-          number: 1,
-          total: 2,
-          time: mytime
-        }
-      ],
+      recordProduct: [],
       page: 1,
       pageCount: 0
     };
+  },
+  computed: {
+    // get data from VUEX
+    ...mapState({
+      recordProductItems: state => {
+        return state.product.recordProductItems;
+      }
+    })
   }
 };
 </script>

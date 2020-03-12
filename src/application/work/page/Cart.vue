@@ -134,7 +134,7 @@
                           <span>
                             <v-avatar tile size="130">
                               <img
-                                src="../../../assets/icons/webapp/apple-touch-icon-180x180.png"
+                                :src="item.img"
                               />
                             </v-avatar>
                           </span>
@@ -229,7 +229,7 @@
                             <span>
                               <v-avatar tile size="130">
                                 <img
-                                  src="../../../assets/icons/webapp/apple-touch-icon-180x180.png"
+                                  :src="item.img"
                                 />
                               </v-avatar>
                             </span> </v-tooltip
@@ -245,6 +245,7 @@
                             inline
                             center
                             controls
+                            @change="updateCartItems"
                           >
                           </number-input>
                         </td>
@@ -298,7 +299,7 @@
               :disabled="step === 3 || cartSelected.length === 0"
               color="primary"
               depressed
-              @click="step++"
+              @click="nextWindow"
             >
               Next
             </v-btn>
@@ -336,9 +337,17 @@
   </div>
 </template>
 <script>
+import { mapState, mapMutations } from "vuex";
+import {
+  ADD_TO_RECORD,
+  UPDATE_CART_ITEMS
+} from "../store/mutations-types/product";
 
 export default {
-  components: {
+  components: {},
+  created() {
+    // 引入 VUEX 的數據，並初始附值。
+    this.cartProduct = this.cartProductItems;
   },
   data() {
     return {
@@ -347,30 +356,8 @@ export default {
       progressValue: [],
       progress: ["", "Cart", "Checkout", "Finish"],
       progressIcons: ["", "mdi-cart", "mdi-cash-usd", "mdi-briefcase-check"],
-      items: [],
       search: null,
       select: null,
-      product: ["Cat", "Dog", "Fox", "Bird", "Fish"],
-      tags: [
-        "Work",
-        "Home Improvement",
-        "Vacation",
-        "Food",
-        "Drawers",
-        "Shopping",
-        "Art",
-        "Tech",
-        "Creative Writing"
-      ],
-      cartItem: [
-        {
-          img: "",
-          name: "",
-          originPrice: "",
-          num: "",
-          total: ""
-        }
-      ],
       // cart data -----------------------
       search: "",
       headers: [
@@ -385,68 +372,7 @@ export default {
         { text: "Total($)", value: "total" },
         { text: "Action", value: "action" }
       ],
-      cartProduct: [
-        {
-          name: "Frozen Yogurt",
-          price: 24,
-          number: 1,
-          total: 0
-        },
-        {
-          name: "Ice cream sandwich",
-          price: 37,
-          number: 4,
-          total: 2
-        },
-        {
-          name: "Eclair",
-          price: 3,
-          number: 1,
-          total: 2
-        },
-        {
-          name: "Cupcake",
-          price: 23,
-          number: 3,
-          total: 2
-        },
-        {
-          name: "Gingerbread",
-          price: 30,
-          number: 10,
-          total: 2
-        },
-        {
-          name: "Jelly bean",
-          price: 52,
-          number: 1,
-          total: 2
-        },
-        {
-          name: "Lollipop",
-          price: 19,
-          number: 1,
-          total: 2
-        },
-        {
-          name: "Honeycomb",
-          price: 77,
-          number: 24,
-          total: 2
-        },
-        {
-          name: "Donut",
-          price: 35,
-          number: 3,
-          total: 2
-        },
-        {
-          name: "KitKat",
-          price: 49,
-          number: 1,
-          total: 2
-        }
-      ],
+      cartProduct: [],
       page: 1,
       pageCount: 0,
       cartSelected: [],
@@ -501,9 +427,39 @@ export default {
         }
       }
       this.deleteDialog = false;
+      this.$store.commit(UPDATE_CART_ITEMS, this.cartProduct);
+    },
+    nextWindow() {
+      this.step += 1;
+      // 提交購物紀錄 以及 添加交易完成時間 以及 刪除購物車商品
+      if (this.step === 3) {
+        var FinishDealDate = new Date();
+        var FinishDealTime =
+          FinishDealDate.getFullYear() +
+          "/" +
+          FinishDealDate.getMonth() +
+          "/" +
+          FinishDealDate.getDate() +
+          " " +
+          FinishDealDate.toLocaleTimeString();
+        for (let i = 0; i < this.cartSelected.length; i++) {
+          this.cartSelected[i].time = FinishDealTime;
+          this.$store.commit(ADD_TO_RECORD, this.cartSelected[i]);
+        }
+        console.log(recordProductItems);
+      }
     }
   },
   computed: {
+    // get data from vuex
+    ...mapState({
+      cartProductItems: state => {
+        return state.product.cartProductItems;
+      },
+      recordProductItems: state => {
+        return state.product.recordProductItems;
+      }
+    }),
     currentTitle() {
       switch (this.step) {
         case 1:
@@ -548,6 +504,9 @@ export default {
       } else {
         return false;
       }
+    },
+    updateCartItems() {
+      this.$store.commit(UPDATE_CART_ITEMS, this.cartProduct);
     }
   }
 };

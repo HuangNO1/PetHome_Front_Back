@@ -23,9 +23,14 @@
                 Theme Colors
               </v-card-title>
               <v-row v-for="(i, iKey) in NavColors" :key="iKey">
-                <v-col v-for="(j, jKey) in i.colors" :key="jKey" >
-                  <v-chip :color="j.color" style="width: 8rem;" @click="updateTheme(j.color)" dark>
-                    {{j.color}}
+                <v-col v-for="(j, jKey) in i.colors" :key="jKey">
+                  <v-chip
+                    :color="j.color"
+                    style="width: 8rem;"
+                    @click="updateTheme(j.color)"
+                    dark
+                  >
+                    {{ j.color }}
                   </v-chip>
                 </v-col>
               </v-row>
@@ -36,7 +41,11 @@
                 inset
                 @change="bg"
               ></v-switch>
-              <v-text-field label="Background URL" v-model="backgroundURL" outlined></v-text-field>
+              <v-text-field
+                label="Background URL"
+                v-model="backgroundURL"
+                outlined
+              ></v-text-field>
             </v-card-text>
           </v-card>
         </v-lazy>
@@ -54,7 +63,6 @@ import {
 
 export default {
   created() {
-
     // color
     if (this.navTheme === "") {
       this.$store.commit(UPDATE_NAV_THEME, "primary");
@@ -65,7 +73,7 @@ export default {
     // image
     if (this.navImage !== "") {
       this.backgroundURL = this.navImage;
-      console.log('backgroundURL : ' + this.backgroundURL)
+      console.log("backgroundURL : " + this.backgroundURL);
     } else {
       this.background = false;
       this.backgroundURL = "";

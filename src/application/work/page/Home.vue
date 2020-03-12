@@ -22,7 +22,7 @@
             <v-autocomplete
               v-model="select"
               :loading="loading"
-              :items="items"
+              :items="autoCompleteItems"
               :search-input.sync="search"
               prepend-inner-icon="mdi-magnify"
               cache-items
@@ -45,7 +45,7 @@
         </v-card>
       </v-lazy>
     </div>
-    <!-- product list menu - if width < 1264 -->
+    <!-- product list tag -->
     <v-row justify="space-around">
       <v-col cols="12">
         <v-lazy
@@ -66,7 +66,7 @@
         </v-lazy>
       </v-col>
     </v-row>
-    <!-- product list menu - if width >= 1264 -->
+    <!-- product list menu  -->
     <v-row class="mb-6">
       <v-col md="auto">
         <v-lazy
@@ -83,9 +83,10 @@
                 <!--<v-navigation-drawer floating permanent>-->
                 <v-list rounded shaped>
                   <v-list-item
-                    v-for="item in productItems"
+                    v-for="item in productMenuItems"
                     :key="item.title"
                     link
+                    @click="MenuShowProduct(item.title)"
                   >
                     <v-list-item-icon>
                       <v-icon>{{ item.icon }}</v-icon>
@@ -131,6 +132,7 @@
           </div>
         </v-lazy>
       </v-col>
+      <!-- 展示商品 -->
       <v-col>
         <v-lazy
           v-model="i.isActive"
@@ -140,7 +142,7 @@
           transition="slide-x-reverse-transition"
           origin="top right 50"
           style="display: inline-block;"
-          v-for="i in 20"
+          v-for="(item, i) in showProductItems"
           :key="i"
         >
           <v-card
@@ -152,9 +154,7 @@
             <v-row>
               <v-col md="auto">
                 <v-avatar tile size="130" class="ml-4">
-                  <v-img
-                    src="../../../assets/icons/webapp/apple-touch-icon-180x180.png"
-                  />
+                  <v-img :src="item.img" />
                 </v-avatar>
               </v-col>
               <v-col>
@@ -163,18 +163,17 @@
                   class="headline mb-2 ml-2"
                   style="margin-bottom: 0; margin-top: 0;"
                 >
-                  Huang Po Hsun's wife
+                  {{ item.name }}
                 </div>
                 <div class="ml-2" style="width: 27rem;">
-                  Greyhound divisely hello coldly uhdiouhvsiun jajnvivunvi
-                  avvndiun avndis asdvni asdnvilun avdnilndvi asdvnin
-                  fonwderfully
+                  {{ item.description }}
                 </div>
               </v-col>
             </v-row>
             <v-card-actions>
               <span class="headline ml-2"
-                ><v-icon large>mdi-cash-usd-outline</v-icon> 1000</span
+                ><v-icon large>mdi-cash-usd-outline</v-icon>
+                {{ item.price }}</span
               >
               <v-spacer></v-spacer>
               <v-btn class="mx-2" fab small icon>
@@ -188,7 +187,15 @@
               </v-btn>
               <v-tooltip top>
                 <template v-slot:activator="{ on }">
-                  <v-btn class="mx-2" fab small dark color="success" v-on="on">
+                  <v-btn
+                    class="mx-2"
+                    fab
+                    small
+                    dark
+                    color="success"
+                    v-on="on"
+                    @click="addToCart(item)"
+                  >
                     <v-icon>mdi-cart-arrow-down</v-icon>
                   </v-btn>
                 </template>
@@ -206,6 +213,8 @@
 </template>
 <script>
 import Affix from "../components/Affix/Affix";
+import { mapState, mapMutations } from "vuex";
+import { ADD_TO_CART } from "../store/mutations-types/product";
 
 export default {
   components: {
@@ -215,11 +224,11 @@ export default {
     return {
       isActive: false,
       loading: false,
-      items: [],
+      autoCompleteItems: [],
       search: null,
       select: null,
-      product: ["Cat", "Dog", "Fox", "Bird", "Fish"],
-      productItems: [
+      productKeyword: ["Cat", "Dog", "Fox", "Bird", "Fish"],
+      productMenuItems: [
         { title: "Dog", icon: "mdi-dog-side" },
         { title: "Cat", icon: "mdi-cat" },
         { title: "Fox", icon: "mdi-firefox" },
@@ -237,7 +246,257 @@ export default {
         "Tech",
         "Creative Writing"
       ],
-      saleValue: [423, 446, 675, 510, 590, 610, 760]
+      saleValue: [423, 446, 675, 510, 590, 610, 760],
+      // product test------------------------------------------------
+      showProductItems: [],
+      productItems: [
+        // Dog ----------------
+        {
+          name: "Frozen Yogurt",
+          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
+          type: "Dog",
+          description: "Dog 1",
+          price: 24,
+          number: 1,
+          total: 0,
+          time: "",
+          like: false,
+          tag: []
+        },
+        {
+          name: "Ice cream sandwich",
+          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
+          type: "Dog",
+          description: "Dog 2",
+          price: 37,
+          number: 1,
+          total: 0,
+          time: "",
+          like: false,
+          tag: []
+        },
+        {
+          name: "Eclair",
+          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
+          type: "Dog",
+          description: "Dog 3",
+          price: 3,
+          number: 1,
+          total: 0,
+          time: "",
+          like: false,
+          tag: []
+        },
+        {
+          name: "Cupcake",
+          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
+          type: "Dog",
+          description: "Dog 4",
+          price: 23,
+          number: 1,
+          total: 0,
+          time: "",
+          like: false
+        },
+        // cat --------------------------------
+        {
+          name: "Gingerbread",
+          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
+          type: "Cat",
+          description: "Cat 1",
+          price: 30,
+          number: 1,
+          total: 0,
+          time: "",
+          like: false,
+          tag: []
+        },
+        {
+          name: "Jelly bean",
+          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
+          type: "Cat",
+          description: "Cat 2",
+          price: 52,
+          number: 1,
+          total: 0,
+          time: "",
+          like: false,
+          tag: []
+        },
+        {
+          name: "Lollipop",
+          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
+          type: "Cat",
+          description: "Cat 3",
+          price: 19,
+          number: 1,
+          total: 0,
+          time: "",
+          like: false,
+          tag: []
+        },
+        {
+          name: "Honeycomb",
+          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
+          type: "Cat",
+          description: "Cat 4",
+          price: 77,
+          number: 1,
+          total: 0,
+          time: "",
+          like: false,
+          tag: []
+        },
+        // Fox -------------------------------
+        {
+          name: "Donut",
+          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
+          type: "Fox",
+          description: "Fox 1",
+          price: 35,
+          number: 1,
+          total: 0,
+          time: "",
+          like: false,
+          tag: []
+        },
+        {
+          name: "KitKat",
+          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
+          type: "Fox",
+          description: "Fox 2",
+          price: 49,
+          number: 1,
+          total: 0,
+          time: "",
+          like: false,
+          tag: []
+        },
+        {
+          name: "Frozen Yogurt_1",
+          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
+          type: "Fox",
+          description: "Fox 3",
+          price: 24,
+          number: 1,
+          total: 0,
+          time: "",
+          like: false,
+          tag: []
+        },
+        {
+          name: "Ice cream sandwich_",
+          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
+          type: "Fox",
+          description: "Fox 4",
+          price: 37,
+          number: 1,
+          total: 0,
+          time: "",
+          like: false,
+          tag: []
+        },
+        // Fish -----------------------------------
+        {
+          name: "Eclair_1",
+          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
+          type: "Fish",
+          description: "Fish 1",
+          price: 3,
+          number: 1,
+          total: 0,
+          time: "",
+          like: false,
+          tag: []
+        },
+        {
+          name: "Cupcake_1",
+          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
+          type: "Fish",
+          description: "Fish 2",
+          price: 23,
+          number: 1,
+          total: 0,
+          time: "",
+          like: false,
+          tag: []
+        },
+        {
+          name: "Gingerbread_1",
+          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
+          type: "Fish",
+          description: "Fish 3",
+          price: 30,
+          number: 1,
+          total: 0,
+          time: "",
+          like: false,
+          tag: []
+        },
+        {
+          name: "Jelly bean_1",
+          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
+          type: "Fish",
+          description: "Fish 4",
+          price: 52,
+          number: 1,
+          total: 0,
+          time: "",
+          like: false,
+          tag: []
+        },
+        // bird ---------------------------------------
+        {
+          name: "Lollipop_1",
+          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
+          type: "Bird",
+          description: "Bird 1",
+          price: 19,
+          number: 1,
+          total: 0,
+          time: "",
+          like: false,
+          tag: []
+        },
+        {
+          name: "Honeycomb_1",
+          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
+          type: "Bird",
+          description: "Bird 2",
+          price: 77,
+          number: 1,
+          total: 0,
+          time: "",
+          like: false,
+          tag: []
+        },
+        {
+          name: "Donut_1",
+          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
+          type: "Bird",
+          description: "Bird 3",
+          price: 35,
+          number: 1,
+          total: 0,
+          time: "",
+          like: false,
+          tag: []
+        },
+        {
+          name: "KitKat_1",
+          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
+          type: "Bird",
+          description: "Bird 4",
+          price: 49,
+          number: 1,
+          total: 0,
+          time: "",
+          like: false,
+          tag: []
+        }
+      ]
+
+      // -----------------------------------------------------------
     };
   },
   watch: {
@@ -250,12 +509,35 @@ export default {
       this.loading = true;
       // Simulated ajax query
       setTimeout(() => {
-        this.items = this.product.filter(e => {
+        this.autoCompleteItems = this.productKeyword.filter(e => {
           return (e || "").toLowerCase().indexOf((v || "").toLowerCase()) > -1;
         });
         this.loading = false;
       }, 500);
+    },
+    MenuShowProduct(type) {
+      this.showProductItems = this.productItems.filter(function(
+        item,
+        index,
+        array
+      ) {
+        return item.type === type;
+      });
+    },
+    addToCart(item) {
+      this.$store.commit(ADD_TO_CART, item);
     }
+  },
+  computed: {
+    // get data from vuex
+    ...mapState({
+      cartProductItems: state => {
+        return state.product.cartProductItems;
+      },
+      recordProductItems: state => {
+        return state.product.recordProductItems;
+      }
+    })
   }
 };
 </script>

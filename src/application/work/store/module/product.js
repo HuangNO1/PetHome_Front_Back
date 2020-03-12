@@ -1,21 +1,23 @@
-import { ADD_TO_CART, ADD_TO_RECORD, DELETE_CART_ITEM } from '../mutations-types/product'
+import { ADD_TO_CART, ADD_TO_RECORD, UPDATE_CART_ITEMS } from '../mutations-types/product'
 
 const product = {
     state: {
-        cartProduct: [],
-        recordProduct: []
+        cartProductItems: [],
+        recordProductItems: []
     },
     mutations: {
         [ADD_TO_CART](state, item) {
-            state.cartProduct.push(item);
+            state.cartProductItems.push(item);
         },
         [ADD_TO_RECORD](state, item) {
-            state.recordProduct.push(item);
+            state.recordProductItems.push(item);
         },
-        [DELETE_CART_ITEM](state, item) {
-            state.cartProduct = item;
+        [UPDATE_CART_ITEMS](state, item) {
+            state.cartProductItems = item;
         }
     },
     actions: {},
     getters: {}
 }
+
+export default product;
