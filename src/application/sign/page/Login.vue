@@ -229,6 +229,15 @@ export default {
     onSuccess() {
       console.log("Success verity");
       this.dialog = false;
+      /*axios
+        .get("http://localhost:8081/account/setCookies", {
+          params: {
+            username: this.name
+          }
+        })
+        .then(response => {
+          console.log(response);
+        });*/
       document.location.href = "/work#/Home";
     },
     onFail() {
