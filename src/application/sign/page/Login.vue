@@ -2,7 +2,7 @@
   <div>
     <div style="font-size: 2rem; text-align: center;">Sign In</div>
     <form>
-    <!-- name -->
+      <!-- name -->
       <v-text-field
         v-model="name"
         :error-messages="nameErrors"
@@ -67,9 +67,7 @@
                 <span>
                   <v-icon color="red" x-large>mdi-alert-circle</v-icon>
                 </span>
-                <span
-                  >Confirm the username and password are correct.</span
-                >
+                <span>Confirm the username and password are correct.</span>
               </div>
             </div>
           </v-card-text>
@@ -122,7 +120,7 @@ export default {
     nameError: true,
     passwordError: true,
     // checkboxError: false,
-    loginURL: "",
+    loginURL: "http://localhost:8081/account/check",
     loginSuccess: true,
     openDialog: true
   }),
@@ -189,10 +187,12 @@ export default {
         this.checkbox === true
       ) {
         // submit the login request
-        /*axios.post(this.loginURL, {
-            username: this.name,
-            password: this.password
-        })
+        /*
+        var params = new URLSearchParams();
+        params.append("name", this.name);
+        params.append("password", this.password);
+        axios
+          .post(this.loginURL, params)
           .then(response => {
             console.log(response);
             console.log(response.data);
@@ -201,7 +201,7 @@ export default {
           .catch(error => {
             console.log(error);
           });
-          */
+        */
         this.openDialog = false;
         this.dialog = true;
       } else {

@@ -229,7 +229,7 @@ import {
 import axios from "axios";
 
 // chinese phone number
-const isPhone = (value) => /^((13|14|15|17|18)[0-9]{1}\d{8})$/.test(value);
+const isPhone = value => /^((13|14|15|17|18)[0-9]{1}\d{8})$/.test(value);
 
 export default {
   mixins: [validationMixin],
@@ -243,22 +243,24 @@ export default {
         if (value === "") return true;
         // axios : verity the username is registered.
         /*
-      axios.post(this.checkSameNameURL, {
-        username: this.name
-      })
-        .then(response => {
-          console.log(response);
-          console.log(response.data);
-          if (response.data === false) {
-            return false;
-          } else {
-            return true;
-          }
-        })
-        .catch(error => {
-          console.log(error);
-        });
+        var params = new URLSearchParams();
+        params.append("username", this.name);
+        axios
+          .post(this.checkSameNameURL, params)
+          .then(response => {
+            console.log(response);
+            console.log(response.data);
+            if (response.data === false) {
+              return false;
+            } else {
+              return true;
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          });
         */
+        
         // simulate async call, fail for all logins with even length
         return true;
       }
@@ -269,24 +271,25 @@ export default {
       isUnique(value) {
         // standalone validator ideally should not assume a field is required
         if (value === "") return true;
-        // axios : verity the username is registered.
+        // axios : verity the email is registered.
         /*
-      axios.post(this.checkSameEmailURL, {
-        username: this.email
-      })
-        .then(response => {
-          console.log(response);
-          console.log(response.data);
-          if (response.data === false) {
-            return false;
-          } else {
-            return true;
-          }
-        })
-        .catch(error => {
-          console.log(error);
-        });
-        */
+        var params = new URLSearchParams();
+        params.append("email", this.email);
+        axios
+          .post(this.checkSameEmailURL, params)
+          .then(response => {
+            console.log(response);
+            console.log(response.data);
+            if (response.data === false) {
+              return false;
+            } else {
+              return true;
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          });
+          */
         // simulate async call, fail for all logins with even length
         return true;
       }
@@ -309,21 +312,22 @@ export default {
         if (value === "") return true;
         // axios : verity the captcha is true.
         /*
-      axios.post(this.verifyCaptchaURL, {
-        captcha: this.captcha
-      })
-        .then(response => {
-          console.log(response);
-          console.log(response.data);
-          if (response.data === false) {
-            return false;
-          } else {
-            return true;
-          }
-        })
-        .catch(error => {
-          console.log(error);
-        });
+        var params = new URLSearchParams();
+        params.append("captcha", this.captcha);
+        axios
+          .post(this.verifyCaptchaURL, params)
+          .then(response => {
+            console.log(response);
+            console.log(response.data);
+            if (response.data === false) {
+              return false;
+            } else {
+              return true;
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          });
         */
         // simulate async call, fail for all logins with even length
         return true;
@@ -504,13 +508,13 @@ export default {
         this.checkbox === true
       ) {
         // submit the register requestion
-        /*axios.post(this.registerURL, {
-          username: this.name,
-          password: this.password,
-          repeatPassword: this.repeatPassword,
-          email: this.email,
-          captcha: this.captcha
-        })
+        /*// submit the register requestion
+        var params = new URLSearchParams()
+        params.append('username', this.name)
+        params.append('password', this.password)
+        params.append('email', this.email)
+        params.append('phone', this.phone)
+        axios.post(this.registerURL,params)
           .then(response => {
             console.log(response);
             console.log(response.data);
@@ -574,16 +578,18 @@ export default {
       this.loader = null;
       console.log("loding");
       // request captcha
-      /*axios.post(this.requestCaptchaURL, {
-          email: this.email
+      // request captcha
+      /*var params = new URLSearchParams();
+      params.append("email", this.email);
+      axios
+        .post(this.requestCaptchaURL, params)
+        .then(response => {
+          console.log(response);
+          console.log(response.data);
         })
-          .then(response => {
-            console.log(response);
-            console.log(response.data);
-          })
-          .catch(error => {
-            console.log(error);
-          });*/
+        .catch(error => {
+          console.log(error);
+        });*/
     }
   }
 };

@@ -22,8 +22,8 @@
               <v-card-title>
                 Theme Colors
               </v-card-title>
-              <v-row v-for="i in NavColors" :key="i">
-                <v-col v-for="j in i.colors" :key="j" >
+              <v-row v-for="(i, iKey) in NavColors" :key="iKey">
+                <v-col v-for="(j, jKey) in i.colors" :key="jKey" >
                   <v-chip :color="j.color" style="width: 8rem;" @click="updateTheme(j.color)" dark>
                     {{j.color}}
                   </v-chip>
@@ -54,14 +54,21 @@ import {
 
 export default {
   created() {
+
+    // color
     if (this.navTheme === "") {
-      this.$store.commit(UPDATE_NAV_THEME, this.color);
+      this.$store.commit(UPDATE_NAV_THEME, "primary");
     } else {
       this.color = this.navTheme;
     }
-    if (this.background !== false) {
-      this.background = true;
-      this.$store.commit(UPDATE_NAV_THEME, "primary");
+
+    // image
+    if (this.navImage !== "") {
+      this.backgroundURL = this.navImage;
+      console.log('backgroundURL : ' + this.backgroundURL)
+    } else {
+      this.background = false;
+      this.backgroundURL = "";
     }
   },
   data() {
@@ -181,7 +188,6 @@ export default {
       this.$store.commit(UPDATE_NAV_THEME, color);
     },
     bg() {
-      console.log(image);
       console.log(this.background);
       let image = this.background
         ? /*"https://cdn.vuetifyjs.com/images/backgrounds/bg-2.jpg"*/
