@@ -9,7 +9,7 @@
       ></v-img>
       <h3 class="title font-weight-light mb-2">Welcome to Pet Home.</h3>
       <div class="caption grey--text mb-2">
-        Pet Home is your best choose.
+        Pet Home is your best choice.
       </div>
     </div>
     <div>
