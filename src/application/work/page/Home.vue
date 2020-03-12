@@ -525,7 +525,17 @@ export default {
       });
     },
     addToCart(item) {
-      this.$store.commit(ADD_TO_CART, item);
+      // 確認是否購物車有相同的物品，如果有 -> 添加數字，沒有 -> 添加 item
+      var isSame = false;
+      for (let i = 0; i < this.cartProductItems.length; i++) {
+        if (this.cartProductItems[i].name === item.name) {
+          this.cartProductItems[i].number += 1;
+          isSame = true;
+        }
+      }
+      if (!isSame) {
+        this.$store.commit(ADD_TO_CART, item);
+      }
     }
   },
   computed: {

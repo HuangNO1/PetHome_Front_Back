@@ -133,9 +133,7 @@
                           </template>
                           <span>
                             <v-avatar tile size="130">
-                              <img
-                                :src="item.img"
-                              />
+                              <img :src="item.img" />
                             </v-avatar>
                           </span>
                         </v-tooltip>
@@ -228,9 +226,7 @@
                             </template>
                             <span>
                               <v-avatar tile size="130">
-                                <img
-                                  :src="item.img"
-                                />
+                                <img :src="item.img" />
                               </v-avatar>
                             </span> </v-tooltip
                           >{{ item.name }}
@@ -291,7 +287,7 @@
           <v-divider></v-divider>
 
           <v-card-actions>
-            <v-btn :disabled="step === 1" text @click="step--">
+            <v-btn :disabled="step === 1 || step === 3" text @click="step--">
               Back
             </v-btn>
             <v-spacer></v-spacer>
@@ -445,7 +441,14 @@ export default {
         for (let i = 0; i < this.cartSelected.length; i++) {
           this.cartSelected[i].time = FinishDealTime;
           this.$store.commit(ADD_TO_RECORD, this.cartSelected[i]);
+          // 刪除 cartProduct
+          for (let j = 0; j < this.cartProduct.length; j++) {
+            if (this.cartProduct[j].name === this.cartSelected[i].name) {
+              this.cartProduct.splice(j, 1);
+            }
+          }
         }
+        this.$store.commit(UPDATE_CART_ITEMS, this.cartProduct);
         console.log(recordProductItems);
       }
     }
