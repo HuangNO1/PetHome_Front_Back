@@ -33,6 +33,14 @@
               solo-inverted
               chips
             >
+              <template v-slot:no-data>
+                <v-list-item>
+                  <v-list-item-title>
+                    Search for your favorite
+                    <strong>Pet</strong>.
+                  </v-list-item-title>
+                </v-list-item>
+              </template>
               <template v-slot:selection="data">
                 <v-chip
                   v-bind="data.attrs"
@@ -70,12 +78,65 @@
               <v-icon>mdi-heart</v-icon>
             </v-btn>
 
-            <v-btn icon>
+            <v-btn @click="sheet = true" icon>
               <v-icon>mdi-dots-vertical</v-icon>
             </v-btn>
           </v-toolbar>
         </v-card>
       </v-lazy>
+      <!-- 底層表單 -->
+      <v-bottom-sheet v-model="sheet">
+        <v-sheet
+          class="text-center"
+          style="display: flex; justify-content: center;  flex-direction: column;"
+          height="300px"
+        >
+          <div>
+            <v-btn class="mt-6" text color="red" @click="sheet = !sheet"
+              >close</v-btn
+            >
+          </div>
+
+          <div
+            style="display: flex; justify-content: center; margin: auto 10% auto;"
+          >
+            <v-range-slider
+              :min="0"
+              :max="10000"
+              :thumb-size="64"
+              thumb-label="always"
+              v-model="priceRange"
+            >
+              <template v-slot:prepend>
+                <v-text-field
+                  :value="priceRange[0]"
+                  class="mt-0 pt-0"
+                  hide-details
+                  single-line
+                  type="number"
+                  style="width: 80px"
+                  @change="$set(priceRange, 0, $event)"
+                ></v-text-field>
+              </template>
+              <template v-slot:append>
+                <v-text-field
+                  :value="priceRange[1]"
+                  class="mt-0 pt-0"
+                  hide-details
+                  single-line
+                  type="number"
+                  style="width: 80px"
+                  @change="$set(priceRange, 1, $event)"
+                ></v-text-field>
+              </template>
+            </v-range-slider>
+          </div>
+          <div class="mb-4">
+            <v-btn class="mr-4" @click="filterFromPriceRange">Filter</v-btn>
+            <v-btn class="ml-4" @click="priceRange = [0, 10000]">reset</v-btn>
+          </div>
+        </v-sheet>
+      </v-bottom-sheet>
     </div>
     <!-- product list tag -->
     <v-row justify="space-around">
@@ -130,35 +191,6 @@
                   </v-list-item>
                 </v-list>
                 <!--</v-navigation-drawer>-->
-              </v-card>
-              <!-- sale sheet -->
-              <v-card
-                class="mx-auto text-center"
-                :color="this.$store.state.theme.navTheme"
-                dark
-                max-width="256"
-                elevation="12"
-              >
-                <v-card-text>
-                  <v-sheet color="rgba(0, 0, 0, .12)">
-                    <v-sparkline
-                      :value="saleValue"
-                      color="rgba(255, 255, 255, .7)"
-                      height="100"
-                      padding="24"
-                      stroke-linecap="round"
-                      smooth
-                    >
-                      <template v-slot:label="item">
-                        ${{ item.value }}
-                      </template>
-                    </v-sparkline>
-                  </v-sheet>
-                </v-card-text>
-
-                <v-card-text>
-                  <div class="display-1 font-weight-thin">Sales Last 24h</div>
-                </v-card-text>
               </v-card>
             </affix>
           </div>
@@ -259,10 +291,18 @@ export default {
     Affix
   },
   created() {
-    // 載入數據後添加搜索關鍵字
+    this.recordProductItems = this.productItems;
+    this.showProductItems = this.recordProductItems;
   },
   data() {
     return {
+      // 價格區間
+      priceRange: [0, 10000],
+      sheet: false,
+      min: 0,
+      max: 0,
+
+      //-----------
       isActive: false,
       loading: false,
       autoCompleteItems: [],
@@ -270,6 +310,7 @@ export default {
       select: null,
       productKeyword: [],
       productMenuItems: [
+        { title: "Recommend", icon: "mdi-history" },
         { title: "Dog", icon: "mdi-dog-side" },
         { title: "Cat", icon: "mdi-cat" },
         { title: "Fox", icon: "mdi-firefox" },
@@ -287,12 +328,12 @@ export default {
         "Tech",
         "Creative Writing"
       ],
-      saleValue: [423, 446, 675, 510, 590, 610, 760],
       // 提示窗
       snackbar: false,
       text: "",
       // product test------------------------------------------------
       showProductItems: [],
+      recordProductItems: [], // 推薦的商品
       productItems: [
         // Dog ----------------
         {
@@ -575,17 +616,28 @@ export default {
       }, 500);
     },
     customFilter() {
-      this.showProductItems = this.autoCompleteItems;
+      this.showProductItems = [];
+      setTimeout(() => {
+        this.showProductItems = this.autoCompleteItems;
+      }, 300);
       return this.autoCompleteItems;
     },
     MenuShowProduct(type) {
-      this.showProductItems = this.productItems.filter(function(
-        item,
-        index,
-        array
-      ) {
-        return item.type === type;
-      });
+      this.showProductItems = [];
+      setTimeout(() => {
+        if (type === "Recommend") {
+          // 如果點的是 Recommend
+          this.showProductItems = this.recordProductItems;
+        } else {
+          this.showProductItems = this.productItems.filter(function(
+            item,
+            index,
+            array
+          ) {
+            return item.type === type;
+          });
+        }
+      }, 300);
     },
     addToCart(item) {
       // 確認是否購物車有相同的物品，如果有 -> 添加數字，沒有 -> 添加 item
@@ -602,6 +654,15 @@ export default {
       // 出現提示窗
       this.snackbar = true;
       this.text = item.name;
+    },
+    filterFromPriceRange() {
+      var temp = this.showProductItems;
+      this.showProductItems = [];
+      setTimeout(() => {
+        this.showProductItems = temp.filter(e => {
+          return e.price >= this.priceRange[0] && e.price <= this.priceRange[1];
+        });
+      }, 300);
     }
   },
   computed: {

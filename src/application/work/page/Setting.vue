@@ -2,7 +2,7 @@
   <div>
     <v-row>
       <v-col></v-col>
-      <v-col :xs="12" :sm="12" :md="6" :lg="8" :xl="8">
+      <v-col :xs="12" :sm="12" :md="8" :lg="10" :xl="10">
         <v-lazy
           v-model="isActive"
           :options="{
