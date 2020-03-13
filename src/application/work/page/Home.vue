@@ -241,6 +241,12 @@
         </v-lazy>
       </v-col>
     </v-row>
+    <v-snackbar v-model="snackbar" top :timeout="3000">
+      {{ text }} have added to cart.
+      <v-btn color="pink" text @click="snackbar = false">
+        Close
+      </v-btn>
+    </v-snackbar>
   </div>
 </template>
 <script>
@@ -282,6 +288,9 @@ export default {
         "Creative Writing"
       ],
       saleValue: [423, 446, 675, 510, 590, 610, 760],
+      // 提示窗
+      snackbar: false,
+      text: "",
       // product test------------------------------------------------
       showProductItems: [],
       productItems: [
@@ -590,6 +599,9 @@ export default {
       if (!isSame) {
         this.$store.commit(ADD_TO_CART, item);
       }
+      // 出現提示窗
+      this.snackbar = true;
+      this.text = item.name;
     }
   },
   computed: {
