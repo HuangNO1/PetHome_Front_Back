@@ -139,7 +139,7 @@
             <form id="form">
               <img id="finishUpload" ref="image" />
             </form>
-            
+
             {{ url }}
           </v-card-text>
           <v-card-actions>
@@ -327,7 +327,7 @@
                 Cash
               </v-card-title>
               <v-card-text>
-                <v-btn icon>
+                <v-btn @click="addCreditDialog = true" icon>
                   <v-icon>mdi-database-plus</v-icon>
                 </v-btn>
                 {{ user.cash }}
@@ -376,6 +376,32 @@
         </v-lazy>
       </v-col>
     </v-row>
+    <!-- 充值對話窗 add credit -->
+    <v-dialog v-model="addCreditDialog" max-width="600">
+      <v-card>
+        <v-card-title class="headline">ADD CREDIT</v-card-title>
+
+        <v-card-text>
+          <v-chip-group v-model="money" mandatory active-class="primary--text">
+            <v-chip  filter style="width: 8rem; text-align: center;" v-for="tag in tags" :key="tag">
+              $ {{ tag }}
+            </v-chip>
+          </v-chip-group>
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-btn color="green darken-1" text @click="user.cash += tags[money]; addCreditDialog = false">
+            add credit
+          </v-btn>
+
+          <v-btn color="red darken-1" text @click="addCreditDialog = false">
+            cancel
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script>
@@ -401,7 +427,7 @@ export default {
         email: "fh831.cp9gw@gmail.com",
         phone: "1111111111",
         address: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-        cash: 100
+        cash: 100,
       },
       editAvatarDialog: false,
       clickEditName: false,
@@ -428,7 +454,16 @@ export default {
       SMMSuploadUrl: "https://sm.ms/api/upload",
       rotation: 0,
       scale: 1,
-      url: ""
+      url: "",
+      // 充值-------------------
+      addCreditDialog: false,
+      tags: [
+        50,
+        100,
+        500,
+        1000,
+      ],
+      money: 50,
     };
   },
   created() {
@@ -547,13 +582,16 @@ export default {
       //     this.flag = true;
       //     console.log(err);
       //   });
-      axios.post("https://sm.ms/api/upload?ssl=true", {
-        body: formData
-      }).then(res => {
-        this.url = res.data.url;
-      }).catch(err => {
-        console.log(err)
-      })
+      axios
+        .post("https://sm.ms/api/upload?ssl=true", {
+          body: formData
+        })
+        .then(res => {
+          this.url = res.data.url;
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     onImageReady() {
       this.scale = 1;
