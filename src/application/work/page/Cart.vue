@@ -171,7 +171,14 @@
                 v-if="cartProduct.length !== 0"
                 :length="pageCount"
               ></v-pagination>
-
+              <div
+                style="text-align: end;"
+                class="mr-4 mb-4"
+                v-if="cartProduct.length !== 0"
+              >
+                <span class="headline">Sum: </span>
+                <span class="headline">$ {{ countSum }}</span>
+              </div>
               <!-- if cart have no items, show it -->
               <div class="pa-4 text-center" v-if="cartProduct.length === 0">
                 <v-img
@@ -255,8 +262,27 @@
                   :length="checkoutPageCount"
                 ></v-pagination>
                 <div style="text-align: end;">
-                  <span class="display-1">Sum: </span>
-                  <span class="display-1">$ {{ countSum }}</span>
+                  <span class="display-1">Your cash: </span>
+                  <span class="display-1">$ {{ cash }}</span>
+                </div>
+                <div style="text-align: end;">
+                  <!--<span class="title">Sum: </span>-->
+                  <span class="title">- $ {{ countSum }}</span>
+                </div>
+                <div
+                  style="text-align: end;"
+                  :class="[cash - countSum > 0 ? 'green--text' : 'red--text']"
+                >
+                  <span class="headline">Your credit: </span>
+                  <span class="headline"
+                    >$ {{ (countResult = cash - countSum) }}</span
+                  >
+                </div>
+                <v-alert type="error" v-if="countResult <= 0">
+                  Please to add your credit.
+                </v-alert>
+                <div style="text-align: end;" v-if="countResult <= 0">
+                  <v-btn to="User">Add credit</v-btn>
                 </div>
               </v-card-text>
             </v-window-item>
@@ -292,7 +318,11 @@
             </v-btn>
             <v-spacer></v-spacer>
             <v-btn
-              :disabled="step === 3 || cartSelected.length === 0"
+              :disabled="
+                step === 3 ||
+                  cartSelected.length === 0 ||
+                  (countResult <= 0 && step === 2)
+              "
               color="primary"
               depressed
               @click="nextWindow"
@@ -315,17 +345,36 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-
           <v-btn color="green darken-1" text @click="deleteDialog = false">
             Cancel
           </v-btn>
-
           <v-btn
             color="red darken-1"
             text
             @click="deleteProduct(deleteItem.index)"
           >
             Remove
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <!-- 交易確認 -->
+    <v-dialog v-model="comfirmDealDialog" width="500" persistent>
+      <v-card>
+        <v-card-title class="headline">Comfirm</v-card-title>
+
+        <v-card-text>
+          Are you sure you want to finish this deal?
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="red darken-1" text @click="comfirmDealDialog = false">
+            Cancel
+          </v-btn>
+          <v-btn color="green darken-1" text @click="addToRecord">
+            Sure
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -347,6 +396,9 @@ export default {
   },
   data() {
     return {
+      // 假設使用者的貨幣
+      cash: 100,
+      // ---------
       isActive: false,
       step: 1,
       progressValue: [],
@@ -401,7 +453,9 @@ export default {
       ],
       checkoutPage: 1,
       checkoutPageCount: 0,
+      countResult: 0,
       // Finish Deal---------------------------
+      comfirmDealDialog: false,
       finishDeal: false
     };
   },
@@ -426,31 +480,38 @@ export default {
       this.$store.commit(UPDATE_CART_ITEMS, this.cartProduct);
     },
     nextWindow() {
-      this.step += 1;
+      if (this.step + 1 === 3) {
+        // 彈出確認交易
+        this.comfirmDealDialog = true;
+      } else {
+        this.step += 1;
+      }
+    },
+    addToRecord() {
       // 提交購物紀錄 以及 添加交易完成時間 以及 刪除購物車商品
-      if (this.step === 3) {
-        var FinishDealDate = new Date();
-        var FinishDealTime =
-          FinishDealDate.getFullYear() +
-          "/" +
-          FinishDealDate.getMonth() +
-          "/" +
-          FinishDealDate.getDate() +
-          " " +
-          FinishDealDate.toLocaleTimeString();
-        for (let i = 0; i < this.cartSelected.length; i++) {
-          this.cartSelected[i].time = FinishDealTime;
-          this.$store.commit(ADD_TO_RECORD, this.cartSelected[i]);
-          // 刪除 cartProduct
-          for (let j = 0; j < this.cartProduct.length; j++) {
-            if (this.cartProduct[j].name === this.cartSelected[i].name) {
-              this.cartProduct.splice(j, 1);
-            }
+      this.step++;
+      this.comfirmDealDialog = false;
+      var FinishDealDate = new Date();
+      var FinishDealTime =
+        FinishDealDate.getFullYear() +
+        "/" +
+        FinishDealDate.getMonth() +
+        "/" +
+        FinishDealDate.getDate() +
+        " " +
+        FinishDealDate.toLocaleTimeString();
+      for (let i = 0; i < this.cartSelected.length; i++) {
+        this.cartSelected[i].time = FinishDealTime;
+        this.$store.commit(ADD_TO_RECORD, this.cartSelected[i]);
+        // 刪除 cartProduct
+        for (let j = 0; j < this.cartProduct.length; j++) {
+          if (this.cartProduct[j].name === this.cartSelected[i].name) {
+            this.cartProduct.splice(j, 1);
           }
         }
-        this.$store.commit(UPDATE_CART_ITEMS, this.cartProduct);
-        console.log(recordProductItems);
       }
+      this.$store.commit(UPDATE_CART_ITEMS, this.cartProduct);
+      console.log(recordProductItems);
     }
   },
   computed: {
