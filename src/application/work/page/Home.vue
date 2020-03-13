@@ -24,15 +24,47 @@
               :loading="loading"
               :items="autoCompleteItems"
               :search-input.sync="search"
+              :filter="customFilter"
               prepend-inner-icon="mdi-magnify"
-              cache-items
               class="mx-4"
               flat
-              hide-no-data
               hide-details
               label="What are you finding?"
               solo-inverted
-            ></v-autocomplete>
+              chips
+            >
+              <template v-slot:selection="data">
+                <v-chip
+                  v-bind="data.attrs"
+                  :input-value="data.selected"
+                  @click="data.select"
+                  @change="showFilterResult(item)"
+                >
+                  <v-avatar left>
+                    <v-img :src="data.item.img"></v-img>
+                  </v-avatar>
+                  {{ data.item.name }}
+                </v-chip>
+              </template>
+              <template v-slot:item="data">
+                <template v-if="typeof data.item !== 'object'">
+                  <v-list-item-content v-text="data.item"></v-list-item-content>
+                </template>
+                <template v-else>
+                  <v-list-item-avatar>
+                    <img :src="data.item.img" />
+                  </v-list-item-avatar>
+                  <v-list-item-content>
+                    <v-list-item-title
+                      v-html="data.item.name"
+                    ></v-list-item-title>
+                    <v-list-item-subtitle
+                      v-html="data.item.description"
+                    ></v-list-item-subtitle>
+                  </v-list-item-content>
+                </template>
+              </template>
+            </v-autocomplete>
 
             <v-btn icon>
               <v-icon>mdi-heart</v-icon>
@@ -81,7 +113,7 @@
             <affix :offset="80">
               <v-card elevation="10" width="256" class="mr-4 mb-4">
                 <!--<v-navigation-drawer floating permanent>-->
-                <v-list rounded shaped>
+                <v-list rounded dense shaped>
                   <v-list-item
                     v-for="item in productMenuItems"
                     :key="item.title"
@@ -220,6 +252,9 @@ export default {
   components: {
     Affix
   },
+  created() {
+    // 載入數據後添加搜索關鍵字
+  },
   data() {
     return {
       isActive: false,
@@ -227,7 +262,7 @@ export default {
       autoCompleteItems: [],
       search: null,
       select: null,
-      productKeyword: ["Cat", "Dog", "Fox", "Bird", "Fish"],
+      productKeyword: [],
       productMenuItems: [
         { title: "Dog", icon: "mdi-dog-side" },
         { title: "Cat", icon: "mdi-cat" },
@@ -506,14 +541,33 @@ export default {
   },
   methods: {
     querySelections(v) {
+      console.log("v = " + v);
       this.loading = true;
       // Simulated ajax query
+      this.autoCompleteItems = [];
       setTimeout(() => {
-        this.autoCompleteItems = this.productKeyword.filter(e => {
-          return (e || "").toLowerCase().indexOf((v || "").toLowerCase()) > -1;
+        // this.autoCompleteItems = this.productKeyword.filter(e => {
+        //   return (e || "").toLowerCase().indexOf((v || "").toLowerCase()) > -1;
+        // });
+        this.autoCompleteItems = this.productItems.filter(function(
+          item,
+          index,
+          array
+        ) {
+          return (
+            item.name.toLowerCase().indexOf(v.toLowerCase()) > -1 ||
+            item.description.toLowerCase().indexOf(v.toLowerCase()) > -1 ||
+            item.type.toLowerCase().indexOf(v.toLowerCase()) > -1
+          );
         });
+        console.log(this.autoCompleteItems);
+        console.log(this.search);
         this.loading = false;
       }, 500);
+    },
+    customFilter() {
+      this.showProductItems = this.autoCompleteItems;
+      return this.autoCompleteItems;
     },
     MenuShowProduct(type) {
       this.showProductItems = this.productItems.filter(function(
