@@ -184,7 +184,17 @@
                 origin="top right 50"
               >
                 <v-card-text v-if="clickEditName">
-                  <v-text-field label="Name" outlined></v-text-field>
+                  <v-text-field
+                    label="Username"
+                    v-model="newUsername"
+                    :error-messages="newUsernameErrors"
+                    :success-messages="newUsernameSuccess"
+                    :counter="20"
+                    required
+                    @input="$v.newUsername.$touch()"
+                    @blur="$v.newUsername.$touch()"
+                    outlined
+                  ></v-text-field>
                   <v-btn text color="red" @click="editName">cencel</v-btn>
                   <v-btn text color="green">save</v-btn>
                 </v-card-text>
@@ -223,11 +233,20 @@
                 origin="top right 50"
               >
                 <v-card-text v-if="clickEditDescription">
-                  <v-text-field label="Description" outlined></v-text-field>
-                 
+                  <v-text-field
+                    label="Description"
+                    :error-messages="newDescriptionErrors"
+                    :success-messages="newDescriptionSuccess"
+                    required
+                    @input="$v.newDescription.$touch()"
+                    @blur="$v.newDescription.$touch()"
+                    outlined
+                  ></v-text-field>
+
                   <v-btn text color="red" @click="editDescription"
-                    >cencel</v-btn>
-                   <v-btn text color="green">save</v-btn>
+                    >cencel</v-btn
+                  >
+                  <v-btn text color="green">save</v-btn>
                 </v-card-text>
               </v-lazy>
             </v-card>
@@ -264,7 +283,48 @@
                 origin="top right 50"
               >
                 <v-card-text v-if="clickEditEmail">
-                  <v-text-field label="E-mail" outlined></v-text-field>
+                  <v-text-field
+                    label="E-mail"
+                    :error-messages="newEmailErrors"
+                    :success-messages="newEmailSuccess"
+                    required
+                    @input="$v.newEmail.$touch()"
+                    @blur="$v.newEmail.$touch()"
+                    outlined
+                  ></v-text-field>
+                  <!-- email 需要驗證 -->
+                  <v-row>
+                    <v-col cols="12" md="6">
+                      <v-text-field
+                        v-model="captcha"
+                        :counter="4"
+                        :error-messages="captchaErrors"
+                        :success-messages="captchaSuccess"
+                        label="Captcha"
+                        required
+                        outlined
+                        @input="$v.captcha.$touch()"
+                        @blur="$v.captcha.$touch()"
+                      >
+                        <v-icon slot="prepend" color="green"
+                          >mdi-alpha-c-circle</v-icon
+                        >
+                      </v-text-field>
+                    </v-col>
+                    <v-col cols="12" md="6">
+                      <v-btn
+                        block
+                        class="ma-2"
+                        color="primary"
+                        :loading="loading"
+                        @click="loader = 'loading'"
+                        rounded
+                        dark
+                        x-large
+                        >Get Captcha</v-btn
+                      >
+                    </v-col>
+                  </v-row>
                   <v-btn text color="red" @click="editEmail">cencel</v-btn>
                   <v-btn text color="green">save</v-btn>
                 </v-card-text>
@@ -303,7 +363,16 @@
                 origin="top right 50"
               >
                 <v-card-text v-if="clickEditPhone">
-                  <v-text-field label="Phone Number" outlined></v-text-field>
+                  <v-text-field
+                    label="Phone Number"
+                    :type="tel"
+                    :error-messages="newPhoneErrors"
+                    :success-messages="newPhoneSuccess"
+                    required
+                    @input="$v.newPhone.$touch()"
+                    @blur="$v.newPhone.$touch()"
+                    outlined
+                  ></v-text-field>
                   <v-btn text color="red" @click="editPhone">cencel</v-btn>
                   <v-btn text color="green">save</v-btn>
                 </v-card-text>
@@ -366,8 +435,83 @@
                 origin="top right 50"
               >
                 <v-card-text v-if="clickEditAddress">
-                  <v-text-field label="Address" outlined></v-text-field>
+                  <v-text-field
+                    label="Address"
+                    :error-messages="newAddressErrors"
+                    :success-messages="newAddressSuccess"
+                    required
+                    @input="$v.newAddress.$touch()"
+                    @blur="$v.newAddress.$touch()"
+                    outlined
+                  ></v-text-field>
                   <v-btn text color="red" @click="editAddress">cencel</v-btn>
+                  <v-btn text color="green">save</v-btn>
+                </v-card-text>
+              </v-lazy>
+            </v-card>
+          </v-hover>
+        </v-lazy>
+        <!-- password -->
+        <v-lazy
+          v-model="isActive"
+          :options="{
+            threshold: 1
+          }"
+          transition="slide-x-reverse-transition"
+          origin="top right 50"
+        >
+          <v-hover v-slot:default="{ hover }">
+            <v-card :elevation="hover ? 24 : 3" class="mb-4">
+              <v-card-title>
+                <v-icon class="mr-4">mdi-lock</v-icon>
+                Password
+              </v-card-title>
+              <v-card-text>
+                <v-btn @click="editPassword" icon>
+                  <v-icon>mdi-pencil</v-icon>
+                </v-btn>
+                {{ user.password }}
+              </v-card-text>
+              <!-- edit password -->
+              <v-lazy
+                v-model="isActiveEditPassword"
+                :options="{
+                  threshold: 1
+                }"
+                transition="slide-x-reverse-transition"
+                origin="top right 50"
+              >
+                <v-card-text v-if="clickEditPassword">
+                  <v-text-field label="Origin Password" outlined></v-text-field>
+                  <v-text-field
+                    label="New Password"
+                    :type="seePwd"
+                    :error-messages="newPasswordErrors"
+                    :success-messages="newPasswordSuccess"
+                    required
+                    @input="$v.newPassword.$touch()"
+                    @blur="$v.newPassword.$touch()"
+                    outlined
+                  >
+                    <v-icon slot="append" color="red" @click="eyeClick">
+                      {{ eye }}
+                    </v-icon>
+                  </v-text-field>
+                  <v-text-field
+                    label="Repeat New Password"
+                    :type="seeRepeatPwd"
+                    :error-messages="newRepeatPasswordErrors"
+                    :success-messages="newRepeatPasswordSuccess"
+                    required
+                    @input="$v.newRepeatPassword.$touch()"
+                    @blur="$v.newRepeatPassword.$touch()"
+                    outlined
+                  >
+                    <v-icon slot="append" color="red" @click="repeatEyeClick">{{
+                      repeatEye
+                    }}</v-icon>
+                  </v-text-field>
+                  <v-btn text color="red" @click="editPassword">cencel</v-btn>
                   <v-btn text color="green">save</v-btn>
                 </v-card-text>
               </v-lazy>
@@ -416,16 +560,134 @@
 </template>
 <script>
 // import myUpload from "../components/vue-image-crop-upload/upload-2";
-
+import { validationMixin } from "vuelidate";
+import {
+  required,
+  maxLength,
+  minLength,
+  email,
+  sameAs,
+  withParams
+} from "vuelidate/lib/validators";
 import Vue from "vue";
 import { VueAvatar } from "vue-avatar-editor-improved";
 import axios from "axios";
 import Qs from "qs";
 
+// chinese phone number
+const isPhone = value => /^((13|14|15|17|18)[0-9]{1}\d{8})$/.test(value);
+
 export default {
   components: {
     VueAvatar
     // "my-upload": myUpload
+  },
+  mixins: [validationMixin],
+
+  validations: {
+    newUsername: {
+      required,
+      maxLength: maxLength(20),
+      isUnique(value) {
+        // standalone validator ideally should not assume a field is required
+        if (value === "") return true;
+        // axios : verity the username is registered.
+        /*
+        var params = new URLSearchParams();
+        params.append("username", this.name);
+        axios
+          .post(this.checkSameNameURL, params)
+          .then(response => {
+            console.log(response);
+            console.log(response.data);
+            if (response.data === false) {
+              return false;
+            } else {
+              return true;
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          });
+        */
+
+        // simulate async call, fail for all logins with even length
+        return true;
+      }
+    },
+    newDescription: {
+      required,
+      maxLength: maxLength(30)
+    },
+    newEmail: {
+      required,
+      email,
+      isUnique(value) {
+        // standalone validator ideally should not assume a field is required
+        if (value === "") return true;
+        // axios : verity the email is registered.
+        /*
+        var params = new URLSearchParams();
+        params.append("email", this.email);
+        axios
+          .post(this.checkSameEmailURL, params)
+          .then(response => {
+            console.log(response);
+            console.log(response.data);
+            if (response.data === false) {
+              return false;
+            } else {
+              return true;
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          });
+          */
+        // simulate async call, fail for all logins with even length
+        return true;
+      }
+    },
+    newPhone: {
+      required,
+      phoneValid: isPhone
+    },
+    newAddress: { required, maxLength: maxLength(50) },
+    newPassword: { required, minLength: minLength(6) },
+    newRepeatPassword: {
+      required,
+      sameAsPassword: sameAs("newPassword")
+    },
+    captcha: {
+      required,
+      maxLength: maxLength(4),
+      minLength: minLength(4),
+      isUnique(value) {
+        // standalone validator ideally should not assume a field is required
+        if (value === "") return true;
+        // axios : verity the captcha is true.
+        /*
+        var params = new URLSearchParams();
+        params.append("captcha", this.captcha);
+        axios
+          .post(this.verifyCaptchaURL, params)
+          .then(response => {
+            console.log(response);
+            console.log(response.data);
+            if (response.data === false) {
+              return false;
+            } else {
+              return true;
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          });
+        */
+        // simulate async call, fail for all logins with even length
+        return true;
+      }
+    }
   },
   data() {
     return {
@@ -437,6 +699,7 @@ export default {
         email: "fh831.cp9gw@gmail.com",
         phone: "1111111111",
         address: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+        password: "********",
         cash: 100
       },
       editAvatarDialog: false,
@@ -450,6 +713,44 @@ export default {
       isActiveEditPhone: false,
       clickEditAddress: false,
       isActiveEditAddress: false,
+      clickEditPassword: false,
+      isActiveEditPassword: false,
+      // 新的資料
+      newUsername: "",
+      newDescription: "",
+      newEmail: "",
+      newPhone: "",
+      newAddress: "",
+      newPassword: "",
+      newRepeatPassword: "",
+      captcha: "",
+      // 檢驗是否欄位填寫錯誤
+      newUsernameError: true,
+      newDescriptionError: true,
+      newEmailError: true,
+      newPhoneError: true,
+      newAddressError: true,
+      newPasswordError: true,
+      newRepeatPasswordError: true,
+      captchaError: true,
+      // 檢查是否重複的請求 URL
+      checkSameUsernameURL: "",
+      checkSameEmailURL: "",
+      // 發出更改請求
+      newUsernameURL: "",
+      newDescriptionURL: "",
+      newEmailURL: "",
+      newPhoneURL: "",
+      newAddressURL: "",
+      newPasswordURL: "",
+      addCashURL: "",
+      // 驗證碼按鈕的 loading 判斷變數
+      loading: false,
+      // 是否可見 密碼
+      eye: "mdi-eye-off",
+      repeatEye: "mdi-eye-off",
+      seePwd: "password",
+      seeRepeatPwd: "password",
       // crop image ----------------
       // imageUploadShow: false,
       // params: {
@@ -476,49 +777,54 @@ export default {
   },
   methods: {
     editName() {
-      if (this.clickEditName === true) {
-        this.clickEditName = false;
-      } else {
-        this.clickEditName = true;
-      }
+      this.clickEditName = !this.clickEditName;
       console.log("this.clickEditName: " + this.clickEditName);
-      isActiveEditName = false;
+      this.$v.newUsername.$reset();
+      this.newUsername = "";
+      // this.isActiveEditName = false;
     },
     editDescription() {
-      if (this.clickEditDescription === true) {
-        this.clickEditDescription = false;
-      } else {
-        this.clickEditDescription = true;
-      }
+      this.clickEditDescription = !this.clickEditDescription;
       console.log("this.clickEditDescription: " + this.clickEditDescription);
-      isActiveEditDescription = false;
+      // this.isActiveEditDescription = false;
     },
     editEmail() {
-      if (this.clickEditEmail === true) {
-        this.clickEditEmail = false;
-      } else {
-        this.clickEditEmail = true;
-      }
+      this.clickEditEmail = !this.clickEditEmail;
       console.log("this.clickEditEmail: " + this.clickEditEmail);
-      isActiveEditEmail = false;
+      // this.isActiveEditEmail = false;
     },
     editPhone() {
-      if (this.clickEditPhone === true) {
-        this.clickEditPhone = false;
-      } else {
-        this.clickEditPhone = true;
-      }
+      this.clickEditPhone = !this.clickEditPhone;
       console.log("this.clickEditPhone: " + this.clickEditPhone);
-      isActiveEditPhone = false;
+      // this.isActiveEditPhone = false;
     },
     editAddress() {
-      if (this.clickEditAddress === true) {
-        this.clickEditAddress = false;
-      } else {
-        this.clickEditAddress = true;
-      }
+      this.clickEditAddress = !this.clickEditAddress;
       console.log("this.clickEditAddress: " + this.clickEditAddress);
-      isActiveEditAddress = false;
+      // this.isActiveEditAddress = false;
+    },
+    editPassword() {
+      this.clickEditPassword = !this.clickEditPassword;
+      console.log("this.clickEditPassword: " + this.clickEditPassword);
+      // this.isActiveEditPassword = false;
+    },
+    eyeClick() {
+      if (this.eye === "mdi-eye-off") {
+        this.eye = "mdi-eye";
+        this.seePwd = "";
+      } else {
+        this.eye = "mdi-eye-off";
+        this.seePwd = "password";
+      }
+    },
+    repeatEyeClick() {
+      if (this.repeatEye === "mdi-eye-off") {
+        this.repeatEye = "mdi-eye";
+        this.seeRepeatPwd = "";
+      } else {
+        this.repeatEye = "mdi-eye-off";
+        this.seeRepeatPwd = "password";
+      }
     },
     // crop image ------------------------------------
     /**
@@ -587,22 +893,22 @@ export default {
       //     this.flag = true;
       //     console.log(err);
       //   });
-      axios
-        .post("https://sm.ms/api/upload?ssl=true", {
-          body: formData
-        })
-        .then(res => {
-          this.url = res.data.url;
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      // axios
+      //   .post("https://sm.ms/api/upload?ssl=true", {
+      //     body: formData
+      //   })
+      //   .then(res => {
+      //     this.url = res.data.url;
+      //   })
+      //   .catch(err => {
+      //     console.log(err);
+      //   });
     },
     onImageReady() {
       this.scale = 1;
       this.rotation = 0;
     }
-  }
+  },
   // post: function(url, data) {
   //   axios.defaults.headers.post["Content-Type"] =
   //     "application/x-www-form-urlencoded";
@@ -648,5 +954,171 @@ export default {
   //   };
   //   return axios.post(url, data, this.config);
   // }
+  computed: {
+    newUsernameErrors() {
+      const errors = [];
+      if (!this.$v.newUsername.$dirty) return errors;
+      !this.$v.newUsername.maxLength &&
+        errors.push("Username must be at most 10 characters long.");
+      !this.$v.newUsername.required && errors.push("Username is required.");
+      !this.$v.newUsername.isUnique &&
+        errors.push("The username is already registered.");
+      this.newUsernameError = true;
+      return errors;
+    },
+    newEmailErrors() {
+      const errors = [];
+      if (!this.$v.newEmail.$dirty) return errors;
+      !this.$v.newEmail.email && errors.push("Must be valid e-mail.");
+      !this.$v.newEmail.required && errors.push("E-mail is required.");
+      !this.$v.newEmail.isUnique &&
+        errors.push("The e-mail is already registered.");
+      this.newEmailError = true;
+      return errors;
+    },
+    newDescriptionErrors() {
+      const errors = [];
+      if (!this.$v.newDescription.$dirty) return errors;
+      !this.$v.newDescription.maxLength &&
+        errors.push("Description must be at most 30 characters long.");
+      !this.$v.newDescription.required &&
+        errors.push("Description is required.");
+      this.newDescriptionError = true;
+      return errors;
+    },
+    newPhoneErrors() {
+      const errors = [];
+      if (!this.$v.newPhone.$dirty) return errors;
+      !this.$v.newPhone.phoneValid &&
+        errors.push("Must be valid phone number.");
+      !this.$v.newPhone.required && errors.push("Phone number is required.");
+      this.newPhoneError = true;
+      return errors;
+    },
+    newAddressErrors() {
+      const errors = [];
+      if (!this.$v.newAddress.$dirty) return errors;
+      !this.$v.newAddress.maxLength &&
+        errors.push("Address must be at most 50 characters long.");
+      !this.$v.password.required && errors.push("Password is required.");
+      this.passwordError = true;
+      return errors;
+    },
+    newPasswordErrors() {
+      const errors = [];
+      if (!this.$v.newPassword.$dirty) return errors;
+      !this.$v.newPassword.minLength &&
+        errors.push("Password must have at least 6 letters.");
+      !this.$v.newPassword.required && errors.push("Password is required.");
+      this.newPasswordError = true;
+      return errors;
+    },
+    newRepeatPasswordErrors() {
+      const errors = [];
+      if (!this.$v.newRepeatPassword.$dirty) return errors;
+      !this.$v.newRepeatPassword.sameAsNewPassword &&
+        errors.push("Password must be identical.");
+      !this.$v.newRepeatPassword.required &&
+        errors.push("Password must be identical.");
+      this.newRepeatPasswordError = true;
+      return errors;
+    },
+    newUsernameSuccess() {
+      if (
+        this.newUsername !== "" &&
+        this.$v.newUsername.maxLength &&
+        this.$v.newUsername.isUnique
+      ) {
+        this.newUsernameError = false;
+        console.log("nameSuccess");
+        return "Username is OK.";
+      }
+    },
+    newDescriptionSuccess() {
+      if (this.newDescription !== "" && this.$v.newDescription.maxLength) {
+        this.newDescriptionError = false;
+        console.log("newDescriptionSuccess");
+        return "Description is OK.";
+      }
+    },
+    newEmailSuccess() {
+      if (
+        this.newEmail !== "" &&
+        this.$v.newEmail.email &&
+        this.$v.newEmail.isUnique
+      ) {
+        this.newEmailError = false;
+        console.log("emailSuccess");
+        return "E-mail is OK.";
+      }
+    },
+    newPhoneSuccess() {
+      if (this.newPhone !== "" && this.$v.newPhone.phoneValid) {
+        this.newPhoneError = false;
+        console.log("phoneSuccess");
+        return "Phone number is OK.";
+      }
+    },
+    newAddressSuccess() {
+      if (this.newAddress !== "" && this.$v.newAddress.maxLength) {
+        this.newAddressError = false;
+        console.log("newAddressSuccess");
+        return "Address is OK.";
+      }
+    },
+    newPasswordSuccess() {
+      if (this.newPassword !== "" && this.$v.newPassword.minLength) {
+        this.newPasswordError = false;
+        console.log("passwordSuccess");
+        return "Password is OK.";
+      }
+    },
+    newRepeatPasswordSuccess() {
+      if (
+        this.newRepeatPassword !== "" &&
+        this.$v.newRepeatPassword.sameAsPassword
+      ) {
+        this.newRepeatPasswordError = false;
+        console.log("repeatPasswordSuccess");
+        return "Repeat is OK.";
+      }
+    },
+    captchaSuccess() {
+      if (
+        this.captcha !== "" &&
+        this.$v.captcha.minLength &&
+        this.$v.captcha.maxLength &&
+        this.$v.captcha.isUnique
+      ) {
+        this.captchaError = false;
+        console.log("captchaSuccess");
+        return "Captcha is OK.";
+      }
+    }
+  },
+  watch: {
+    loader() {
+      const l = this.loader;
+      this[l] = !this[l];
+
+      setTimeout(() => (this[l] = false), 3000);
+
+      this.loader = null;
+      console.log("loding");
+      // request captcha
+      // request captcha
+      /*var params = new URLSearchParams();
+      params.append("email", this.email);
+      axios
+        .post(this.requestCaptchaURL, params)
+        .then(response => {
+          console.log(response);
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.log(error);
+        });*/
+    }
+  }
 };
 </script>
