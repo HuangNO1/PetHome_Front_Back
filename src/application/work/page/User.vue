@@ -57,10 +57,10 @@
             <v-btn @click="imageUploadDialog = true">Upload Image</v-btn>
           </v-card-text>
           <v-card-actions>
-            <v-btn text color="green">save</v-btn>
             <v-btn text color="red" @click="editAvatarDialog = false"
               >cencel</v-btn
             >
+            <v-btn text color="green">save</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -185,8 +185,8 @@
               >
                 <v-card-text v-if="clickEditName">
                   <v-text-field label="Name" outlined></v-text-field>
-                  <v-btn text color="green">save</v-btn>
                   <v-btn text color="red" @click="editName">cencel</v-btn>
+                  <v-btn text color="green">save</v-btn>
                 </v-card-text>
               </v-lazy>
             </v-card>
@@ -224,10 +224,10 @@
               >
                 <v-card-text v-if="clickEditDescription">
                   <v-text-field label="Description" outlined></v-text-field>
-                  <v-btn text color="green">save</v-btn>
+                 
                   <v-btn text color="red" @click="editDescription"
-                    >cencel</v-btn
-                  >
+                    >cencel</v-btn>
+                   <v-btn text color="green">save</v-btn>
                 </v-card-text>
               </v-lazy>
             </v-card>
@@ -265,8 +265,8 @@
               >
                 <v-card-text v-if="clickEditEmail">
                   <v-text-field label="E-mail" outlined></v-text-field>
-                  <v-btn text color="green">save</v-btn>
                   <v-btn text color="red" @click="editEmail">cencel</v-btn>
+                  <v-btn text color="green">save</v-btn>
                 </v-card-text>
               </v-lazy>
             </v-card>
@@ -304,8 +304,8 @@
               >
                 <v-card-text v-if="clickEditPhone">
                   <v-text-field label="Phone Number" outlined></v-text-field>
-                  <v-btn text color="green">save</v-btn>
                   <v-btn text color="red" @click="editPhone">cencel</v-btn>
+                  <v-btn text color="green">save</v-btn>
                 </v-card-text>
               </v-lazy>
             </v-card>
@@ -367,8 +367,8 @@
               >
                 <v-card-text v-if="clickEditAddress">
                   <v-text-field label="Address" outlined></v-text-field>
-                  <v-btn text color="green">save</v-btn>
                   <v-btn text color="red" @click="editAddress">cencel</v-btn>
+                  <v-btn text color="green">save</v-btn>
                 </v-card-text>
               </v-lazy>
             </v-card>
@@ -383,7 +383,12 @@
 
         <v-card-text>
           <v-chip-group v-model="money" mandatory active-class="primary--text">
-            <v-chip  filter style="width: 8rem; text-align: center;" v-for="tag in tags" :key="tag">
+            <v-chip
+              filter
+              style="width: 8rem; text-align: center;"
+              v-for="tag in tags"
+              :key="tag"
+            >
               $ {{ tag }}
             </v-chip>
           </v-chip-group>
@@ -391,13 +396,18 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-
-          <v-btn color="green darken-1" text @click="user.cash += tags[money]; addCreditDialog = false">
-            add credit
-          </v-btn>
-
           <v-btn color="red darken-1" text @click="addCreditDialog = false">
             cancel
+          </v-btn>
+          <v-btn
+            color="green darken-1"
+            text
+            @click="
+              user.cash += tags[money];
+              addCreditDialog = false;
+            "
+          >
+            add credit
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -427,7 +437,7 @@ export default {
         email: "fh831.cp9gw@gmail.com",
         phone: "1111111111",
         address: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-        cash: 100,
+        cash: 100
       },
       editAvatarDialog: false,
       clickEditName: false,
@@ -457,13 +467,8 @@ export default {
       url: "",
       // 充值-------------------
       addCreditDialog: false,
-      tags: [
-        50,
-        100,
-        500,
-        1000,
-      ],
-      money: 50,
+      tags: [50, 100, 500, 1000],
+      money: 50
     };
   },
   created() {
