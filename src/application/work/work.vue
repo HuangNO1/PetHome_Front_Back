@@ -66,7 +66,7 @@
           >
             <img
               style="height: 36px; width: 36px;"
-              src="https://avatars0.githubusercontent.com/u/48636976?s=460&v=4"
+              :src="avatar"
             />
           </v-card>
         </template>
@@ -146,6 +146,16 @@ const data = localStorage.getItem("todoList")
 // import HelloWorld from "./components/HelloWorld";
 import { mapState, mapMutations } from "vuex";
 import { UPDATE_NAV_THEME } from "./store/mutations-types/theme";
+import {
+  UPDATE_USER_USERNAME,
+  UPDATE_USER_AVATAR,
+  UPDATE_USER_DESCRIPTION,
+  UPDATE_USER_EMAIL,
+  UPDATE_USER_PHONE,
+  UPDATE_USER_CASH,
+  UPDATE_USER_ADDRESS,
+  UPDATE_ALL_USER_DATA
+} from "./store/mutations-types/user";
 
 export default {
   name: "App",
@@ -177,9 +187,9 @@ export default {
     }
   },
   data: () => ({
-    //
-    username: "Rem",
+    // 判斷側邊欄是否能見
     drawer: true,
+    // 側邊欄 items
     items: [
       { title: "Home", icon: "mdi-view-dashboard" },
       { title: "Cart", icon: "mdi-cart" },
@@ -294,7 +304,13 @@ export default {
     ...mapState({
       navTheme: state => {
         return state.theme.navTheme;
-      }
+      },
+      username: state => {
+        return state.user.username;
+      },
+      avatar: state => {
+        return state.user.avatar;
+      },
     })
   }
 };
