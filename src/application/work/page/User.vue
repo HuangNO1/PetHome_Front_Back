@@ -605,6 +605,23 @@
         Close
       </v-btn>
     </v-snackbar>
+    <!-- 修改失敗 提示窗口 -->
+    <v-dialog v-model="changeFailDialog" max-width="600">
+      <v-card>
+        <v-card-title class="headline red--text">OOPS...</v-card-title>
+
+        <v-card-text>
+          Your action is fail, please check your data you filled is right.
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="red darken-1" text @click="changeFailDialog = false">
+            Got it.
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script>
@@ -814,6 +831,8 @@ export default {
     // 修改成功提示
     snackbar: false,
     text: "",
+    // 修改失敗
+    changeFailDialog: false,
     // crop image ----------------
     // imageUploadShow: false,
     // params: {
@@ -915,6 +934,7 @@ export default {
       //     console.log(response.data);
       //     if (response.data === false) {
       //       this.updateUsernameSuccess = false;
+      //       this.changeFailDialog = true;
       //     } else {
       //       // 更新前端使用者名稱 關閉 edit
       //       this.updateUsernameSuccess = true;
@@ -922,7 +942,7 @@ export default {
       //       this.editName();
       //       // 出現提示窗
       //       this.snackbar = true;
-      //       this.text = "Username";
+      //       this.text = "Your username";
       //     }
       //   })
       //   .catch(error => {
@@ -934,7 +954,7 @@ export default {
       this.editName();
       // 出現提示窗
       this.snackbar = true;
-      this.text = "Username";
+      this.text = "Your username";
     },
     submitNewDescription() {
       // axios 提交新描述
@@ -948,6 +968,7 @@ export default {
       //     console.log(response.data);
       //     if (response.data === false) {
       //       this.updateDescriptionSuccess = false;
+      //       this.changeFailDialog = true;
       //     } else {
       //       // 更新前端描述 關閉 edit
       //       this.updateDescriptionSuccess = true;
@@ -955,7 +976,7 @@ export default {
       //       this.editEmail();
       //       // 出現提示窗
       //       this.snackbar = true;
-      //       this.text = "Description";
+      //       this.text = "Your description";
       //     }
       //   })
       //   .catch(error => {
@@ -967,7 +988,7 @@ export default {
       this.editDescription();
       // 出現提示窗
       this.snackbar = true;
-      this.text = "Description";
+      this.text = "Your description";
     },
     submitNewEmail() {
       // axios 提交新 email
@@ -981,6 +1002,7 @@ export default {
       //     console.log(response.data);
       //     if (response.data === false) {
       //       this.updateEmailSuccess = false;
+      //       this.changeFailDialog = true;
       //     } else {
       //       // 更前端 email 關閉 edit
       //       this.updateEmailSuccess = true;
@@ -988,7 +1010,7 @@ export default {
       //       this.editEmail();
       //       // 出現提示窗
       //       this.snackbar = true;
-      //       this.text = "E-mail";
+      //       this.text = "Your E-mail";
       //     }
       //   })
       //   .catch(error => {
@@ -1000,7 +1022,7 @@ export default {
       this.editEmail();
       // 出現提示窗
       this.snackbar = true;
-      this.text = "E-mail";
+      this.text = "your E-mail";
     },
     submitNewPhone() {
       // axios 提交新手機號
@@ -1014,6 +1036,7 @@ export default {
       //     console.log(response.data);
       //     if (response.data === false) {
       //       this.updatePhoneSuccess = false;
+      //       this.changeFailDialog = true;
       //     } else {
       //       // 更新前端 phone 關閉 edit
       //       this.updatePhoneSuccess = true;
@@ -1021,7 +1044,7 @@ export default {
       //       this.editPhone();
       //       // 出現提示窗
       //       this.snackbar = true;
-      //       this.text = "Phone";
+      //       this.text = "your phone";
       //     }
       //   })
       //   .catch(error => {
@@ -1033,7 +1056,7 @@ export default {
       this.editPhone();
       // 出現提示窗
       this.snackbar = true;
-      this.text = "Phone";
+      this.text = "Your phone";
     },
     submitNewAddress() {
       // axios 提交 新地址
@@ -1047,6 +1070,7 @@ export default {
       //     console.log(response.data);
       //     if (response.data === false) {
       //       this.updateAddressSuccess = false;
+      //       this.changeFailDialog = true;
       //     } else {
       //       // 更新前端 address，
       //       this.updateAddressSuccess = true;
@@ -1054,7 +1078,7 @@ export default {
       //       this.editAddress();
       //       // 出現提示窗
       //       this.snackbar = true;
-      //       this.text = "Address";
+      //       this.text = "Your Address";
       //     }
       //   })
       //   .catch(error => {
@@ -1066,7 +1090,7 @@ export default {
       this.editAddress();
       // 出現提示窗
       this.snackbar = true;
-      this.text = "Address";
+      this.text = "Your Address";
     },
     submitAddCash() {
       // axios 提交 充值
@@ -1080,13 +1104,14 @@ export default {
       //     console.log(response.data);
       //     if (response.data === false) {
       //       this.updateCashSuccess = false;
+      //       this.changeFailDialog = true;
       //     } else {
       //       // 更新前端 cash 數據
       //       this.updateCashSuccess = true;
       //       this.user.cash += this.tags[this.money];
       //       // 出現提示窗
       //       this.snackbar = true;
-      //       this.text = "Adding credit";
+      //       this.text = "Your credit";
       //     }
       //   })
       //   .catch(error => {
@@ -1099,7 +1124,7 @@ export default {
       this.addCreditDialog = false;
       // 出現提示窗
       this.snackbar = true;
-      this.text = "Adding credit";
+      this.text = "Your credit";
     },
     submitNewPassword() {
       // axios 提交新密碼
@@ -1114,13 +1139,14 @@ export default {
       //     console.log(response.data);
       //     if (response.data === false) {
       //       this.updatePassword = false;
+      //       this.changeFailDialog = true;
       //     } else {
       //       // 不會在前端更新密碼形式，前端不顯示密碼以保安全
       //       this.updatePassword = true;
       //       this.editPassword();
       //       // 出現提示窗
       //       this.snackbar = true;
-      //       this.text = "Password";
+      //       this.text = "your password";
       //     }
       //   })
       //   .catch(error => {
@@ -1131,7 +1157,7 @@ export default {
       this.editPassword();
       // 出現提示窗
       this.snackbar = true;
-      this.text = "Password";
+      this.text = "Your password";
     },
     // crop image ------------------------------------
     /**
