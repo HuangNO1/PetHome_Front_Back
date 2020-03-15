@@ -892,11 +892,12 @@ export default {
         this.seeRepeatPwd = "password";
       }
     },
-    // 發送更改資料
+    // 發送更改資料 都以傳送 email 作為更改資料搜索使用者的依據
     submitNewUsername() {
       // axios 提交新使用者名稱
       // var params = new URLSearchParams();
       // params.append("newUsername", this.newUsername);
+      // params.append("email", this.email);
       // axios
       //   .post(this.newUsernameURL, params)
       //   .then(response => {
@@ -923,6 +924,7 @@ export default {
       // axios 提交新描述
       // var params = new URLSearchParams();
       // params.append("newDescription", this.newDescription);
+      // params.append("email", this.email);
       // axios
       //   .post(this.newDescriptionURL, params)
       //   .then(response => {
@@ -949,6 +951,7 @@ export default {
       // axios 提交新 email
       // var params = new URLSearchParams();
       // params.append("newEmail", this.newEmail);
+      // params.append("email", this.email);
       // axios
       //   .post(this.newEmailURL, params)
       //   .then(response => {
@@ -975,6 +978,7 @@ export default {
       // axios 提交新手機號
       // var params = new URLSearchParams();
       // params.append("newPhone", this.newPhone);
+      // params.append("email", this.email);
       // axios
       //   .post(this.newPhoneURL, params)
       //   .then(response => {
@@ -1001,6 +1005,7 @@ export default {
       // axios 提交 新地址
       // var params = new URLSearchParams();
       // params.append("newAddress", this.newAddress);
+      // params.append("email", this.email);
       // axios
       //   .post(this.newAddressURL, params)
       //   .then(response => {
@@ -1027,6 +1032,7 @@ export default {
       // axios 提交 充值
       // var params = new URLSearchParams();
       // params.append("addCash", this.tags[this.money]);
+      // params.append("email", this.email);
       // axios
       //   .post(this.addCashURL, params)
       //   .then(response => {
@@ -1054,6 +1060,7 @@ export default {
       // var params = new URLSearchParams();
       // params.append("oringinPassword", this.originPassword);
       // params.append("newPassword", this.newPassword);
+      // params.append("email", this.email);
       // axios
       //   .post(this.newPasswordURL, params)
       //   .then(response => {
