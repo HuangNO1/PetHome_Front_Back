@@ -196,7 +196,13 @@
                     outlined
                   ></v-text-field>
                   <v-btn text color="red" @click="editName">cencel</v-btn>
-                  <v-btn text color="green">save</v-btn>
+                  <v-btn
+                    text
+                    color="green"
+                    :disabled="newUsernameError"
+                    @click="submitNewUsername"
+                    >save</v-btn
+                  >
                 </v-card-text>
               </v-lazy>
             </v-card>
@@ -248,7 +254,13 @@
                   <v-btn text color="red" @click="editDescription"
                     >cencel</v-btn
                   >
-                  <v-btn text color="green">save</v-btn>
+                  <v-btn
+                    text
+                    color="green"
+                    :disabled="newDescriptionError"
+                    @click="submitNewDescription"
+                    >save</v-btn
+                  >
                 </v-card-text>
               </v-lazy>
             </v-card>
@@ -329,7 +341,13 @@
                     </v-col>
                   </v-row>
                   <v-btn text color="red" @click="editEmail">cencel</v-btn>
-                  <v-btn text color="green">save</v-btn>
+                  <v-btn
+                    text
+                    color="green"
+                    :disabled="captchaError"
+                    @click="submitNewEmail"
+                    >save</v-btn
+                  >
                 </v-card-text>
               </v-lazy>
             </v-card>
@@ -378,7 +396,13 @@
                     outlined
                   ></v-text-field>
                   <v-btn text color="red" @click="editPhone">cencel</v-btn>
-                  <v-btn text color="green">save</v-btn>
+                  <v-btn
+                    text
+                    color="green"
+                    :disabled="newPhoneError"
+                    @click="submitNewPhone"
+                    >save</v-btn
+                  >
                 </v-card-text>
               </v-lazy>
             </v-card>
@@ -451,7 +475,13 @@
                     outlined
                   ></v-text-field>
                   <v-btn text color="red" @click="editAddress">cencel</v-btn>
-                  <v-btn text color="green">save</v-btn>
+                  <v-btn
+                    text
+                    color="green"
+                    :disabled="newAddressError"
+                    @click="submitNewAddress"
+                    >save</v-btn
+                  >
                 </v-card-text>
               </v-lazy>
             </v-card>
@@ -488,7 +518,12 @@
                 origin="top right 50"
               >
                 <v-card-text v-if="clickEditPassword">
-                  <v-text-field v-model="originPassword" label="Origin Password" outlined></v-text-field>
+                  <v-text-field
+                    v-model="originPassword"
+                    label="Origin Password"
+                    type="password"
+                    outlined
+                  ></v-text-field>
                   <v-text-field
                     v-model="newPassword"
                     label="New Password"
@@ -520,7 +555,13 @@
                     }}</v-icon>
                   </v-text-field>
                   <v-btn text color="red" @click="editPassword">cencel</v-btn>
-                  <v-btn text color="green">save</v-btn>
+                  <v-btn
+                    text
+                    color="green"
+                    :disabled="newPasswordError || newRepeatPasswordError"
+                    @click="submitNewPassword"
+                    >save</v-btn
+                  >
                 </v-card-text>
               </v-lazy>
             </v-card>
@@ -551,14 +592,7 @@
           <v-btn color="red darken-1" text @click="addCreditDialog = false">
             cancel
           </v-btn>
-          <v-btn
-            color="green darken-1"
-            text
-            @click="
-              user.cash += tags[money];
-              addCreditDialog = false;
-            "
-          >
+          <v-btn color="green darken-1" text @click="submitAddCash">
             add credit
           </v-btn>
         </v-card-actions>
@@ -760,6 +794,14 @@ export default {
     repeatEye: "mdi-eye-off",
     seePwd: "password",
     seeRepeatPwd: "password",
+    // 是否更改成功
+    updateUsernameSuccess: false,
+    updateDescriptionSuccess: false,
+    updateEmailSuccess: false,
+    updatePhoneSuccess: false,
+    updateCashSuccess: false,
+    updateAddressSuccess: false,
+    updatePassword: false,
     // crop image ----------------
     // imageUploadShow: false,
     // params: {
@@ -803,6 +845,7 @@ export default {
       console.log("this.clickEditEmail: " + this.clickEditEmail);
       this.$v.newEmail.$reset();
       this.newEmail = "";
+      this.captcha = "";
       // this.isActiveEditEmail = false;
     },
     editPhone() {
@@ -824,6 +867,7 @@ export default {
       console.log("this.clickEditPassword: " + this.clickEditPassword);
       this.$v.newPassword.$reset();
       this.$v.newRepeatPassword.$reset();
+      this.originPassword = "";
       this.newPassword = "";
       this.newRepeatPassword = "";
       // this.isActiveEditPassword = false;
@@ -846,7 +890,187 @@ export default {
         this.seeRepeatPwd = "password";
       }
     },
-
+    // 發送更改資料
+    submitNewUsername() {
+      // axios 提交新使用者名稱
+      // var params = new URLSearchParams();
+      // params.append("newUsername", this.newUsername);
+      // axios
+      //   .post(this.newUsernameURL, params)
+      //   .then(response => {
+      //     console.log(response);
+      //     console.log(response.data);
+      //     if (response.data === false) {
+      //       this.updateUsernameSuccess = false;
+      //     } else {
+      //       // 更新前端使用者名稱 關閉 edit
+      //       this.updateUsernameSuccess = true;
+      //       this.user.name = this.newUsername;
+      //       this.editName();
+      //     }
+      //   })
+      //   .catch(error => {
+      //     console.log(error);
+      //   });
+      // 假設測試成功
+      this.updateUsernameSuccess = true;
+      this.user.name = this.newUsername;
+      this.editName();
+    },
+    submitNewDescription() {
+      // axios 提交新描述
+      // var params = new URLSearchParams();
+      // params.append("newDescription", this.newDescription);
+      // axios
+      //   .post(this.newDescriptionURL, params)
+      //   .then(response => {
+      //     console.log(response);
+      //     console.log(response.data);
+      //     if (response.data === false) {
+      //       this.updateDescriptionSuccess = false;
+      //     } else {
+      //       // 更新前端描述 關閉 edit
+      //       this.updateDescriptionSuccess = true;
+      //       this.user.description = this.newDescription;
+      //       this.editEmail();
+      //     }
+      //   })
+      //   .catch(error => {
+      //     console.log(error);
+      //   });
+      // 假設測試成功
+      this.updateDescriptionSuccess = true;
+      this.user.description = this.newDescription;
+      this.editDescription();
+    },
+    submitNewEmail() {
+      // axios 提交新 email
+      // var params = new URLSearchParams();
+      // params.append("newEmail", this.newEmail);
+      // axios
+      //   .post(this.newEmailURL, params)
+      //   .then(response => {
+      //     console.log(response);
+      //     console.log(response.data);
+      //     if (response.data === false) {
+      //       this.updateEmailSuccess = false;
+      //     } else {
+      //       // 更前端 email 關閉 edit
+      //       this.updateEmailSuccess = true;
+      //       this.user.email = this.newEmail;
+      //       this.editEmail();
+      //     }
+      //   })
+      //   .catch(error => {
+      //     console.log(error);
+      //   });
+      // 假設測試成功
+      this.updateEmailSuccess = true;
+      this.user.email = this.newEmail;
+      this.editEmail();
+    },
+    submitNewPhone() {
+      // axios 提交新手機號
+      // var params = new URLSearchParams();
+      // params.append("newPhone", this.newPhone);
+      // axios
+      //   .post(this.newPhoneURL, params)
+      //   .then(response => {
+      //     console.log(response);
+      //     console.log(response.data);
+      //     if (response.data === false) {
+      //       this.updatePhoneSuccess = false;
+      //     } else {
+      //       // 更新前端 phone 關閉 edit
+      //       this.updatePhoneSuccess = true;
+      //       this.user.phone = this.newPhone;
+      //       this.editPhone();
+      //     }
+      //   })
+      //   .catch(error => {
+      //     console.log(error);
+      //   });
+      // 假設測試成功
+      this.updatePhoneSuccess = true;
+      this.user.phone = this.newPhone;
+      this.editPhone();
+    },
+    submitNewAddress() {
+      // axios 提交 新地址
+      // var params = new URLSearchParams();
+      // params.append("newAddress", this.newAddress);
+      // axios
+      //   .post(this.newAddressURL, params)
+      //   .then(response => {
+      //     console.log(response);
+      //     console.log(response.data);
+      //     if (response.data === false) {
+      //       this.updateAddressSuccess = false;
+      //     } else {
+      //       // 更新前端 address，
+      //       this.updateAddressSuccess = true;
+      //       this.user.address = this.newAddress;
+      //       this.editAddress();
+      //     }
+      //   })
+      //   .catch(error => {
+      //     console.log(error);
+      //   });
+      // 假設測試成功
+      this.updateAddressSuccess = true;
+      this.user.address = this.newAddress;
+      this.editAddress();
+    },
+    submitAddCash() {
+      // axios 提交 充值
+      // var params = new URLSearchParams();
+      // params.append("addCash", this.tags[this.money]);
+      // axios
+      //   .post(this.addCashURL, params)
+      //   .then(response => {
+      //     console.log(response);
+      //     console.log(response.data);
+      //     if (response.data === false) {
+      //       this.updateCashSuccess = false;
+      //     } else {
+      //       // 更新前端 cash 數據
+      //       this.updateCashSuccess = true;
+      //       this.user.cash += this.tags[this.money];
+      //     }
+      //   })
+      //   .catch(error => {
+      //     console.log(error);
+      //   });
+      // 假設測試成功
+      this.updateCashSuccess = true;
+      this.user.cash += this.tags[this.money];
+      this.addCreditDialog = false;
+    },
+    submitNewPassword() {
+      // axios 提交新密碼
+      // var params = new URLSearchParams();
+      // params.append("oringinPassword", this.originPassword);
+      // params.append("newPassword", this.newPassword);
+      // axios
+      //   .post(this.newPasswordURL, params)
+      //   .then(response => {
+      //     console.log(response);
+      //     console.log(response.data);
+      //     if (response.data === false) {
+      //       this.updatePassword = false;
+      //     } else {
+      //       // 不會在前端更新密碼形式，前端不顯示密碼以保安全
+      //       this.updatePassword = true;
+      //       this.editPassword();
+      //     }
+      //   })
+      //   .catch(error => {
+      //     console.log(error);
+      //   });
+      // 假設測試成功
+      this.updatePassword = true;
+      this.editPassword();
+    },
     // crop image ------------------------------------
     /**
      * crop success
@@ -1022,8 +1246,8 @@ export default {
       if (!this.$v.newAddress.$dirty) return errors;
       !this.$v.newAddress.maxLength &&
         errors.push("Address must be at most 50 characters long.");
-      !this.$v.password.required && errors.push("Password is required.");
-      this.passwordError = true;
+      !this.$v.newAddress.required && errors.push("Address is required.");
+      this.newAddressError = true;
       return errors;
     },
     newPasswordErrors() {
