@@ -598,6 +598,13 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <!-- 修改成功提示窗 -->
+    <v-snackbar v-model="snackbar" top :timeout="3000">
+      {{ text }} have changed.
+      <v-btn color="pink" text @click="snackbar = false">
+        Close
+      </v-btn>
+    </v-snackbar>
   </div>
 </template>
 <script>
@@ -804,6 +811,9 @@ export default {
     updateCashSuccess: false,
     updateAddressSuccess: false,
     updatePassword: false,
+    // 修改成功提示
+    snackbar: false,
+    text: "",
     // crop image ----------------
     // imageUploadShow: false,
     // params: {
@@ -910,6 +920,9 @@ export default {
       //       this.updateUsernameSuccess = true;
       //       this.user.name = this.newUsername;
       //       this.editName();
+      //       // 出現提示窗
+      //       this.snackbar = true;
+      //       this.text = "Username";
       //     }
       //   })
       //   .catch(error => {
@@ -919,6 +932,9 @@ export default {
       this.updateUsernameSuccess = true;
       this.$store.commit(UPDATE_USER_USERNAME, this.newUsername);
       this.editName();
+      // 出現提示窗
+      this.snackbar = true;
+      this.text = "Username";
     },
     submitNewDescription() {
       // axios 提交新描述
@@ -937,6 +953,9 @@ export default {
       //       this.updateDescriptionSuccess = true;
       //       this.user.description = this.newDescription;
       //       this.editEmail();
+      //       // 出現提示窗
+      //       this.snackbar = true;
+      //       this.text = "Description";
       //     }
       //   })
       //   .catch(error => {
@@ -946,6 +965,9 @@ export default {
       this.updateDescriptionSuccess = true;
       this.$store.commit(UPDATE_USER_DESCRIPTION, this.newDescription);
       this.editDescription();
+      // 出現提示窗
+      this.snackbar = true;
+      this.text = "Description";
     },
     submitNewEmail() {
       // axios 提交新 email
@@ -964,6 +986,9 @@ export default {
       //       this.updateEmailSuccess = true;
       //       this.user.email = this.newEmail;
       //       this.editEmail();
+      //       // 出現提示窗
+      //       this.snackbar = true;
+      //       this.text = "E-mail";
       //     }
       //   })
       //   .catch(error => {
@@ -973,6 +998,9 @@ export default {
       this.updateEmailSuccess = true;
       this.$store.commit(UPDATE_USER_EMAIL, this.newEmail);
       this.editEmail();
+      // 出現提示窗
+      this.snackbar = true;
+      this.text = "E-mail";
     },
     submitNewPhone() {
       // axios 提交新手機號
@@ -991,6 +1019,9 @@ export default {
       //       this.updatePhoneSuccess = true;
       //       this.user.phone = this.newPhone;
       //       this.editPhone();
+      //       // 出現提示窗
+      //       this.snackbar = true;
+      //       this.text = "Phone";
       //     }
       //   })
       //   .catch(error => {
@@ -1000,6 +1031,9 @@ export default {
       this.updatePhoneSuccess = true;
       this.$store.commit(UPDATE_USER_EMAIL, this.newPhone);
       this.editPhone();
+      // 出現提示窗
+      this.snackbar = true;
+      this.text = "Phone";
     },
     submitNewAddress() {
       // axios 提交 新地址
@@ -1018,6 +1052,9 @@ export default {
       //       this.updateAddressSuccess = true;
       //       this.user.address = this.newAddress;
       //       this.editAddress();
+      //       // 出現提示窗
+      //       this.snackbar = true;
+      //       this.text = "Address";
       //     }
       //   })
       //   .catch(error => {
@@ -1027,6 +1064,9 @@ export default {
       this.updateAddressSuccess = true;
       this.$store.commit(UPDATE_USER_ADDRESS, this.newAddress);
       this.editAddress();
+      // 出現提示窗
+      this.snackbar = true;
+      this.text = "Address";
     },
     submitAddCash() {
       // axios 提交 充值
@@ -1044,6 +1084,9 @@ export default {
       //       // 更新前端 cash 數據
       //       this.updateCashSuccess = true;
       //       this.user.cash += this.tags[this.money];
+      //       // 出現提示窗
+      //       this.snackbar = true;
+      //       this.text = "Adding credit";
       //     }
       //   })
       //   .catch(error => {
@@ -1054,6 +1097,9 @@ export default {
       var totalCash = this.cash + this.tags[this.money];
       this.$store.commit(UPDATE_USER_CASH, totalCash);
       this.addCreditDialog = false;
+      // 出現提示窗
+      this.snackbar = true;
+      this.text = "Adding credit";
     },
     submitNewPassword() {
       // axios 提交新密碼
@@ -1072,6 +1118,9 @@ export default {
       //       // 不會在前端更新密碼形式，前端不顯示密碼以保安全
       //       this.updatePassword = true;
       //       this.editPassword();
+      //       // 出現提示窗
+      //       this.snackbar = true;
+      //       this.text = "Password";
       //     }
       //   })
       //   .catch(error => {
@@ -1080,6 +1129,9 @@ export default {
       // 假設測試成功
       this.updatePassword = true;
       this.editPassword();
+      // 出現提示窗
+      this.snackbar = true;
+      this.text = "Password";
     },
     // crop image ------------------------------------
     /**
