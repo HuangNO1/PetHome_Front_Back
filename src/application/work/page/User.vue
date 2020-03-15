@@ -753,6 +753,7 @@ export default {
     newPasswordURL: "",
     addCashURL: "",
     // 驗證碼按鈕的 loading 判斷變數
+    loader: null,
     loading: false,
     // 是否可見 密碼
     eye: "mdi-eye-off",
@@ -845,6 +846,7 @@ export default {
         this.seeRepeatPwd = "password";
       }
     },
+
     // crop image ------------------------------------
     /**
      * crop success
