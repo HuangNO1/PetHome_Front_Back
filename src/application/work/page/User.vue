@@ -234,10 +234,12 @@
               >
                 <v-card-text v-if="clickEditDescription">
                   <v-text-field
+                    v-model="newDescription"
                     label="Description"
                     :error-messages="newDescriptionErrors"
                     :success-messages="newDescriptionSuccess"
                     required
+                    :counter="30"
                     @input="$v.newDescription.$touch()"
                     @blur="$v.newDescription.$touch()"
                     outlined
@@ -284,6 +286,7 @@
               >
                 <v-card-text v-if="clickEditEmail">
                   <v-text-field
+                    v-model="newEmail"
                     label="E-mail"
                     :error-messages="newEmailErrors"
                     :success-messages="newEmailSuccess"
@@ -364,6 +367,7 @@
               >
                 <v-card-text v-if="clickEditPhone">
                   <v-text-field
+                    v-model="newPhone"
                     label="Phone Number"
                     :type="tel"
                     :error-messages="newPhoneErrors"
@@ -436,9 +440,11 @@
               >
                 <v-card-text v-if="clickEditAddress">
                   <v-text-field
+                    v-model="newAddress"
                     label="Address"
                     :error-messages="newAddressErrors"
                     :success-messages="newAddressSuccess"
+                    :counter="50"
                     required
                     @input="$v.newAddress.$touch()"
                     @blur="$v.newAddress.$touch()"
@@ -482,8 +488,9 @@
                 origin="top right 50"
               >
                 <v-card-text v-if="clickEditPassword">
-                  <v-text-field label="Origin Password" outlined></v-text-field>
+                  <v-text-field v-model="originPassword" label="Origin Password" outlined></v-text-field>
                   <v-text-field
+                    v-model="newPassword"
                     label="New Password"
                     :type="seePwd"
                     :error-messages="newPasswordErrors"
@@ -498,6 +505,7 @@
                     </v-icon>
                   </v-text-field>
                   <v-text-field
+                    v-model="newRepeatPassword"
                     label="Repeat New Password"
                     :type="seeRepeatPwd"
                     :error-messages="newRepeatPasswordErrors"
@@ -689,89 +697,88 @@ export default {
       }
     }
   },
-  data() {
-    return {
-      isActive: false,
-      user: {
-        avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
-        name: "Huang Po Hsun",
-        description: "前端負責人，1804 黃柏曛，I love ArchLinux.",
-        email: "fh831.cp9gw@gmail.com",
-        phone: "1111111111",
-        address: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-        password: "********",
-        cash: 100
-      },
-      editAvatarDialog: false,
-      clickEditName: false,
-      isActiveEditName: false,
-      clickEditDescription: false,
-      isActiveEditDescription: false,
-      clickEditEmail: false,
-      isActiveEditEmail: false,
-      clickEditPhone: false,
-      isActiveEditPhone: false,
-      clickEditAddress: false,
-      isActiveEditAddress: false,
-      clickEditPassword: false,
-      isActiveEditPassword: false,
-      // 新的資料
-      newUsername: "",
-      newDescription: "",
-      newEmail: "",
-      newPhone: "",
-      newAddress: "",
-      newPassword: "",
-      newRepeatPassword: "",
-      captcha: "",
-      // 檢驗是否欄位填寫錯誤
-      newUsernameError: true,
-      newDescriptionError: true,
-      newEmailError: true,
-      newPhoneError: true,
-      newAddressError: true,
-      newPasswordError: true,
-      newRepeatPasswordError: true,
-      captchaError: true,
-      // 檢查是否重複的請求 URL
-      checkSameUsernameURL: "",
-      checkSameEmailURL: "",
-      // 發出更改請求
-      newUsernameURL: "",
-      newDescriptionURL: "",
-      newEmailURL: "",
-      newPhoneURL: "",
-      newAddressURL: "",
-      newPasswordURL: "",
-      addCashURL: "",
-      // 驗證碼按鈕的 loading 判斷變數
-      loading: false,
-      // 是否可見 密碼
-      eye: "mdi-eye-off",
-      repeatEye: "mdi-eye-off",
-      seePwd: "password",
-      seeRepeatPwd: "password",
-      // crop image ----------------
-      // imageUploadShow: false,
-      // params: {
-      //   // smfile: ""
-      // },
-      // headers: {
-      //   type: "Content-Type",
-      //   app: "application/xml"
-      // },
-      // imgDataUrl: "",
-      imageUploadDialog: false,
-      SMMSuploadUrl: "https://sm.ms/api/upload",
-      rotation: 0,
-      scale: 1,
-      url: "",
-      // 充值-------------------
-      addCreditDialog: false,
-      tags: [50, 100, 500, 1000],
-      money: 50
-    };
-  },
+  data: () => ({
+    isActive: false,
+    user: {
+      avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
+      name: "Huang Po Hsun",
+      description: "前端負責人，1804 黃柏曛，I love ArchLinux.",
+      email: "fh831.cp9gw@gmail.com",
+      phone: "1111111111",
+      address: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+      password: "********",
+      cash: 100
+    },
+    editAvatarDialog: false,
+    clickEditName: false,
+    isActiveEditName: false,
+    clickEditDescription: false,
+    isActiveEditDescription: false,
+    clickEditEmail: false,
+    isActiveEditEmail: false,
+    clickEditPhone: false,
+    isActiveEditPhone: false,
+    clickEditAddress: false,
+    isActiveEditAddress: false,
+    clickEditPassword: false,
+    isActiveEditPassword: false,
+    // 新的資料
+    newUsername: "",
+    newDescription: "",
+    newEmail: "",
+    newPhone: "",
+    newAddress: "",
+    originPassword: "",
+    newPassword: "",
+    newRepeatPassword: "",
+    captcha: "",
+    // 檢驗是否欄位填寫錯誤
+    newUsernameError: true,
+    newDescriptionError: true,
+    newEmailError: true,
+    newPhoneError: true,
+    newAddressError: true,
+    newPasswordError: true,
+    newRepeatPasswordError: true,
+    captchaError: true,
+    // 檢查是否重複的請求 URL
+    checkSameUsernameURL: "",
+    checkSameEmailURL: "",
+    // 發出更改請求
+    newUsernameURL: "",
+    newDescriptionURL: "",
+    newEmailURL: "",
+    newPhoneURL: "",
+    newAddressURL: "",
+    newPasswordURL: "",
+    addCashURL: "",
+    // 驗證碼按鈕的 loading 判斷變數
+    loading: false,
+    // 是否可見 密碼
+    eye: "mdi-eye-off",
+    repeatEye: "mdi-eye-off",
+    seePwd: "password",
+    seeRepeatPwd: "password",
+    // crop image ----------------
+    // imageUploadShow: false,
+    // params: {
+    //   // smfile: ""
+    // },
+    // headers: {
+    //   type: "Content-Type",
+    //   app: "application/xml"
+    // },
+    // imgDataUrl: "",
+    imageUploadDialog: false,
+    SMMSuploadUrl: "https://sm.ms/api/upload",
+    rotation: 0,
+    scale: 1,
+    url: "",
+    // 充值-------------------
+    addCreditDialog: false,
+    tags: [50, 100, 500, 1000],
+    money: 50
+  }),
   created() {
     this.imgDataUrl = this.user.avatar;
   },
@@ -786,26 +793,38 @@ export default {
     editDescription() {
       this.clickEditDescription = !this.clickEditDescription;
       console.log("this.clickEditDescription: " + this.clickEditDescription);
+      this.$v.newDescription.$reset();
+      this.newDescription = "";
       // this.isActiveEditDescription = false;
     },
     editEmail() {
       this.clickEditEmail = !this.clickEditEmail;
       console.log("this.clickEditEmail: " + this.clickEditEmail);
+      this.$v.newEmail.$reset();
+      this.newEmail = "";
       // this.isActiveEditEmail = false;
     },
     editPhone() {
       this.clickEditPhone = !this.clickEditPhone;
       console.log("this.clickEditPhone: " + this.clickEditPhone);
+      this.$v.newPhone.$reset();
+      this.newPhone = "";
       // this.isActiveEditPhone = false;
     },
     editAddress() {
       this.clickEditAddress = !this.clickEditAddress;
       console.log("this.clickEditAddress: " + this.clickEditAddress);
+      this.$v.newAddress.$reset();
+      this.newAddress = "";
       // this.isActiveEditAddress = false;
     },
     editPassword() {
       this.clickEditPassword = !this.clickEditPassword;
       console.log("this.clickEditPassword: " + this.clickEditPassword);
+      this.$v.newPassword.$reset();
+      this.$v.newRepeatPassword.$reset();
+      this.newPassword = "";
+      this.newRepeatPassword = "";
       // this.isActiveEditPassword = false;
     },
     eyeClick() {
@@ -984,6 +1003,7 @@ export default {
       !this.$v.newDescription.required &&
         errors.push("Description is required.");
       this.newDescriptionError = true;
+      console.log("description error");
       return errors;
     },
     newPhoneErrors() {
@@ -1016,7 +1036,7 @@ export default {
     newRepeatPasswordErrors() {
       const errors = [];
       if (!this.$v.newRepeatPassword.$dirty) return errors;
-      !this.$v.newRepeatPassword.sameAsNewPassword &&
+      !this.$v.newRepeatPassword.sameAsPassword &&
         errors.push("Password must be identical.");
       !this.$v.newRepeatPassword.required &&
         errors.push("Password must be identical.");
