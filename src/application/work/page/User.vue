@@ -671,7 +671,7 @@ export default {
         // axios : verity the username is registered.
         /*
         var params = new URLSearchParams();
-        params.append("username", this.name);
+        params.append("username", this.newUserame);
         axios
           .post(this.checkSameNameURL, params)
           .then(response => {
@@ -705,7 +705,7 @@ export default {
         // axios : verity the email is registered.
         /*
         var params = new URLSearchParams();
-        params.append("email", this.email);
+        params.append("email", this.newEmail);
         axios
           .post(this.checkSameEmailURL, params)
           .then(response => {

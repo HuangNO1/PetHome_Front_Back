@@ -9,16 +9,27 @@ import {
     UPDATE_ALL_USER_DATA
 } from "../mutations-types/user";
 
+import {
+    TEST_USERNAME,
+    TEST_AVATAR,
+    TEST_DESCRIPTION,
+    TEST_EMAIL,
+    TEST_PHONE,
+    TEST_CASH,
+    TEST_ADDRESS,
+    TEST_PASSWORD
+} from "../testData.js";
+
 const user = {
     state: {
-        username: "Rem",
-        avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
-        description: "前端負責人，1804 黃柏曛，I love ArchLinux.",
-        email: "fh831.cp9gw@gmail.com",
-        phone: "1111111111",
-        cash: 1000,
-        address: "################",
-        password: "********"
+        username: TEST_USERNAME,
+        avatar: TEST_AVATAR,
+        description: TEST_DESCRIPTION,
+        email: TEST_EMAIL,
+        phone: TEST_PHONE,
+        cash: TEST_CASH,
+        address: TEST_ADDRESS,
+        password: TEST_PASSWORD
     },
     mutations: {
         [UPDATE_USER_USERNAME](state, username) {

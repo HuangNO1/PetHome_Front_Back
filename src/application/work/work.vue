@@ -58,16 +58,8 @@
       >
         <template v-slot:activator="{ on }">
           <span class="ml-2" v-on="on">Hi, {{ username }}!</span>
-          <v-card
-            class="portrait"
-            height="36"
-            width="36"
-            v-on="on"
-          >
-            <img
-              style="height: 36px; width: 36px;"
-              :src="avatar"
-            />
+          <v-card class="portrait" height="36" width="36" v-on="on">
+            <img style="height: 36px; width: 36px;" :src="avatar" />
           </v-card>
         </template>
 
@@ -145,7 +137,7 @@ const data = localStorage.getItem("todoList")
 
 // import HelloWorld from "./components/HelloWorld";
 import { mapState, mapMutations } from "vuex";
-import { UPDATE_NAV_THEME } from "./store/mutations-types/theme";
+import { UPDATE_NAV_THEME, UPDATE_NAV_IMAGE } from "./store/mutations-types/theme";
 import {
   UPDATE_USER_USERNAME,
   UPDATE_USER_AVATAR,
@@ -156,6 +148,11 @@ import {
   UPDATE_USER_ADDRESS,
   UPDATE_ALL_USER_DATA
 } from "./store/mutations-types/user";
+import {
+  UPDATE_CART_ITEMS,
+  UPDATE_RECORD_ITEMS,
+  INIT_PRODUCT_ITEMS
+} from "./store/mutations-types/product";
 
 export default {
   name: "App",
@@ -178,6 +175,45 @@ export default {
     this.$vuetify.theme.dark = this.initialDark;
   },
   created() {
+    // 獲取初始資料
+    // 產品資料
+    // axios
+    //   .post(this.initProductURL)
+    //   .then(response => {
+    //     console.log(response);
+    //     console.log(response.data);
+    //     // 將產品資料寫入 Vuex
+    //     this.$store.commit(INIT_PRODUCT_ITEMS, response.data);
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   });
+    // // 獲取使用者資料（包含主題）
+    // axios
+    //   .post(this.initUserURL)
+    //   .then(response => {
+    //     console.log(response);
+    //     console.log(response.data);
+    //     // 使用者基本資料
+    //     this.$store.commit(UPDATE_USER_USERNAME, response.data.username);
+    //     this.$store.commit(UPDATE_USER_AVATAR, response.data.avatar);
+    //     this.$store.commit(UPDATE_USER_DESCRIPTION, response.data.description);
+    //     this.$store.commit(UPDATE_USER_EMAIL, response.data.email);
+    //     this.$store.commit(UPDATE_USER_PHONE, response.data.phone);
+    //     this.$store.commit(UPDATE_USER_CASH, response.data.cash);
+    //     this.$store.commit(UPDATE_USER_ADDRESS, response.data.address);
+    //     // 購物車
+    //     this.$store.commit(UPDATE_CART_ITEMS, response.data.cart);
+    //     // 購物紀錄
+    //     this.$store.commit(UPDATE_RECORD_ITEMS, response.data.record);
+    //     // 主題
+    //     this.$store.commit(UPDATE_NAV_THEME, response.data.navTheme);
+    //     this.$store.commit(UPDATE_NAV_IMAGE, response.data.navImage);
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   });
+
     if (this.navTheme === "") {
       this.$store.commit(UPDATE_NAV_THEME, "teal");
     }
@@ -187,6 +223,8 @@ export default {
     }
   },
   data: () => ({
+    initProductURL: "",
+    initUserURL: "",
     // 判斷側邊欄是否能見
     drawer: true,
     // 側邊欄 items
@@ -310,7 +348,7 @@ export default {
       },
       avatar: state => {
         return state.user.avatar;
-      },
+      }
     })
   }
 };

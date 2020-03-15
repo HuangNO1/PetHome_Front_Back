@@ -291,8 +291,8 @@ export default {
     Affix
   },
   created() {
-    this.recordProductItems = this.productItems;
-    this.showProductItems = this.recordProductItems;
+    this.recommendProductItems = this.productItems;
+    this.showProductItems = this.recommendProductItems;
   },
   data() {
     return {
@@ -331,257 +331,9 @@ export default {
       // 提示窗
       snackbar: false,
       text: "",
-      // product test------------------------------------------------
+      // product test--------------------------------
       showProductItems: [],
-      recordProductItems: [], // 推薦的商品
-      productItems: [
-        // Dog ----------------
-        {
-          name: "Frozen Yogurt",
-          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
-          type: "Dog",
-          description: "Dog 1",
-          price: 24,
-          number: 1,
-          total: 0,
-          time: "",
-          like: false,
-          tag: []
-        },
-        {
-          name: "Ice cream sandwich",
-          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
-          type: "Dog",
-          description: "Dog 2",
-          price: 37,
-          number: 1,
-          total: 0,
-          time: "",
-          like: false,
-          tag: []
-        },
-        {
-          name: "Eclair",
-          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
-          type: "Dog",
-          description: "Dog 3",
-          price: 3,
-          number: 1,
-          total: 0,
-          time: "",
-          like: false,
-          tag: []
-        },
-        {
-          name: "Cupcake",
-          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
-          type: "Dog",
-          description: "Dog 4",
-          price: 23,
-          number: 1,
-          total: 0,
-          time: "",
-          like: false
-        },
-        // cat --------------------------------
-        {
-          name: "Gingerbread",
-          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
-          type: "Cat",
-          description: "Cat 1",
-          price: 30,
-          number: 1,
-          total: 0,
-          time: "",
-          like: false,
-          tag: []
-        },
-        {
-          name: "Jelly bean",
-          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
-          type: "Cat",
-          description: "Cat 2",
-          price: 52,
-          number: 1,
-          total: 0,
-          time: "",
-          like: false,
-          tag: []
-        },
-        {
-          name: "Lollipop",
-          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
-          type: "Cat",
-          description: "Cat 3",
-          price: 19,
-          number: 1,
-          total: 0,
-          time: "",
-          like: false,
-          tag: []
-        },
-        {
-          name: "Honeycomb",
-          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
-          type: "Cat",
-          description: "Cat 4",
-          price: 77,
-          number: 1,
-          total: 0,
-          time: "",
-          like: false,
-          tag: []
-        },
-        // Fox -------------------------------
-        {
-          name: "Donut",
-          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
-          type: "Fox",
-          description: "Fox 1",
-          price: 35,
-          number: 1,
-          total: 0,
-          time: "",
-          like: false,
-          tag: []
-        },
-        {
-          name: "KitKat",
-          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
-          type: "Fox",
-          description: "Fox 2",
-          price: 49,
-          number: 1,
-          total: 0,
-          time: "",
-          like: false,
-          tag: []
-        },
-        {
-          name: "Frozen Yogurt_1",
-          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
-          type: "Fox",
-          description: "Fox 3",
-          price: 24,
-          number: 1,
-          total: 0,
-          time: "",
-          like: false,
-          tag: []
-        },
-        {
-          name: "Ice cream sandwich_",
-          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
-          type: "Fox",
-          description: "Fox 4",
-          price: 37,
-          number: 1,
-          total: 0,
-          time: "",
-          like: false,
-          tag: []
-        },
-        // Fish -----------------------------------
-        {
-          name: "Eclair_1",
-          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
-          type: "Fish",
-          description: "Fish 1",
-          price: 3,
-          number: 1,
-          total: 0,
-          time: "",
-          like: false,
-          tag: []
-        },
-        {
-          name: "Cupcake_1",
-          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
-          type: "Fish",
-          description: "Fish 2",
-          price: 23,
-          number: 1,
-          total: 0,
-          time: "",
-          like: false,
-          tag: []
-        },
-        {
-          name: "Gingerbread_1",
-          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
-          type: "Fish",
-          description: "Fish 3",
-          price: 30,
-          number: 1,
-          total: 0,
-          time: "",
-          like: false,
-          tag: []
-        },
-        {
-          name: "Jelly bean_1",
-          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
-          type: "Fish",
-          description: "Fish 4",
-          price: 52,
-          number: 1,
-          total: 0,
-          time: "",
-          like: false,
-          tag: []
-        },
-        // bird ---------------------------------------
-        {
-          name: "Lollipop_1",
-          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
-          type: "Bird",
-          description: "Bird 1",
-          price: 19,
-          number: 1,
-          total: 0,
-          time: "",
-          like: false,
-          tag: []
-        },
-        {
-          name: "Honeycomb_1",
-          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
-          type: "Bird",
-          description: "Bird 2",
-          price: 77,
-          number: 1,
-          total: 0,
-          time: "",
-          like: false,
-          tag: []
-        },
-        {
-          name: "Donut_1",
-          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
-          type: "Bird",
-          description: "Bird 3",
-          price: 35,
-          number: 1,
-          total: 0,
-          time: "",
-          like: false,
-          tag: []
-        },
-        {
-          name: "KitKat_1",
-          img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
-          type: "Bird",
-          description: "Bird 4",
-          price: 49,
-          number: 1,
-          total: 0,
-          time: "",
-          like: false,
-          tag: []
-        }
-      ]
-
-      // -----------------------------------------------------------
+      recommendProductItems: [], // 推薦的商品
     };
   },
   watch: {
@@ -627,7 +379,7 @@ export default {
       setTimeout(() => {
         if (type === "Recommend") {
           // 如果點的是 Recommend
-          this.showProductItems = this.recordProductItems;
+          this.showProductItems = this.recommendProductItems;
         } else {
           this.showProductItems = this.productItems.filter(function(
             item,
@@ -673,6 +425,9 @@ export default {
       },
       recordProductItems: state => {
         return state.product.recordProductItems;
+      },
+      productItems: state => {
+        return state.product.productItems;
       }
     })
   }
