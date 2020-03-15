@@ -16,7 +16,7 @@
               class="mx-auto mb-4"
               :elevation="hover ? 24 : 3"
             >
-              <v-img max-width="300" :src="user.avatar"></v-img>
+              <v-img max-width="300" :src="avatar"></v-img>
             </v-card>
           </v-hover>
         </v-lazy>
@@ -172,7 +172,7 @@
                 <v-btn @click="editName" icon>
                   <v-icon>mdi-pencil</v-icon>
                 </v-btn>
-                {{ user.name }}
+                {{ username }}
               </v-card-text>
               <!-- edit name -->
               <v-lazy
@@ -227,7 +227,7 @@
                 <v-btn @click="editDescription" icon>
                   <v-icon>mdi-pencil</v-icon>
                 </v-btn>
-                {{ user.description }}
+                {{ description }}
               </v-card-text>
               <!-- edit description -->
               <v-lazy
@@ -285,7 +285,7 @@
                 <v-btn icon>
                   <v-icon @click="editEmail">mdi-pencil</v-icon>
                 </v-btn>
-                {{ user.email }}
+                {{ email }}
               </v-card-text>
               <!-- edit email -->
               <v-lazy
@@ -344,7 +344,7 @@
                   <v-btn
                     text
                     color="green"
-                    :disabled="captchaError"
+                    :disabled="captchaError || newEmailError"
                     @click="submitNewEmail"
                     >save</v-btn
                   >
@@ -372,7 +372,7 @@
                 <v-btn @click="editPhone" icon>
                   <v-icon>mdi-pencil</v-icon>
                 </v-btn>
-                {{ user.phone }}
+                {{ phone }}
               </v-card-text>
               <!-- edit phone number -->
               <v-lazy
@@ -427,7 +427,7 @@
                 <v-btn @click="addCreditDialog = true" icon>
                   <v-icon>mdi-database-plus</v-icon>
                 </v-btn>
-                {{ user.cash }}
+                {{ cash }}
               </v-card-text>
             </v-card>
           </v-hover>
@@ -451,7 +451,7 @@
                 <v-btn @click="editAddress" icon>
                   <v-icon>mdi-pencil</v-icon>
                 </v-btn>
-                {{ user.address }}
+                {{ address }}
               </v-card-text>
               <!-- edit address -->
               <v-lazy
@@ -506,7 +506,7 @@
                 <v-btn @click="editPassword" icon>
                   <v-icon>mdi-pencil</v-icon>
                 </v-btn>
-                {{ user.password }}
+                {{ password }}
               </v-card-text>
               <!-- edit password -->
               <v-lazy
@@ -602,6 +602,17 @@
 </template>
 <script>
 // import myUpload from "../components/vue-image-crop-upload/upload-2";
+import { mapState, mapMutations } from "vuex";
+import {
+  UPDATE_USER_USERNAME,
+  UPDATE_USER_AVATAR,
+  UPDATE_USER_DESCRIPTION,
+  UPDATE_USER_EMAIL,
+  UPDATE_USER_PHONE,
+  UPDATE_USER_CASH,
+  UPDATE_USER_ADDRESS,
+  UPDATE_ALL_USER_DATA
+} from "../store/mutations-types/user";
 import { validationMixin } from "vuelidate";
 import {
   required,
@@ -733,16 +744,7 @@ export default {
   },
   data: () => ({
     isActive: false,
-    user: {
-      avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
-      name: "Huang Po Hsun",
-      description: "前端負責人，1804 黃柏曛，I love ArchLinux.",
-      email: "fh831.cp9gw@gmail.com",
-      phone: "1111111111",
-      address: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-      password: "********",
-      cash: 100
-    },
+    // 判斷是否顯示編輯
     editAvatarDialog: false,
     clickEditName: false,
     isActiveEditName: false,
@@ -914,7 +916,7 @@ export default {
       //   });
       // 假設測試成功
       this.updateUsernameSuccess = true;
-      this.user.name = this.newUsername;
+      this.$store.commit(UPDATE_USER_USERNAME, this.newUsername);
       this.editName();
     },
     submitNewDescription() {
@@ -940,7 +942,7 @@ export default {
       //   });
       // 假設測試成功
       this.updateDescriptionSuccess = true;
-      this.user.description = this.newDescription;
+      this.$store.commit(UPDATE_USER_DESCRIPTION, this.newDescription);
       this.editDescription();
     },
     submitNewEmail() {
@@ -966,7 +968,7 @@ export default {
       //   });
       // 假設測試成功
       this.updateEmailSuccess = true;
-      this.user.email = this.newEmail;
+      this.$store.commit(UPDATE_USER_EMAIL, this.newEmail);
       this.editEmail();
     },
     submitNewPhone() {
@@ -992,7 +994,7 @@ export default {
       //   });
       // 假設測試成功
       this.updatePhoneSuccess = true;
-      this.user.phone = this.newPhone;
+      this.$store.commit(UPDATE_USER_EMAIL, this.newPhone);
       this.editPhone();
     },
     submitNewAddress() {
@@ -1018,7 +1020,7 @@ export default {
       //   });
       // 假設測試成功
       this.updateAddressSuccess = true;
-      this.user.address = this.newAddress;
+      this.$store.commit(UPDATE_USER_ADDRESS, this.newAddress);
       this.editAddress();
     },
     submitAddCash() {
@@ -1043,7 +1045,8 @@ export default {
       //   });
       // 假設測試成功
       this.updateCashSuccess = true;
-      this.user.cash += this.tags[this.money];
+      var totalCash = this.cash + this.tags[this.money];
+      this.$store.commit(UPDATE_USER_CASH, totalCash);
       this.addCreditDialog = false;
     },
     submitNewPassword() {
@@ -1200,6 +1203,33 @@ export default {
   //   return axios.post(url, data, this.config);
   // }
   computed: {
+    // vuex 引入 user
+    ...mapState({
+      username: state => {
+        return state.user.username;
+      },
+      avatar: state => {
+        return state.user.avatar;
+      },
+      description: state => {
+        return state.user.description;
+      },
+      email: state => {
+        return state.user.email;
+      },
+      phone: state => {
+        return state.user.phone;
+      },
+      cash: state => {
+        return state.user.cash;
+      },
+      address: state => {
+        return state.user.address;
+      },
+      password: state => {
+        return state.user.password;
+      }
+    }),
     newUsernameErrors() {
       const errors = [];
       if (!this.$v.newUsername.$dirty) return errors;
@@ -1219,6 +1249,16 @@ export default {
       !this.$v.newEmail.isUnique &&
         errors.push("The e-mail is already registered.");
       this.newEmailError = true;
+      return errors;
+    },
+    captchaErrors() {
+      const errors = [];
+      if (!this.$v.captcha.$dirty) return errors;
+      !this.$v.captcha.minLength && errors.push("must have 4 letters.");
+      !this.$v.captcha.maxLength && errors.push("must have 4 letters.");
+      !this.$v.captcha.required && errors.push("captcha is required.");
+      !this.$v.captcha.isUnique && errors.push("Captcha isn't true.");
+      this.captchaError = true;
       return errors;
     },
     newDescriptionErrors() {

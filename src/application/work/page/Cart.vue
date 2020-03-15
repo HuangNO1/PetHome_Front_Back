@@ -387,6 +387,9 @@ import {
   ADD_TO_RECORD,
   UPDATE_CART_ITEMS
 } from "../store/mutations-types/product";
+import {
+  UPDATE_USER_CASH,
+} from "../store/mutations-types/user";
 
 export default {
   components: {},
@@ -396,9 +399,6 @@ export default {
   },
   data() {
     return {
-      // 假設使用者的貨幣
-      cash: 100,
-      // ---------
       isActive: false,
       step: 1,
       progressValue: [],
@@ -511,6 +511,8 @@ export default {
         }
       }
       this.$store.commit(UPDATE_CART_ITEMS, this.cartProduct);
+      // 更新使用者 cash
+      this.$store.commit(UPDATE_USER_CASH, this.countResult)
       console.log(recordProductItems);
     }
   },
@@ -522,7 +524,10 @@ export default {
       },
       recordProductItems: state => {
         return state.product.recordProductItems;
-      }
+      },
+      cash: state => {
+        return state.user.cash;
+      },
     }),
     currentTitle() {
       switch (this.step) {
