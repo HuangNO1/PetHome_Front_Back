@@ -387,9 +387,7 @@ import {
   ADD_TO_RECORD,
   UPDATE_CART_ITEMS
 } from "../store/mutations-types/product";
-import {
-  UPDATE_USER_CASH,
-} from "../store/mutations-types/user";
+import { UPDATE_USER_CASH } from "../store/mutations-types/user";
 
 export default {
   components: {},
@@ -456,11 +454,15 @@ export default {
       countResult: 0,
       // Finish Deal---------------------------
       comfirmDealDialog: false,
-      finishDeal: false
+      finishDeal: false,
+      // 數據操作請求
+      updateCartItemsURL: "",
+      addToRecordURL: ""
     };
   },
   watch: {},
   methods: {
+    // 數據請求操作會傳 使用者 email 做搜索
     cartProgress(val) {
       return this.progressIcons[val];
     },
@@ -478,6 +480,19 @@ export default {
       }
       this.deleteDialog = false;
       this.$store.commit(UPDATE_CART_ITEMS, this.cartProduct);
+      // axios 更新購物車產品
+      // var params = new URLSearchParams();
+      // params.append("cartItems", this.cartProduct);
+      // params.append("email", this.email);
+      // axios
+      //   .post(this.updateCartItemsURL, params)
+      //   .then(response => {
+      //     console.log(response);
+      //     console.log(response.data);
+      //   })
+      //   .catch(error => {
+      //     console.log(error);
+      //   });
     },
     nextWindow() {
       if (this.step + 1 === 3) {
@@ -511,9 +526,48 @@ export default {
         }
       }
       this.$store.commit(UPDATE_CART_ITEMS, this.cartProduct);
-      // 更新使用者 cash
-      this.$store.commit(UPDATE_USER_CASH, this.countResult)
+      // Vuex 更新使用者 cash
+      this.$store.commit(UPDATE_USER_CASH, this.countResult);
       console.log(recordProductItems);
+      // axios 更新 Record
+      // var paramsRecord = new URLSearchParams();
+      // paramsRecord.append("addToRecordItem", this.cartSelected);
+      // paramsRecord.append("email", this.email);
+      // axios
+      //   .post(this.addToRecordURL, paramsRecord)
+      //   .then(response => {
+      //     console.log(response);
+      //     console.log(response.data);
+      //   })
+      //   .catch(error => {
+      //     console.log(error);
+      //   });
+      // axios 更新 購物車
+      // var paramsCart = new URLSearchParams();
+      // paramsCart.append("cartItems", this.cartProduct);
+      // paramsCart.append("email", this.email);
+      // axios
+      //   .post(this.updateCartItemsURL, paramsCart)
+      //   .then(response => {
+      //     console.log(response);
+      //     console.log(response.data);
+      //   })
+      //   .catch(error => {
+      //     console.log(error);
+      //   });
+      // axios 更新使用者 cash
+      // var paramsCash = new URLSearchParams();
+      // paramsCash.append("cash", this.countResult);
+      // paramsCash.append("email", this.email);
+      // axios
+      //   .post(this.updateCartItemsURL, paramsCash)
+      //   .then(response => {
+      //     console.log(response);
+      //     console.log(response.data);
+      //   })
+      //   .catch(error => {
+      //     console.log(error);
+      //   });
     }
   },
   computed: {
@@ -528,6 +582,9 @@ export default {
       cash: state => {
         return state.user.cash;
       },
+      email: state => {
+        return state.user.email;
+      }
     }),
     currentTitle() {
       switch (this.step) {
@@ -576,6 +633,18 @@ export default {
     },
     updateCartItems() {
       this.$store.commit(UPDATE_CART_ITEMS, this.cartProduct);
+      var params = new URLSearchParams();
+      // axios 更新購物車產品
+      // params.append("cartItems", this.cartProduct);
+      // axios
+      //   .post(this.updateCartItemsURL, params)
+      //   .then(response => {
+      //     console.log(response);
+      //     console.log(response.data);
+      //   })
+      //   .catch(error => {
+      //     console.log(error);
+      //   });
     }
   }
 };

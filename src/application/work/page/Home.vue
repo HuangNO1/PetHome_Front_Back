@@ -346,7 +346,9 @@ export default {
       // product test--------------------------------
       showProductItems: [],
       recommendProductItems: [], // 推薦的商品
-      initRecommendProductItemsURL: []
+      initRecommendProductItemsURL: "",
+      addCartSameURL: "",
+      addCartURL: ""
     };
   },
   watch: {
@@ -411,10 +413,36 @@ export default {
         if (this.cartProductItems[i].name === item.name) {
           this.cartProductItems[i].number += 1;
           isSame = true;
+
+          // axios 將這商品寫入使用者數據庫
+          // var params = new URLSearchParams();
+          // params.append("sameProductAddCart", this.cartProductItems[i]);
+          // axios
+          //   .post(this.addCartURL, params)
+          //   .then(response => {
+          //     console.log(response);
+          //     console.log(response.data);
+          //   })
+          //   .catch(error => {
+          //     console.log(error);
+          //   });
+          break;
         }
       }
       if (!isSame) {
         this.$store.commit(ADD_TO_CART, item);
+        // axios 將這商品寫入使用者數據庫
+        // var params = new URLSearchParams();
+        // params.append("productAddCart", item);
+        // axios
+        //   .post(this.addCartURL, params)
+        //   .then(response => {
+        //     console.log(response);
+        //     console.log(response.data);
+        //   })
+        //   .catch(error => {
+        //     console.log(error);
+        //   });
       }
       // 出現提示窗
       this.snackbar = true;
