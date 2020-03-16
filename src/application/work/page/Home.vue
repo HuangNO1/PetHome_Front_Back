@@ -293,6 +293,18 @@ export default {
   created() {
     this.recommendProductItems = this.productItems;
     this.showProductItems = this.recommendProductItems;
+    // 獲取初始資料
+    // 推薦給使用者的產品資料
+    // axios
+    //   .post(this.initRecommendProductItemsURL)
+    //   .then(response => {
+    //     console.log(response);
+    //     console.log(response.data);
+    //     this.recommendProductItems = response.data;
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   });
   },
   data() {
     return {
@@ -334,6 +346,7 @@ export default {
       // product test--------------------------------
       showProductItems: [],
       recommendProductItems: [], // 推薦的商品
+      initRecommendProductItemsURL: []
     };
   },
   watch: {
