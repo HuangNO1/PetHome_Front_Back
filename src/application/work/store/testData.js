@@ -10,7 +10,7 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
-        tagss: [
+        tags: [
             "black",
             "small",
             "close people",
