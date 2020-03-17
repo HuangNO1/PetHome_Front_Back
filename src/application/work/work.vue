@@ -220,6 +220,8 @@ export default {
     //     // 主題
     //     this.$store.commit(UPDATE_NAV_THEME, response.data.navTheme);
     //     this.$store.commit(UPDATE_NAV_IMAGE, response.data.navImage);
+    //     // 黑色 或 白色主題
+    //     this.$vuetify.theme.dark = response.data.darkTheme;
     //   })
     //   .catch(error => {
     //     console.log(error);
