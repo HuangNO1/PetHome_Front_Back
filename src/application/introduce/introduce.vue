@@ -1,13 +1,15 @@
 <template>
   <v-app>
     <v-app-bar class="indigo" app>
-      <!-- -->
-      <v-avatar @click="Sign" class="icon" size="108">
-        <img
-          alt="Avatar"
-          src="../../assets/icons/introduce.png"
-        />
-      </v-avatar>
+      <!-- 給 tooltip 提示 Sign -->
+      <v-tooltip right>
+        <template v-slot:activator="{ on }">
+          <v-avatar @click="Sign" class="icon" size="108" v-on="on">
+            <img alt="Avatar" src="../../assets/icons/introduce.png" />
+          </v-avatar>
+        </template>
+        <span>Click to sign in!</span>
+      </v-tooltip>
       <span class="display-1 white--text" style="margin-left: 5rem;"
         >Pet Home</span
       >
@@ -38,8 +40,15 @@
     <v-footer fixed="true" padless="true" app>
       <v-card flat tile width="100%" class="indigo lighten-1 text-center">
         <v-card-text>
-          <v-btn v-for="icon in icons" :key="icon" class="mx-4" icon>
-            <v-icon size="24px">{{ icon }}</v-icon>
+          <v-btn
+            v-for="icon in icons"
+            :key="icon.icon"
+            :href="icon.href"
+            target="_blank"
+            class="mx-4"
+            icon
+          >
+            <v-icon size="24px">{{ icon.icon }}</v-icon>
           </v-btn>
         </v-card-text>
 
@@ -47,10 +56,7 @@
 
         <v-card-text class="white--text">
           <v-avatar size="36" style="margin-right: 1rem;">
-            <img
-              alt="Avatar"
-              src="../../assets/icons/introduce.png"
-            />
+            <img alt="Avatar" src="../../assets/icons/introduce.png" />
           </v-avatar>
           {{ new Date().getFullYear() }} — <strong>Pet Home</strong>
         </v-card-text>
@@ -97,7 +103,16 @@ export default {
         descript: "Pet Home are your best choice"
       }
     ],
-    icons: ["mdi-home", "mdi-email", "mdi-calendar", "mdi-delete"]
+    icons: [
+      { icon: "mdi-home", href: "" },
+      { icon: "mdi-email", href: "" },
+      { icon: "mdi-calendar", href: "" },
+      {
+        icon: "mdi-github",
+        href: "https://github.com/HuangNO1/PetHome_Front_Back"
+      }
+    ],
+    href: ""
   }),
   methods: {
     Sign() {
