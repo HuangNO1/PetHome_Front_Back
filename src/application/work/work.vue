@@ -49,7 +49,15 @@
       >
       <v-spacer></v-spacer>
 
+      <!-- 沒登入成功的情況 顯示登入按鈕-->
+
+      <v-btn outlined href="/sign#/Login" v-if="!loginSuccess">
+        <v-icon left>mdi-account-arrow-right</v-icon> Sign In
+      </v-btn>
+
+      <!-- 登入成功的情況 ： 顯示使用者的頭像與名稱和 Menu-->
       <v-menu
+        v-if="loginSuccess"
         transition="slide-x-reverse-transition"
         offset-y="true"
         open-on-hover="true"
@@ -137,7 +145,10 @@ const data = localStorage.getItem("todoList")
 
 // import HelloWorld from "./components/HelloWorld";
 import { mapState, mapMutations } from "vuex";
-import { UPDATE_NAV_THEME, UPDATE_NAV_IMAGE } from "./store/mutations-types/theme";
+import {
+  UPDATE_NAV_THEME,
+  UPDATE_NAV_IMAGE
+} from "./store/mutations-types/theme";
 import {
   UPDATE_USER_USERNAME,
   UPDATE_USER_AVATAR,
@@ -245,7 +256,9 @@ export default {
       { title: "Cart", icon: "mdi-cart", url: "Cart" },
       { title: "Setting", icon: "mdi-cogs", url: "Setting" }
     ],
-    signOutDialog: false
+    signOutDialog: false,
+    // 用來判斷是否登入成功，決定顯示右上角的使用者顯示
+    loginSuccess: true
   }),
   methods: {
     miniMenu() {
