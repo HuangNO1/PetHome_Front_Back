@@ -62,7 +62,7 @@ module.exports = {
             app.get('/', (req, res, next) => {
                 for (let i in pages) {
                     //res.write(`<a target="_self" href="/${i}">/${i}</a></br>`);
-                    if (i === 'sign') {
+                    if (i === 'introduce') {
                         res.write(`<script>document.location.href="/${i}";</script>`);
                     }
                 }
