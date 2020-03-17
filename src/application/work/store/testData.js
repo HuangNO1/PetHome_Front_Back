@@ -10,6 +10,8 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        gender: "",
+        age: "",
         tags: [
             "black",
             "small",
@@ -28,6 +30,8 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        gender: "",
+        age: "",
         tags: [
             "small",
             "white",
@@ -44,6 +48,8 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        gender: "",
+        age: "",
         tags: [
             "white",
             "big",
@@ -61,6 +67,8 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        gender: "",
+        age: "",
         tags: [
             "orange",
             "big",
@@ -79,6 +87,8 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        gender: "",
+        age: "",
         tags: [
             "black",
             "medium",
@@ -96,6 +106,8 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        gender: "",
+        age: "",
         tags: [
             "black",
             "big",
@@ -113,6 +125,8 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        gender: "",
+        age: "",
         tags: [
             "big",
             "Switzerland",
@@ -130,6 +144,8 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        gender: "",
+        age: "",
         tags: [
             "medium",
             "brown",
@@ -148,6 +164,8 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        gender: "",
+        age: "",
         tags: [
             "large",
             "black",
@@ -165,6 +183,8 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        gender: "",
+        age: "",
         tags: [
             "close people",
             "small",
@@ -183,6 +203,8 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        gender: "",
+        age: "",
         tags: [
             "shy",
             "United States",
@@ -200,6 +222,8 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        gender: "",
+        age: "",
         tags: [
             "Europe",
             "orange",
@@ -218,6 +242,8 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        gender: "",
+        age: "",
         tags: [
             "yellow",
             "Taiwan",
@@ -235,6 +261,8 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        gender: "",
+        age: "",
         tags: [
             "blue",
             "Taiwan",
@@ -252,6 +280,8 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        gender: "",
+        age: "",
         tags: [
             "blue",
             "Russia",
@@ -268,6 +298,8 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        gender: "",
+        age: "",
         tags: [
             "blue",
             "Taiwan",
@@ -286,6 +318,8 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        gender: "",
+        age: "",
         tags: [
             "blue",
             "Taiwan",
@@ -303,6 +337,8 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        gender: "",
+        age: "",
         tags: [
             "blue",
             "Taiwan",
@@ -320,6 +356,8 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        gender: "",
+        age: "",
         tags: [
             "black",
             "Chinese",
@@ -337,6 +375,8 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        gender: "",
+        age: "",
         tags: [
             "blue",
             "yellow",
