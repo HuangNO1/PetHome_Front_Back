@@ -19,7 +19,13 @@ export const TEST_PRODUCT_DATA = [
             "close people",
             "lively",
             "Europe"
-        ]
+        ],
+        comments: [{
+            username: "Rem",
+            avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
+            content: "I love it.",
+            time: "2020/03/17 下午 6:17"
+        }]
     },
     {
         name: "Ice cream sandwich",
@@ -38,7 +44,13 @@ export const TEST_PRODUCT_DATA = [
             "small",
             "white",
             "Chinese",
-        ]
+        ],
+        comments: [{
+            username: "Rem",
+            avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
+            content: "I love it.",
+            time: "2020/03/17 下午 6:17"
+        }]
     },
     {
         name: "Eclair",
@@ -58,7 +70,13 @@ export const TEST_PRODUCT_DATA = [
             "big",
             "Russia",
             "ferocious"
-        ]
+        ],
+        comments: [{
+            username: "Rem",
+            avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
+            content: "I love it.",
+            time: "2020/03/17 下午 6:17"
+        }]
     },
     {
         name: "Cupcake",
@@ -78,7 +96,13 @@ export const TEST_PRODUCT_DATA = [
             "big",
             "Europe",
             "tender"
-        ]
+        ],
+        comments: [{
+            username: "Rem",
+            avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
+            content: "I love it.",
+            time: "2020/03/17 下午 6:17"
+        }]
     },
     // cat --------------------------------
     {
@@ -99,7 +123,13 @@ export const TEST_PRODUCT_DATA = [
             "medium",
             "United States",
             "tender"
-        ]
+        ],
+        comments: [{
+            username: "Rem",
+            avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
+            content: "I love it.",
+            time: "2020/03/17 下午 6:17"
+        }]
     },
     {
         name: "Jelly bean",
@@ -119,7 +149,13 @@ export const TEST_PRODUCT_DATA = [
             "big",
             "United States",
             "shy"
-        ]
+        ],
+        comments: [{
+            username: "Rem",
+            avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
+            content: "I love it.",
+            time: "2020/03/17 下午 6:17"
+        }]
     },
     {
         name: "Lollipop",
@@ -139,7 +175,13 @@ export const TEST_PRODUCT_DATA = [
             "Switzerland",
             "yellow",
             "happy"
-        ]
+        ],
+        comments: [{
+            username: "Rem",
+            avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
+            content: "I love it.",
+            time: "2020/03/17 下午 6:17"
+        }]
     },
     {
         name: "Honeycomb",
@@ -159,7 +201,13 @@ export const TEST_PRODUCT_DATA = [
             "brown",
             "Chinese",
             "lazy"
-        ]
+        ],
+        comments: [{
+            username: "Rem",
+            avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
+            content: "I love it.",
+            time: "2020/03/17 下午 6:17"
+        }]
     },
     // Fox -------------------------------
     {
@@ -180,7 +228,13 @@ export const TEST_PRODUCT_DATA = [
             "black",
             "Africa",
             "tender"
-        ]
+        ],
+        comments: [{
+            username: "Rem",
+            avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
+            content: "I love it.",
+            time: "2020/03/17 下午 6:17"
+        }]
     },
     {
         name: "KitKat",
@@ -201,7 +255,13 @@ export const TEST_PRODUCT_DATA = [
             "white",
             "Canada",
             "tender"
-        ]
+        ],
+        comments: [{
+            username: "Rem",
+            avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
+            content: "I love it.",
+            time: "2020/03/17 下午 6:17"
+        }]
     },
     {
         name: "Frozen Yogurt_1",
@@ -221,7 +281,13 @@ export const TEST_PRODUCT_DATA = [
             "United States",
             "gray",
             "big"
-        ]
+        ],
+        comments: [{
+            username: "Rem",
+            avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
+            content: "I love it.",
+            time: "2020/03/17 下午 6:17"
+        }]
     },
     {
         name: "Ice cream sandwich_",
@@ -241,7 +307,13 @@ export const TEST_PRODUCT_DATA = [
             "orange",
             "ferocious",
             "medium",
-        ]
+        ],
+        comments: [{
+            username: "Rem",
+            avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
+            content: "I love it.",
+            time: "2020/03/17 下午 6:17"
+        }]
     },
     // Fish -----------------------------------
     {
@@ -262,7 +334,13 @@ export const TEST_PRODUCT_DATA = [
             "Taiwan",
             "small",
             "Tropical environment"
-        ]
+        ],
+        comments: [{
+            username: "Rem",
+            avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
+            content: "I love it.",
+            time: "2020/03/17 下午 6:17"
+        }]
     },
     {
         name: "Cupcake_1",
@@ -282,7 +360,13 @@ export const TEST_PRODUCT_DATA = [
             "Taiwan",
             "small",
             "Tropical environment"
-        ]
+        ],
+        comments: [{
+            username: "Rem",
+            avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
+            content: "I love it.",
+            time: "2020/03/17 下午 6:17"
+        }]
     },
     {
         name: "Gingerbread_1",
@@ -301,7 +385,13 @@ export const TEST_PRODUCT_DATA = [
             "blue",
             "Russia",
             "medium",
-        ]
+        ],
+        comments: [{
+            username: "Rem",
+            avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
+            content: "I love it.",
+            time: "2020/03/17 下午 6:17"
+        }]
     },
     {
         name: "Jelly bean_1",
@@ -321,7 +411,13 @@ export const TEST_PRODUCT_DATA = [
             "Taiwan",
             "small",
             "Tropical environment"
-        ]
+        ],
+        comments: [{
+            username: "Rem",
+            avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
+            content: "I love it.",
+            time: "2020/03/17 下午 6:17"
+        }]
     },
     // bird ---------------------------------------
     {
@@ -342,7 +438,13 @@ export const TEST_PRODUCT_DATA = [
             "Taiwan",
             "large",
             "Tropical environment"
-        ]
+        ],
+        comments: [{
+            username: "Rem",
+            avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
+            content: "I love it.",
+            time: "2020/03/17 下午 6:17"
+        }]
     },
     {
         name: "Honeycomb_1",
@@ -362,7 +464,13 @@ export const TEST_PRODUCT_DATA = [
             "Taiwan",
             "small",
             "Tropical environment"
-        ]
+        ],
+        comments: [{
+            username: "Rem",
+            avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
+            content: "I love it.",
+            time: "2020/03/17 下午 6:17"
+        }]
     },
     {
         name: "Donut_1",
@@ -382,7 +490,13 @@ export const TEST_PRODUCT_DATA = [
             "Chinese",
             "small",
             "tender"
-        ]
+        ],
+        comments: [{
+            username: "Rem",
+            avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
+            content: "I love it.",
+            time: "2020/03/17 下午 6:17"
+        }]
     },
     {
         name: "KitKat_1",
@@ -403,7 +517,13 @@ export const TEST_PRODUCT_DATA = [
             "Canada",
             "medium",
             "shy"
-        ]
+        ],
+        comments: [{
+            username: "Rem",
+            avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
+            content: "I love it.",
+            time: "2020/03/17 下午 6:17"
+        }]
     }
 ]
 
