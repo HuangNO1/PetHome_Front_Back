@@ -10,6 +10,7 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        upVote: 10,
         gender: "",
         age: "",
         tags: [
@@ -30,6 +31,7 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        upVote: 99,
         gender: "",
         age: "",
         tags: [
@@ -48,6 +50,7 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        upVote: 27,
         gender: "",
         age: "",
         tags: [
@@ -67,6 +70,7 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        upVote: 67,
         gender: "",
         age: "",
         tags: [
@@ -87,6 +91,7 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        upVote: 2,
         gender: "",
         age: "",
         tags: [
@@ -106,6 +111,7 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        upVote: 87,
         gender: "",
         age: "",
         tags: [
@@ -125,6 +131,7 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        upVote: 34,
         gender: "",
         age: "",
         tags: [
@@ -144,6 +151,7 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        upVote: 52,
         gender: "",
         age: "",
         tags: [
@@ -164,6 +172,7 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        upVote: 102,
         gender: "",
         age: "",
         tags: [
@@ -183,6 +192,7 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        upVote: 33,
         gender: "",
         age: "",
         tags: [
@@ -203,6 +213,7 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        upVote: 75,
         gender: "",
         age: "",
         tags: [
@@ -222,6 +233,7 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        upVote: 29,
         gender: "",
         age: "",
         tags: [
@@ -242,6 +254,7 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        upVote: 30,
         gender: "",
         age: "",
         tags: [
@@ -261,6 +274,7 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        upVote: 36,
         gender: "",
         age: "",
         tags: [
@@ -280,6 +294,7 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        upVote: 0,
         gender: "",
         age: "",
         tags: [
@@ -298,6 +313,7 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        upVote: 82,
         gender: "",
         age: "",
         tags: [
@@ -318,6 +334,7 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        upVote: 13,
         gender: "",
         age: "",
         tags: [
@@ -337,6 +354,7 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        upVote: 49,
         gender: "",
         age: "",
         tags: [
@@ -356,6 +374,7 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        upVote: 56,
         gender: "",
         age: "",
         tags: [
@@ -375,6 +394,7 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
+        upVote: 38,
         gender: "",
         age: "",
         tags: [
