@@ -10,7 +10,13 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
-        tag: []
+        tagss: [
+            "black",
+            "small",
+            "close people",
+            "lively",
+            "Europe"
+        ]
     },
     {
         name: "Ice cream sandwich",
@@ -22,7 +28,11 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
-        tag: []
+        tags: [
+            "small",
+            "white",
+            "Chinese",
+        ]
     },
     {
         name: "Eclair",
@@ -34,7 +44,12 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
-        tag: []
+        tags: [
+            "white",
+            "big",
+            "Russia",
+            "ferocious"
+        ]
     },
     {
         name: "Cupcake",
@@ -45,7 +60,13 @@ export const TEST_PRODUCT_DATA = [
         number: 1,
         total: 0,
         time: "",
-        like: false
+        like: false,
+        tags: [
+            "orange",
+            "big",
+            "Europe",
+            "tender"
+        ]
     },
     // cat --------------------------------
     {
@@ -58,7 +79,12 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
-        tag: []
+        tags: [
+            "black",
+            "medium",
+            "United States",
+            "tender"
+        ]
     },
     {
         name: "Jelly bean",
@@ -70,7 +96,12 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
-        tag: []
+        tags: [
+            "black",
+            "big",
+            "United States",
+            "shy"
+        ]
     },
     {
         name: "Lollipop",
@@ -82,7 +113,12 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
-        tag: []
+        tags: [
+            "big",
+            "Switzerland",
+            "yellow",
+            "happy"
+        ]
     },
     {
         name: "Honeycomb",
@@ -94,7 +130,12 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
-        tag: []
+        tags: [
+            "medium",
+            "brown",
+            "Chinese",
+            "lazy"
+        ]
     },
     // Fox -------------------------------
     {
@@ -107,7 +148,12 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
-        tag: []
+        tags: [
+            "large",
+            "black",
+            "Africa",
+            "tender"
+        ]
     },
     {
         name: "KitKat",
@@ -119,7 +165,13 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
-        tag: []
+        tags: [
+            "close people",
+            "small",
+            "white",
+            "Canada",
+            "tender"
+        ]
     },
     {
         name: "Frozen Yogurt_1",
@@ -131,7 +183,12 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
-        tag: []
+        tags: [
+            "shy",
+            "United States",
+            "gray",
+            "big"
+        ]
     },
     {
         name: "Ice cream sandwich_",
@@ -143,7 +200,12 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
-        tag: []
+        tags: [
+            "Europe",
+            "orange",
+            "ferocious",
+            "medium",
+        ]
     },
     // Fish -----------------------------------
     {
@@ -156,7 +218,12 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
-        tag: []
+        tags: [
+            "yellow",
+            "Taiwan",
+            "small",
+            "Tropical environment"
+        ]
     },
     {
         name: "Cupcake_1",
@@ -168,7 +235,12 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
-        tag: []
+        tags: [
+            "blue",
+            "Taiwan",
+            "small",
+            "Tropical environment"
+        ]
     },
     {
         name: "Gingerbread_1",
@@ -180,7 +252,11 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
-        tag: []
+        tags: [
+            "blue",
+            "Russia",
+            "medium",
+        ]
     },
     {
         name: "Jelly bean_1",
@@ -192,7 +268,12 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
-        tag: []
+        tags: [
+            "blue",
+            "Taiwan",
+            "small",
+            "Tropical environment"
+        ]
     },
     // bird ---------------------------------------
     {
@@ -205,7 +286,12 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
-        tag: []
+        tags: [
+            "blue",
+            "Taiwan",
+            "large",
+            "Tropical environment"
+        ]
     },
     {
         name: "Honeycomb_1",
@@ -217,7 +303,12 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
-        tag: []
+        tags: [
+            "blue",
+            "Taiwan",
+            "small",
+            "Tropical environment"
+        ]
     },
     {
         name: "Donut_1",
@@ -229,7 +320,12 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
-        tag: []
+        tags: [
+            "black",
+            "Chinese",
+            "small",
+            "tender"
+        ]
     },
     {
         name: "KitKat_1",
@@ -241,7 +337,13 @@ export const TEST_PRODUCT_DATA = [
         total: 0,
         time: "",
         like: false,
-        tag: []
+        tags: [
+            "blue",
+            "yellow",
+            "Canada",
+            "medium",
+            "shy"
+        ]
     }
 ]
 
