@@ -92,6 +92,7 @@
 import { validationMixin } from "vuelidate";
 import { required, minLength, email } from "vuelidate/lib/validators";
 import axios from "axios";
+import Cookies from 'js-cookie' // 引入 cookie API
 
 export default {
   mixins: [validationMixin],
@@ -238,6 +239,8 @@ export default {
         .then(response => {
           console.log(response);
         });*/
+        // 登入狀態存 cookie 7 天 存 username 或是 email
+      Cookies.set('userStatus', this.name, { expires: 7 })
       document.location.href = "/work#/Home";
     },
     onFail() {

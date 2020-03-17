@@ -66,7 +66,7 @@
 </template>
 
 <script>
-// import HelloWorld from "./components/HelloWorld";
+import Cookies from 'js-cookie' // 引入 cookie API
 
 export default {
   name: "App",
@@ -116,7 +116,11 @@ export default {
   }),
   methods: {
     Sign() {
-      document.location.href = "/sign#/Login";
+      if(Cookies.get('userStatus') === "") {
+        document.location.href = "/sign#/Login";
+      } else {
+        document.location.href = "/work#/Home";
+      }
     }
   },
   computed: {}

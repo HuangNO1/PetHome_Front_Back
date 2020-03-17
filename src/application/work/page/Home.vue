@@ -227,7 +227,7 @@
                   class="headline mb-2 ml-2"
                   style="margin-bottom: 0; margin-top: 0;"
                 >
-                  {{ item.name }}
+                  <a @click="toViewProduct">{{ item.name }}</a>
                 </div>
                 <div class="ml-2" style="width: 27rem;">
                   {{ item.description }}
@@ -456,6 +456,10 @@ export default {
           return e.price >= this.priceRange[0] && e.price <= this.priceRange[1];
         });
       }, 300);
+    },
+    toViewProduct() {
+      // 跳轉到 viewProduct 子組件檢視產品詳細
+      this.$router.push('/ViewProduct');
     }
   },
   computed: {

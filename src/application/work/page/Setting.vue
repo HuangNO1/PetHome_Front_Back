@@ -22,7 +22,7 @@
               <v-card-title>
                 Theme Colors
               </v-card-title>
-              <v-row v-for="(i, iKey) in NavColors" :key="iKey">
+              <v-row v-for="(i, iKey) in NavColors" :key="iKey" class="mb-3">
                 <v-col v-for="(j, jKey) in i.colors" :key="jKey">
                   <v-chip
                     :color="j.color"
@@ -34,9 +34,10 @@
                   </v-chip>
                 </v-col>
               </v-row>
+              <v-divider></v-divider>
               <v-switch
                 v-model="background"
-                class="ma-2"
+                class="ma-2 mt-3"
                 label="Background"
                 inset
                 @change="bg"

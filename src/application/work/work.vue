@@ -61,6 +61,7 @@
         transition="slide-x-reverse-transition"
         offset-y="true"
         open-on-hover="true"
+        min-width="230"
         bottom
         left
       >
@@ -82,13 +83,13 @@
           <!-- Sign Out-->
           <v-list-item @click.stop="signOutDialog = true">
             <v-list-item-title class="red--text">
-              <v-icon color="red">mdi-arrow-right-bold-circle</v-icon>
+              <v-icon color="red">mdi-door-open</v-icon>
               Sign Out
             </v-list-item-title>
           </v-list-item>
 
           <v-divider></v-divider>
-          <v-list-item>
+          <v-list-item class="mb-3">
             <v-switch
               v-model="$vuetify.theme.dark"
               hide-details
@@ -137,11 +138,7 @@
 </template>
 
 <script>
-const data = localStorage.getItem("todoList")
-  ? JSON.parse(localStorage.getItem("todoList"))
-  : {
-      todo: []
-    };
+import Cookies from "js-cookie"; // 引入 cookie API
 
 // import HelloWorld from "./components/HelloWorld";
 import { mapState, mapMutations } from "vuex";
@@ -186,52 +183,59 @@ export default {
     this.$vuetify.theme.dark = this.initialDark;
   },
   created() {
-    // 獲取初始資料
-    // 產品資料
-    // axios
-    //   .post(this.initProductURL)
-    //   .then(response => {
-    //     console.log(response);
-    //     console.log(response.data);
-    //     // 將產品資料寫入 Vuex
-    //     this.$store.commit(INIT_PRODUCT_ITEMS, response.data);
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //   });
-    // // 獲取使用者資料（包含主題）
-    // axios
-    //   .post(this.initUserURL)
-    //   .then(response => {
-    //     console.log(response);
-    //     console.log(response.data);
-    //     // 使用者基本資料
-    //     this.$store.commit(UPDATE_USER_USERNAME, response.data.username);
-    //     this.$store.commit(UPDATE_USER_AVATAR, response.data.avatar);
-    //     this.$store.commit(UPDATE_USER_DESCRIPTION, response.data.description);
-    //     this.$store.commit(UPDATE_USER_EMAIL, response.data.email);
-    //     this.$store.commit(UPDATE_USER_PHONE, response.data.phone);
-    //     this.$store.commit(UPDATE_USER_CASH, response.data.cash);
-    //     this.$store.commit(UPDATE_USER_ADDRESS, response.data.address);
-    //     // 購物車
-    //     this.$store.commit(UPDATE_CART_ITEMS, response.data.cart);
-    //     // 購物紀錄
-    //     this.$store.commit(UPDATE_RECORD_ITEMS, response.data.record);
-    //     // 主題
-    //     this.$store.commit(UPDATE_NAV_THEME, response.data.navTheme);
-    //     this.$store.commit(UPDATE_NAV_IMAGE, response.data.navImage);
-    //     // 黑色 或 白色主題
-    //     this.$vuetify.theme.dark = response.data.darkTheme;
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //   });
+    // 先獲取 cookie
+    var userStatus = Cookies.get("userStatus");
+    // if (userStatus !== "") {
+    //   獲取初始資料
+    //   產品資料
+    //   axios
+    //     .post(this.initProductURL, params: userStatus)
+    //     .then(response => {
+    //       console.log(response);
+    //       console.log(response.data);
+    //       // 將產品資料寫入 Vuex
+    //       this.$store.commit(INIT_PRODUCT_ITEMS, response.data);
+    //     })
+    //     .catch(error => {
+    //       console.log(error);
+    //     });
+    //   // 獲取使用者資料（包含主題）
+    //   axios
+    //     .post(this.initUserURL, params: userStatus)
+    //     .then(response => {
+    //       console.log(response);
+    //       console.log(response.data);
+    //       // 使用者基本資料
+    //       this.$store.commit(UPDATE_USER_USERNAME, response.data.username);
+    //       this.$store.commit(UPDATE_USER_AVATAR, response.data.avatar);
+    //       this.$store.commit(UPDATE_USER_DESCRIPTION, response.data.description);
+    //       this.$store.commit(UPDATE_USER_EMAIL, response.data.email);
+    //       this.$store.commit(UPDATE_USER_PHONE, response.data.phone);
+    //       this.$store.commit(UPDATE_USER_CASH, response.data.cash);
+    //       this.$store.commit(UPDATE_USER_ADDRESS, response.data.address);
+    //       // 購物車
+    //       this.$store.commit(UPDATE_CART_ITEMS, response.data.cart);
+    //       // 購物紀錄
+    //       this.$store.commit(UPDATE_RECORD_ITEMS, response.data.record);
+    //       // 主題
+    //       this.$store.commit(UPDATE_NAV_THEME, response.data.navTheme);
+    //       this.$store.commit(UPDATE_NAV_IMAGE, response.data.navImage);
+    //       // 黑色 或 白色主題
+    //       this.$vuetify.theme.dark = response.data.darkTheme;
+    //     })
+    //     .catch(error => {
+    //       console.log(error);
+    //     });
+    //   this.loginSuccess = true;
+    // } else {
+    //   this.loginSuccess = false;
+    // }
 
     if (this.navTheme === "") {
       this.$store.commit(UPDATE_NAV_THEME, "teal");
     }
     // document.location.href = "/work#/Home";
-    if (document.location.href === "/work#/") {
+    if (document.location.href === "/work") {
       document.location.href = "/work#/Home";
     }
   },
