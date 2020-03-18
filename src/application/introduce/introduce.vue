@@ -116,7 +116,7 @@ export default {
   }),
   methods: {
     Sign() {
-      if(Cookies.get('userStatus') === "") {
+      if(Cookies.get('userStatus') !== "" || Cookies.get('userStatus') !== null) {
         document.location.href = "/sign#/Login";
       } else {
         document.location.href = "/work#/Home";

@@ -44,7 +44,37 @@
             </viewer>
           </v-card-text>
         </v-card>
-        <v-card></v-card>
+      </v-lazy>
+      <v-lazy
+        v-model="isActive"
+        :options="{
+          threshold: 1
+        }"
+        transition="slide-x-reverse-transition"
+        origin="top right 50"
+      >
+        <v-card>
+          <v-card-text>
+            <!-- 性別 -->
+            <v-btn-toggle v-model="defaultGender" mandatory borderless>
+              <v-btn
+                v-for="(genders, i) in productGender"
+                :value="productGender.gender"
+                :key="i"
+              >
+                <v-icon left>{{ genders.icon }}</v-icon>
+                <span class="hidden-sm-and-down">{{ genders.gender }}</span>
+              </v-btn>
+            </v-btn-toggle>
+            <!-- age -->
+            <v-btn-toggle v-model="defaultAge" mandatory borderless>
+              <v-btn v-for="(ages, i) in productAge" :value="i">
+                <v-icon left>{{ ages.icon }}</v-icon>
+                <span class="hidden-sm-and-down">{{ ages.age }}</span>
+              </v-btn>
+            </v-btn-toggle>
+          </v-card-text>
+        </v-card>
       </v-lazy>
     </div>
   </div>
@@ -63,6 +93,32 @@ export default {
       images: [
         "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
         "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png"
+      ],
+      defaultGender: "male",
+      defaultAge: "",
+      productGender: [
+        {
+          gender: "Male",
+          icon: "mdi-gender-male"
+        },
+        {
+          gender: "Female",
+          icon: "mdi-gender-female"
+        }
+      ],
+      productAge: [
+        {
+          age: "Young",
+          icon: "mdi-alpha-y"
+        },
+        {
+          age: "Adult",
+          icon: "mdi-alpha-a"
+        },
+        {
+          age: "Older",
+          icon: "mdi-alpha-o"
+        }
       ]
     };
   },
@@ -74,7 +130,7 @@ export default {
     },
     inited(viewer) {
       this.$viewer = viewer;
-    },
+    }
   }
 };
 </script>
