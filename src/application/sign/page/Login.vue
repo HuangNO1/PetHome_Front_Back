@@ -190,7 +190,7 @@ export default {
         // submit the login request
         /*
         var params = new URLSearchParams();
-        params.append("name", this.name);
+        params.append("username", this.name);
         params.append("password", this.password);
         axios
           .post(this.loginURL, params)

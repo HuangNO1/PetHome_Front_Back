@@ -116,12 +116,17 @@ export default {
   }),
   methods: {
     Sign() {
-      if(Cookies.get('userStatus') !== "" || Cookies.get('userStatus') !== null) {
+      var testUserStatus = Cookies.get('userStatus');
+      console.log("test: " + testUserStatus);
+      if(testUserStatus === undefined) {
         document.location.href = "/sign#/Login";
       } else {
         document.location.href = "/work#/Home";
       }
     }
+  },
+  create() {
+    console.log('userStatus : ' + Cookies.get('userStatus'));
   },
   computed: {}
 };
