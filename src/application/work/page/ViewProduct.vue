@@ -1,17 +1,24 @@
 <template>
   <div>
-    <div>
-      <v-hover v-slot:default="{ hover }">
-        <v-card :elevation="hover ? 24 : 6" class="mb-10">
-          <v-toolbar>
-            <v-btn @click="goBack" icon>
-              <v-icon>mdi-arrow-left</v-icon>
-            </v-btn>
-            <v-toolbar-title>BACK</v-toolbar-title>
-          </v-toolbar>
-        </v-card>
-      </v-hover>
+    <div style="height: 5rem;">
+      <div style="position: fixed; z-index: 100;">
+        <v-hover v-slot:default="{ hover }">
+          <v-card
+            :elevation="hover ? 24 : 6"
+            class="mb-10"
+            style="border-radius: 10px; width: 10rem;"
+          >
+            <v-toolbar>
+              <v-btn @click="goBack" icon>
+                <v-icon>mdi-arrow-left</v-icon>
+              </v-btn>
+              <v-toolbar-title>BACK</v-toolbar-title>
+            </v-toolbar>
+          </v-card>
+        </v-hover>
+      </div>
     </div>
+
     <div>
       <v-lazy
         v-model="isActive"
@@ -28,38 +35,146 @@
             >XXXX</v-card-title
           >
           <v-card-text class="mt-2">
-            <!-- 顯示圖片 -->
-            <viewer
-              :options="options"
-              :images="images"
-              @inited="inited"
-              class="viewer mb-2"
-              ref="viewer"
-            >
-              <template slot-scope="scope">
-                <div style="display: flex; justify-content: center;">
-                  <img
-                    class="displayImg"
-                    v-for="src in scope.images"
-                    :src="src"
-                    :key="src"
-                  />
-                </div>
+            <div class="pr-10 pl-4">
+              <v-row>
+                <v-col>
+                  <!-- 顯示圖片 -->
+                  <viewer
+                    :options="options"
+                    :images="images"
+                    @inited="inited"
+                    class="viewer mb-2"
+                    ref="viewer"
+                  >
+                    <template slot-scope="scope">
+                      <div style="display: flex; justify-content: center;">
+                        <img
+                          class="displayImg"
+                          v-for="src in scope.images"
+                          :src="src"
+                          :key="src"
+                        />
+                      </div>
+                    </template>
+                  </viewer>
+                </v-col>
+                <v-divider vertical></v-divider>
+                <v-col
+                  class="ml-10"
+                  md="auto"
+                  sm="auto"
+                  xs="auto"
+                  lg="auto"
+                  xl="auto"
+                >
+                  <!-- 性別 -->
+                  <v-row>
+                    <v-subheader>Gender</v-subheader>
+                  </v-row>
+                  <v-row>
+                    <v-btn-toggle v-model="defaultGender" mandatory borderless>
+                      <v-btn
+                        v-for="(genders, i) in productGender"
+                        :value="productGender.gender"
+                        :key="i"
+                      >
+                        <v-icon left>{{ genders.icon }}</v-icon>
+                        <span class="hidden-sm-and-down">{{
+                          genders.gender
+                        }}</span>
+                      </v-btn>
+                    </v-btn-toggle>
+                  </v-row>
+                  <!-- age -->
+                  <v-row>
+                    <v-subheader>Age</v-subheader>
+                  </v-row>
+                  <v-row>
+                    <v-btn-toggle v-model="defaultAge" mandatory borderless>
+                      <v-btn v-for="(ages, i) in productAge" :value="i">
+                        <v-icon left>{{ ages.icon }}</v-icon>
+                        <span class="hidden-sm-and-down">{{ ages.age }}</span>
+                      </v-btn>
+                    </v-btn-toggle>
+                  </v-row>
+                  <v-row>
+                    <v-subheader>Number</v-subheader>
+                  </v-row>
+                  <v-row>
+                    <number-input
+                      style="color: black;"
+                      v-model="number"
+                      :min="1"
+                      :max="99"
+                      inline
+                      center
+                      controls
+                    >
+                    </number-input>
+                  </v-row>
+                </v-col>
+              </v-row>
+            </div>
+          </v-card-text>
+          <v-card-actions>
+            <span class="headline ml-2">
+              <v-icon large>mdi-cash-usd-outline</v-icon>
+              10000
+            </span>
+            <v-spacer></v-spacer>
+            <v-btn class="mx-2" fab small icon>
+              <v-icon>mdi-share-variant</v-icon>
+            </v-btn>
+            <v-btn class="mx-2" fab dark small color="primary">
+              <v-icon dark>mdi-thumb-up</v-icon>
+            </v-btn>
+            <v-btn class="mx-2" fab dark small color="pink">
+              <v-icon dark>mdi-heart</v-icon>
+            </v-btn>
+            <v-tooltip top>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  class="mx-2"
+                  fab
+                  small
+                  dark
+                  color="success"
+                  v-on="on"
+                  @click="addToCart(item)"
+                >
+                  <v-icon>mdi-cart-arrow-down</v-icon>
+                </v-btn>
               </template>
-            </viewer>
-            <!-- 文字描述 -->
+              <span>
+                <v-icon>mdi-cart</v-icon>
+                Add To Cart
+              </span>
+            </v-tooltip>
+          </v-card-actions>
+        </v-card>
+      </v-lazy>
+      <v-lazy
+        v-model="isActive"
+        :options="{
+          threshold: 1
+        }"
+        transition="slide-x-reverse-transition"
+        origin="top right 50"
+      >
+        <v-card class="mb-4" elevation="10">
+          <v-card-title>Description</v-card-title>
+          <v-card-text>
             <div
-              style="padding: 1rem 3rem 1rem; text-indent:2em; font-size: 1.4rem;"
+              class="text-justify subtitle-1 mr-10 ml-10"
+              style="text-indent: 2em;"
             >
-              <p class="text-justify">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
-              </p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+              reprehenderit in voluptate velit esse cillum dolore eu fugiat
+              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+              sunt in culpa qui officia deserunt mollit anim id est laborum.
             </div>
           </v-card-text>
         </v-card>
@@ -73,25 +188,46 @@
         origin="top right 50"
       >
         <v-card elevation="10">
+          <v-card-title>Comments</v-card-title>
           <v-card-text>
-            <!-- 性別 -->
-            <v-btn-toggle v-model="defaultGender" mandatory borderless>
-              <v-btn
-                v-for="(genders, i) in productGender"
-                :value="productGender.gender"
-                :key="i"
-              >
-                <v-icon left>{{ genders.icon }}</v-icon>
-                <span class="hidden-sm-and-down">{{ genders.gender }}</span>
-              </v-btn>
-            </v-btn-toggle>
-            <!-- age -->
-            <v-btn-toggle v-model="defaultAge" mandatory borderless>
-              <v-btn v-for="(ages, i) in productAge" :value="i">
-                <v-icon left>{{ ages.icon }}</v-icon>
-                <span class="hidden-sm-and-down">{{ ages.age }}</span>
-              </v-btn>
-            </v-btn-toggle>
+            <v-row class="ml-4 mr-4">
+              <v-col md="auto">
+                <v-avatar tile>
+                  <img :src="avatar" />
+                </v-avatar>
+              </v-col>
+              <v-col>
+                <v-textarea
+                  outlined
+                  label="Comment"
+                  value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
+                ></v-textarea>
+              </v-col>
+            </v-row>
+            <v-row class="mb-3">
+              <v-spacer></v-spacer>
+              <v-btn color="primary" class="mr-10">Send</v-btn>
+            </v-row>
+            <v-divider></v-divider>
+            <v-row
+              class="ml-4 mr-4"
+              v-for="item in testCommentsData"
+              :key="item.username"
+            >
+              <v-col md="auto">
+                <v-avatar tile>
+                  <img :src="item.avatar" />
+                </v-avatar>
+              </v-col>
+              <v-col>
+                <div>
+                  {{ item.username }} - {{ item.time }}
+                  <v-alert>
+                    {{ item.content }}
+                  </v-alert>
+                </div>
+              </v-col>
+            </v-row>
           </v-card-text>
         </v-card>
       </v-lazy>
@@ -101,6 +237,34 @@
 <script>
 import "viewerjs/dist/viewer.css";
 import Viewer from "v-viewer/src/component";
+
+const testCommentsData = [
+  {
+    username: "Rem",
+    avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
+    content:
+      "I love it.I love it.I love it.I love it.I love it.I love it.I love it.I love it.I love it.I love it.I love it.I love it.",
+    time: "2020/03/17 下午 6:17"
+  },
+  {
+    username: "Rem",
+    avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
+    content: "I love it.I love it.I love it.I love it.I love it.I love it.",
+    time: "2020/03/17 下午 6:17"
+  },
+  {
+    username: "Rem",
+    avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
+    content: "I love it.",
+    time: "2020/03/17 下午 6:17"
+  },
+  {
+    username: "Rem",
+    avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
+    content: "I love it.",
+    time: "2020/03/17 下午 6:17"
+  }
+];
 
 export default {
   components: {
@@ -135,7 +299,10 @@ export default {
           age: "Older",
           icon: "mdi-alpha-o"
         }
-      ]
+      ],
+      number: 1,
+      avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
+      testCommentsData: testCommentsData
     };
   },
   methods: {
