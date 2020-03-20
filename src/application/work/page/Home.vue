@@ -235,10 +235,10 @@
               </v-col>
             </v-row>
             <v-card-actions>
-              <span class="headline ml-2"
-                ><v-icon large>mdi-cash-usd-outline</v-icon>
-                {{ item.price }}</span
-              >
+              <span class="headline ml-2">
+                <v-icon large>mdi-cash-usd-outline</v-icon>
+                {{ item.price }}
+              </span>
               <v-spacer></v-spacer>
               <v-btn class="mx-2" fab small icon>
                 <v-icon>mdi-share-variant</v-icon>
@@ -408,6 +408,23 @@ export default {
     },
     addToCart(item) {
       // 確認是否購物車有相同的物品，如果有 -> 添加數字，沒有 -> 添加 item
+      // 先申明一個變量 並將 item 的值賦進去，特別將 number 調為 1，解決指針問題
+      var tempItem = {
+        name: item.name,
+        img: item.img,
+        type: item.type,
+        description: item.description,
+        price: item.price,
+        number: 1,
+        total: item.total,
+        time: item.time,
+        like: item.like,
+        upVote: item.upVote,
+        gender: item.gender,
+        age: item.age,
+        tags: item.tags,
+        comments: item.comments,
+      }
       var isSame = false;
       for (let i = 0; i < this.cartProductItems.length; i++) {
         if (this.cartProductItems[i].name === item.name) {
@@ -430,7 +447,7 @@ export default {
         }
       }
       if (!isSame) {
-        this.$store.commit(ADD_TO_CART, item);
+        this.$store.commit(ADD_TO_CART, tempItem);
         // axios 將這商品寫入使用者數據庫
         // var params = new URLSearchParams();
         // params.append("productAddCart", item);

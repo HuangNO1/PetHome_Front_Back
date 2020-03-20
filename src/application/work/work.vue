@@ -29,7 +29,15 @@
           link
         >
           <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
+            <v-badge
+              :content="getCartProductNumber"
+              :value="getCartProductNumber"
+              :color="getCartBadgeColor"
+              v-if="item.title === 'Cart'"
+            >
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-badge>
+            <v-icon v-if="item.title !== 'Cart'">{{ item.icon }}</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
@@ -74,10 +82,10 @@
 
         <v-list>
           <v-list-item v-for="(item, i) in menuItem" :key="i" :to="item.url">
-            <v-list-item-title
-              ><v-icon>{{ item.icon }}</v-icon>
-              {{ item.title }}</v-list-item-title
-            >
+            <v-list-item-title>
+              <v-icon>{{ item.icon }}</v-icon>
+              {{ item.title }}
+            </v-list-item-title>
           </v-list-item>
           <v-divider></v-divider>
           <!-- Sign Out-->
@@ -367,8 +375,33 @@ export default {
       },
       avatar: state => {
         return state.user.avatar;
+      },
+      cartProductItems: state => {
+        return state.product.cartProductItems;
       }
-    })
+    }),
+    getCartProductNumber() {
+      var total = 0;
+      for(let i = 0; i < this.cartProductItems.length; i++) {
+        total += this.cartProductItems[i].number;
+      }
+      return total;
+    },
+    getCartBadgeColor() {
+      var color = 0;
+      for(let i = 0; i < this.cartProductItems.length; i++) {
+        color += this.cartProductItems[i].number;
+      }
+      if(color >= 10) {
+        return "red";
+      }
+      else if(color >= 5) {
+        return "orange";
+      }
+      else {
+        return "green";
+      }
+    }
   }
 };
 </script>

@@ -21,14 +21,19 @@
         transition="slide-x-reverse-transition"
         origin="top right 50"
       >
-        <v-card>
-          <v-card-title>XXXX</v-card-title>
-          <v-card-text>
+        <v-card class="mb-4" elevation="10">
+          <v-card-title
+            :class="this.$store.state.theme.navTheme"
+            class="white--text"
+            >XXXX</v-card-title
+          >
+          <v-card-text class="mt-2">
+            <!-- 顯示圖片 -->
             <viewer
               :options="options"
               :images="images"
               @inited="inited"
-              class="viewer"
+              class="viewer mb-2"
               ref="viewer"
             >
               <template slot-scope="scope">
@@ -42,6 +47,20 @@
                 </div>
               </template>
             </viewer>
+            <!-- 文字描述 -->
+            <div
+              style="padding: 1rem 3rem 1rem; text-indent:2em; font-size: 1.4rem;"
+            >
+              <p class="text-justify">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                sunt in culpa qui officia deserunt mollit anim id est laborum.
+              </p>
+            </div>
           </v-card-text>
         </v-card>
       </v-lazy>
@@ -53,7 +72,7 @@
         transition="slide-x-reverse-transition"
         origin="top right 50"
       >
-        <v-card>
+        <v-card elevation="10">
           <v-card-text>
             <!-- 性別 -->
             <v-btn-toggle v-model="defaultGender" mandatory borderless>
@@ -90,10 +109,7 @@ export default {
   data() {
     return {
       isActive: false,
-      images: [
-        "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
-        "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png"
-      ],
+      images: ["https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png"],
       defaultGender: "male",
       defaultAge: "",
       productGender: [
