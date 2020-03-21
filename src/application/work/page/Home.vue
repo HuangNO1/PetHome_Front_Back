@@ -227,7 +227,7 @@
                   class="headline mb-2 ml-2"
                   style="margin-bottom: 0; margin-top: 0;"
                 >
-                  <a @click="toViewProduct">{{ item.name }}</a>
+                  <a @click="toViewProduct(item)">{{ item.name }}</a>
                 </div>
                 <div class="ml-2" style="width: 27rem;">
                   {{ item.description }}
@@ -284,7 +284,7 @@
 <script>
 import Affix from "../components/Affix/Affix";
 import { mapState, mapMutations } from "vuex";
-import { ADD_TO_CART } from "../store/mutations-types/product";
+import { ADD_TO_CART, VIEW_PRODUCT_ITEM_DETAIL } from "../store/mutations-types/product";
 
 export default {
   components: {
@@ -450,7 +450,7 @@ export default {
         this.$store.commit(ADD_TO_CART, tempItem);
         // axios 將這商品寫入使用者數據庫
         // var params = new URLSearchParams();
-        // params.append("productAddCart", item);
+        // params.append("productAddCart", tempItem);
         // axios
         //   .post(this.addCartURL, params)
         //   .then(response => {
@@ -474,7 +474,25 @@ export default {
         });
       }, 300);
     },
-    toViewProduct() {
+    toViewProduct(item) {
+      var tempItem = {
+        name: item.name,
+        img: item.img,
+        type: item.type,
+        description: item.description,
+        price: item.price,
+        number: 1,
+        total: item.total,
+        time: item.time,
+        like: item.like,
+        upVote: item.upVote,
+        gender: item.gender,
+        age: item.age,
+        tags: item.tags,
+        comments: item.comments,
+      };
+      // 添加到 VUEX
+      this.$store.commit(VIEW_PRODUCT_ITEM_DETAIL, tempItem);
       // 跳轉到 viewProduct 子組件檢視產品詳細
       this.$router.push('/ViewProduct');
     }

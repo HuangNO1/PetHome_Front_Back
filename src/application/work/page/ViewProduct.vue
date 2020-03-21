@@ -32,7 +32,7 @@
           <v-card-title
             :class="this.$store.state.theme.navTheme"
             class="white--text"
-            >XXXX</v-card-title
+            >{{ viewProductItemDetail.name }}</v-card-title
           >
           <v-card-text class="mt-2">
             <div class="pr-10 pl-4">
@@ -41,7 +41,7 @@
                   <!-- 顯示圖片 -->
                   <viewer
                     :options="options"
-                    :images="images"
+                    :images="[viewProductItemDetail.img]"
                     @inited="inited"
                     class="viewer mb-2"
                     ref="viewer"
@@ -91,7 +91,7 @@
                   </v-row>
                   <v-row>
                     <v-btn-toggle v-model="defaultAge" mandatory borderless>
-                      <v-btn v-for="(ages, i) in productAge" :value="i">
+                      <v-btn v-for="(ages, i) in productAge" :value="i" :key="i">
                         <v-icon left>{{ ages.icon }}</v-icon>
                         <span class="hidden-sm-and-down">{{ ages.age }}</span>
                       </v-btn>
@@ -119,7 +119,7 @@
           <v-card-actions>
             <span class="headline ml-2">
               <v-icon large>mdi-cash-usd-outline</v-icon>
-              10000
+              {{ viewProductItemDetail.price }}
             </span>
             <v-spacer></v-spacer>
             <v-btn class="mx-2" fab small icon>
@@ -168,13 +168,7 @@
               class="text-justify subtitle-1 mr-10 ml-10"
               style="text-indent: 2em;"
             >
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
+              {{ viewProductItemDetail.description }}
             </div>
           </v-card-text>
         </v-card>
@@ -191,7 +185,7 @@
           <v-card-title>Comments</v-card-title>
           <v-card-text>
             <v-row class="ml-4 mr-4">
-              <v-col md="auto">
+              <v-col md="auto" sm="auto" xs="auto" lg="auto" xl="auto">
                 <v-avatar tile>
                   <img :src="avatar" />
                 </v-avatar>
@@ -209,23 +203,48 @@
               <v-btn color="primary" class="mr-10">Send</v-btn>
             </v-row>
             <v-divider></v-divider>
+            <!-- 談論區 -->
             <v-row
               class="ml-4 mr-4"
-              v-for="item in testCommentsData"
+              v-for="item in viewProductItemDetail.comments"
               :key="item.username"
             >
-              <v-col md="auto">
+              <v-col md="auto" sm="auto" xs="auto" lg="auto" xl="auto">
                 <v-avatar tile>
                   <img :src="item.avatar" />
                 </v-avatar>
               </v-col>
               <v-col>
-                <div>
+                <div class="mb-2">
                   {{ item.username }} - {{ item.time }}
                   <v-alert>
                     {{ item.content }}
                   </v-alert>
+                  <v-btn text small color="error">Delete</v-btn>
+                  <v-btn
+                    text
+                    small
+                    color="primary"
+                    @click="item.clickEdit = !item.clickEdit"
+                    >Edit</v-btn
+                  >
                 </div>
+                <v-lazy
+                  v-model="item.isActive"
+                  :options="{
+                    threshold: 1
+                  }"
+                  transition="slide-x-reverse-transition"
+                  origin="top right 50"
+                >
+                  <div v-if="item.clickEdit">
+                    <v-textarea
+                      outlined
+                      label="Comment"
+                      :value="item.content"
+                    ></v-textarea>
+                  </div>
+                </v-lazy>
               </v-col>
             </v-row>
           </v-card-text>
@@ -237,34 +256,7 @@
 <script>
 import "viewerjs/dist/viewer.css";
 import Viewer from "v-viewer/src/component";
-
-const testCommentsData = [
-  {
-    username: "Rem",
-    avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
-    content:
-      "I love it.I love it.I love it.I love it.I love it.I love it.I love it.I love it.I love it.I love it.I love it.I love it.",
-    time: "2020/03/17 下午 6:17"
-  },
-  {
-    username: "Rem",
-    avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
-    content: "I love it.I love it.I love it.I love it.I love it.I love it.",
-    time: "2020/03/17 下午 6:17"
-  },
-  {
-    username: "Rem",
-    avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
-    content: "I love it.",
-    time: "2020/03/17 下午 6:17"
-  },
-  {
-    username: "Rem",
-    avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
-    content: "I love it.",
-    time: "2020/03/17 下午 6:17"
-  }
-];
+import { mapState, mapMutations } from "vuex";
 
 export default {
   components: {
@@ -301,7 +293,7 @@ export default {
         }
       ],
       number: 1,
-      avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
+      // avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
       testCommentsData: testCommentsData
     };
   },
@@ -314,6 +306,20 @@ export default {
     inited(viewer) {
       this.$viewer = viewer;
     }
+  },
+  computed: {
+    // get data from vuex
+    ...mapState({
+      cartProductItems: state => {
+        return state.product.cartProductItems;
+      },
+      viewProductItemDetail: state => {
+        return state.product.viewProductItemDetail;
+      },
+      avatar: state => {
+        return state.user.avatar;
+      },
+    })
   }
 };
 </script>
