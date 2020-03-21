@@ -118,7 +118,7 @@
         </template>
         <v-card>
           <v-card-title
-            class="headline grey lighten-2 green--text"
+            class="headline primary white--text"
             primary-title
           >
             <p>Success</p>
@@ -145,10 +145,10 @@
       <!-- clear -->
       <v-dialog v-model="clearDialog" width="500" persistent>
         <template v-slot:activator="{ on }">
-          <v-btn class="mr-4" @click="comfirmClear">clear</v-btn>
+          <v-btn class="mr-4" color="error" @click="comfirmClear">clear</v-btn>
         </template>
         <v-card>
-          <v-card-title class="headline grey lighten-2 red--text" primary-title>
+          <v-card-title class="headline red lighten-1 white--text" primary-title>
             <p>Clear</p>
           </v-card-title>
 
@@ -156,16 +156,13 @@
             <span><v-icon color="red" large>mdi-alert-circle</v-icon></span>
             <span class="title">Are you sure you want to clear the form?</span>
           </v-card-text>
-
-          <v-divider></v-divider>
-
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" text @click="clear">
-              <span>Sure</span>
-            </v-btn>
             <v-btn color="error" text @click="clearDialog = false">
               <span>Cancel</span>
+            </v-btn>
+            <v-btn color="primary" text @click="clear">
+              <span>Sure</span>
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -175,7 +172,7 @@
       <v-dialog v-model="statementDialog" width="500" persistent>
         <template v-slot:activator="{ on }">
           <v-btn
-            color="red lighten-2"
+            color="green"
             dark
             class="mr-4"
             v-on="on"
@@ -185,7 +182,7 @@
         </template>
         <v-card>
           <v-card-title
-            class="headline red white--text lighten-2"
+            class="headline green white--text"
             primary-title
           >
             <p>Privacy Policy</p>

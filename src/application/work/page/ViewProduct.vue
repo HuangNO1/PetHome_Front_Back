@@ -316,6 +316,9 @@ export default {
       viewProductItemDetail: state => {
         return state.product.viewProductItemDetail;
       },
+      username: state => {
+        return state.user.username;
+      },
       avatar: state => {
         return state.user.avatar;
       },

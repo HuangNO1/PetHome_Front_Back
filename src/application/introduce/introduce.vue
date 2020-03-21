@@ -8,7 +8,7 @@
             <img alt="Avatar" src="../../assets/icons/introduce.png" />
           </v-avatar>
         </template>
-        <span>Click to sign in!</span>
+        <span>Click me to sign in!</span>
       </v-tooltip>
       <span class="display-1 white--text" style="margin-left: 5rem;"
         >Pet Home</span

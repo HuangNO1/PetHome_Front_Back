@@ -11,7 +11,7 @@
     >
       <v-list nav class="py-0">
         <v-list-item two-line :class="miniVariant && 'px-0'">
-          <v-list-item-avatar>
+          <v-list-item-avatar @click="toIntroduct">
             <img src="../../assets/icons/work.png" />
           </v-list-item-avatar>
 
@@ -50,11 +50,12 @@
       <!-- -->
       <v-app-bar-nav-icon @click="miniMenu"></v-app-bar-nav-icon>
       <v-spacer></v-spacer>
-      <v-app-bar-title
-        ><v-avatar size="36" style="margin-right: 1rem;">
-          <img alt="Avatar" src="../../assets/icons/work.png" /> </v-avatar
-        >Pet Home</v-app-bar-title
-      >
+      <v-app-bar-title>
+        <v-avatar size="36" style="margin-right: 1rem;" @click="toIntroduct">
+          <img alt="Avatar" src="../../assets/icons/work.png" />
+        </v-avatar>
+        Pet Home
+      </v-app-bar-title>
       <v-spacer></v-spacer>
 
       <!-- 沒登入成功的情況 顯示登入按鈕-->
@@ -275,6 +276,9 @@ export default {
     loginSuccess: true
   }),
   methods: {
+    toIntroduct() {
+      document.location.href = "/introduce";
+    },
     miniMenu() {
       const contentWidth = this.$refs.contentStyle.$el.clientWidth;
       console.log("contentWidth: " + contentWidth);

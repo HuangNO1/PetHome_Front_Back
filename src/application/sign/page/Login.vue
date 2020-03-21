@@ -45,7 +45,7 @@
           >
         </template>
         <v-card>
-          <v-card-title class="headline grey lighten-2" primary-title>
+          <v-card-title class="headline primary white--text" primary-title>
             <p v-if="loginSuccess">Verify</p>
             <p v-if="!loginSuccess">OOPS...</p>
           </v-card-title>
@@ -71,9 +71,6 @@
               </div>
             </div>
           </v-card-text>
-
-          <v-divider></v-divider>
-
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="primary" text @click="dialog = false">
@@ -83,7 +80,9 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-      <v-btn @click="clear">clear</v-btn><br /><br />
+      <v-btn @click="clear" color="error" class="mr-4">clear</v-btn>
+      <!-- 訪客 -->
+      <v-btn @click="guest" color="warning" dark>Guest</v-btn><br /><br />
       No account?To <a href="sign#/Register">sign up</a>.
     </form>
   </div>
@@ -248,6 +247,9 @@ export default {
     },
     onRefresh() {
       this.msg = "";
+    },
+    guest(){
+      document.location.href = "/work#/Home";
     }
   }
 };
