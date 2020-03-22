@@ -194,7 +194,8 @@ export default {
   created() {
     // 先獲取 cookie
     var userStatus = Cookies.get("userStatus");
-    // if (userStatus !== "") {
+    this.loginSuccess = (userStatus === undefined) ? false : true;
+    // if (userStatus !== undefined) {
     //   獲取初始資料
     //   產品資料
     //   axios
@@ -273,7 +274,7 @@ export default {
     ],
     signOutDialog: false,
     // 用來判斷是否登入成功，決定顯示右上角的使用者顯示
-    loginSuccess: true
+    loginSuccess: false
   }),
   methods: {
     toIntroduct() {

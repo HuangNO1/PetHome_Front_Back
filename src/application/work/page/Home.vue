@@ -285,6 +285,7 @@
 import Affix from "../components/Affix/Affix";
 import { mapState, mapMutations } from "vuex";
 import { ADD_TO_CART, VIEW_PRODUCT_ITEM_DETAIL } from "../store/mutations-types/product";
+import Cookies from 'js-cookie' // 引入 cookie API
 
 export default {
   components: {
@@ -493,6 +494,8 @@ export default {
       };
       // 添加到 VUEX
       this.$store.commit(VIEW_PRODUCT_ITEM_DETAIL, tempItem);
+      // 添加到 cookie
+      Cookies.set('viewProductItemDetail', tempItem.name, { expires: 7 })
       // 跳轉到 viewProduct 子組件檢視產品詳細
       this.$router.push('/ViewProduct');
     }
