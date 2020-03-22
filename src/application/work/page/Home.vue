@@ -411,6 +411,7 @@ export default {
       // 確認是否購物車有相同的物品，如果有 -> 添加數字，沒有 -> 添加 item
       // 先申明一個變量 並將 item 的值賦進去，特別將 number 調為 1，解決指針問題
       var tempItem = {
+        id: item.id,
         name: item.name,
         img: item.img,
         type: item.type,
@@ -476,28 +477,24 @@ export default {
       }, 300);
     },
     toViewProduct(item) {
-      var tempItem = {
-        name: item.name,
-        img: item.img,
-        type: item.type,
-        description: item.description,
-        price: item.price,
-        number: 1,
-        total: item.total,
-        time: item.time,
-        like: item.like,
-        upVote: item.upVote,
-        gender: item.gender,
-        age: item.age,
-        tags: item.tags,
-        comments: item.comments,
-      };
-      // 添加到 VUEX
-      this.$store.commit(VIEW_PRODUCT_ITEM_DETAIL, tempItem);
-      // 添加到 cookie
-      Cookies.set('viewProductItemDetail', tempItem.name, { expires: 7 })
-      // 跳轉到 viewProduct 子組件檢視產品詳細
-      this.$router.push('/ViewProduct');
+      // var tempItem = {
+      //   name: item.name,
+      //   img: item.img,
+      //   type: item.type,
+      //   description: item.description,
+      //   price: item.price,
+      //   number: 1,
+      //   total: item.total,
+      //   time: item.time,
+      //   like: item.like,
+      //   upVote: item.upVote,
+      //   gender: item.gender,
+      //   age: item.age,
+      //   tags: item.tags,
+      //   comments: item.comments,
+      // };
+      // 跳轉到 viewProduct 子組件檢視產品詳細，并添加 query string 作為参数
+      this.$router.push({path: '/ViewProduct', query:{id: item.id}});
     }
   },
   computed: {

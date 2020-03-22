@@ -1,6 +1,7 @@
 export const TEST_PRODUCT_DATA = [
     // Dog ----------------
     {
+        id: 1,
         name: "Frozen Yogurt",
         img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
         type: "Dog",
@@ -55,6 +56,7 @@ export const TEST_PRODUCT_DATA = [
         ]
     },
     {
+        id: 2,
         name: "Ice cream sandwich",
         img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
         type: "Dog",
@@ -107,6 +109,7 @@ export const TEST_PRODUCT_DATA = [
         ]
     },
     {
+        id: 3,
         name: "Eclair",
         img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
         type: "Dog",
@@ -160,6 +163,7 @@ export const TEST_PRODUCT_DATA = [
         ]
     },
     {
+        id: 4,
         name: "Cupcake",
         img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
         type: "Dog",
@@ -214,6 +218,7 @@ export const TEST_PRODUCT_DATA = [
     },
     // cat --------------------------------
     {
+        id: 5,
         name: "Gingerbread",
         img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
         type: "Cat",
@@ -267,6 +272,7 @@ export const TEST_PRODUCT_DATA = [
         ]
     },
     {
+        id: 6,
         name: "Jelly bean",
         img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
         type: "Cat",
@@ -320,6 +326,7 @@ export const TEST_PRODUCT_DATA = [
         ]
     },
     {
+        id: 7,
         name: "Lollipop",
         img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
         type: "Cat",
@@ -373,6 +380,7 @@ export const TEST_PRODUCT_DATA = [
         ]
     },
     {
+        id: 8,
         name: "Honeycomb",
         img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
         type: "Cat",
@@ -427,6 +435,7 @@ export const TEST_PRODUCT_DATA = [
     },
     // Fox -------------------------------
     {
+        id: 9,
         name: "Donut",
         img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
         type: "Fox",
@@ -480,6 +489,7 @@ export const TEST_PRODUCT_DATA = [
         ]
     },
     {
+        id: 10,
         name: "KitKat",
         img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
         type: "Fox",
@@ -534,6 +544,7 @@ export const TEST_PRODUCT_DATA = [
         ]
     },
     {
+        id: 11,
         name: "Frozen Yogurt_1",
         img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
         type: "Fox",
@@ -587,6 +598,7 @@ export const TEST_PRODUCT_DATA = [
         ]
     },
     {
+        id: 12,
         name: "Ice cream sandwich_",
         img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
         type: "Fox",
@@ -641,6 +653,7 @@ export const TEST_PRODUCT_DATA = [
     },
     // Fish -----------------------------------
     {
+        id: 13,
         name: "Eclair_1",
         img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
         type: "Fish",
@@ -694,6 +707,7 @@ export const TEST_PRODUCT_DATA = [
         ]
     },
     {
+        id: 14,
         name: "Cupcake_1",
         img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
         type: "Fish",
@@ -747,6 +761,7 @@ export const TEST_PRODUCT_DATA = [
         ]
     },
     {
+        id: 15,
         name: "Gingerbread_1",
         img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
         type: "Fish",
@@ -799,6 +814,7 @@ export const TEST_PRODUCT_DATA = [
         ]
     },
     {
+        id: 16,
         name: "Jelly bean_1",
         img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
         type: "Fish",
@@ -853,6 +869,7 @@ export const TEST_PRODUCT_DATA = [
     },
     // bird ---------------------------------------
     {
+        id: 17,
         name: "Lollipop_1",
         img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
         type: "Bird",
@@ -906,6 +923,7 @@ export const TEST_PRODUCT_DATA = [
         ]
     },
     {
+        id: 18,
         name: "Honeycomb_1",
         img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
         type: "Bird",
@@ -959,6 +977,7 @@ export const TEST_PRODUCT_DATA = [
         ]
     },
     {
+        id: 19,
         name: "Donut_1",
         img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
         type: "Bird",
@@ -1012,6 +1031,7 @@ export const TEST_PRODUCT_DATA = [
         ]
     },
     {
+        id: 20,
         name: "KitKat_1",
         img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
         type: "Bird",

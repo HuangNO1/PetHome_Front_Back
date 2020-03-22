@@ -91,7 +91,11 @@
                   </v-row>
                   <v-row>
                     <v-btn-toggle v-model="defaultAge" mandatory borderless>
-                      <v-btn v-for="(ages, i) in productAge" :value="i" :key="i">
+                      <v-btn
+                        v-for="(ages, i) in productAge"
+                        :value="i"
+                        :key="i"
+                      >
                         <v-icon left>{{ ages.icon }}</v-icon>
                         <span class="hidden-sm-and-down">{{ ages.age }}</span>
                       </v-btn>
@@ -207,7 +211,7 @@
             <v-row
               class="ml-4 mr-4"
               v-for="item in viewProductItemDetail.comments"
-              :key="item.username"  
+              :key="item.username"
             >
               <v-col md="auto" sm="auto" xs="auto" lg="auto" xl="auto">
                 <v-avatar tile>
@@ -257,8 +261,11 @@
 import "viewerjs/dist/viewer.css";
 import Viewer from "v-viewer/src/component";
 import { mapState, mapMutations } from "vuex";
-import { ADD_TO_CART, VIEW_PRODUCT_ITEM_DETAIL } from "../store/mutations-types/product";
-import Cookies from 'js-cookie' // 引入 cookie API
+import {
+  ADD_TO_CART,
+  VIEW_PRODUCT_ITEM_DETAIL
+} from "../store/mutations-types/product";
+import Cookies from "js-cookie"; // 引入 cookie API
 
 export default {
   components: {
@@ -294,26 +301,42 @@ export default {
           icon: "mdi-alpha-o"
         }
       ],
-      number: 1,
+      number: 1
     };
   },
   created() {
-    // 先獲取 cookie
-    var cookieViewProductName = Cookies.get('viewProductItemDetail');
-    console.log(cookieViewProductName);
-    if(cookieViewProductName === undefined) {
-      // 如果 cookie 沒有
-      this.$router.push("/Home");
-    } else {
-      // 如果 cookie 有
-      var item = this.productItems.filter(e => {
-        return (cookieViewProductName === e.name);
-      });
-      console.log(item);
-      this.$store.commit(VIEW_PRODUCT_ITEM_DETAIL, item[0]);
-      console.log(this.viewProductItemDetail)
-    }
+    // // 先判斷檢視 ViewProductItem 是否為空，如果存在內容就不引用 cookie 減短網頁反應速度
+    // var judge = false; // 判斷是否 ViewProductItem 為空, true 是不空
+    // for(let i = 0; i < this.productItems.length; i++) {
+    //   if(this.productItems[i].name === this.viewProductItemDetail.name) {
+    //     judge = true;
+    //   }
+    // }
     
+    // if (judge === false) {
+    //   // 如果 不存在
+    //   // 先獲取 cookie
+    //   var cookieViewProductName = Cookies.get("viewProductItemDetail");
+    //   console.log(cookieViewProductName);
+    //   if (cookieViewProductName === undefined) {
+    //     // 如果 cookie 沒有
+    //     this.$router.push("/Home");
+    //   } else {
+    //     // 如果 cookie 有
+    //     var item = this.productItems.filter(e => {
+    //       return cookieViewProductName === e.name;
+    //     });
+    //     console.log(item);
+    //     this.$store.commit(VIEW_PRODUCT_ITEM_DETAIL, item[0]);
+    //     console.log(this.viewProductItemDetail);
+    //   }
+    // }
+    var id = this.$route.query.id;
+    console.log('id : ' + id)
+    var show = this.productItems.filter(e => {
+      return (e.id === id);
+    })
+    this.$store.commit(VIEW_PRODUCT_ITEM_DETAIL, show[0]);
   },
   methods: {
     goBack() {
@@ -341,8 +364,8 @@ export default {
         gender: item.gender,
         age: item.age,
         tags: item.tags,
-        comments: item.comments,
-      }
+        comments: item.comments
+      };
       var isSame = false;
       for (let i = 0; i < this.cartProductItems.length; i++) {
         if (this.cartProductItems[i].name === item.name) {
@@ -382,7 +405,7 @@ export default {
       // 出現提示窗
       this.snackbar = true;
       this.text = item.name;
-    },
+    }
   },
   computed: {
     // get data from vuex
