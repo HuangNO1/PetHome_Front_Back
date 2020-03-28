@@ -301,8 +301,14 @@ export default {
           icon: "mdi-alpha-o"
         }
       ],
-      number: 1
+      number: 1,
     };
+  },
+  beforeRouteUpdate (to, from, next) {
+    let show = this.productItems.find(e => {
+      return (e.id == to.query.id);
+    })
+    this.$store.commit(VIEW_PRODUCT_ITEM_DETAIL, show);
   },
   created() {
     // // 先判斷檢視 ViewProductItem 是否為空，如果存在內容就不引用 cookie 減短網頁反應速度
@@ -331,12 +337,11 @@ export default {
     //     console.log(this.viewProductItemDetail);
     //   }
     // }
-    var id = this.$route.query.id;
-    console.log('id : ' + id)
-    var show = this.productItems.filter(e => {
-      return (e.id === id);
+    let id = this.$route.query.id;
+    let show = this.productItems.find(e => {
+      return (e.id == id);
     })
-    this.$store.commit(VIEW_PRODUCT_ITEM_DETAIL, show[0]);
+    this.$store.commit(VIEW_PRODUCT_ITEM_DETAIL, show);
   },
   methods: {
     goBack() {
