@@ -367,6 +367,7 @@ export default {
       console.log("miniVariant - " + this.miniVariant);
     },
     signOut() {
+      Cookies.remove('userStatus');
       document.location.href = "/introduce";
     }
   },
