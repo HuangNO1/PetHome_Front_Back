@@ -1,6 +1,21 @@
 <template>
   <div>
     <div>
+      <v-carousel
+        cycle
+        height="200"
+        hide-delimiter-background
+        show-arrows-on-hover
+        class="mb-3"
+      >
+        <v-carousel-item v-for="(slide, i) in slides" :key="i">
+          <v-sheet :color="colors[i]" height="100%">
+            <v-row class="fill-height" align="center" justify="center">
+              <div class="display-3">{{ slide }}</div>
+            </v-row>
+          </v-sheet>
+        </v-carousel-item>
+      </v-carousel>
       <!-- search bar -->
       <v-lazy
         v-model="isActive"
@@ -284,8 +299,11 @@
 <script>
 import Affix from "../components/Affix/Affix";
 import { mapState, mapMutations } from "vuex";
-import { ADD_TO_CART, VIEW_PRODUCT_ITEM_DETAIL } from "../store/mutations-types/product";
-import Cookies from 'js-cookie' // 引入 cookie API
+import {
+  ADD_TO_CART,
+  VIEW_PRODUCT_ITEM_DETAIL
+} from "../store/mutations-types/product";
+import Cookies from "js-cookie"; // 引入 cookie API
 
 export default {
   components: {
@@ -309,6 +327,14 @@ export default {
   },
   data() {
     return {
+      colors: [
+        "indigo",
+        "warning",
+        "pink darken-2",
+        "red lighten-1",
+        "deep-purple accent-4"
+      ],
+      slides: ["ALL 15% OFF", "NEW PRODUCT PUBLISHING", "95% POSITIVE FEEDBACK", "MEMBER CARD BENEFITS", "GREAT"],
       // 價格區間
       priceRange: [0, 10000],
       sheet: false,
@@ -425,8 +451,8 @@ export default {
         gender: item.gender,
         age: item.age,
         tags: item.tags,
-        comments: item.comments,
-      }
+        comments: item.comments
+      };
       var isSame = false;
       for (let i = 0; i < this.cartProductItems.length; i++) {
         if (this.cartProductItems[i].name === item.name) {
@@ -494,7 +520,7 @@ export default {
       //   comments: item.comments,
       // };
       // 跳轉到 viewProduct 子組件檢視產品詳細，并添加 query string 作為参数
-      this.$router.push({path: '/ViewProduct', query:{id: item.id}});
+      this.$router.push({ path: "/ViewProduct", query: { id: item.id } });
     }
   },
   computed: {

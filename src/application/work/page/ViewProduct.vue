@@ -311,32 +311,6 @@ export default {
     this.$store.commit(VIEW_PRODUCT_ITEM_DETAIL, show);
   },
   created() {
-    // // 先判斷檢視 ViewProductItem 是否為空，如果存在內容就不引用 cookie 減短網頁反應速度
-    // var judge = false; // 判斷是否 ViewProductItem 為空, true 是不空
-    // for(let i = 0; i < this.productItems.length; i++) {
-    //   if(this.productItems[i].name === this.viewProductItemDetail.name) {
-    //     judge = true;
-    //   }
-    // }
-    
-    // if (judge === false) {
-    //   // 如果 不存在
-    //   // 先獲取 cookie
-    //   var cookieViewProductName = Cookies.get("viewProductItemDetail");
-    //   console.log(cookieViewProductName);
-    //   if (cookieViewProductName === undefined) {
-    //     // 如果 cookie 沒有
-    //     this.$router.push("/Home");
-    //   } else {
-    //     // 如果 cookie 有
-    //     var item = this.productItems.filter(e => {
-    //       return cookieViewProductName === e.name;
-    //     });
-    //     console.log(item);
-    //     this.$store.commit(VIEW_PRODUCT_ITEM_DETAIL, item[0]);
-    //     console.log(this.viewProductItemDetail);
-    //   }
-    // }
     let id = this.$route.query.id;
     let show = this.productItems.find(e => {
       return (e.id == id);
