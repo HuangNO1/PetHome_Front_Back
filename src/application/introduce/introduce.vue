@@ -11,8 +11,12 @@
         <span>Click me to sign in!</span>
       </v-tooltip>
       <span class="display-1 white--text" style="margin-left: 5rem;"
-        >Pet Home</span
-      >
+        >Pet Home
+      </span>
+      <v-spacer></v-spacer>
+      <v-btn outlined @click="Sign" dark v-if="!loginSuccess">
+        <v-icon left>mdi-account-arrow-right</v-icon> Sign In
+      </v-btn>
     </v-app-bar>
 
     <!-- Sizes your content based upon application components -->

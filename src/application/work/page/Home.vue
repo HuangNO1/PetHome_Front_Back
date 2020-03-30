@@ -1,6 +1,7 @@
 <template>
   <div>
     <div>
+      <!-- 頂部輪播 -->
       <v-carousel
         cycle
         height="200"
@@ -165,10 +166,13 @@
           origin="top right 50"
         >
           <v-sheet elevation="8" class="py-4 px-1">
-            <v-chip-group mandatory active-class="primary--text">
-              <v-chip v-for="tag in tags" :key="tag">
-                {{ tag }}
-              </v-chip>
+            <v-chip-group
+              active-class="primary--text"
+              v-model="selectedTags"
+              @change="showTagsProductItems"
+              multiple
+            >
+              <v-chip v-for="tag in tags" :key="tag"> # {{ tag }} </v-chip>
             </v-chip-group>
           </v-sheet>
         </v-lazy>
@@ -255,6 +259,12 @@
                 {{ item.price }}
               </span>
               <v-spacer></v-spacer>
+              <v-chip
+                v-for="(tag, i) in item.tags"
+                :key="i"
+                ># {{ tag }}
+              </v-chip>
+              <!--
               <v-btn class="mx-2" fab small icon>
                 <v-icon>mdi-share-variant</v-icon>
               </v-btn>
@@ -282,7 +292,7 @@
                   <v-icon>mdi-cart</v-icon>
                   Add To Cart
                 </span>
-              </v-tooltip>
+              </v-tooltip>-->
             </v-card-actions>
           </v-card>
         </v-lazy>
@@ -324,6 +334,23 @@ export default {
     //   .catch(error => {
     //     console.log(error);
     //   });
+
+    // 遍歷商品的所有 tag，並將重複的 tag 去除，將 tag 存到這裡的 tags
+    for (let i = 0; i < this.productItems.length; i++) {
+      for (let j = 0; j < this.productItems[i].tags.length; j++) {
+        let haveSameTag = false;
+        for (let k = 0; k < this.tags.length; k++) {
+          if (this.tags[k] === this.productItems[i].tags[j]) {
+            haveSameTag = true;
+            break;
+          }
+        }
+        if (haveSameTag === false) {
+          this.tags.push(this.productItems[i].tags[j]);
+        }
+        haveSameTag = false;
+      }
+    }
   },
   data() {
     return {
@@ -334,7 +361,13 @@ export default {
         "red lighten-1",
         "deep-purple accent-4"
       ],
-      slides: ["ALL 15% OFF", "NEW PRODUCT PUBLISHING", "95% POSITIVE FEEDBACK", "MEMBER CARD BENEFITS", "GREAT"],
+      slides: [
+        "ALL 15% OFF",
+        "NEW PRODUCT PUBLISHING",
+        "95% POSITIVE FEEDBACK",
+        "MEMBER CARD BENEFITS",
+        "GREAT"
+      ],
       // 價格區間
       priceRange: [0, 10000],
       sheet: false,
@@ -356,17 +389,9 @@ export default {
         { title: "Fish", icon: "mdi-fishbowl" },
         { title: "Bird", icon: "mdi-twitter" }
       ],
-      tags: [
-        "Work",
-        "Home Improvement",
-        "Vacation",
-        "Food",
-        "Drawers",
-        "Shopping",
-        "Art",
-        "Tech",
-        "Creative Writing"
-      ],
+      // tags
+      tags: [],
+      selectedTags: [],
       // 提示窗
       snackbar: false,
       text: "",
@@ -407,7 +432,7 @@ export default {
         console.log(this.autoCompleteItems);
         console.log(this.search);
         this.loading = false;
-      }, 500);
+      }, 300);
     },
     customFilter() {
       this.showProductItems = [];
@@ -415,6 +440,33 @@ export default {
         this.showProductItems = this.autoCompleteItems;
       }, 300);
       return this.autoCompleteItems;
+    },
+    showTagsProductItems() {
+      // 展示 tags 的商品
+      this.showProductItems = [];
+      setTimeout(() => {
+        // 將有被選取到 tag 的商品展示出來
+        for (let i = 0; i < this.productItems.length; i++) {
+          let showItem = false;
+          for (let j = 0; j < this.productItems[i].tags.length; j++) {
+            for (let k = 0; k < this.selectedTags.length; k++) {
+              if (
+                this.productItems[i].tags[j] === this.tags[this.selectedTags[k]]
+              ) {
+                showItem = true;
+                break;
+              }
+            }
+            if (showItem === true) {
+              break;
+            }
+          }
+          if (showItem === true) {
+            this.showProductItems.push(this.productItems[i]);
+          }
+          showItem = false;
+        }
+      }, 100);
     },
     MenuShowProduct(type) {
       this.showProductItems = [];
@@ -431,7 +483,7 @@ export default {
             return item.type === type;
           });
         }
-      }, 300);
+      }, 100);
     },
     addToCart(item) {
       // 確認是否購物車有相同的物品，如果有 -> 添加數字，沒有 -> 添加 item

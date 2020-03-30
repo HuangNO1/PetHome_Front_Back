@@ -57,6 +57,12 @@
                       </div>
                     </template>
                   </viewer>
+                  <v-chip
+                      class="ma-1"
+                      v-for="(tag, i) in viewProductItemDetail.tags"
+                      
+                      :key="i"
+                    ># {{ tag }}</v-chip>
                 </v-col>
                 <v-divider vertical></v-divider>
                 <v-col
@@ -301,20 +307,20 @@ export default {
           icon: "mdi-alpha-o"
         }
       ],
-      number: 1,
+      number: 1
     };
   },
-  beforeRouteUpdate (to, from, next) {
+  beforeRouteUpdate(to, from, next) {
     let show = this.productItems.find(e => {
-      return (e.id == to.query.id);
-    })
+      return e.id == to.query.id;
+    });
     this.$store.commit(VIEW_PRODUCT_ITEM_DETAIL, show);
   },
   created() {
     let id = this.$route.query.id;
     let show = this.productItems.find(e => {
-      return (e.id == id);
-    })
+      return e.id == id;
+    });
     this.$store.commit(VIEW_PRODUCT_ITEM_DETAIL, show);
   },
   methods: {
