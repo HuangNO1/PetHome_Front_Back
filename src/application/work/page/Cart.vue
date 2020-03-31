@@ -380,6 +380,12 @@
       </v-card>
     </v-dialog>
     <!--{{ cartSelected.length }}-->
+    <v-snackbar v-model="removeItemSnackbar" top :timeout="3000">
+      The Pet Have being Removed.
+      <v-btn color="pink" icon fab @click="removeItemSnackbar = false">
+        <v-icon dark>mdi-close-circle</v-icon>
+      </v-btn>
+    </v-snackbar>
   </div>
 </template>
 <script>
@@ -458,7 +464,9 @@ export default {
       finishDeal: false,
       // 數據操作請求
       updateCartItemsURL: "",
-      addToRecordURL: ""
+      addToRecordURL: "",
+      // snackbar
+      removeItemSnackbar: false
     };
   },
   watch: {},
@@ -479,6 +487,7 @@ export default {
           this.cartSelected.splice(i, 1);
         }
       }
+      this.removeItemSnackbar = true;
       this.deleteDialog = false;
       this.$store.commit(UPDATE_CART_ITEMS, this.cartProduct);
       // axios 更新購物車產品
