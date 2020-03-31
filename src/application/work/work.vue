@@ -112,23 +112,20 @@
     <!-- comfirm Sign Out Dialog-->
     <v-dialog v-model="signOutDialog" width="500" persistent>
       <v-card>
-        <v-card-title class="headline red white--text lighten-2" primary-title>
+        <v-card-title class="headline red white--text lighten-1" primary-title>
           <p>WARRING</p>
         </v-card-title>
 
-        <v-card-text class="white title black--text" style="padding: 1rem;">
+        <v-card-text class="title" style="padding: 1rem;">
           Are you sure you want to sign out?
         </v-card-text>
-
-        <v-divider></v-divider>
-
-        <v-card-actions class="white">
+        <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="error" text @click="signOut">
-            <span>Sure</span>
-          </v-btn>
           <v-btn color="primary" text @click="signOutDialog = false">
             <span>Cancel</span>
+          </v-btn>
+          <v-btn color="error" text @click="signOut">
+            <span>Sure</span>
           </v-btn>
         </v-card-actions>
       </v-card>

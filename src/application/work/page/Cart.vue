@@ -379,6 +379,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <!--{{ cartSelected.length }}-->
   </div>
 </template>
 <script>
@@ -518,13 +519,18 @@ export default {
       for (let i = 0; i < this.cartSelected.length; i++) {
         this.cartSelected[i].time = FinishDealTime;
         this.$store.commit(ADD_TO_RECORD, this.cartSelected[i]);
-        // 刪除 cartProduct
+      }
+      // 刪除 cartProduct
+      while (this.cartSelected.length !== 0) {
+        let i = 0;
         for (let j = 0; j < this.cartProduct.length; j++) {
-          if (this.cartProduct[j].name === this.cartSelected[i].name) {
+          if (this.cartProduct[j].id === this.cartSelected[i].id) {
             this.cartProduct.splice(j, 1);
+            break;
           }
         }
       }
+
       this.$store.commit(UPDATE_CART_ITEMS, this.cartProduct);
       // Vuex 更新使用者 cash
       this.$store.commit(UPDATE_USER_CASH, this.countResult);

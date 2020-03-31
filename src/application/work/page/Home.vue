@@ -95,7 +95,7 @@
             </v-btn>
 
             <v-btn @click="sheet = true" icon>
-              <v-icon>mdi-dots-vertical</v-icon>
+              <v-icon>mdi-filter</v-icon>
             </v-btn>
           </v-toolbar>
         </v-card>
@@ -172,7 +172,7 @@
               @change="showTagsProductItems"
               multiple
             >
-              <v-chip v-for="tag in tags" :key="tag"> # {{ tag }} </v-chip>
+              <v-chip v-for="tag in tags" :key="tag"># {{ tag }}</v-chip>
             </v-chip-group>
           </v-sheet>
         </v-lazy>
@@ -236,7 +236,7 @@
           >
             <v-row>
               <v-col md="auto">
-                <v-avatar tile size="130" class="ml-4">
+                <v-avatar @click="toViewProduct(item)" tile size="130" class="ml-4">
                   <v-img :src="item.img" />
                 </v-avatar>
               </v-col>
@@ -249,7 +249,10 @@
                   <a @click="toViewProduct(item)">{{ item.name }}</a>
                 </div>
                 <div class="ml-2" style="width: 27rem;">
-                  {{ item.description }}
+                  <!--{{ item.description }}-->
+                  <v-chip v-for="(tag, i) in item.tags" :key="i"
+                    ># {{ tag }}
+                  </v-chip>
                 </div>
               </v-col>
             </v-row>
@@ -259,12 +262,6 @@
                 {{ item.price }}
               </span>
               <v-spacer></v-spacer>
-              <v-chip
-                v-for="(tag, i) in item.tags"
-                :key="i"
-                ># {{ tag }}
-              </v-chip>
-              <!--
               <v-btn class="mx-2" fab small icon>
                 <v-icon>mdi-share-variant</v-icon>
               </v-btn>
@@ -292,7 +289,7 @@
                   <v-icon>mdi-cart</v-icon>
                   Add To Cart
                 </span>
-              </v-tooltip>-->
+              </v-tooltip>
             </v-card-actions>
           </v-card>
         </v-lazy>
@@ -300,8 +297,8 @@
     </v-row>
     <v-snackbar v-model="snackbar" top :timeout="3000">
       {{ text }} have added to cart.
-      <v-btn color="pink" text @click="snackbar = false">
-        Close
+      <v-btn color="pink" icon fab @click="snackbar = false">
+        <v-icon dark>mdi-close-circle</v-icon>
       </v-btn>
     </v-snackbar>
   </div>
@@ -445,26 +442,34 @@ export default {
       // 展示 tags 的商品
       this.showProductItems = [];
       setTimeout(() => {
-        // 將有被選取到 tag 的商品展示出來
-        for (let i = 0; i < this.productItems.length; i++) {
-          let showItem = false;
-          for (let j = 0; j < this.productItems[i].tags.length; j++) {
-            for (let k = 0; k < this.selectedTags.length; k++) {
-              if (
-                this.productItems[i].tags[j] === this.tags[this.selectedTags[k]]
-              ) {
-                showItem = true;
+        if (this.selectedTags.length !== 0) {
+          // 如果有 tag 被選中
+
+          // 將有被選取到 tag 的商品展示出來
+          for (let i = 0; i < this.productItems.length; i++) {
+            let showItem = false;
+            for (let j = 0; j < this.productItems[i].tags.length; j++) {
+              for (let k = 0; k < this.selectedTags.length; k++) {
+                if (
+                  this.productItems[i].tags[j] ===
+                  this.tags[this.selectedTags[k]]
+                ) {
+                  showItem = true;
+                  break;
+                }
+              }
+              if (showItem === true) {
                 break;
               }
             }
             if (showItem === true) {
-              break;
+              this.showProductItems.push(this.productItems[i]);
             }
+            showItem = false;
           }
-          if (showItem === true) {
-            this.showProductItems.push(this.productItems[i]);
-          }
-          showItem = false;
+        } else {
+          // 如果沒有 tag 被選中，顯示推薦
+          this.showProductItems = this.recommendProductItems;
         }
       }, 100);
     },

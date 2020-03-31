@@ -601,8 +601,8 @@
     <!-- 修改成功提示窗 -->
     <v-snackbar v-model="snackbar" top :timeout="3000">
       {{ text }} have changed.
-      <v-btn color="pink" text @click="snackbar = false">
-        Close
+      <v-btn color="pink" icon fab @click="snackbar = false">
+        <v-icon dark>mdi-close-circle</v-icon>
       </v-btn>
     </v-snackbar>
     <!-- 修改失敗 提示窗口 -->

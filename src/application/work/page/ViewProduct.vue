@@ -60,7 +60,6 @@
                   <v-chip
                       class="ma-1"
                       v-for="(tag, i) in viewProductItemDetail.tags"
-                      
                       :key="i"
                     ># {{ tag }}</v-chip>
                 </v-col>

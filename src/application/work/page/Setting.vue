@@ -53,6 +53,12 @@
       </v-col>
       <v-col></v-col>
     </v-row>
+    <v-snackbar v-model="snackbar" top :timeout="3000">
+      The Theme Have changed.
+      <v-btn color="pink" icon fab @click="snackbar = false">
+        <v-icon dark>mdi-close-circle</v-icon>
+      </v-btn>
+    </v-snackbar>
   </div>
 </template>
 <script>
@@ -82,6 +88,9 @@ export default {
   },
   data() {
     return {
+      // 提示窗
+      snackbar: false,
+      //
       isActive: false,
       background: false,
       backgroundURL: "",
@@ -193,6 +202,8 @@ export default {
   methods: {
     // ...mapMutations(["updateTheme"]),
     updateTheme(color) {
+      // 出現提示窗
+      this.snackbar = true;
       console.log("change theme: " + color);
       this.$store.commit(UPDATE_NAV_THEME, color);
     },
@@ -204,6 +215,10 @@ export default {
           this.backgroundURL
         : undefined;
       console.log(image);
+      if (image !== undefined) {
+        // 出現提示窗
+        this.snackbar = true;
+      }
       this.$store.commit(UPDATE_NAV_IMAGE, image);
     }
   },
