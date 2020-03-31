@@ -6,3 +6,5 @@ export const UPDATE_USER_PHONE = "updateUserPhone";
 export const UPDATE_USER_ADDRESS = "updateUserAddress";
 export const UPDATE_USER_CASH = "updateUserCash";
 export const UPDATE_ALL_USER_DATA = "updateAllUserData";
+export const UPDATE_USER_LIKE_PRODUCT = "updateUserLikeProduct";
+export const UPDATE_USER_UP_VOTE_PRODUCT = "updateUserUpVoteProduct";

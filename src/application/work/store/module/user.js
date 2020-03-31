@@ -6,7 +6,9 @@ import {
     UPDATE_USER_PHONE,
     UPDATE_USER_CASH,
     UPDATE_USER_ADDRESS,
-    UPDATE_ALL_USER_DATA
+    UPDATE_ALL_USER_DATA,
+    UPDATE_USER_LIKE_PRODUCT,
+    UPDATE_USER_UP_VOTE_PRODUCT
 } from "../mutations-types/user";
 
 import {
@@ -17,7 +19,9 @@ import {
     TEST_PHONE,
     TEST_CASH,
     TEST_ADDRESS,
-    TEST_PASSWORD
+    TEST_PASSWORD,
+    TEST_LIKED,
+    TEST_UP_VOTE
 } from "../testData.js";
 
 const user = {
@@ -29,7 +33,9 @@ const user = {
         phone: TEST_PHONE,
         cash: TEST_CASH,
         address: TEST_ADDRESS,
-        password: TEST_PASSWORD
+        password: TEST_PASSWORD,
+        likedProduct: TEST_LIKED,
+        upVoteProduct: TEST_UP_VOTE
     },
     mutations: {
         [UPDATE_USER_USERNAME](state, username) {
@@ -61,6 +67,12 @@ const user = {
             state.phone = user.phone;
             state.cash = user.cash;
             state.address = user.address;
+        },
+        [UPDATE_USER_LIKE_PRODUCT](state, likedProduct) {
+            state.likedProduct = likedProduct;
+        },
+        [UPDATE_USER_UP_VOTE_PRODUCT](state, upVoteProduct) {
+            state.upVoteProduct = upVoteProduct;
         }
     },
     actions: {},

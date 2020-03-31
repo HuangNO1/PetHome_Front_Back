@@ -512,7 +512,7 @@ export default {
       };
       var isSame = false;
       for (let i = 0; i < this.cartProductItems.length; i++) {
-        if (this.cartProductItems[i].name === item.name) {
+        if (this.cartProductItems[i].id === item.id) {
           this.cartProductItems[i].number += 1;
           isSame = true;
 

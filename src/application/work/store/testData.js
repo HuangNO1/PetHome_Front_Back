@@ -1095,3 +1095,9 @@ export const TEST_PHONE = "1111111111";
 export const TEST_CASH = 1000;
 export const TEST_ADDRESS = "################";
 export const TEST_PASSWORD = "********";
+export const TEST_LIKED = [
+    1, 2, 4
+];
+export const TEST_UP_VOTE = [
+    1, 4, 8
+];
