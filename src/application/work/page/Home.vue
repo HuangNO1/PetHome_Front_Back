@@ -341,6 +341,7 @@
               >
                 <v-icon>mdi-heart-multiple</v-icon>
               </v-btn>
+              <!--
               <v-tooltip top>
                 <template v-slot:activator="{ on }">
                   <v-btn
@@ -360,6 +361,7 @@
                   Add To Cart
                 </span>
               </v-tooltip>
+              -->
             </v-card-actions>
           </v-card>
         </v-lazy>
@@ -595,7 +597,7 @@ export default {
         number: 1,
         total: item.total,
         time: item.time,
-        like: item.like,
+        liked: item.liked,
         upVote: item.upVote,
         gender: item.gender,
         age: item.age,

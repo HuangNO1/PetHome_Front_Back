@@ -112,7 +112,7 @@
                   <v-row>
                     <number-input
                       style="color: black;"
-                      v-model="number"
+                      v-model="viewProductItemDetail.number"
                       :min="1"
                       :max="99"
                       inline
@@ -131,25 +131,72 @@
               {{ viewProductItemDetail.price }}
             </span>
             <v-spacer></v-spacer>
-            <v-btn class="mx-2" fab small icon>
+            <v-btn class="mx-2" fab icon>
               <v-icon>mdi-share-variant</v-icon>
             </v-btn>
-            <v-btn class="mx-2" fab dark small color="primary">
-              <v-icon dark>mdi-thumb-up</v-icon>
-            </v-btn>
-            <v-btn class="mx-2" fab dark small color="pink">
-              <v-icon dark>mdi-heart</v-icon>
-            </v-btn>
+            <!-- 點贊 -->
+              <v-tooltip top>
+                <template v-slot:activator="{ on }">
+                  <v-btn
+                    class="mx-2"
+                    v-show="!viewProductItemDetail.upVoteClick"
+                    v-on="on"
+                    @click="updateUserUpVote(viewProductItemDetail)"
+                    fab
+                    icon
+                    color="primary"
+                  >
+                    <v-icon>mdi-thumb-up-outline</v-icon>
+                  </v-btn>
+                </template>
+                <span>{{ viewProductItemDetail.upVote }}</span>
+              </v-tooltip>
+              <v-tooltip top>
+                <template v-slot:activator="{ on }">
+                  <v-btn
+                    class="mx-2"
+                    v-show="viewProductItemDetail.upVoteClick"
+                    v-on="on"
+                    @click="updateUserUpVote(viewProductItemDetail)"
+                    fab
+                    icon
+                    color="primary"
+                  >
+                    <v-icon>mdi-thumb-up</v-icon>
+                  </v-btn>
+                </template>
+                <span>{{ viewProductItemDetail.upVote }}</span>
+              </v-tooltip>
+              <!-- 收藏 -->
+              <v-btn
+                class="mx-2"
+                v-show="!viewProductItemDetail.liked"
+                @click="updateUserLiked(viewProductItemDetail)"
+                fab
+                icon
+                color="pink"
+              >
+                <v-icon>mdi-heart-multiple-outline</v-icon>
+              </v-btn>
+              <v-btn
+                class="mx-2"
+                v-show="viewProductItemDetail.liked"
+                @click="updateUserLiked(viewProductItemDetail)"
+                fab
+                icon
+                color="pink"
+              >
+                <v-icon>mdi-heart-multiple</v-icon>
+              </v-btn>
             <v-tooltip top>
               <template v-slot:activator="{ on }">
                 <v-btn
                   class="mx-2"
                   fab
-                  small
                   dark
                   color="success"
                   v-on="on"
-                  @click="addToCart(item)"
+                  @click="addToCart(viewProductItemDetail)"
                 >
                   <v-icon>mdi-cart-arrow-down</v-icon>
                 </v-btn>
@@ -260,6 +307,13 @@
         </v-card>
       </v-lazy>
     </div>
+    <!-- 加入購物車的消息條 -->
+    <v-snackbar v-model="addCartSnackbar" top :timeout="3000">
+      {{ addCartSnackbarText }} have added to cart.
+      <v-btn color="pink" icon fab @click="addCartSnackbar = false">
+        <v-icon dark>mdi-close-circle</v-icon>
+      </v-btn>
+    </v-snackbar>
   </div>
 </template>
 <script>
@@ -270,6 +324,12 @@ import {
   ADD_TO_CART,
   VIEW_PRODUCT_ITEM_DETAIL
 } from "../store/mutations-types/product";
+import {
+  REMOVE_USER_LIKE_PRODUCT,
+  ADD_USER_LIKE_PRODUCT,
+  REMOVE_USER_UP_VOTE_PRODUCT,
+  ADD_USER_UP_VOTE_PRODUCT
+} from "../store/mutations-types/user.js";
 import Cookies from "js-cookie"; // 引入 cookie API
 
 export default {
@@ -306,7 +366,9 @@ export default {
           icon: "mdi-alpha-o"
         }
       ],
-      number: 1
+      // 加入購物車消息條
+      addCartSnackbar: false,
+      addCartSnackbarText: "",
     };
   },
   beforeRouteUpdate(to, from, next) {
@@ -340,10 +402,10 @@ export default {
         type: item.type,
         description: item.description,
         price: item.price,
-        number: 1,
+        number: item.number,
         total: item.total,
         time: item.time,
-        like: item.like,
+        liked: item.liked,
         upVote: item.upVote,
         gender: item.gender,
         age: item.age,
@@ -353,7 +415,7 @@ export default {
       var isSame = false;
       for (let i = 0; i < this.cartProductItems.length; i++) {
         if (this.cartProductItems[i].name === item.name) {
-          this.cartProductItems[i].number += 1;
+          this.cartProductItems[i].number += item.number;
           isSame = true;
 
           // axios 將這商品寫入使用者數據庫
@@ -387,9 +449,59 @@ export default {
         //   });
       }
       // 出現提示窗
-      this.snackbar = true;
-      this.text = item.name;
-    }
+      this.addCartSnackbar = true;
+      this.addCartSnackbarText = item.name;
+      // 初始化 item.number;
+      item.number = 1;
+    },
+    updateUserLiked(item) {
+      item.liked = !item.liked;
+      // 更新使用者的喜歡商品
+      if (item.liked === false) {
+        // 如果 取消喜歡，去掉使用者喜歡產品 ID array
+        this.$store.commit(REMOVE_USER_LIKE_PRODUCT, item.id);
+      } else {
+        // 如果喜歡 Push 進使用者喜歡產品 ID array
+        this.$store.commit(ADD_USER_LIKE_PRODUCT, item.id);
+      }
+      // axios 將這變更寫入使用者數據庫
+      // var params = new URLSearchParams();
+      // params.append("userLikedProduct", this.userLikedProduct);
+      // axios
+      //   .post(this.updateUserLikedURL, params)
+      //   .then(response => {
+      //     console.log(response);
+      //     console.log(response.data);
+      //   })
+      //   .catch(error => {
+      //     console.log(error);
+      //   });
+    },
+    updateUserUpVote(item) {
+      item.upVoteClick = !item.upVoteClick;
+      // 更新使用者的點贊商品
+      if (item.upVoteClick === false) {
+        // 如果取消點贊，去掉使用者點贊的產品 ID array
+        this.$store.commit(REMOVE_USER_UP_VOTE_PRODUCT, item.id);
+        item.upVote -= 1;
+      } else {
+        // 如果點贊，Push 進使用者點贊的產品 ID array
+        this.$store.commit(ADD_USER_UP_VOTE_PRODUCT, item.id);
+        item.upVote += 1;
+      }
+      // axios 將這變更寫入使用者數據庫
+      // var params = new URLSearchParams();
+      // params.append("userUpVoteProduct", this.userUpVoteProduct);
+      // axios
+      //   .post(this.updateUserUpVoteURL, params)
+      //   .then(response => {
+      //     console.log(response);
+      //     console.log(response.data);
+      //   })
+      //   .catch(error => {
+      //     console.log(error);
+      //   });
+    },
   },
   computed: {
     // get data from vuex
