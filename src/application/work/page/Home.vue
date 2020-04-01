@@ -473,6 +473,9 @@ export default {
       initRecommendProductItemsURL: "",
       addCartSameURL: "",
       addCartURL: "",
+      // 使用者的 like 與 up vote
+      updateUserLikedURL: "",
+      updateUserUpVoteURL: "",
     };
   },
   watch: {
@@ -649,6 +652,18 @@ export default {
         // 如果喜歡 Push 進使用者喜歡產品 ID array
         this.$store.commit(ADD_USER_LIKE_PRODUCT, item.id);
       }
+      // axios 將這變更寫入使用者數據庫
+        // var params = new URLSearchParams();
+        // params.append("userLikedProduct", this.userLikedProduct);
+        // axios
+        //   .post(this.updateUserLikedURL, params)
+        //   .then(response => {
+        //     console.log(response);
+        //     console.log(response.data);
+        //   })
+        //   .catch(error => {
+        //     console.log(error);
+        //   });
     },
     updateUserUpVote(item) {
       item.upVoteClick = !item.upVoteClick;
@@ -662,6 +677,18 @@ export default {
         this.$store.commit(ADD_USER_UP_VOTE_PRODUCT, item.id);
         item.upVote += 1;
       }
+      // axios 將這變更寫入使用者數據庫
+        // var params = new URLSearchParams();
+        // params.append("userUpVoteProduct", this.userUpVoteProduct);
+        // axios
+        //   .post(this.updateUserUpVoteURL, params)
+        //   .then(response => {
+        //     console.log(response);
+        //     console.log(response.data);
+        //   })
+        //   .catch(error => {
+        //     console.log(error);
+        //   });
     }
   },
   computed: {

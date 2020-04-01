@@ -160,7 +160,9 @@ import {
   UPDATE_USER_PHONE,
   UPDATE_USER_CASH,
   UPDATE_USER_ADDRESS,
-  UPDATE_ALL_USER_DATA
+  UPDATE_ALL_USER_DATA,
+  UPDATE_USER_LIKE_PRODUCT,
+  UPDATE_USER_UP_VOTE_PRODUCT
 } from "./store/mutations-types/user";
 import {
   UPDATE_CART_ITEMS,
@@ -220,6 +222,8 @@ export default {
     //       this.$store.commit(UPDATE_USER_PHONE, response.data.phone);
     //       this.$store.commit(UPDATE_USER_CASH, response.data.cash);
     //       this.$store.commit(UPDATE_USER_ADDRESS, response.data.address);
+    //       this.$store.commit(UPDATE_USER_LIKE_PRODUCT, response.data.userLikedProduct);
+    //       this.$store.commit(UPDATE_USER_UP_VOTE_PRODUCT, response.data.this.userUpVoteProduct);
     //       // 購物車
     //       this.$store.commit(UPDATE_CART_ITEMS, response.data.cart);
     //       // 購物紀錄
