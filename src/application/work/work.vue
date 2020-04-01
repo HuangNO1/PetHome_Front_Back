@@ -104,6 +104,7 @@
               hide-details
               inset
               label="DARK"
+              @change="changeAllTheme($vuetify.theme.dark)"
             ></v-switch>
           </v-list-item>
         </v-list>
@@ -275,7 +276,9 @@ export default {
     ],
     signOutDialog: false,
     // 用來判斷是否登入成功，決定顯示右上角的使用者顯示
-    loginSuccess: false
+    loginSuccess: false,
+    // axios 更新全局主題
+    changeAllThemeURL: ""
   }),
   methods: {
     toIntroduct() {
@@ -370,6 +373,21 @@ export default {
     signOut() {
       Cookies.remove('userStatus');
       document.location.href = "/introduce";
+    },
+    changeAllTheme() {
+      // axios 更新全局主題
+      // var params = new URLSearchParams();
+      // params.append("allTheme", this.$vuetify.theme.dark);
+      // params.append("email", this.email);
+      // axios
+      //   .post(this.changeAllThemeURL, params)
+      //   .then(response => {
+      //     console.log(response);
+      //     console.log(response.data);
+      //   })
+      //   .catch(error => {
+      //     console.log(error);
+      //   });
     }
   },
   computed: {

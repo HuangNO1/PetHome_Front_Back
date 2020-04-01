@@ -236,7 +236,7 @@ export default {
         this.snackbar = true;
       }
       this.$store.commit(UPDATE_NAV_IMAGE, image);
-      // axios 更新購物車產品
+      // axios 更新 nav 圖片
       // var params = new URLSearchParams();
       // params.append("backgroundImg", image);
       // params.append("email", this.email);
