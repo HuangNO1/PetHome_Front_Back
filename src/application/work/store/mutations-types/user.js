@@ -8,3 +8,7 @@ export const UPDATE_USER_CASH = "updateUserCash";
 export const UPDATE_ALL_USER_DATA = "updateAllUserData";
 export const UPDATE_USER_LIKE_PRODUCT = "updateUserLikeProduct";
 export const UPDATE_USER_UP_VOTE_PRODUCT = "updateUserUpVoteProduct";
+export const REMOVE_USER_LIKE_PRODUCT = "removeUserLikeProduct";
+export const REMOVE_USER_UP_VOTE_PRODUCT = "removeUserUpVoteProduct";
+export const ADD_USER_LIKE_PRODUCT = "addUserLikeProduct";
+export const ADD_USER_UP_VOTE_PRODUCT = "addUserUpVoteProduct";

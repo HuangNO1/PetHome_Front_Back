@@ -8,7 +8,11 @@ import {
     UPDATE_USER_ADDRESS,
     UPDATE_ALL_USER_DATA,
     UPDATE_USER_LIKE_PRODUCT,
-    UPDATE_USER_UP_VOTE_PRODUCT
+    UPDATE_USER_UP_VOTE_PRODUCT,
+    REMOVE_USER_LIKE_PRODUCT,
+    REMOVE_USER_UP_VOTE_PRODUCT,
+    ADD_USER_LIKE_PRODUCT,
+    ADD_USER_UP_VOTE_PRODUCT,
 } from "../mutations-types/user";
 
 import {
@@ -73,6 +77,28 @@ const user = {
         },
         [UPDATE_USER_UP_VOTE_PRODUCT](state, upVoteProduct) {
             state.upVoteProduct = upVoteProduct;
+        },
+        [REMOVE_USER_LIKE_PRODUCT](state, itemID) {
+            for (let i = 0; i < state.likedProduct.length; i++) {
+                if (state.likedProduct[i] === itemID) {
+                    state.likedProduct.splice(i, 1);
+                    break;
+                }
+            }
+        },
+        [REMOVE_USER_UP_VOTE_PRODUCT](state, itemID) {
+            for (let i = 0; i < state.upVoteProduct.length; i++) {
+                if (state.upVoteProduct[i] === itemID) {
+                    state.upVoteProduct.splice(i, 1);
+                    break;
+                }
+            }
+        },
+        [ADD_USER_LIKE_PRODUCT](state, itemID) {
+            state.likedProduct.push(itemID);
+        },
+        [ADD_USER_UP_VOTE_PRODUCT](state, itemID) {
+            state.upVoteProduct.push(itemID);
         }
     },
     actions: {},

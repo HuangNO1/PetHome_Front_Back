@@ -177,6 +177,7 @@
           </v-sheet>
         </v-lazy>
       </v-col>
+      <!--{{userLikedProduct}}<br/>{{userUpVoteProduct}}-->
     </v-row>
     <!-- product list menu  -->
     <v-row class="mb-6">
@@ -236,7 +237,12 @@
           >
             <v-row>
               <v-col md="auto">
-                <v-avatar @click="toViewProduct(item)" tile size="130" class="ml-4">
+                <v-avatar
+                  @click="toViewProduct(item)"
+                  tile
+                  size="130"
+                  class="ml-4"
+                >
                   <v-img :src="item.img" />
                 </v-avatar>
               </v-col>
@@ -265,11 +271,63 @@
               <v-btn class="mx-2" fab small icon>
                 <v-icon>mdi-share-variant</v-icon>
               </v-btn>
-              <v-btn class="mx-2" fab dark small color="primary">
-                <v-icon dark>mdi-thumb-up</v-icon>
+              <!-- 點贊 -->
+              <v-tooltip top>
+                <template v-slot:activator="{ on }">
+                  <v-btn
+                    class="mx-2"
+                    v-show="!item.upVoteClick"
+                    v-on="on"
+                    @click="updateUserUpVote(item)"
+                    fab
+                    icon
+                    small
+                    color="primary"
+                  >
+                    <v-icon>mdi-thumb-up-outline</v-icon>
+                  </v-btn>
+                </template>
+                <span>{{ item.upVote }}</span>
+              </v-tooltip>
+              <v-tooltip top>
+                <template v-slot:activator="{ on }">
+                  <v-btn
+                    class="mx-2"
+                    v-show="item.upVoteClick"
+                    v-on="on"
+                    @click="updateUserUpVote(item)"
+                    fab
+                    icon
+                    small
+                    color="primary"
+                  >
+                    <v-icon>mdi-thumb-up</v-icon>
+                  </v-btn>
+                </template>
+                <span>{{ item.upVote }}</span>
+              </v-tooltip>
+              <!-- 收藏 -->
+              <v-btn
+                class="mx-2"
+                v-show="!item.liked"
+                @click="updateUserLiked(item)"
+                fab
+                icon
+                small
+                color="pink"
+              >
+                <v-icon>mdi-heart-multiple-outline</v-icon>
               </v-btn>
-              <v-btn class="mx-2" fab dark small color="pink">
-                <v-icon dark>mdi-heart</v-icon>
+              <v-btn
+                class="mx-2"
+                v-show="item.liked"
+                @click="updateUserLiked(item)"
+                fab
+                icon
+                small
+                color="pink"
+              >
+                <v-icon>mdi-heart-multiple</v-icon>
               </v-btn>
               <v-tooltip top>
                 <template v-slot:activator="{ on }">
@@ -310,6 +368,12 @@ import {
   ADD_TO_CART,
   VIEW_PRODUCT_ITEM_DETAIL
 } from "../store/mutations-types/product";
+import {
+  REMOVE_USER_LIKE_PRODUCT,
+  ADD_USER_LIKE_PRODUCT,
+  REMOVE_USER_UP_VOTE_PRODUCT,
+  ADD_USER_UP_VOTE_PRODUCT,
+} from "../store/mutations-types/user.js";
 import Cookies from "js-cookie"; // 引入 cookie API
 
 export default {
@@ -346,6 +410,17 @@ export default {
           this.tags.push(this.productItems[i].tags[j]);
         }
         haveSameTag = false;
+      }
+      // 初始化各產品的 liked upVote
+      for(let j = 0; j < this.userLikedProduct.length; j++) {
+        if(this.productItems[i].id === this.userLikedProduct[j]) {
+          this.productItems[i].liked = true;
+        }
+      }
+      for(let j = 0; j < this.userUpVoteProduct.length; j++) {
+        if(this.productItems[i].id === this.userUpVoteProduct[j]) {
+          this.productItems[i].upVoteClick = true;
+        }
       }
     }
   },
@@ -397,7 +472,7 @@ export default {
       recommendProductItems: [], // 推薦的商品
       initRecommendProductItemsURL: "",
       addCartSameURL: "",
-      addCartURL: ""
+      addCartURL: "",
     };
   },
   watch: {
@@ -560,24 +635,33 @@ export default {
       }, 300);
     },
     toViewProduct(item) {
-      // var tempItem = {
-      //   name: item.name,
-      //   img: item.img,
-      //   type: item.type,
-      //   description: item.description,
-      //   price: item.price,
-      //   number: 1,
-      //   total: item.total,
-      //   time: item.time,
-      //   like: item.like,
-      //   upVote: item.upVote,
-      //   gender: item.gender,
-      //   age: item.age,
-      //   tags: item.tags,
-      //   comments: item.comments,
-      // };
       // 跳轉到 viewProduct 子組件檢視產品詳細，并添加 query string 作為参数
       this.$router.push({ path: "/ViewProduct", query: { id: item.id } });
+    },
+    updateUserLiked(item) {
+      item.liked = !item.liked;
+      // 更新使用者的喜歡商品
+      if(item.liked === false) {
+        // 如果 取消喜歡，去掉使用者喜歡產品 ID array
+        this.$store.commit(REMOVE_USER_LIKE_PRODUCT, item.id);
+      }
+      else {
+        // 如果喜歡 Push 進使用者喜歡產品 ID array
+        this.$store.commit(ADD_USER_LIKE_PRODUCT, item.id);
+      }
+    },
+    updateUserUpVote(item) {
+      item.upVoteClick = !item.upVoteClick;
+      // 更新使用者的點贊商品
+      if(item.upVoteClick === false) {
+        // 如果取消點贊，去掉使用者點贊的產品 ID array
+        this.$store.commit(REMOVE_USER_UP_VOTE_PRODUCT, item.id);
+        item.upVote -= 1;
+      } else {
+        // 如果點贊，Push 進使用者點贊的產品 ID array
+        this.$store.commit(ADD_USER_UP_VOTE_PRODUCT, item.id);
+        item.upVote += 1;
+      }
     }
   },
   computed: {
@@ -591,6 +675,12 @@ export default {
       },
       productItems: state => {
         return state.product.productItems;
+      },
+      userLikedProduct: state => {
+        return state.user.likedProduct;
+      },
+      userUpVoteProduct: state => {
+        return state.user.upVoteProduct;
       }
     })
   }
