@@ -7,6 +7,7 @@ import Record from '@/application/work/page/Record.vue'
 import User from '@/application/work/page/User.vue'
 import About from '@/application/work/page/About.vue'
 import ViewProduct from '@/application/work/page/ViewProduct.vue'
+import PageNotFound from '@/application/work/page/404.vue'
 
 //使用 vue-router
 Vue.use(VueRouter)
@@ -47,6 +48,11 @@ export default new VueRouter({
             name: "ViewProduct",
             path: '/ViewProduct',
             component: ViewProduct
+        },
+        {
+            name: '404Page',
+            path: '*',
+            component: PageNotFound
         }
     ]
 })

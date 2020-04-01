@@ -521,13 +521,13 @@ export default {
         console.log(this.autoCompleteItems);
         console.log(this.search);
         this.loading = false;
-      }, 300);
+      }, 100);
     },
     customFilter() {
       this.showProductItems = [];
       setTimeout(() => {
         this.showProductItems = this.autoCompleteItems;
-      }, 300);
+      }, 100);
       return this.autoCompleteItems;
     },
     showTagsProductItems() {
@@ -649,7 +649,7 @@ export default {
         this.showProductItems = temp.filter(e => {
           return e.price >= this.priceRange[0] && e.price <= this.priceRange[1];
         });
-      }, 300);
+      }, 100);
     },
     toViewProduct(item) {
       // 跳轉到 viewProduct 子組件檢視產品詳細，并添加 query string 作為参数
@@ -712,11 +712,11 @@ export default {
           this.showProductItems = this.productItems.filter(e => {
             return e.liked === true;
           });
-        }, 300);
+        }, 100);
       } else {
         setTimeout(() => {
           this.showProductItems = this.productItems;
-        }, 300);
+        }, 100);
       }
     }
   },
