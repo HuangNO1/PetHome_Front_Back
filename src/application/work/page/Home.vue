@@ -90,7 +90,19 @@
               </template>
             </v-autocomplete>
 
-            <v-btn icon>
+            <v-btn
+              @click="showUserLikeProduct"
+              v-show="!isClickShowUserLike"
+              icon
+            >
+              <v-icon>mdi-heart</v-icon>
+            </v-btn>
+            <v-btn
+              @click="showUserLikeProduct"
+              v-show="isClickShowUserLike"
+              color="pink"
+              icon
+            >
               <v-icon>mdi-heart</v-icon>
             </v-btn>
 
@@ -372,7 +384,7 @@ import {
   REMOVE_USER_LIKE_PRODUCT,
   ADD_USER_LIKE_PRODUCT,
   REMOVE_USER_UP_VOTE_PRODUCT,
-  ADD_USER_UP_VOTE_PRODUCT,
+  ADD_USER_UP_VOTE_PRODUCT
 } from "../store/mutations-types/user.js";
 import Cookies from "js-cookie"; // 引入 cookie API
 
@@ -412,13 +424,13 @@ export default {
         haveSameTag = false;
       }
       // 初始化各產品的 liked upVote
-      for(let j = 0; j < this.userLikedProduct.length; j++) {
-        if(this.productItems[i].id === this.userLikedProduct[j]) {
+      for (let j = 0; j < this.userLikedProduct.length; j++) {
+        if (this.productItems[i].id === this.userLikedProduct[j]) {
           this.productItems[i].liked = true;
         }
       }
-      for(let j = 0; j < this.userUpVoteProduct.length; j++) {
-        if(this.productItems[i].id === this.userUpVoteProduct[j]) {
+      for (let j = 0; j < this.userUpVoteProduct.length; j++) {
+        if (this.productItems[i].id === this.userUpVoteProduct[j]) {
           this.productItems[i].upVoteClick = true;
         }
       }
@@ -476,6 +488,8 @@ export default {
       // 使用者的 like 與 up vote
       updateUserLikedURL: "",
       updateUserUpVoteURL: "",
+      // 是否展示使用者喜歡的產品
+      isClickShowUserLike: false
     };
   },
   watch: {
@@ -644,31 +658,30 @@ export default {
     updateUserLiked(item) {
       item.liked = !item.liked;
       // 更新使用者的喜歡商品
-      if(item.liked === false) {
+      if (item.liked === false) {
         // 如果 取消喜歡，去掉使用者喜歡產品 ID array
         this.$store.commit(REMOVE_USER_LIKE_PRODUCT, item.id);
-      }
-      else {
+      } else {
         // 如果喜歡 Push 進使用者喜歡產品 ID array
         this.$store.commit(ADD_USER_LIKE_PRODUCT, item.id);
       }
       // axios 將這變更寫入使用者數據庫
-        // var params = new URLSearchParams();
-        // params.append("userLikedProduct", this.userLikedProduct);
-        // axios
-        //   .post(this.updateUserLikedURL, params)
-        //   .then(response => {
-        //     console.log(response);
-        //     console.log(response.data);
-        //   })
-        //   .catch(error => {
-        //     console.log(error);
-        //   });
+      // var params = new URLSearchParams();
+      // params.append("userLikedProduct", this.userLikedProduct);
+      // axios
+      //   .post(this.updateUserLikedURL, params)
+      //   .then(response => {
+      //     console.log(response);
+      //     console.log(response.data);
+      //   })
+      //   .catch(error => {
+      //     console.log(error);
+      //   });
     },
     updateUserUpVote(item) {
       item.upVoteClick = !item.upVoteClick;
       // 更新使用者的點贊商品
-      if(item.upVoteClick === false) {
+      if (item.upVoteClick === false) {
         // 如果取消點贊，去掉使用者點贊的產品 ID array
         this.$store.commit(REMOVE_USER_UP_VOTE_PRODUCT, item.id);
         item.upVote -= 1;
@@ -678,17 +691,33 @@ export default {
         item.upVote += 1;
       }
       // axios 將這變更寫入使用者數據庫
-        // var params = new URLSearchParams();
-        // params.append("userUpVoteProduct", this.userUpVoteProduct);
-        // axios
-        //   .post(this.updateUserUpVoteURL, params)
-        //   .then(response => {
-        //     console.log(response);
-        //     console.log(response.data);
-        //   })
-        //   .catch(error => {
-        //     console.log(error);
-        //   });
+      // var params = new URLSearchParams();
+      // params.append("userUpVoteProduct", this.userUpVoteProduct);
+      // axios
+      //   .post(this.updateUserUpVoteURL, params)
+      //   .then(response => {
+      //     console.log(response);
+      //     console.log(response.data);
+      //   })
+      //   .catch(error => {
+      //     console.log(error);
+      //   });
+    },
+    showUserLikeProduct() {
+      // 顯示使用者喜歡的產品
+      this.isClickShowUserLike = !this.isClickShowUserLike;
+      this.showProductItems = [];
+      if (this.isClickShowUserLike === true) {
+        setTimeout(() => {
+          this.showProductItems = this.productItems.filter(e => {
+            return e.liked === true;
+          });
+        }, 300);
+      } else {
+        setTimeout(() => {
+          this.showProductItems = this.productItems;
+        }, 300);
+      }
     }
   },
   computed: {
