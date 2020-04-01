@@ -7,8 +7,8 @@ import VueScrollProgressBar from '@guillaumebriday/vue-scroll-progress-bar'
 import VueNumberInput from '@chenfengyuan/vue-number-input';
 import Vuelidate from 'vuelidate'
 
-Vue.use(Vuelidate)
-Vue.use(VueScrollProgressBar)
+Vue.use(Vuelidate);
+Vue.use(VueScrollProgressBar);
 Vue.use(VueNumberInput);
 
 Vue.config.productionTip = false

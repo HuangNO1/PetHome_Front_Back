@@ -53,9 +53,9 @@ module.exports = {
         index: '/', // 运行时，默认打开application1页面
         // 告诉dev-server在服务器启动后打开浏览器，将其设置true为打开默认浏览器
         open: true,
-        host: 'localhost',
-        port: 8080,
-        https: false,
+        // host: 'localhost',
+        // port: 8080,
+        // https: false,
         hotOnly: false,
         // 配置首页 入口链接
         before: app => {

@@ -75,7 +75,7 @@
                 >
                   <!-- 性別 -->
                   <v-row>
-                    <v-subheader>Gender {{ defaultGender }}</v-subheader>
+                    <v-subheader>Gender</v-subheader>
                   </v-row>
                   <v-row>
                     <v-btn-toggle v-model="defaultGender" mandatory borderless>
@@ -211,6 +211,7 @@
         </v-card>
       </v-lazy>
       <!--{{viewProductItemDetail}}-->
+      <!-- 產品描述 -->
       <v-lazy
         v-model="isActive"
         :options="{
@@ -224,9 +225,8 @@
           <v-card-text>
             <div
               class="text-justify subtitle-1 mr-10 ml-10"
-              style="text-indent: 2em;"
             >
-              {{ viewProductItemDetail.description }}
+              <markdown-it-vue :content="viewProductItemDetail.description"/>
             </div>
           </v-card-text>
         </v-card>
@@ -321,6 +321,9 @@
 <script>
 import "viewerjs/dist/viewer.css";
 import Viewer from "v-viewer/src/component";
+import MarkdownItVue from 'markdown-it-vue'
+import 'markdown-it-vue/dist/markdown-it-vue.css'
+
 import { mapState, mapMutations } from "vuex";
 import {
   ADD_TO_CART,
@@ -336,7 +339,8 @@ import Cookies from "js-cookie"; // 引入 cookie API
 
 export default {
   components: {
-    Viewer
+    Viewer,
+    MarkdownItVue
   },
   data() {
     return {
@@ -370,7 +374,7 @@ export default {
       ],
       // 加入購物車消息條
       addCartSnackbar: false,
-      addCartSnackbarText: ""
+      addCartSnackbarText: "",
     };
   },
   beforeRouteUpdate(to, from, next) {

@@ -79,6 +79,7 @@ export default {
 
     // image
     if (this.navImage !== "") {
+      this.background = true;
       this.backgroundURL = this.navImage;
       console.log("backgroundURL : " + this.backgroundURL);
     } else {

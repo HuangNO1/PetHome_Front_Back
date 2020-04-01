@@ -5,7 +5,7 @@ export const TEST_PRODUCT_DATA = [
         name: "Frozen Yogurt",
         img: "https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png",
         type: "Dog",
-        description: "Dog 1",
+        description: "# Dog 1\n## Hello",
         price: 24,
         number: 1,
         total: 0,
