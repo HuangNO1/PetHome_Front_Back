@@ -137,8 +137,10 @@
                             </v-avatar>
                           </span>
                         </v-tooltip>
-                        {{ item.name }}
+                        <a @click="toViewProduct(item)">{{ item.name }}</a>
                       </td>
+                      <td>{{ item.gender }}</td>
+                      <td>{{ item.age }}</td>
                       <td>{{ item.price }}</td>
                       <td>
                         <number-input
@@ -235,9 +237,12 @@
                               <v-avatar tile size="130">
                                 <img :src="item.img" />
                               </v-avatar>
-                            </span> </v-tooltip
-                          >{{ item.name }}
+                            </span>
+                          </v-tooltip>
+                          <a @click="toViewProduct(item)">{{ item.name }}</a>
                         </td>
+                        <td>{{ item.age }}</td>
+                        <td>{{ item.price }}</td>
                         <td>{{ item.price }}</td>
                         <td>
                           <number-input
@@ -386,6 +391,7 @@
         <v-icon dark>mdi-close-circle</v-icon>
       </v-btn>
     </v-snackbar>
+    <!--{{ cartProductItems }}-->
   </div>
 </template>
 <script>
@@ -420,6 +426,8 @@ export default {
           sortable: false,
           value: "name"
         },
+        { text: "Gender", value: "gender" },
+        { text: "Age", value: "age" },
         { text: "Price($)", value: "price" },
         { text: "number", value: "number" },
         { text: "Total($)", value: "total" },
@@ -447,13 +455,15 @@ export default {
       // checkout----------------------
       checkoutHeaders: [
         {
-          text: "name",
+          text: "Name",
           align: "start",
           sortable: false,
           value: "name"
         },
+        { text: "Gander", value: "gender" },
+        { text: "Age", value: "age" },
         { text: "Price($)", value: "price" },
-        { text: "number", value: "number" },
+        { text: "Number", value: "number" },
         { text: "Total($)", value: "total" }
       ],
       checkoutPage: 1,
@@ -533,7 +543,11 @@ export default {
       while (this.cartSelected.length !== 0) {
         let i = 0;
         for (let j = 0; j < this.cartProduct.length; j++) {
-          if (this.cartProduct[j].id === this.cartSelected[i].id) {
+          if (
+            this.cartProduct[j].id === this.cartSelected[i].id &&
+            this.cartProduct[j].gender === this.cartSelected[i].gender &&
+            this.cartProduct[j].age === this.cartSelected[i].age
+          ) {
             this.cartProduct.splice(j, 1);
             break;
           }
@@ -583,6 +597,10 @@ export default {
       //   .catch(error => {
       //     console.log(error);
       //   });
+    },
+    toViewProduct(item) {
+      // 跳轉到 viewProduct 子組件檢視產品詳細，并添加 query string 作為参数
+      this.$router.push({ path: "/ViewProduct", query: { id: item.id } });
     }
   },
   computed: {

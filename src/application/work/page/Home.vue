@@ -367,12 +367,14 @@
         </v-lazy>
       </v-col>
     </v-row>
+    <!--
     <v-snackbar v-model="snackbar" top :timeout="3000">
       {{ text }} have added to cart.
       <v-btn color="pink" icon fab @click="snackbar = false">
         <v-icon dark>mdi-close-circle</v-icon>
       </v-btn>
     </v-snackbar>
+    -->
   </div>
 </template>
 <script>
@@ -479,8 +481,8 @@ export default {
       tags: [],
       selectedTags: [],
       // 提示窗
-      snackbar: false,
-      text: "",
+      // snackbar: false,
+      // text: "",
       // product test--------------------------------
       showProductItems: [],
       recommendProductItems: [], // 推薦的商品

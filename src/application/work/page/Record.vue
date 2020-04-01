@@ -93,9 +93,12 @@
                             :src="item.img"
                           />
                         </v-avatar>
-                      </span> </v-tooltip
-                    >{{ item.name }}
+                      </span>
+                    </v-tooltip>
+                    <a @click="toViewProduct(item)">{{ item.name }}</a>
                   </td>
+                  <td>{{ item.gender }}</td>
+                  <td>{{ item.age }}</td>
                   <td>{{ item.price }}</td>
                   <td>{{ item.number }}</td>
                   <td>{{ item.total }}</td>
@@ -147,13 +150,15 @@ export default {
       selected: [],
       recordHeaders: [
         {
-          text: "name",
+          text: "Name",
           align: "start",
           sortable: false,
           value: "name"
         },
+        { text: "Gander", value: "gender" },
+        { text: "Age", value: "age" },
         { text: "Price($)", value: "price" },
-        { text: "number", value: "number" },
+        { text: "Number", value: "number" },
         { text: "Total($)", value: "total" },
         { text: "Time(UTF-8)", value: "time" }
       ],
@@ -161,6 +166,12 @@ export default {
       page: 1,
       pageCount: 0
     };
+  },
+  methods: {
+    toViewProduct(item) {
+      // 跳轉到 viewProduct 子組件檢視產品詳細，并添加 query string 作為参数
+      this.$router.push({ path: "/ViewProduct", query: { id: item.id } });
+    },
   },
   computed: {
     // get data from VUEX

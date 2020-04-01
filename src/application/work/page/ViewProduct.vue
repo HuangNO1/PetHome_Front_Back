@@ -58,10 +58,11 @@
                     </template>
                   </viewer>
                   <v-chip
-                      class="ma-1"
-                      v-for="(tag, i) in viewProductItemDetail.tags"
-                      :key="i"
-                    ># {{ tag }}</v-chip>
+                    class="ma-1"
+                    v-for="(tag, i) in viewProductItemDetail.tags"
+                    :key="i"
+                    ># {{ tag }}</v-chip
+                  >
                 </v-col>
                 <v-divider vertical></v-divider>
                 <v-col
@@ -74,7 +75,7 @@
                 >
                   <!-- 性別 -->
                   <v-row>
-                    <v-subheader>Gender</v-subheader>
+                    <v-subheader>Gender {{ defaultGender }}</v-subheader>
                   </v-row>
                   <v-row>
                     <v-btn-toggle v-model="defaultGender" mandatory borderless>
@@ -84,9 +85,9 @@
                         :key="i"
                       >
                         <v-icon left>{{ genders.icon }}</v-icon>
-                        <span class="hidden-sm-and-down">{{
-                          genders.gender
-                        }}</span>
+                        <span class="hidden-sm-and-down">
+                          {{ genders.gender }}
+                        </span>
                       </v-btn>
                     </v-btn-toggle>
                   </v-row>
@@ -135,59 +136,59 @@
               <v-icon>mdi-share-variant</v-icon>
             </v-btn>
             <!-- 點贊 -->
-              <v-tooltip top>
-                <template v-slot:activator="{ on }">
-                  <v-btn
-                    class="mx-2"
-                    v-show="!viewProductItemDetail.upVoteClick"
-                    v-on="on"
-                    @click="updateUserUpVote(viewProductItemDetail)"
-                    fab
-                    icon
-                    color="primary"
-                  >
-                    <v-icon>mdi-thumb-up-outline</v-icon>
-                  </v-btn>
-                </template>
-                <span>{{ viewProductItemDetail.upVote }}</span>
-              </v-tooltip>
-              <v-tooltip top>
-                <template v-slot:activator="{ on }">
-                  <v-btn
-                    class="mx-2"
-                    v-show="viewProductItemDetail.upVoteClick"
-                    v-on="on"
-                    @click="updateUserUpVote(viewProductItemDetail)"
-                    fab
-                    icon
-                    color="primary"
-                  >
-                    <v-icon>mdi-thumb-up</v-icon>
-                  </v-btn>
-                </template>
-                <span>{{ viewProductItemDetail.upVote }}</span>
-              </v-tooltip>
-              <!-- 收藏 -->
-              <v-btn
-                class="mx-2"
-                v-show="!viewProductItemDetail.liked"
-                @click="updateUserLiked(viewProductItemDetail)"
-                fab
-                icon
-                color="pink"
-              >
-                <v-icon>mdi-heart-multiple-outline</v-icon>
-              </v-btn>
-              <v-btn
-                class="mx-2"
-                v-show="viewProductItemDetail.liked"
-                @click="updateUserLiked(viewProductItemDetail)"
-                fab
-                icon
-                color="pink"
-              >
-                <v-icon>mdi-heart-multiple</v-icon>
-              </v-btn>
+            <v-tooltip top>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  class="mx-2"
+                  v-show="!viewProductItemDetail.upVoteClick"
+                  v-on="on"
+                  @click="updateUserUpVote(viewProductItemDetail)"
+                  fab
+                  icon
+                  color="primary"
+                >
+                  <v-icon>mdi-thumb-up-outline</v-icon>
+                </v-btn>
+              </template>
+              <span>{{ viewProductItemDetail.upVote }}</span>
+            </v-tooltip>
+            <v-tooltip top>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  class="mx-2"
+                  v-show="viewProductItemDetail.upVoteClick"
+                  v-on="on"
+                  @click="updateUserUpVote(viewProductItemDetail)"
+                  fab
+                  icon
+                  color="primary"
+                >
+                  <v-icon>mdi-thumb-up</v-icon>
+                </v-btn>
+              </template>
+              <span>{{ viewProductItemDetail.upVote }}</span>
+            </v-tooltip>
+            <!-- 收藏 -->
+            <v-btn
+              class="mx-2"
+              v-show="!viewProductItemDetail.liked"
+              @click="updateUserLiked(viewProductItemDetail)"
+              fab
+              icon
+              color="pink"
+            >
+              <v-icon>mdi-heart-multiple-outline</v-icon>
+            </v-btn>
+            <v-btn
+              class="mx-2"
+              v-show="viewProductItemDetail.liked"
+              @click="updateUserLiked(viewProductItemDetail)"
+              fab
+              icon
+              color="pink"
+            >
+              <v-icon>mdi-heart-multiple</v-icon>
+            </v-btn>
             <v-tooltip top>
               <template v-slot:activator="{ on }">
                 <v-btn
@@ -209,6 +210,7 @@
           </v-card-actions>
         </v-card>
       </v-lazy>
+      <!--{{viewProductItemDetail}}-->
       <v-lazy
         v-model="isActive"
         :options="{
@@ -340,8 +342,8 @@ export default {
     return {
       isActive: false,
       images: ["https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png"],
-      defaultGender: "male",
-      defaultAge: "",
+      defaultGender: 0,
+      defaultAge: 0,
       productGender: [
         {
           gender: "Male",
@@ -368,19 +370,19 @@ export default {
       ],
       // 加入購物車消息條
       addCartSnackbar: false,
-      addCartSnackbarText: "",
+      addCartSnackbarText: ""
     };
   },
   beforeRouteUpdate(to, from, next) {
     let show = this.productItems.find(e => {
-      return e.id == to.query.id;
+      return e.id === to.query.id;
     });
     this.$store.commit(VIEW_PRODUCT_ITEM_DETAIL, show);
   },
   created() {
     let id = this.$route.query.id;
     let show = this.productItems.find(e => {
-      return e.id == id;
+      return e.id === id;
     });
     this.$store.commit(VIEW_PRODUCT_ITEM_DETAIL, show);
   },
@@ -397,6 +399,7 @@ export default {
       // 確認是否購物車有相同的物品，如果有 -> 添加數字，沒有 -> 添加 item
       // 先申明一個變量 並將 item 的值賦進去，特別將 number 調為 1，解決指針問題
       var tempItem = {
+        id: item.id,
         name: item.name,
         img: item.img,
         type: item.type,
@@ -406,16 +409,22 @@ export default {
         total: item.total,
         time: item.time,
         liked: item.liked,
+        upVoteClick: item.upVoteClick,
         upVote: item.upVote,
-        gender: item.gender,
-        age: item.age,
+        gender: this.productGender[this.defaultGender].gender,
+        age: this.productAge[this.defaultAge].age,
         tags: item.tags,
         comments: item.comments
       };
       var isSame = false;
       for (let i = 0; i < this.cartProductItems.length; i++) {
-        if (this.cartProductItems[i].name === item.name) {
-          this.cartProductItems[i].number += item.number;
+        if (
+          this.cartProductItems[i].id === tempItem.id &&
+          this.cartProductItems[i].gender === tempItem.gender &&
+          this.cartProductItems[i].age === tempItem.age
+        ) {
+          console.log(">>>>>>>> " + "is same");
+          this.cartProductItems[i].number += tempItem.number;
           isSame = true;
 
           // axios 將這商品寫入使用者數據庫
@@ -501,7 +510,7 @@ export default {
       //   .catch(error => {
       //     console.log(error);
       //   });
-    },
+    }
   },
   computed: {
     // get data from vuex
