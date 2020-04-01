@@ -669,6 +669,7 @@ export default {
       var params = new URLSearchParams();
       // axios 更新購物車產品
       // params.append("cartItems", this.cartProduct);
+      // params.append("email", this.email);
       // axios
       //   .post(this.updateCartItemsURL, params)
       //   .then(response => {

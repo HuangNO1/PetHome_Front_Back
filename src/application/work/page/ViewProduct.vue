@@ -476,6 +476,7 @@ export default {
       // axios 將這變更寫入使用者數據庫
       // var params = new URLSearchParams();
       // params.append("userLikedProduct", this.userLikedProduct);
+      // params.append("email", this.email);
       // axios
       //   .post(this.updateUserLikedURL, params)
       //   .then(response => {
@@ -501,6 +502,7 @@ export default {
       // axios 將這變更寫入使用者數據庫
       // var params = new URLSearchParams();
       // params.append("userUpVoteProduct", this.userUpVoteProduct);
+      // params.append("email", this.email);
       // axios
       //   .post(this.updateUserUpVoteURL, params)
       //   .then(response => {
@@ -529,6 +531,9 @@ export default {
       },
       productItems: state => {
         return state.product.productItems;
+      },
+      email: state => {
+        return state.user.email;
       }
     })
   }

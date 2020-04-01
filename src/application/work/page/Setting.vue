@@ -94,6 +94,9 @@ export default {
       isActive: false,
       background: false,
       backgroundURL: "",
+      // axios URL
+      updateThemeColorURL: "",
+      updateBackgroundImgURL: "",
 
       NavColors: [
         {
@@ -206,6 +209,19 @@ export default {
       this.snackbar = true;
       console.log("change theme: " + color);
       this.$store.commit(UPDATE_NAV_THEME, color);
+      // axios 更新主題
+      // var params = new URLSearchParams();
+      // params.append("themeColor", color);
+      // params.append("email", this.email);
+      // axios
+      //   .post(this.updateThemeColorURL, params)
+      //   .then(response => {
+      //     console.log(response);
+      //     console.log(response.data);
+      //   })
+      //   .catch(error => {
+      //     console.log(error);
+      //   });
     },
     bg() {
       console.log(this.background);
@@ -220,6 +236,19 @@ export default {
         this.snackbar = true;
       }
       this.$store.commit(UPDATE_NAV_IMAGE, image);
+      // axios 更新購物車產品
+      // var params = new URLSearchParams();
+      // params.append("backgroundImg", image);
+      // params.append("email", this.email);
+      // axios
+      //   .post(this.updateBackgroundImgURL, params)
+      //   .then(response => {
+      //     console.log(response);
+      //     console.log(response.data);
+      //   })
+      //   .catch(error => {
+      //     console.log(error);
+      //   });
     }
   },
   mounted() {},
@@ -230,6 +259,9 @@ export default {
       },
       navImage: state => {
         return state.theme.navImage;
+      },
+      email: state => {
+        return state.user.email;
       }
     })
   }
