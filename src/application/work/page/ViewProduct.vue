@@ -171,7 +171,7 @@
             <!-- 收藏 -->
             <v-btn
               class="mx-2"
-              v-show="!viewProductItemDetail.liked"
+              v-show="!viewProductItemDetail.likedClick"
               @click="updateUserLiked(viewProductItemDetail)"
               fab
               icon
@@ -181,7 +181,7 @@
             </v-btn>
             <v-btn
               class="mx-2"
-              v-show="viewProductItemDetail.liked"
+              v-show="viewProductItemDetail.likedClick"
               @click="updateUserLiked(viewProductItemDetail)"
               fab
               icon
@@ -412,7 +412,7 @@ export default {
         number: item.number,
         total: item.total,
         time: item.time,
-        liked: item.liked,
+        likedClick: item.likedClick,
         upVoteClick: item.upVoteClick,
         upVote: item.upVote,
         gender: this.productGender[this.defaultGender].gender,
@@ -468,9 +468,9 @@ export default {
       item.number = 1;
     },
     updateUserLiked(item) {
-      item.liked = !item.liked;
+      item.likedClick = !item.likedClick;
       // 更新使用者的喜歡商品
-      if (item.liked === false) {
+      if (item.likedClick === false) {
         // 如果 取消喜歡，去掉使用者喜歡產品 ID array
         this.$store.commit(REMOVE_USER_LIKE_PRODUCT, item.id);
       } else {

@@ -321,7 +321,7 @@
               <!-- 收藏 -->
               <v-btn
                 class="mx-2"
-                v-show="!item.liked"
+                v-show="!item.likedClick"
                 @click="updateUserLiked(item)"
                 fab
                 icon
@@ -332,7 +332,7 @@
               </v-btn>
               <v-btn
                 class="mx-2"
-                v-show="item.liked"
+                v-show="item.likedClick"
                 @click="updateUserLiked(item)"
                 fab
                 icon
@@ -430,7 +430,7 @@ export default {
       // 初始化各產品的 liked upVote
       for (let j = 0; j < this.userLikedProduct.length; j++) {
         if (this.productItems[i].id === this.userLikedProduct[j]) {
-          this.productItems[i].liked = true;
+          this.productItems[i].likedClick = true;
         }
       }
       for (let j = 0; j < this.userUpVoteProduct.length; j++) {
@@ -599,7 +599,7 @@ export default {
         number: 1,
         total: item.total,
         time: item.time,
-        liked: item.liked,
+        likedClick: item.likedClick,
         upVote: item.upVote,
         gender: item.gender,
         age: item.age,
@@ -660,9 +660,9 @@ export default {
       this.$router.push({ path: "/ViewProduct", query: { id: item.id } });
     },
     updateUserLiked(item) {
-      item.liked = !item.liked;
+      item.likedClick = !item.likedClick;
       // 更新使用者的喜歡商品
-      if (item.liked === false) {
+      if (item.likedClick === false) {
         // 如果 取消喜歡，去掉使用者喜歡產品 ID array
         this.$store.commit(REMOVE_USER_LIKE_PRODUCT, item.id);
       } else {
@@ -714,7 +714,7 @@ export default {
       if (this.isClickShowUserLike === true) {
         setTimeout(() => {
           this.showProductItems = this.productItems.filter(e => {
-            return e.liked === true;
+            return e.likedClick === true;
           });
         }, 100);
       } else {
