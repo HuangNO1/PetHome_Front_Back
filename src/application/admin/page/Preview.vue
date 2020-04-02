@@ -1,7 +1,6 @@
 <template>
   <div>
-    ADMIN
-    <router-view></router-view>
+    Preview
   </div>
 </template>
 <script>

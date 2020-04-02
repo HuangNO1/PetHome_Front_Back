@@ -1,7 +1,6 @@
 <template>
   <div>
-    ADMIN
-    <router-view></router-view>
+    Edit
   </div>
 </template>
 <script>
