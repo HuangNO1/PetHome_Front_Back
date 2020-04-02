@@ -60,7 +60,7 @@
             <v-btn text color="red" @click="editAvatarDialog = false"
               >cencel</v-btn
             >
-            <v-btn text color="green">save</v-btn>
+            <v-btn text color="green" @click="updateAvatar">save</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -822,6 +822,7 @@ export default {
     seePwd: "password",
     seeRepeatPwd: "password",
     // 是否更改成功
+    updateAvatarSuccess: false,
     updateUsernameSuccess: false,
     updateDescriptionSuccess: false,
     updateEmailSuccess: false,
@@ -843,7 +844,9 @@ export default {
     //   type: "Content-Type",
     //   app: "application/xml"
     // },
-    // imgDataUrl: "",
+    imgDataUrl: "",
+    // axios 請求
+    updateAvatarURL: "",
     imageUploadDialog: false,
     SMMSuploadUrl: "https://sm.ms/api/upload",
     rotation: 0,
@@ -855,7 +858,7 @@ export default {
     money: 50
   }),
   created() {
-    this.imgDataUrl = this.user.avatar;
+    this.imgDataUrl = this.avatar;
   },
   methods: {
     editName() {
@@ -922,6 +925,40 @@ export default {
         this.seeRepeatPwd = "password";
       }
     },
+    updateAvatar() {
+      // axios 提交新頭像
+      // var params = new URLSearchParams();
+      // params.append("newDescription", this.newDescription);
+      // params.append("email", this.email);
+      // axios
+      //   .post(this.updateAvatarURL, params)
+      //   .then(response => {
+      //     console.log(response);
+      //     console.log(response.data);
+      //     if (response.data === false) {
+      //       this.updateAvatarSuccess = false;
+      //       this.changeFailDialog = true;
+      //     } else {
+      //       // 更新前端頭像 關閉 edit
+      //       this.updateAvatarSuccess = true;
+      //       this.$store.commit(UPDATE_USER_AVATAR, this.imgDataUrl);
+      //       this.editAvatarDialog = false;
+      //       // 出現提示窗
+      //       this.snackbar = true;
+      //       this.text = "Your avatar";
+      //     }
+      //   })
+      //   .catch(error => {
+      //     console.log(error);
+      //   });
+      // 假設成功
+      this.updateAvatarSuccess = true;
+      this.$store.commit(UPDATE_USER_AVATAR, this.imgDataUrl);
+      this.editAvatarDialog = false;
+      // 消息條
+      this.snackbar = true;
+      this.text = "Your avatar";
+    },
     // 發送更改資料 都以傳送 email 作為更改資料搜索使用者的依據
     submitNewUsername() {
       // axios 提交新使用者名稱
@@ -939,7 +976,7 @@ export default {
       //     } else {
       //       // 更新前端使用者名稱 關閉 edit
       //       this.updateUsernameSuccess = true;
-      //       this.user.name = this.newUsername;
+      //       this.$store.commit(UPDATE_USER_USERNAME, this.newUsername);
       //       this.editName();
       //       // 出現提示窗
       //       this.snackbar = true;
@@ -955,7 +992,7 @@ export default {
       this.updateUsernameSuccess = true;
       this.$store.commit(UPDATE_USER_USERNAME, this.newUsername);
       this.editName();
-      // 出現提示窗 
+      // 出現提示窗
       this.snackbar = true;
       this.text = "Your username";
     },
@@ -975,7 +1012,7 @@ export default {
       //     } else {
       //       // 更新前端描述 關閉 edit
       //       this.updateDescriptionSuccess = true;
-      //       this.user.description = this.newDescription;
+      //       this.$store.commit(UPDATE_USER_DESCRIPTION, this.newDescription);
       //       this.editEmail();
       //       // 出現提示窗
       //       this.snackbar = true;
@@ -1009,7 +1046,7 @@ export default {
       //     } else {
       //       // 更前端 email 關閉 edit
       //       this.updateEmailSuccess = true;
-      //       this.user.email = this.newEmail;
+      //       this.$store.commit(UPDATE_USER_EMAIL, this.newEmail);
       //       this.editEmail();
       //       // 出現提示窗
       //       this.snackbar = true;
@@ -1043,7 +1080,7 @@ export default {
       //     } else {
       //       // 更新前端 phone 關閉 edit
       //       this.updatePhoneSuccess = true;
-      //       this.user.phone = this.newPhone;
+      //       this.$store.commit(UPDATE_USER_EMAIL, this.newPhone);
       //       this.editPhone();
       //       // 出現提示窗
       //       this.snackbar = true;
@@ -1077,7 +1114,7 @@ export default {
       //     } else {
       //       // 更新前端 address，
       //       this.updateAddressSuccess = true;
-      //       this.user.address = this.newAddress;
+      //       this.$store.commit(UPDATE_USER_ADDRESS, this.newAddress);
       //       this.editAddress();
       //       // 出現提示窗
       //       this.snackbar = true;
@@ -1111,7 +1148,9 @@ export default {
       //     } else {
       //       // 更新前端 cash 數據
       //       this.updateCashSuccess = true;
-      //       this.user.cash += this.tags[this.money];
+      //       var totalCash = this.cash + this.tags[this.money];
+      //       this.$store.commit(UPDATE_USER_CASH, totalCash);
+      //       this.addCreditDialog = false;
       //       // 出現提示窗
       //       this.snackbar = true;
       //       this.text = "Your credit";
