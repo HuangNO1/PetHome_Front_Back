@@ -637,6 +637,7 @@ import {
   UPDATE_USER_ADDRESS,
   UPDATE_ALL_USER_DATA
 } from "../store/mutations-types/user";
+import Cookies from "js-cookie"; // 引入 cookie API
 import { validationMixin } from "vuelidate";
 import {
   required,
@@ -943,6 +944,8 @@ export default {
       //       // 出現提示窗
       //       this.snackbar = true;
       //       this.text = "Your username";
+      //       // Cookies 變更
+      //       Cookies.set('userStatus', this.user.name)
       //     }
       //   })
       //   .catch(error => {
@@ -952,7 +955,7 @@ export default {
       this.updateUsernameSuccess = true;
       this.$store.commit(UPDATE_USER_USERNAME, this.newUsername);
       this.editName();
-      // 出現提示窗
+      // 出現提示窗 
       this.snackbar = true;
       this.text = "Your username";
     },
