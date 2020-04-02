@@ -5,6 +5,7 @@ import Notify from '@/application/admin/page/Notify.vue'
 import Task from '@/application/admin/page/Task.vue'
 import Edit from '@/application/admin/page/Edit.vue'
 import Preview from '@/application/admin/page/Preview.vue'
+import About from '@/application/admin/page/About.vue'
 import PageNotFound from '@/application/admin/page/404.vue'
 
 //使用 vue-router
@@ -36,6 +37,11 @@ export default new VueRouter({
             name: 'Preview',
             path: '/Preview',
             component: Preview
+        },
+        {
+            name: 'About',
+            path: '/About',
+            component: About
         },
         {
             name: '404Page',
