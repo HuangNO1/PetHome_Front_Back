@@ -1,6 +1,14 @@
 <template>
   <v-app>
-    <v-navigation-drawer dark v-model="drawer" :color="primary" :mini-variant="miniVariant" fixed app>
+    <vue-scroll-progress-bar height="3px" />
+    <v-navigation-drawer
+      dark
+      v-model="drawer"
+      :color="primary"
+      :mini-variant="miniVariant"
+      fixed
+      app
+    >
       <!-- -->
       <v-list nav class="py-0">
         <v-list-item two-line :class="miniVariant && 'px-0'">

@@ -1,6 +1,6 @@
 <template>
   <v-app ref="contentStyle">
-    <vue-scroll-progress-bar @complete="handleComplete" height="3px" />
+    <vue-scroll-progress-bar height="3px" />
     <v-navigation-drawer
       v-model="drawer"
       :color="this.$store.state.theme.navTheme"
