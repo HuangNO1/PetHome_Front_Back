@@ -223,10 +223,8 @@
         <v-card class="mb-4" elevation="10">
           <v-card-title>Description</v-card-title>
           <v-card-text>
-            <div
-              class="text-justify subtitle-1 mr-10 ml-10"
-            >
-              <markdown-it-vue :content="viewProductItemDetail.description"/>
+            <div class="text-justify subtitle-1 mr-10 ml-10">
+              <markdown-it-vue :content="viewProductItemDetail.description" />
             </div>
           </v-card-text>
         </v-card>
@@ -242,7 +240,7 @@
         <v-card elevation="10">
           <v-card-title>Comments</v-card-title>
           <v-card-text>
-            <v-row class="ml-4 mr-4">
+            <v-row class="ml-4 mr-4" v-if="loginSuccess">
               <v-col md="auto" sm="auto" xs="auto" lg="auto" xl="auto">
                 <v-avatar tile>
                   <img :src="avatar" />
@@ -256,11 +254,11 @@
                 ></v-textarea>
               </v-col>
             </v-row>
-            <v-row class="mb-3">
+            <v-row class="mb-3" v-if="loginSuccess">
               <v-spacer></v-spacer>
               <v-btn color="primary" class="mr-10">Send</v-btn>
             </v-row>
-            <v-divider></v-divider>
+            <v-divider v-if="loginSuccess"></v-divider>
             <!-- 談論區 -->
             <v-row
               class="ml-4 mr-4"
@@ -278,8 +276,11 @@
                   <v-alert>
                     {{ item.content }}
                   </v-alert>
-                  <v-btn text small color="error">Delete</v-btn>
+                  <v-btn v-if="loginSuccess" text small color="error">
+                    Delete
+                  </v-btn>
                   <v-btn
+                    v-if="loginSuccess"
                     text
                     small
                     color="primary"
@@ -319,7 +320,9 @@
     <!-- 如果沒使用者登入的請求登入 dialog -->
     <v-dialog v-model="signDialog" width="500" persistent>
       <v-card>
-        <v-card-title class="headline red--text">Hey! Please sign in.</v-card-title>
+        <v-card-title class="headline red--text"
+          >Hey! Please sign in.</v-card-title
+        >
         <v-card-text>
           You Have not sign in. You must to sign in to do this action.
         </v-card-text>
@@ -329,11 +332,7 @@
           <v-btn text @click="signDialog = false">
             Get it
           </v-btn>
-          <v-btn
-            color="green darken-1"
-            text
-            href="/sign#/Login"
-          >
+          <v-btn color="green darken-1" text href="/sign#/Login">
             Sign In
           </v-btn>
         </v-card-actions>
@@ -344,8 +343,8 @@
 <script>
 import "viewerjs/dist/viewer.css";
 import Viewer from "v-viewer/src/component";
-import MarkdownItVue from 'markdown-it-vue'
-import 'markdown-it-vue/dist/markdown-it-vue.css'
+import MarkdownItVue from "markdown-it-vue";
+import "markdown-it-vue/dist/markdown-it-vue.css";
 
 import { mapState, mapMutations } from "vuex";
 import {
@@ -367,6 +366,8 @@ export default {
   },
   data() {
     return {
+      // 用來判斷是否登入成功
+      loginSuccess: false,
       isActive: false,
       images: ["https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png"],
       defaultGender: 0,
@@ -399,7 +400,7 @@ export default {
       addCartSnackbar: false,
       addCartSnackbarText: "",
       // 請求登入 dialog
-      signDialog: false,
+      signDialog: false
     };
   },
   beforeRouteUpdate(to, from, next) {
@@ -409,6 +410,10 @@ export default {
     this.$store.commit(VIEW_PRODUCT_ITEM_DETAIL, show);
   },
   created() {
+    // 先獲取 cookie
+    var userStatus = Cookies.get("userStatus");
+    this.loginSuccess = userStatus === undefined ? false : true;
+
     let id = this.$route.query.id;
     let show = this.productItems.find(e => {
       return e.id === id;
@@ -426,7 +431,7 @@ export default {
     },
     addToCart(item) {
       // 如果使用者沒有登入就不允許操作
-      if(Cookies.get("userStatus") === undefined) {
+      if (Cookies.get("userStatus") === undefined) {
         this.signDialog = true;
         return;
       }
@@ -499,7 +504,7 @@ export default {
     },
     updateUserLiked(item) {
       // 如果使用者沒有登入就不允許操作
-      if(Cookies.get("userStatus") === undefined) {
+      if (Cookies.get("userStatus") === undefined) {
         this.signDialog = true;
         return;
       }
@@ -528,7 +533,7 @@ export default {
     },
     updateUserUpVote(item) {
       // 如果使用者沒有登入就不允許操作
-      if(Cookies.get("userStatus") === undefined) {
+      if (Cookies.get("userStatus") === undefined) {
         this.signDialog = true;
         return;
       }
