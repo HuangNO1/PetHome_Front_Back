@@ -22,7 +22,9 @@
         </v-list-item>
 
         <v-divider></v-divider>
+        <!-- 如果使用者有登入時的側邊欄 -->
         <v-list-item
+          v-if="loginSuccess"
           v-for="item in items"
           :key="item.title"
           :to="item.title"
@@ -38,6 +40,22 @@
               <v-icon>{{ item.icon }}</v-icon>
             </v-badge>
             <v-icon v-if="item.title !== 'Cart'">{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <!-- 如果使用者 沒有 登入時的側邊欄 -->
+        <v-list-item
+          v-if="!loginSuccess"
+          v-for="item in noSignInItems"
+          :key="item.title"
+          :to="item.title"
+          link
+        >
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
@@ -263,6 +281,11 @@ export default {
       { title: "Record", icon: "mdi-google-spreadsheet" },
       { title: "User", icon: "mdi-account" },
       { title: "Setting", icon: "mdi-cogs" },
+      { title: "About", icon: "mdi-forum" }
+    ],
+    // 如果使用者沒有登入的側邊欄 items
+    noSignInItems: [
+      { title: "Home", icon: "mdi-view-dashboard" },
       { title: "About", icon: "mdi-forum" }
     ],
     right: true,

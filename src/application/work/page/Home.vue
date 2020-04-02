@@ -375,6 +375,29 @@
       </v-btn>
     </v-snackbar>
     -->
+    <!-- 如果沒使用者登入的請求登入 dialog -->
+    <v-dialog v-model="signDialog" width="500" persistent>
+      <v-card>
+        <v-card-title class="headline red--text">Hey! Please sign in.</v-card-title>
+        <v-card-text>
+          You Have not sign in. You must to sign in to do this action.
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn text @click="signDialog = false">
+            Get it
+          </v-btn>
+          <v-btn
+            color="green darken-1"
+            text
+            href="/sign#/Login"
+          >
+            Sign In
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script>
@@ -493,7 +516,9 @@ export default {
       updateUserLikedURL: "",
       updateUserUpVoteURL: "",
       // 是否展示使用者喜歡的產品
-      isClickShowUserLike: false
+      isClickShowUserLike: false,
+      // 請求登入 dialog
+      signDialog: false,
     };
   },
   watch: {
@@ -660,6 +685,11 @@ export default {
       this.$router.push({ path: "/ViewProduct", query: { id: item.id } });
     },
     updateUserLiked(item) {
+      // 如果使用者沒有登入就不允許操作
+      if(Cookies.get("userStatus") === undefined) {
+        this.signDialog = true;
+        return;
+      }
       item.likedClick = !item.likedClick;
       // 更新使用者的喜歡商品
       if (item.likedClick === false) {
@@ -683,6 +713,11 @@ export default {
       //   });
     },
     updateUserUpVote(item) {
+      // 如果使用者沒有登入就不允許操作
+      if(Cookies.get("userStatus") === undefined) {
+        this.signDialog = true;
+        return;
+      }
       item.upVoteClick = !item.upVoteClick;
       // 更新使用者的點贊商品
       if (item.upVoteClick === false) {
