@@ -39,7 +39,7 @@
                 class="font-weight-light grey--text"
                 style="text-align: center;"
               >
-                Total {{ totalWebViews }}
+                TOTAL {{ totalWebViews }}
               </div>
             </v-col>
           </v-row>
@@ -89,7 +89,7 @@
                     class="font-weight-light grey--text"
                     style="text-align: center;"
                   >
-                    Total {{ totalSale }}
+                    TOTAL {{ totalSale }}
                   </div>
                 </v-col>
               </v-row>
@@ -140,7 +140,7 @@
                     class="font-weight-light grey--text"
                     style="text-align: center;"
                   >
-                    Total {{ totalRegister }}
+                    TOTAL {{ totalRegister }}
                   </div>
                 </v-col>
               </v-row>
