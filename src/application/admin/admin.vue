@@ -18,7 +18,7 @@
 
           <v-list-item-content>
             <v-list-item-title>Pet Home</v-list-item-title>
-            <v-list-item-subtitle>Best Store</v-list-item-subtitle>
+            <!--<v-list-item-subtitle>Best Store</v-list-item-subtitle>-->
           </v-list-item-content>
         </v-list-item>
 
@@ -45,6 +45,26 @@
     <v-app-bar app>
       <!-- -->
       <v-app-bar-nav-icon @click="miniMenu"></v-app-bar-nav-icon>
+      <v-spacer></v-spacer>
+      <v-app-bar-title>
+        <v-badge
+          bordered
+          bottom
+          color="success"
+          dot
+          offset-x="20"
+          offset-y="10"
+        >
+          <v-avatar size="36" style="margin-right: 1rem;" @click="toIntroduct">
+            <img
+              alt="Avatar"
+              src="https://avatars0.githubusercontent.com/u/48636976?s=460&v=4"
+            />
+          </v-avatar>
+        </v-badge>
+        Administrator
+      </v-app-bar-title>
+      <v-spacer></v-spacer>
     </v-app-bar>
 
     <!-- Sizes your content based upon application components -->
