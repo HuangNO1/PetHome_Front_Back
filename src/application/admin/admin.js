@@ -6,10 +6,12 @@ import vuetify from '../../plugins/vuetify';
 import VueScrollProgressBar from '@guillaumebriday/vue-scroll-progress-bar'
 import VueNumberInput from '@chenfengyuan/vue-number-input';
 import Vuelidate from 'vuelidate'
+import VCharts from 'v-charts'
 
 Vue.use(Vuelidate);
 Vue.use(VueScrollProgressBar);
 Vue.use(VueNumberInput);
+Vue.use(VCharts);
 
 Vue.config.productionTip = false
 

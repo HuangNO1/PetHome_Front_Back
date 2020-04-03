@@ -55,7 +55,7 @@
           offset-x="20"
           offset-y="10"
         >
-          <v-avatar size="36" style="margin-right: 1rem;" @click="toIntroduct">
+          <v-avatar size="36" style="margin-right: 1rem;">
             <img
               alt="Avatar"
               src="https://avatars0.githubusercontent.com/u/48636976?s=460&v=4"
