@@ -682,7 +682,7 @@ export default {
     },
     toViewProduct(item) {
       // 跳轉到 viewProduct 子組件檢視產品詳細，并添加 query string 作為参数
-      this.$router.push({ path: "/ViewProduct", query: { id: item.id } });
+      this.$router.push({ path: "/Preview", query: { id: item.id } });
     },
     updateUserLiked(item) {
       // 如果使用者沒有登入就不允許操作
