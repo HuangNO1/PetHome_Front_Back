@@ -11,7 +11,7 @@
       transition="slide-x-reverse-transition"
       origin="top right 50"
     >
-      <v-card class="mt-10 mb-10 mr-4 ml-4 mx-auto" elevation="8">
+      <v-card class="mt-10 mb-12 mr-4 ml-4 mx-auto" elevation="8">
         <v-sheet
           class="v-sheet--offset"
           color="warning"
@@ -22,19 +22,30 @@
         >
           UNFINISHED
         </v-sheet>
-
         <v-card-text class="pt-0">
-          <div class="title font-weight-light mb-2">Website Views</div>
-          <div class="subheading font-weight-light grey--text">
-            Year
-          </div>
-          <v-divider class="my-2"></v-divider>
-          <v-icon class="mr-2" small>
-            mdi-clock
-          </v-icon>
-          <span class="caption grey--text font-weight-light"
-            >last registration 26 minutes ago</span
-          >
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search"
+            filled
+            single-line
+          ></v-text-field>
+          <v-simple-table height="400px">
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="text-left">Name</th>
+                  <th class="text-left">Calories</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="item in desserts" :key="item.name">
+                  <td>{{ item.name }}</td>
+                  <td>{{ item.calories }}</td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
         </v-card-text>
       </v-card>
     </v-lazy>
@@ -59,17 +70,29 @@
         </v-sheet>
 
         <v-card-text class="pt-0">
-          <div class="title font-weight-light mb-2">Website Views</div>
-          <div class="subheading font-weight-light grey--text">
-            Year
-          </div>
-          <v-divider class="my-2"></v-divider>
-          <v-icon class="mr-2" small>
-            mdi-clock
-          </v-icon>
-          <span class="caption grey--text font-weight-light"
-            >last registration 26 minutes ago</span
-          >
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search"
+            filled
+            single-line
+          ></v-text-field>
+          <v-simple-table height="400px">
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="text-left">Name</th>
+                  <th class="text-left">Calories</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="item in desserts" :key="item.name">
+                  <td>{{ item.name }}</td>
+                  <td>{{ item.calories }}</td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
         </v-card-text>
       </v-card>
     </v-lazy>
@@ -90,7 +113,49 @@ export default {
             percent: 0.6
           }
         ]
-      }
+      },
+      desserts: [
+        {
+          name: "Frozen Yogurt",
+          calories: 159
+        },
+        {
+          name: "Ice cream sandwich",
+          calories: 237
+        },
+        {
+          name: "Eclair",
+          calories: 262
+        },
+        {
+          name: "Cupcake",
+          calories: 305
+        },
+        {
+          name: "Gingerbread",
+          calories: 356
+        },
+        {
+          name: "Jelly bean",
+          calories: 375
+        },
+        {
+          name: "Lollipop",
+          calories: 392
+        },
+        {
+          name: "Honeycomb",
+          calories: 408
+        },
+        {
+          name: "Donut",
+          calories: 452
+        },
+        {
+          name: "KitKat",
+          calories: 518
+        }
+      ]
     };
   },
   methods: {},
