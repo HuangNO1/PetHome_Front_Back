@@ -69,14 +69,28 @@
             <template v-slot:default>
               <thead>
                 <tr>
+                  <th class="text-left">Username</th>
                   <th class="text-left">Name</th>
-                  <th class="text-left">Calories</th>
+                  <th class="text-left">Type</th>
+                  <th class="text-left">Gender</th>
+                  <th class="text-left">Age</th>
+                  <th class="text-left">Number</th>
+                  <th class="text-left">Price</th>
+                  <th class="text-left">Total</th>
+                  <th class="text-left">Time</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="item in desserts" :key="item.name">
+                <tr v-for="item in newOrderData" :key="item.name">
+                  <td>{{ item.username }}</td>
                   <td>{{ item.name }}</td>
-                  <td>{{ item.calories }}</td>
+                  <td>{{ item.type }}</td>
+                  <td>{{ item.gender }}</td>
+                  <td>{{ item.age }}</td>
+                  <td>{{ item.number }}</td>
+                  <td>{{ item.price }}</td>
+                  <td>{{ (item.total = item.price * item.number) }}</td>
+                  <td>{{ item.time }}</td>
                 </tr>
               </tbody>
             </template>
@@ -87,6 +101,8 @@
   </div>
 </template>
 <script>
+import { mapState, mapMutations } from "vuex";
+
 export default {
   name: "App",
   components: {},
@@ -116,52 +132,22 @@ export default {
           { 日期: "1/6", 访问用户: 4593 },
         ],
       },
-      desserts: [
-        {
-          name: "Frozen Yogurt",
-          calories: 159,
-        },
-        {
-          name: "Ice cream sandwich",
-          calories: 237,
-        },
-        {
-          name: "Eclair",
-          calories: 262,
-        },
-        {
-          name: "Cupcake",
-          calories: 305,
-        },
-        {
-          name: "Gingerbread",
-          calories: 356,
-        },
-        {
-          name: "Jelly bean",
-          calories: 375,
-        },
-        {
-          name: "Lollipop",
-          calories: 392,
-        },
-        {
-          name: "Honeycomb",
-          calories: 408,
-        },
-        {
-          name: "Donut",
-          calories: 452,
-        },
-        {
-          name: "KitKat",
-          calories: 518,
-        },
-      ],
+      newOrderData: [],
     };
   },
+  created() {
+    this.newOrderData = this.order.filter((e) => {
+      return e.status === 0;
+    });
+  },
   methods: {},
-  computed: {},
+  computed: {
+    ...mapState({
+      order: (state) => {
+        return state.order.order;
+      },
+    }),
+  },
 };
 </script>
 <style>

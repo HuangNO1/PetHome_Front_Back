@@ -93,7 +93,7 @@
                     class="font-weight-light grey--text"
                     style="text-align: center;"
                   >
-                    TOTAL {{ totalSale }}
+                    TOTAL ${{ totalSale }}
                   </div>
                 </v-col>
               </v-row>
