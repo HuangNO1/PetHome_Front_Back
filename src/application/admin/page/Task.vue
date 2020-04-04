@@ -7,7 +7,7 @@
     <v-lazy
       v-model="unfinishIsActive"
       :options="{
-        threshold: 1
+        threshold: 1,
       }"
       transition="slide-x-reverse-transition"
       origin="top right 50"
@@ -35,14 +35,28 @@
             <template v-slot:default>
               <thead>
                 <tr>
+                  <th class="text-left">Username</th>
                   <th class="text-left">Name</th>
-                  <th class="text-left">Calories</th>
+                  <th class="text-left">Type</th>
+                  <th class="text-left">Gender</th>
+                  <th class="text-left">Age</th>
+                  <th class="text-left">Number</th>
+                  <th class="text-left">Total</th>
+                  <th class="text-left">Time</th>
+                  <th class="text-left">Action</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="item in desserts" :key="item.name">
+                <tr v-for="item in unfinishOrderData" :key="item.name">
+                  <td>{{ item.username }}</td>
                   <td>{{ item.name }}</td>
-                  <td>{{ item.calories }}</td>
+                  <td>{{ item.type }}</td>
+                  <td>{{ item.gender }}</td>
+                  <td>{{ item.age }}</td>
+                  <td>{{ item.number }}</td>
+                  <td>{{ item.total }}</td>
+                  <td>{{ item.time }}</td>
+                  <td><v-icon>mdi-delete</v-icon></td>
                 </tr>
               </tbody>
             </template>
@@ -54,7 +68,7 @@
     <v-lazy
       v-model="finishIsActive"
       :options="{
-        threshold: 1
+        threshold: 1,
       }"
       transition="slide-x-reverse-transition"
       origin="top right 50"
@@ -83,14 +97,28 @@
             <template v-slot:default>
               <thead>
                 <tr>
+                  <th class="text-left">Username</th>
                   <th class="text-left">Name</th>
-                  <th class="text-left">Calories</th>
+                  <th class="text-left">Type</th>
+                  <th class="text-left">Gender</th>
+                  <th class="text-left">Age</th>
+                  <th class="text-left">Number</th>
+                  <th class="text-left">Total</th>
+                  <th class="text-left">Time</th>
+                  <th class="text-left">Action</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="item in desserts" :key="item.name">
+                <tr v-for="item in finishOrderData" :key="item.name">
+                  <td>{{ item.username }}</td>
                   <td>{{ item.name }}</td>
-                  <td>{{ item.calories }}</td>
+                  <td>{{ item.type }}</td>
+                  <td>{{ item.gender }}</td>
+                  <td>{{ item.age }}</td>
+                  <td>{{ item.number }}</td>
+                  <td>{{ item.total }}</td>
+                  <td>{{ item.time }}</td>
+                  <td><v-icon>mdi-delete</v-icon></td>
                 </tr>
               </tbody>
             </template>
@@ -101,7 +129,7 @@
     <v-lazy
       v-model="cancelIsActive"
       :options="{
-        threshold: 1
+        threshold: 1,
       }"
       transition="slide-x-reverse-transition"
       origin="top right 50"
@@ -130,14 +158,28 @@
             <template v-slot:default>
               <thead>
                 <tr>
+                  <th class="text-left">Username</th>
                   <th class="text-left">Name</th>
-                  <th class="text-left">Calories</th>
+                  <th class="text-left">Type</th>
+                  <th class="text-left">Gender</th>
+                  <th class="text-left">Age</th>
+                  <th class="text-left">Number</th>
+                  <th class="text-left">Total</th>
+                  <th class="text-left">Time</th>
+                  <th class="text-left">Action</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="item in desserts" :key="item.name">
+                <tr v-for="item in cancelOrderData" :key="item.name">
+                  <td>{{ item.username }}</td>
                   <td>{{ item.name }}</td>
-                  <td>{{ item.calories }}</td>
+                  <td>{{ item.type }}</td>
+                  <td>{{ item.gender }}</td>
+                  <td>{{ item.age }}</td>
+                  <td>{{ item.number }}</td>
+                  <td>{{ item.total }}</td>
+                  <td>{{ item.time }}</td>
+                  <td><v-icon>mdi-delete</v-icon></td>
                 </tr>
               </tbody>
             </template>
@@ -145,10 +187,11 @@
         </v-card-text>
       </v-card>
     </v-lazy>
-
   </div>
 </template>
 <script>
+import { mapState, mapMutations } from "vuex";
+
 export default {
   name: "App",
   components: {},
@@ -166,52 +209,31 @@ export default {
           }
         ]
       },
-      desserts: [
-        {
-          name: "Frozen Yogurt",
-          calories: 159
-        },
-        {
-          name: "Ice cream sandwich",
-          calories: 237
-        },
-        {
-          name: "Eclair",
-          calories: 262
-        },
-        {
-          name: "Cupcake",
-          calories: 305
-        },
-        {
-          name: "Gingerbread",
-          calories: 356
-        },
-        {
-          name: "Jelly bean",
-          calories: 375
-        },
-        {
-          name: "Lollipop",
-          calories: 392
-        },
-        {
-          name: "Honeycomb",
-          calories: 408
-        },
-        {
-          name: "Donut",
-          calories: 452
-        },
-        {
-          name: "KitKat",
-          calories: 518
-        }
-      ]
+      unfinishOrderData: [],
+      finishOrderData: [],
+      cancelOrderData: []
     };
   },
+  created() {
+    // 初始化數據
+    this.unfinishOrderData = this.order.filter(e => {
+      return e.status === 0;
+    });
+    this.finishOrderData = this.order.filter(e => {
+      return e.status === 1;
+    });
+    this.cancelOrderData = this.order.filter(e => {
+      return e.status === 2;
+    });
+  },
   methods: {},
-  computed: {}
+  computed: {
+    ...mapState({
+      order: state=> {
+        return state.order.order;
+      }
+    }),
+  }
 };
 </script>
 <style>
