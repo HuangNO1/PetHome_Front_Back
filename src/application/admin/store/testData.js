@@ -1128,7 +1128,7 @@ export const TEST_PRODUCT_DATA = [
 ]
 
 // 訂單
-// status： 0 - 未完成; 1 - 
+// status： 0 - 未完成; 1 - 已完成; 2 - 取消
 
 export const TEST_ORDER = [{
         username: "REM",

@@ -6,7 +6,7 @@
 
 - 1804 黃柏曛 - 前端負責人
 - 1805 吳建賢 - 後端負責人
-- 1804 馮武 - 後端
+- 1804 馮武 - 後端日誌與數據庫
 
 指導老師：宋鐵
 
@@ -47,6 +47,12 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
  - **[Vuex](https://vuex.vuejs.org/zh/)**，作為 SPA 單頁面組件之間的傳值與各方法，共享數據。
  - **[Axios](https://www.npmjs.com/package/vue-axios)**，前端數據請求工具，具有 JQuery Ajax 效果。
  - **[第三方 Affix 組件](https://www.cnblogs.com/shenjp/p/10100837.html)**，由於 **Vuetify** 沒有 Affix 組件，加上我實際使用 **vue-affix** 感覺不是那麼實用，於是網上查到這個組件，感謝這位網友。組件有添加作者註解，以表示他人的智慧財產權。順便提醒使用這個組件的人，記得那個 Affix 的 CSS 是 `position: fixed`，在使用時，**Affix 外部要再包一個 DIV 並添加寬度以避免走版。**
+ - **[v-viewer](https://github.com/mirari/v-viewer)**，圖片檢視器
+ - **[vue-avatar-editor-improved](https://www.npmjs.com/package/vue-avatar-editor-improved/v/1.0.4)**，頭像編輯器。
+ - **[markdown-it-vue](https://github.com/ravenq/markdown-it-vue)**，Markdown 渲染顯示組件。
+ - **[js-cookie](https://github.com/js-cookie/js-cookie)**，Cookie 操作 API。
+ - **[echarts](https://www.npmjs.com/package/echarts)**，圖表。
+ - **[v-charts](https://v-charts.js.org/#/)**，圖表，基于 Vue2.0 和 **echarts** 封装的 **v-charts** 图表组件。
 
 ## 頁面
 
@@ -57,10 +63,13 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 - 介紹推廣頁面 - Introduce
 - 登入註冊操作頁面 - Sign
 - 主工作頁面 - Work
+- 管理員（賣家）- Admin
 
 ### Introduce
 
 功能：作為所有網站的起始點，具有宣傳與廣告效果。雖然不是主要的頁面，但是依然很重要。
+
+![寵物商店Introduction.png](https://i.loli.net/2020/04/04/Ac9qp7esMTB4LO6.png)
 
 ### Sign
 
@@ -68,41 +77,41 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 分別有 **Login** 和 **Register** 兩個子組件。
 
-#### Login.vue
-
-登入操作，使用拼圖驗證。
-
-#### Register.vue
-
-註冊操作，使用 E-mail 驗證。
+![寵物商店Sign.png](https://i.loli.net/2020/04/04/UPoTqzw4kEeR5FL.png)
 
 ### Work
 
-這裡包含很多子組件。
+![寵物商店work.png](https://i.loli.net/2020/04/04/2g7nJkFZB4DCWs9.png)
 
-#### Home
+- Home 展示商品的頁面。
 
-展示商品的頁面。
+- Cart 購物車。
 
-#### Cart
+- Record 使用者購物紀錄。
 
-購物車。
+- User 使用者個人資料。
 
-#### Record
+- Setting 頁面設定。
 
-使用者購物紀錄。
+- ViewProduct 顯示單品詳細。
 
-#### User
+- About 開發團隊說明。
 
-使用者個人資料。
+## Admin
 
-#### Setting
+![寵物商店管理員前端界面.png](https://i.loli.net/2020/04/04/T2dO87iEHJpW6oy.png)
 
-頁面設定。
+- Dashboard 顯示營銷情況。
 
-#### About
+- Notify 顯示新訂單。
 
-開發團隊說明。
+- Task 顯示任務。
+
+- Edit 編輯商品。
+
+- Preview 預覽商品展示。
+
+- About 開發團隊說明。
 
 ## License
 [The MIT License](https://github.com/HuangNO1/PetHome_Front_Back/blob/master/LICENSE)
