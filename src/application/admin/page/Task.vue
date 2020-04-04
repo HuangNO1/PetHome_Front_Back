@@ -162,3 +162,13 @@ export default {
   computed: {}
 };
 </script>
+<style>
+.v-sheet--offset {
+  top: -24px;
+  left: 13px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>

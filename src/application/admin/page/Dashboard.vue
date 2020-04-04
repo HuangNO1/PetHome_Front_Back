@@ -13,7 +13,7 @@
     <v-lazy
       v-model="webViewIsActive"
       :options="{
-        threshold: 1
+        threshold: 1,
       }"
       transition="slide-x-reverse-transition"
       origin="top right 50"
@@ -21,7 +21,7 @@
       <v-card class="mt-10 mb-10 mr-4 ml-4 mx-auto" elevation="8">
         <v-sheet
           class="v-sheet--offset"
-          color="cyan"
+          color="primary"
           elevation="8"
           width="100"
           height="100"
@@ -33,7 +33,11 @@
           <v-row>
             <v-col>
               <div class="p4" style="">
-                <ve-line :data="webViewChartData"></ve-line>
+                <ve-line
+                  :data="webViewChartData"
+                  :settings="webViewChartSettings"
+                  :colors="webViewColors"
+                ></ve-line>
               </div>
               <div
                 class="font-weight-light grey--text"
@@ -62,7 +66,7 @@
         <v-lazy
           v-model="saleIsActive"
           :options="{
-            threshold: 1
+            threshold: 1,
           }"
           transition="slide-x-reverse-transition"
           origin="top right 50"
@@ -113,7 +117,7 @@
         <v-lazy
           v-model="registerIsActive"
           :options="{
-            threshold: 1
+            threshold: 1,
           }"
           transition="slide-x-reverse-transition"
           origin="top right 50"
@@ -134,7 +138,7 @@
               <v-row>
                 <v-col>
                   <div class="p4" style="">
-                    <ve-line :data="registerChartData"></ve-line>
+                    <ve-line :data="registerChartData" :colors="registerColors"></ve-line>
                   </div>
                   <div
                     class="font-weight-light grey--text"
@@ -168,12 +172,18 @@ export default {
   name: "App",
   components: {},
   data() {
+    this.webViewChartSettings = {
+      stack: { Month: ["WebsiteViews"] },
+      area: true,
+    };
+    this.webViewColors = ['#0097ff'];
+    this.registerColors = ['pink'];
     return {
       webViewIsActive: false,
       saleIsActive: false,
       registerIsActive: false,
-      labels: ["12am", "3am", "6am", "9am", "12pm", "3pm", "6pm", "9pm"],
-      value: [200, 675, 410, 390, 310, 460, 250, 240],
+      // labels: ["12am", "3am", "6am", "9am", "12pm", "3pm", "6pm", "9pm"],
+      // value: [200, 675, 410, 390, 310, 460, 250, 240],
       webViewChartData: {
         columns: ["Month", "WebsiteViews"],
         rows: [
@@ -188,8 +198,8 @@ export default {
           { Month: "Se", WebsiteViews: 7328 },
           { Month: "Oc", WebsiteViews: 6345 },
           { Month: "No", WebsiteViews: 5302 },
-          { Month: "De", WebsiteViews: 4863 }
-        ]
+          { Month: "De", WebsiteViews: 4863 },
+        ],
       },
       //----------------
       saleChartData: {
@@ -200,8 +210,8 @@ export default {
           { Week: "W", Sale: 2923 },
           { Week: "T", Sale: 1723 },
           { Week: "S", Sale: 3792 },
-          { Week: "S", Sale: 4593 }
-        ]
+          { Week: "S", Sale: 4593 },
+        ],
       },
       //----------------
       registerChartData: {
@@ -214,9 +224,9 @@ export default {
           { Hour: "12pm", Registration: 310 },
           { Hour: "3pm", Registration: 460 },
           { Hour: "6pm", Registration: 250 },
-          { Hour: "9pm", Registration: 240 }
-        ]
-      }
+          { Hour: "9pm", Registration: 240 },
+        ],
+      },
     };
   },
   methods: {},
@@ -241,8 +251,8 @@ export default {
         total += this.registerChartData.rows[i].Registration;
       }
       return total;
-    }
-  }
+    },
+  },
 };
 </script>
 <style>
