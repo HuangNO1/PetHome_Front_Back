@@ -3,6 +3,7 @@
     <div>
       <ve-liquidfill :data="chartData"></ve-liquidfill>
     </div>
+    <!-- 未完成的清單 -->
     <v-lazy
       v-model="unfinishIsActive"
       :options="{
@@ -49,8 +50,9 @@
         </v-card-text>
       </v-card>
     </v-lazy>
+    <!-- 已經完成的清單 -->
     <v-lazy
-      v-model="unfinishIsActive"
+      v-model="finishIsActive"
       :options="{
         threshold: 1
       }"
@@ -96,6 +98,54 @@
         </v-card-text>
       </v-card>
     </v-lazy>
+    <v-lazy
+      v-model="cancelIsActive"
+      :options="{
+        threshold: 1
+      }"
+      transition="slide-x-reverse-transition"
+      origin="top right 50"
+    >
+      <v-card class="mt-10 mb-10 mr-4 ml-4 mx-auto" elevation="8">
+        <v-sheet
+          class="v-sheet--offset"
+          color="error"
+          elevation="8"
+          width="120"
+          height="50"
+          dark
+        >
+          CANCEL
+        </v-sheet>
+
+        <v-card-text class="pt-0">
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search"
+            filled
+            single-line
+          ></v-text-field>
+          <v-simple-table height="400px">
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="text-left">Name</th>
+                  <th class="text-left">Calories</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="item in desserts" :key="item.name">
+                  <td>{{ item.name }}</td>
+                  <td>{{ item.calories }}</td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
+        </v-card-text>
+      </v-card>
+    </v-lazy>
+
   </div>
 </template>
 <script>
@@ -105,6 +155,8 @@ export default {
   data() {
     return {
       unfinishIsActive: false,
+      finishIsActive: false,
+      cancelIsActive: false,
       chartData: {
         columns: ["task", "percent"],
         rows: [
