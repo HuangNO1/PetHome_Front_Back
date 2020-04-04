@@ -205,35 +205,46 @@ export default {
         rows: [
           {
             task: "Finished",
-            percent: 0.6
-          }
-        ]
+            percent: 0,
+          },
+        ],
       },
       unfinishOrderData: [],
       finishOrderData: [],
-      cancelOrderData: []
+      cancelOrderData: [],
     };
   },
   created() {
     // 初始化數據
-    this.unfinishOrderData = this.order.filter(e => {
+    this.unfinishOrderData = this.order.filter((e) => {
       return e.status === 0;
     });
-    this.finishOrderData = this.order.filter(e => {
+    this.finishOrderData = this.order.filter((e) => {
       return e.status === 1;
     });
-    this.cancelOrderData = this.order.filter(e => {
+    this.cancelOrderData = this.order.filter((e) => {
       return e.status === 2;
     });
+    // 初始化水球圖
+    var finishOrderDataPersent = (
+      parseFloat(this.finishOrderData.length) / parseFloat(this.order.length)
+    ).toFixed(2);
+    this.chartData.rows[0].percent = finishOrderDataPersent;
+    console.log(finishOrderDataPersent);
   },
   methods: {},
   computed: {
     ...mapState({
-      order: state=> {
+      order: (state) => {
         return state.order.order;
-      }
+      },
     }),
-  }
+    finishPersentage() {
+      return (
+        parseFloat(this.finishOrderData.length) / parseFloat(this.order.length)
+      ).toFixed(2);
+    },
+  },
 };
 </script>
 <style>
