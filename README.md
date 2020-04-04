@@ -97,7 +97,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 - About 開發團隊說明。
 
-## Admin
+### Admin
 
 ![寵物商店管理員前端界面.png](https://i.loli.net/2020/04/04/T2dO87iEHJpW6oy.png)
 
@@ -112,6 +112,10 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 - Preview 預覽商品展示。
 
 - About 開發團隊說明。
+
+## 前端測試數據
+
+![寵物商店TestData.png](https://i.loli.net/2020/04/05/eEjkMPZF69hyTus.png)
 
 ## License
 [The MIT License](https://github.com/HuangNO1/PetHome_Front_Back/blob/master/LICENSE)
