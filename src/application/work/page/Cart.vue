@@ -617,6 +617,9 @@ export default {
       },
       email: state => {
         return state.user.email;
+      },
+      username: state => {
+        return state.user.username;
       }
     }),
     currentTitle() {

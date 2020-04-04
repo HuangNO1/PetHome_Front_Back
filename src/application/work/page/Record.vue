@@ -5,7 +5,7 @@
       <v-lazy
         v-model="isActive"
         :options="{
-          threshold: 1
+          threshold: 1,
         }"
         transition="slide-x-reverse-transition"
         origin="top right 50"
@@ -45,7 +45,7 @@
       <v-lazy
         v-model="isActive"
         :options="{
-          threshold: 1
+          threshold: 1,
         }"
         transition="slide-x-reverse-transition"
         origin="top right 50"
@@ -89,9 +89,7 @@
                       </template>
                       <span>
                         <v-avatar tile size="130">
-                          <img
-                            :src="item.img"
-                          />
+                          <img :src="item.img" />
                         </v-avatar>
                       </span>
                     </v-tooltip>
@@ -103,6 +101,7 @@
                   <td>{{ item.number }}</td>
                   <td>{{ item.total }}</td>
                   <td>{{ item.time }}</td>
+                  <td>{{ item.status }}</td>
                 </tr>
               </tbody>
             </template>
@@ -139,8 +138,19 @@ export default {
   created() {
     // 引入 VUEX 的數據，並初始附值。
     this.recordProduct = this.recordProductItems;
-    console.log(this.recordProduct)
-    console.log(this.recordProductItems)
+    console.log(this.recordProduct);
+    console.log(this.recordProductItems);
+    // 將 status 改變成字符串
+    for (let i = 0; i < this.recordProduct.length; i++) {
+      var temp = this.recordProduct[i].status;
+      if (temp === 0) {
+        this.recordProduct[i].status = "Processing";
+      } else if (temp === 1) {
+        this.recordProduct[i].status = "Solved";
+      } else {
+        this.recordProduct[i].status = "Cancel";
+      }
+    }
   },
   data() {
     return {
@@ -153,18 +163,19 @@ export default {
           text: "Name",
           align: "start",
           sortable: false,
-          value: "name"
+          value: "name",
         },
         { text: "Gander", value: "gender" },
         { text: "Age", value: "age" },
         { text: "Price($)", value: "price" },
         { text: "Number", value: "number" },
         { text: "Total($)", value: "total" },
-        { text: "Time(UTF-8)", value: "time" }
+        { text: "Time(UTF-8)", value: "time" },
+        { text: "Status", value: "status" },
       ],
       recordProduct: [],
       page: 1,
-      pageCount: 0
+      pageCount: 0,
     };
   },
   methods: {
@@ -176,10 +187,10 @@ export default {
   computed: {
     // get data from VUEX
     ...mapState({
-      recordProductItems: state => {
+      recordProductItems: (state) => {
         return state.product.recordProductItems;
-      }
-    })
-  }
+      },
+    }),
+  },
 };
 </script>
