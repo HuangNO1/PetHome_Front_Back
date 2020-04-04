@@ -31,7 +31,7 @@
             filled
             single-line
           ></v-text-field>
-          <v-simple-table height="400px">
+          <v-simple-table fixed-header height="400px">
             <template v-slot:default>
               <thead>
                 <tr>
@@ -41,6 +41,7 @@
                   <th class="text-left">Gender</th>
                   <th class="text-left">Age</th>
                   <th class="text-left">Number</th>
+                  <th class="text-left">Price</th>
                   <th class="text-left">Total</th>
                   <th class="text-left">Time</th>
                   <th class="text-left">Action</th>
@@ -54,7 +55,8 @@
                   <td>{{ item.gender }}</td>
                   <td>{{ item.age }}</td>
                   <td>{{ item.number }}</td>
-                  <td>{{ item.total }}</td>
+                  <td>{{ item.price }}</td>
+                  <td>{{ (item.total = item.price * item.number) }}</td>
                   <td>{{ item.time }}</td>
                   <td><v-icon>mdi-delete</v-icon></td>
                 </tr>
@@ -93,7 +95,7 @@
             filled
             single-line
           ></v-text-field>
-          <v-simple-table height="400px">
+          <v-simple-table fixed-header height="400px">
             <template v-slot:default>
               <thead>
                 <tr>
@@ -103,6 +105,7 @@
                   <th class="text-left">Gender</th>
                   <th class="text-left">Age</th>
                   <th class="text-left">Number</th>
+                  <th class="text-left">Price</th>
                   <th class="text-left">Total</th>
                   <th class="text-left">Time</th>
                   <th class="text-left">Action</th>
@@ -116,7 +119,8 @@
                   <td>{{ item.gender }}</td>
                   <td>{{ item.age }}</td>
                   <td>{{ item.number }}</td>
-                  <td>{{ item.total }}</td>
+                  <td>{{ item.price }}</td>
+                  <td>{{ (item.total = item.price * item.number) }}</td>
                   <td>{{ item.time }}</td>
                   <td><v-icon>mdi-delete</v-icon></td>
                 </tr>
@@ -154,7 +158,7 @@
             filled
             single-line
           ></v-text-field>
-          <v-simple-table height="400px">
+          <v-simple-table fixed-header height="400px">
             <template v-slot:default>
               <thead>
                 <tr>
@@ -164,6 +168,7 @@
                   <th class="text-left">Gender</th>
                   <th class="text-left">Age</th>
                   <th class="text-left">Number</th>
+                  <th class="text-left">Price</th>
                   <th class="text-left">Total</th>
                   <th class="text-left">Time</th>
                   <th class="text-left">Action</th>
@@ -177,7 +182,8 @@
                   <td>{{ item.gender }}</td>
                   <td>{{ item.age }}</td>
                   <td>{{ item.number }}</td>
-                  <td>{{ item.total }}</td>
+                  <td>{{ item.price }}</td>
+                  <td>{{ (item.total = item.price * item.number) }}</td>
                   <td>{{ item.time }}</td>
                   <td><v-icon>mdi-delete</v-icon></td>
                 </tr>
@@ -227,7 +233,8 @@ export default {
     });
     // 初始化水球圖
     var finishOrderDataPersent = (
-      parseFloat(this.finishOrderData.length) / parseFloat(this.order.length)
+      parseFloat(this.finishOrderData.length + this.cancelOrderData.length) /
+      parseFloat(this.order.length)
     ).toFixed(2);
     this.chartData.rows[0].percent = finishOrderDataPersent;
     console.log(finishOrderDataPersent);
