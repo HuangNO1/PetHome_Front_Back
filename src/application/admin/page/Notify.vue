@@ -139,16 +139,16 @@ export default {
   created() {
     let newOrder = this.order;
     this.newOrderData = newOrder;
-    // for(let i = 0; i < this.newOrderData.length; i++) {
-    //   let temp = this.newOrderData[i].status;
-    //   if (temp === 0) {
-    //     this.newOrderData[i].status = "Processing";
-    //   } else if(temp === 1) {
-    //     this.newOrderData[i].status = "Solved";
-    //   } else {
-    //     this.newOrderData[i].status = "Cancel";
-    //   }
-    // }
+    for(let i = 0; i < this.newOrderData.length; i++) {
+      let temp = this.newOrderData[i].status;
+      if (temp === 0 || temp === "Processing") {
+        this.newOrderData[i].status = "Processing";
+      } else if(temp === 1 || temp === "Solved") {
+        this.newOrderData[i].status = "Solved";
+      } else {
+        this.newOrderData[i].status = "Cancel";
+      }
+    }
   },
   methods: {},
   computed: {

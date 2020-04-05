@@ -233,13 +233,13 @@ export default {
   created() {
     // 初始化數據
     this.unfinishOrderData = this.order.filter((e) => {
-      return e.status === 0;
+      return e.status === 0 || e.status === "Processing";
     });
     this.finishOrderData = this.order.filter((e) => {
-      return e.status === 1;
+      return e.status === 1 || e.status === "Solved";
     });
     this.cancelOrderData = this.order.filter((e) => {
-      return e.status === 2;
+      return e.status === 2 || e.status === "Cancel";
     });
     // 初始化水球圖
     var finishOrderDataPersent = (
