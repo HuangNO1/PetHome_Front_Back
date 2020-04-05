@@ -1,8 +1,17 @@
 <template>
   <div>
-    <div>
-      <ve-liquidfill :data="chartData"></ve-liquidfill>
-    </div>
+    <v-lazy
+      v-model="waterChartIsActive"
+      :options="{
+        threshold: 1,
+      }"
+      transition="slide-x-reverse-transition"
+      origin="top right 50"
+    >
+      <div>
+        <ve-liquidfill :data="chartData"></ve-liquidfill>
+      </div>
+    </v-lazy>
     <!-- 未完成的清單 -->
     <v-lazy
       v-model="unfinishIsActive"
@@ -203,6 +212,7 @@ export default {
   components: {},
   data() {
     return {
+      waterChartIsActive: false,
       unfinishIsActive: false,
       finishIsActive: false,
       cancelIsActive: false,
