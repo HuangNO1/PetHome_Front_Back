@@ -7,7 +7,7 @@
       color="indigo"
       dark
     >
-      You need to finish these orders.
+      There are your new order.
     </v-alert>
     <v-lazy
       v-model="webViewIsActive"
@@ -78,6 +78,7 @@
                   <th class="text-left">Price</th>
                   <th class="text-left">Total</th>
                   <th class="text-left">Time</th>
+                  <th class="text-left">Status</th>
                 </tr>
               </thead>
               <tbody>
@@ -91,6 +92,7 @@
                   <td>{{ item.price }}</td>
                   <td>{{ (item.total = item.price * item.number) }}</td>
                   <td>{{ item.time }}</td>
+                  <td>{{ item.status }}</td>
                 </tr>
               </tbody>
             </template>
@@ -122,23 +124,31 @@ export default {
     ];
     return {
       chartData: {
-        columns: ["日期", "访问用户"],
+        columns: ["Type", "Orders"],
         rows: [
-          { 日期: "1/1", 访问用户: 1393 },
-          { 日期: "1/2", 访问用户: 3530 },
-          { 日期: "1/3", 访问用户: 2923 },
-          { 日期: "1/4", 访问用户: 1723 },
-          { 日期: "1/5", 访问用户: 3792 },
-          { 日期: "1/6", 访问用户: 4593 },
+          { Type: "Dog", Orders: 1393 },
+          { Type: "Cat", Orders: 3530 },
+          { Type: "Fox", Orders: 2923 },
+          { Type: "Fish", Orders: 1723 },
+          { Type: "Bird", Orders: 3792 },
         ],
       },
       newOrderData: [],
     };
   },
   created() {
-    this.newOrderData = this.order.filter((e) => {
-      return e.status === 0;
-    });
+    let newOrder = this.order;
+    this.newOrderData = newOrder;
+    // for(let i = 0; i < this.newOrderData.length; i++) {
+    //   let temp = this.newOrderData[i].status;
+    //   if (temp === 0) {
+    //     this.newOrderData[i].status = "Processing";
+    //   } else if(temp === 1) {
+    //     this.newOrderData[i].status = "Solved";
+    //   } else {
+    //     this.newOrderData[i].status = "Cancel";
+    //   }
+    // }
   },
   methods: {},
   computed: {

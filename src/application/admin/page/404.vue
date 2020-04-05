@@ -15,7 +15,7 @@
        You have to go back to the Home page.
       </kinesis-element>
       <kinesis-element :strength="30">
-        <v-btn large color="primary" to="Home">Home</v-btn>
+        <v-btn large color="primary" to="Dashboard">Home</v-btn>
       </kinesis-element>
     </kinesis-container>
   </div>

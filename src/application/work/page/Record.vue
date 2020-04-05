@@ -143,9 +143,9 @@ export default {
     // 將 status 改變成字符串
     for (let i = 0; i < this.recordProduct.length; i++) {
       var temp = this.recordProduct[i].status;
-      if (temp === 0) {
+      if (temp === 0 || temp === "Processing") {
         this.recordProduct[i].status = "Processing";
-      } else if (temp === 1) {
+      } else if (temp === 1 || temp === "Solved") {
         this.recordProduct[i].status = "Solved";
       } else {
         this.recordProduct[i].status = "Cancel";
