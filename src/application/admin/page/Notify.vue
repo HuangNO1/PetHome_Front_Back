@@ -63,8 +63,10 @@
             append-icon="mdi-magnify"
             label="Search"
             filled
+            @change="searchNewOrder"
             single-line
           ></v-text-field>
+          {{ search }}
           <v-simple-table height="400px">
             <template v-slot:default>
               <thead>
@@ -82,9 +84,30 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="item in newOrderData" :key="item.name">
+                <tr v-for="item in showNewOrder" :key="item.name">
                   <td>{{ item.username }}</td>
-                  <td>{{ item.name }}</td>
+                  <td>
+                    <v-tooltip top>
+                      <template v-slot:activator="{ on }">
+                        <v-btn
+                          class="mx-2"
+                          fab
+                          small
+                          dark
+                          color="success"
+                          v-on="on"
+                        >
+                          <v-icon>mdi-camera-image</v-icon>
+                        </v-btn>
+                      </template>
+                      <span>
+                        <v-avatar tile size="130">
+                          <img :src="item.img" />
+                        </v-avatar>
+                      </span>
+                    </v-tooltip>
+                    {{ item.name }}
+                  </td>
                   <td>{{ item.type }}</td>
                   <td>{{ item.gender }}</td>
                   <td>{{ item.age }}</td>
@@ -123,6 +146,7 @@ export default {
       "#c4ccd3",
     ];
     return {
+      search: "",
       chartData: {
         columns: ["Type", "Orders"],
         rows: [
@@ -134,23 +158,35 @@ export default {
         ],
       },
       newOrderData: [],
+      showNewOrder: []
     };
   },
   created() {
     let newOrder = this.order;
     this.newOrderData = newOrder;
-    for(let i = 0; i < this.newOrderData.length; i++) {
+    for (let i = 0; i < this.newOrderData.length; i++) {
       let temp = this.newOrderData[i].status;
       if (temp === 0 || temp === "Processing") {
         this.newOrderData[i].status = "Processing";
-      } else if(temp === 1 || temp === "Solved") {
+      } else if (temp === 1 || temp === "Solved") {
         this.newOrderData[i].status = "Solved";
       } else {
         this.newOrderData[i].status = "Cancel";
       }
     }
+    this.showNewOrder = this.newOrderData;
   },
-  methods: {},
+  methods: {
+    searchNewOrder() {
+      this.showNewOrder = this.newOrderData.filter((e) => {
+        return (
+          e.name.toLowerCase().indexOf(this.search.toLowerCase()) > -1 ||
+          e.description.toLowerCase().indexOf(this.search.toLowerCase()) > -1 ||
+          e.type.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+        );
+      });
+    },
+  },
   computed: {
     ...mapState({
       order: (state) => {

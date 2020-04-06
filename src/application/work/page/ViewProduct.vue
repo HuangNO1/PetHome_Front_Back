@@ -23,7 +23,7 @@
       <v-lazy
         v-model="isActive"
         :options="{
-          threshold: 1
+          threshold: 1,
         }"
         transition="slide-x-reverse-transition"
         origin="top right 50"
@@ -125,6 +125,16 @@
                 </v-col>
               </v-row>
             </div>
+            <number-input
+              style="color: black;"
+              v-model="viewProductItemDetail.number"
+              :min="1"
+              :max="99"
+              inline
+              center
+              controls
+            >
+            </number-input>
           </v-card-text>
           <v-card-actions>
             <span class="headline ml-2">
@@ -215,7 +225,7 @@
       <v-lazy
         v-model="isActive"
         :options="{
-          threshold: 1
+          threshold: 1,
         }"
         transition="slide-x-reverse-transition"
         origin="top right 50"
@@ -232,7 +242,7 @@
       <v-lazy
         v-model="isActive"
         :options="{
-          threshold: 1
+          threshold: 1,
         }"
         transition="slide-x-reverse-transition"
         origin="top right 50"
@@ -291,7 +301,7 @@
                 <v-lazy
                   v-model="item.isActive"
                   :options="{
-                    threshold: 1
+                    threshold: 1,
                   }"
                   transition="slide-x-reverse-transition"
                   origin="top right 50"
@@ -338,6 +348,16 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <number-input
+      style="color: black;"
+      v-model="viewProductItemDetail.number"
+      :min="1"
+      :max="99"
+      inline
+      center
+      controls
+    >
+    </number-input>
   </div>
 </template>
 <script>
@@ -349,20 +369,20 @@ import "markdown-it-vue/dist/markdown-it-vue.css";
 import { mapState, mapMutations } from "vuex";
 import {
   ADD_TO_CART,
-  VIEW_PRODUCT_ITEM_DETAIL
+  VIEW_PRODUCT_ITEM_DETAIL,
 } from "../store/mutations-types/product";
 import {
   REMOVE_USER_LIKE_PRODUCT,
   ADD_USER_LIKE_PRODUCT,
   REMOVE_USER_UP_VOTE_PRODUCT,
-  ADD_USER_UP_VOTE_PRODUCT
+  ADD_USER_UP_VOTE_PRODUCT,
 } from "../store/mutations-types/user.js";
 import Cookies from "js-cookie"; // 引入 cookie API
 
 export default {
   components: {
     Viewer,
-    MarkdownItVue
+    MarkdownItVue,
   },
   data() {
     return {
@@ -375,36 +395,36 @@ export default {
       productGender: [
         {
           gender: "Male",
-          icon: "mdi-gender-male"
+          icon: "mdi-gender-male",
         },
         {
           gender: "Female",
-          icon: "mdi-gender-female"
-        }
+          icon: "mdi-gender-female",
+        },
       ],
       productAge: [
         {
           age: "Young",
-          icon: "mdi-alpha-y"
+          icon: "mdi-alpha-y",
         },
         {
           age: "Adult",
-          icon: "mdi-alpha-a"
+          icon: "mdi-alpha-a",
         },
         {
           age: "Older",
-          icon: "mdi-alpha-o"
-        }
+          icon: "mdi-alpha-o",
+        },
       ],
       // 加入購物車消息條
       addCartSnackbar: false,
       addCartSnackbarText: "",
       // 請求登入 dialog
-      signDialog: false
+      signDialog: false,
     };
   },
   beforeRouteUpdate(to, from, next) {
-    let show = this.productItems.find(e => {
+    let show = this.productItems.find((e) => {
       return e.id === to.query.id;
     });
     this.$store.commit(VIEW_PRODUCT_ITEM_DETAIL, show);
@@ -415,7 +435,7 @@ export default {
     this.loginSuccess = userStatus === undefined ? false : true;
 
     let id = this.$route.query.id;
-    let show = this.productItems.find(e => {
+    let show = this.productItems.find((e) => {
       return e.id === id;
     });
     this.$store.commit(VIEW_PRODUCT_ITEM_DETAIL, show);
@@ -455,7 +475,7 @@ export default {
         gender: this.productGender[this.defaultGender].gender,
         age: this.productAge[this.defaultAge].age,
         tags: item.tags,
-        comments: item.comments
+        comments: item.comments,
       };
       var isSame = false;
       for (let i = 0; i < this.cartProductItems.length; i++) {
@@ -563,31 +583,31 @@ export default {
       //   .catch(error => {
       //     console.log(error);
       //   });
-    }
+    },
   },
   computed: {
     // get data from vuex
     ...mapState({
-      cartProductItems: state => {
+      cartProductItems: (state) => {
         return state.product.cartProductItems;
       },
-      viewProductItemDetail: state => {
+      viewProductItemDetail: (state) => {
         return state.product.viewProductItemDetail;
       },
-      username: state => {
+      username: (state) => {
         return state.user.username;
       },
-      avatar: state => {
+      avatar: (state) => {
         return state.user.avatar;
       },
-      productItems: state => {
+      productItems: (state) => {
         return state.product.productItems;
       },
-      email: state => {
+      email: (state) => {
         return state.user.email;
-      }
-    })
-  }
+      },
+    }),
+  },
 };
 </script>
 <style>
