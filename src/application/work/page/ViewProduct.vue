@@ -125,6 +125,7 @@
                 </v-col>
               </v-row>
             </div>
+            <!--
             <number-input
               style="color: black;"
               v-model="viewProductItemDetail.number"
@@ -134,7 +135,7 @@
               center
               controls
             >
-            </number-input>
+            </number-input>-->
           </v-card-text>
           <v-card-actions>
             <span class="headline ml-2">
@@ -348,6 +349,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <!--
     <number-input
       style="color: black;"
       v-model="viewProductItemDetail.number"
@@ -357,7 +359,7 @@
       center
       controls
     >
-    </number-input>
+    </number-input>-->
   </div>
 </template>
 <script>
