@@ -5,6 +5,7 @@ import Notify from '@/application/admin/page/Notify.vue'
 import Task from '@/application/admin/page/Task.vue'
 import Edit from '@/application/admin/page/Edit.vue'
 import Preview from '@/application/admin/page/Preview.vue'
+import Manage from '@/application/admin/page/Manage.vue'
 import About from '@/application/admin/page/About.vue'
 import PageNotFound from '@/application/admin/page/404.vue'
 
@@ -37,6 +38,11 @@ export default new VueRouter({
             name: 'Preview',
             path: '/Preview',
             component: Preview
+        },
+        {
+            name: 'Manage',
+            path: '/Manage',
+            component: Manage
         },
         {
             name: 'About',

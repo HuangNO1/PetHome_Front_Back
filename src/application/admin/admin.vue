@@ -91,6 +91,7 @@ export default {
         { title: "Notify", icon: "mdi-bell" },
         { title: "Task", icon: "mdi-calendar-multiple-check" },
         { title: "Edit", icon: "mdi-grease-pencil" },
+        { title: "Manage", icon: "mdi-account-cog" },
         { title: "About", icon: "mdi-forum" }
       ],
       miniVariant: false
