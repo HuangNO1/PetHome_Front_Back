@@ -1,0 +1,1 @@
+export const UPDATE_ALL_USERS_DETAIL = "updateAllUsersDetail"
