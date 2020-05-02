@@ -43,7 +43,7 @@
 
           <v-data-table
             :height="400"
-            :headers="orderHeaders"
+            :headers="unfinshOrderHeaders"
             :items="unfinishOrderData"
             :search="unfinishOrderDataSearch"
             fixed-header
@@ -83,8 +83,11 @@
                   <td>{{ item.price }}</td>
                   <td>{{ (item.total = item.price * item.number) }}</td>
                   <td>{{ item.time }}</td>
-                  <td>{{ item.status }}</td>
-                  <td><v-icon>mdi-delete</v-icon></td>
+                  <td>
+                    <v-btn color="red" @click="editOrderDialog(index)" icon>
+                      <v-icon>mdi-gesture-double-tap</v-icon>
+                    </v-btn>
+                  </td>
                 </tr>
               </tbody>
             </template>
@@ -92,6 +95,33 @@
         </v-card-text>
       </v-card>
     </v-lazy>
+
+    <!-- 顯示未完成訂單操作的 Dialog -->
+    <v-dialog v-model="orderActionDialog" width="500" persistent>
+      <v-card>
+        <v-card-title class="headline"
+          >Use Google's location service?</v-card-title
+        >
+
+        <v-card-text>
+          Let Google help apps determine location. This means sending anonymous
+          location data to Google, even when no apps are running.
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-btn color="green darken-1" text @click="orderActionDialog = false">
+            Disagree
+          </v-btn>
+
+          <v-btn color="green darken-1" text @click="orderActionDialog = false">
+            Agree
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <!-- 已經完成的清單 -->
     <v-lazy
       v-model="finishIsActive"
@@ -124,7 +154,7 @@
 
           <v-data-table
             :height="400"
-            :headers="orderHeaders"
+            :headers="finishOrderHeaders"
             :items="finishOrderData"
             :search="finishOrderDataSearch"
             fixed-header
@@ -164,8 +194,6 @@
                   <td>{{ item.price }}</td>
                   <td>{{ (item.total = item.price * item.number) }}</td>
                   <td>{{ item.time }}</td>
-                  <td>{{ item.status }}</td>
-                  <td><v-icon>mdi-delete</v-icon></td>
                 </tr>
               </tbody>
             </template>
@@ -204,7 +232,7 @@
 
           <v-data-table
             :height="400"
-            :headers="orderHeaders"
+            :headers="finishOrderHeaders"
             :items="cancelOrderData"
             :search="cancelOrderDataSearch"
             fixed-header
@@ -244,8 +272,6 @@
                   <td>{{ item.price }}</td>
                   <td>{{ (item.total = item.price * item.number) }}</td>
                   <td>{{ item.time }}</td>
-                  <td>{{ item.status }}</td>
-                  <td><v-icon>mdi-delete</v-icon></td>
                 </tr>
               </tbody>
             </template>
@@ -263,10 +289,14 @@ export default {
   components: {},
   data() {
     return {
+      // JS 緩加載效果
       waterChartIsActive: false,
       unfinishIsActive: false,
       finishIsActive: false,
       cancelIsActive: false,
+      // 顯示未完成訂單操作的 Dialog
+      orderActionDialog: false,
+      // 水球圖
       chartData: {
         columns: ["task", "percent"],
         rows: [
@@ -276,7 +306,8 @@ export default {
           },
         ],
       },
-      orderHeaders: [
+      // 未完成 Order 表頭
+      unfinshOrderHeaders: [
         {
           text: "Username",
           align: "start",
@@ -295,15 +326,37 @@ export default {
         { text: "Number", value: "number" },
         { text: "Total($)", value: "total" },
         { text: "Time(UTF-8)", value: "time" },
-        { text: "Status", value: "status" },
         { text: "Action", value: "action" },
       ],
+      // 已完成且已取消的 Order 表頭
+      finishOrderHeaders: [
+        {
+          text: "Username",
+          align: "start",
+          sortable: false,
+          value: "username",
+        },
+        {
+          text: "Name",
+          sortable: false,
+          value: "name",
+        },
+        { text: "Type", value: "type" },
+        { text: "Gander", value: "gender" },
+        { text: "Age", value: "age" },
+        { text: "Price($)", value: "price" },
+        { text: "Number", value: "number" },
+        { text: "Total($)", value: "total" },
+        { text: "Time(UTF-8)", value: "time" },
+      ],
+      // 訂單數據
       unfinishOrderData: [],
       finishOrderData: [],
       cancelOrderData: [],
+      // 訂單搜索 String
       unfinishOrderDataSearch: "",
       finishOrderDataSearch: "",
-      cancelOrderDataSearch: ""
+      cancelOrderDataSearch: "",
     };
   },
   created() {
@@ -325,7 +378,11 @@ export default {
     this.chartData.rows[0].percent = finishOrderDataPersent;
     console.log(finishOrderDataPersent);
   },
-  methods: {},
+  methods: {
+    editOrderDialog(index){
+      this.orderActionDialog = true;
+    }
+  },
   computed: {
     ...mapState({
       order: (state) => {
