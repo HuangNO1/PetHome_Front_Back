@@ -144,11 +144,11 @@ export default {
       chartData: {
         columns: ["Type", "Orders"],
         rows: [
-          { Type: "Dog", Orders: 1393 },
-          { Type: "Cat", Orders: 3530 },
-          { Type: "Fox", Orders: 2923 },
-          { Type: "Fish", Orders: 1723 },
-          { Type: "Bird", Orders: 3792 },
+          { Type: "Dog", Orders: 0 },
+          { Type: "Cat", Orders: 0 },
+          { Type: "Fox", Orders: 0 },
+          { Type: "Fish", Orders: 0 },
+          { Type: "Bird", Orders: 0 },
         ],
       },
       newOrderHeaders: [
@@ -177,6 +177,7 @@ export default {
     };
   },
   created() {
+    // 引入訂單數據
     let newOrder = this.order;
     this.newOrderData = newOrder;
     for (let i = 0; i < this.newOrderData.length; i++) {
@@ -190,6 +191,23 @@ export default {
       }
     }
     this.showNewOrder = this.newOrderData;
+
+    // 計算TYPE訂單種類，顯示 Chart
+    for (let i = 0; i < this.newOrderData.length; i++) {
+      switch(this.newOrderData[i].type) {
+        case "Dog":
+          this.chartData.rows[0].Orders += 1;
+        case "Cat":
+          this.chartData.rows[1].Orders += 1;
+        case "Fox":
+          this.chartData.rows[2].Orders += 1;
+        case "Fish":
+          this.chartData.rows[3].Orders += 1;
+        case "Bird":
+          this.chartData.rows[4].Orders += 1;
+      }
+    }
+
   },
   methods: {},
   computed: {
