@@ -65,66 +65,13 @@
             filled
             single-line
           ></v-text-field>
-          {{ search }}
-          <!--
-          <v-simple-table height="400px">
-            <template v-slot:default>
-              <thead>
-                <tr>
-                  <th class="text-left">Username</th>
-                  <th class="text-left">Name</th>
-                  <th class="text-left">Type</th>
-                  <th class="text-left">Gender</th>
-                  <th class="text-left">Age</th>
-                  <th class="text-left">Number</th>
-                  <th class="text-left">Price</th>
-                  <th class="text-left">Total</th>
-                  <th class="text-left">Time</th>
-                  <th class="text-left">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="item in showNewOrder" :key="item.name">
-                  <td>{{ item.username }}</td>
-                  <td>
-                    <v-tooltip top>
-                      <template v-slot:activator="{ on }">
-                        <v-btn
-                          class="mx-2"
-                          fab
-                          small
-                          dark
-                          color="success"
-                          v-on="on"
-                        >
-                          <v-icon>mdi-camera-image</v-icon>
-                        </v-btn>
-                      </template>
-                      <span>
-                        <v-avatar tile size="130">
-                          <img :src="item.img" />
-                        </v-avatar>
-                      </span>
-                    </v-tooltip>
-                    {{ item.name }}
-                  </td>
-                  <td>{{ item.type }}</td>
-                  <td>{{ item.gender }}</td>
-                  <td>{{ item.age }}</td>
-                  <td>{{ item.number }}</td>
-                  <td>{{ item.price }}</td>
-                  <td>{{ (item.total = item.price * item.number) }}</td>
-                  <td>{{ item.time }}</td>
-                  <td>{{ item.status }}</td>
-                </tr>
-              </tbody>
-            </template>
-          </v-simple-table>-->
+
           <v-data-table
             :height="400"
             :headers="newOrderHeaders"
             :items="newOrderData"
             :search="search"
+            fixed-header
             hide-default-footer
             class="elevation-1"
           >

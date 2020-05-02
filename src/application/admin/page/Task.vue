@@ -34,32 +34,48 @@
         </v-sheet>
         <v-card-text class="pt-0">
           <v-text-field
-            v-model="search"
+            v-model="unfinishOrderDataSearch"
             append-icon="mdi-magnify"
             label="Search"
             filled
             single-line
           ></v-text-field>
-          <v-simple-table fixed-header height="400px">
-            <template v-slot:default>
-              <thead>
-                <tr>
-                  <th class="text-left">Username</th>
-                  <th class="text-left">Name</th>
-                  <th class="text-left">Type</th>
-                  <th class="text-left">Gender</th>
-                  <th class="text-left">Age</th>
-                  <th class="text-left">Number</th>
-                  <th class="text-left">Price</th>
-                  <th class="text-left">Total</th>
-                  <th class="text-left">Time</th>
-                  <th class="text-left">Action</th>
-                </tr>
-              </thead>
+
+          <v-data-table
+            :height="400"
+            :headers="orderHeaders"
+            :items="unfinishOrderData"
+            :search="unfinishOrderDataSearch"
+            fixed-header
+            hide-default-footer
+            class="elevation-1"
+          >
+            <template v-slot:body="{ items }">
               <tbody>
-                <tr v-for="(item, index) in unfinishOrderData" :key="index">
+                <tr v-for="(item, index) in items" :key="index">
                   <td>{{ item.username }}</td>
-                  <td>{{ item.name }}</td>
+                  <td>
+                    <v-tooltip top>
+                      <template v-slot:activator="{ on }">
+                        <v-btn
+                          class="mx-2"
+                          fab
+                          small
+                          dark
+                          color="success"
+                          v-on="on"
+                        >
+                          <v-icon>mdi-camera-image</v-icon>
+                        </v-btn>
+                      </template>
+                      <span>
+                        <v-avatar tile size="130">
+                          <img :src="item.img" />
+                        </v-avatar>
+                      </span>
+                    </v-tooltip>
+                    {{ item.name }}
+                  </td>
                   <td>{{ item.type }}</td>
                   <td>{{ item.gender }}</td>
                   <td>{{ item.age }}</td>
@@ -67,11 +83,12 @@
                   <td>{{ item.price }}</td>
                   <td>{{ (item.total = item.price * item.number) }}</td>
                   <td>{{ item.time }}</td>
+                  <td>{{ item.status }}</td>
                   <td><v-icon>mdi-delete</v-icon></td>
                 </tr>
               </tbody>
             </template>
-          </v-simple-table>
+          </v-data-table>
         </v-card-text>
       </v-card>
     </v-lazy>
@@ -98,32 +115,48 @@
 
         <v-card-text class="pt-0">
           <v-text-field
-            v-model="search"
+            v-model="finishOrderDataSearch"
             append-icon="mdi-magnify"
             label="Search"
             filled
             single-line
           ></v-text-field>
-          <v-simple-table fixed-header height="400px">
-            <template v-slot:default>
-              <thead>
-                <tr>
-                  <th class="text-left">Username</th>
-                  <th class="text-left">Name</th>
-                  <th class="text-left">Type</th>
-                  <th class="text-left">Gender</th>
-                  <th class="text-left">Age</th>
-                  <th class="text-left">Number</th>
-                  <th class="text-left">Price</th>
-                  <th class="text-left">Total</th>
-                  <th class="text-left">Time</th>
-                  <th class="text-left">Action</th>
-                </tr>
-              </thead>
+
+          <v-data-table
+            :height="400"
+            :headers="orderHeaders"
+            :items="finishOrderData"
+            :search="finishOrderDataSearch"
+            fixed-header
+            hide-default-footer
+            class="elevation-1"
+          >
+            <template v-slot:body="{ items }">
               <tbody>
-                <tr v-for="(item, index) in finishOrderData" :key="index">
+                <tr v-for="(item, index) in items" :key="index">
                   <td>{{ item.username }}</td>
-                  <td>{{ item.name }}</td>
+                  <td>
+                    <v-tooltip top>
+                      <template v-slot:activator="{ on }">
+                        <v-btn
+                          class="mx-2"
+                          fab
+                          small
+                          dark
+                          color="success"
+                          v-on="on"
+                        >
+                          <v-icon>mdi-camera-image</v-icon>
+                        </v-btn>
+                      </template>
+                      <span>
+                        <v-avatar tile size="130">
+                          <img :src="item.img" />
+                        </v-avatar>
+                      </span>
+                    </v-tooltip>
+                    {{ item.name }}
+                  </td>
                   <td>{{ item.type }}</td>
                   <td>{{ item.gender }}</td>
                   <td>{{ item.age }}</td>
@@ -131,11 +164,12 @@
                   <td>{{ item.price }}</td>
                   <td>{{ (item.total = item.price * item.number) }}</td>
                   <td>{{ item.time }}</td>
+                  <td>{{ item.status }}</td>
                   <td><v-icon>mdi-delete</v-icon></td>
                 </tr>
               </tbody>
             </template>
-          </v-simple-table>
+          </v-data-table>
         </v-card-text>
       </v-card>
     </v-lazy>
@@ -161,32 +195,48 @@
 
         <v-card-text class="pt-0">
           <v-text-field
-            v-model="search"
+            v-model="cancelOrderDataSearch"
             append-icon="mdi-magnify"
             label="Search"
             filled
             single-line
           ></v-text-field>
-          <v-simple-table fixed-header height="400px">
-            <template v-slot:default>
-              <thead>
-                <tr>
-                  <th class="text-left">Username</th>
-                  <th class="text-left">Name</th>
-                  <th class="text-left">Type</th>
-                  <th class="text-left">Gender</th>
-                  <th class="text-left">Age</th>
-                  <th class="text-left">Number</th>
-                  <th class="text-left">Price</th>
-                  <th class="text-left">Total</th>
-                  <th class="text-left">Time</th>
-                  <th class="text-left">Action</th>
-                </tr>
-              </thead>
+
+          <v-data-table
+            :height="400"
+            :headers="orderHeaders"
+            :items="cancelOrderData"
+            :search="cancelOrderDataSearch"
+            fixed-header
+            hide-default-footer
+            class="elevation-1"
+          >
+            <template v-slot:body="{ items }">
               <tbody>
-                <tr v-for="(item, index) in cancelOrderData" :key="index">
+                <tr v-for="(item, index) in items" :key="index">
                   <td>{{ item.username }}</td>
-                  <td>{{ item.name }}</td>
+                  <td>
+                    <v-tooltip top>
+                      <template v-slot:activator="{ on }">
+                        <v-btn
+                          class="mx-2"
+                          fab
+                          small
+                          dark
+                          color="success"
+                          v-on="on"
+                        >
+                          <v-icon>mdi-camera-image</v-icon>
+                        </v-btn>
+                      </template>
+                      <span>
+                        <v-avatar tile size="130">
+                          <img :src="item.img" />
+                        </v-avatar>
+                      </span>
+                    </v-tooltip>
+                    {{ item.name }}
+                  </td>
                   <td>{{ item.type }}</td>
                   <td>{{ item.gender }}</td>
                   <td>{{ item.age }}</td>
@@ -194,11 +244,12 @@
                   <td>{{ item.price }}</td>
                   <td>{{ (item.total = item.price * item.number) }}</td>
                   <td>{{ item.time }}</td>
+                  <td>{{ item.status }}</td>
                   <td><v-icon>mdi-delete</v-icon></td>
                 </tr>
               </tbody>
             </template>
-          </v-simple-table>
+          </v-data-table>
         </v-card-text>
       </v-card>
     </v-lazy>
@@ -225,9 +276,34 @@ export default {
           },
         ],
       },
+      orderHeaders: [
+        {
+          text: "Username",
+          align: "start",
+          sortable: false,
+          value: "username",
+        },
+        {
+          text: "Name",
+          sortable: false,
+          value: "name",
+        },
+        { text: "Type", value: "type" },
+        { text: "Gander", value: "gender" },
+        { text: "Age", value: "age" },
+        { text: "Price($)", value: "price" },
+        { text: "Number", value: "number" },
+        { text: "Total($)", value: "total" },
+        { text: "Time(UTF-8)", value: "time" },
+        { text: "Status", value: "status" },
+        { text: "Action", value: "action" },
+      ],
       unfinishOrderData: [],
       finishOrderData: [],
       cancelOrderData: [],
+      unfinishOrderDataSearch: "",
+      finishOrderDataSearch: "",
+      cancelOrderDataSearch: ""
     };
   },
   created() {
