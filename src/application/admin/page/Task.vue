@@ -57,7 +57,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="item in unfinishOrderData" :key="item.name">
+                <tr v-for="(item, index) in unfinishOrderData" :key="index">
                   <td>{{ item.username }}</td>
                   <td>{{ item.name }}</td>
                   <td>{{ item.type }}</td>
@@ -121,7 +121,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="item in finishOrderData" :key="item.name">
+                <tr v-for="(item, index) in finishOrderData" :key="index">
                   <td>{{ item.username }}</td>
                   <td>{{ item.name }}</td>
                   <td>{{ item.type }}</td>
@@ -184,7 +184,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="item in cancelOrderData" :key="item.name">
+                <tr v-for="(item, index) in cancelOrderData" :key="index">
                   <td>{{ item.username }}</td>
                   <td>{{ item.name }}</td>
                   <td>{{ item.type }}</td>

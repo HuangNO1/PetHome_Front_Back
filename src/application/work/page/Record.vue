@@ -72,7 +72,7 @@
           >
             <template v-slot:body="{ items }">
               <tbody>
-                <tr v-for="(item, index) in items" :key="item.name">
+                <tr v-for="(item, index) in items" :key="index">
                   <td>
                     <v-tooltip top>
                       <template v-slot:activator="{ on }">

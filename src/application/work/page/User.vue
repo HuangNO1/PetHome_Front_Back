@@ -579,8 +579,8 @@
             <v-chip
               filter
               style="width: 8rem; text-align: center;"
-              v-for="tag in tags"
-              :key="tag"
+              v-for="(tag, index) in tags"
+              :key="index"
             >
               $ {{ tag }}
             </v-chip>

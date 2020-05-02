@@ -43,7 +43,7 @@
       <v-container>
         <v-container fluid>
           <v-row>
-            <v-col v-for="item in developers" :key="item.name" :md="4" :sm="12">
+            <v-col v-for="(item, index) in developers" :key="index" :md="4" :sm="12">
               <v-lazy
                 v-model="isActive"
                 :options="{

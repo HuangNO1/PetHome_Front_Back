@@ -50,9 +50,9 @@
                       <div style="display: flex; justify-content: center;">
                         <img
                           class="displayImg"
-                          v-for="src in scope.images"
+                          v-for="(src, index) in scope.images"
                           :src="src"
-                          :key="src"
+                          :key="index"
                         />
                       </div>
                     </template>
@@ -262,8 +262,8 @@
             <!-- 談論區 -->
             <v-row
               class="ml-4 mr-4"
-              v-for="item in viewProductItemDetail.comments"
-              :key="item.username"
+              v-for="(item, index) in viewProductItemDetail.comments"
+              :key="index"
             >
               <v-col md="auto" sm="auto" xs="auto" lg="auto" xl="auto">
                 <v-avatar tile>

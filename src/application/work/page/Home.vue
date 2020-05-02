@@ -184,7 +184,7 @@
               @change="showTagsProductItems"
               multiple
             >
-              <v-chip v-for="tag in tags" :key="tag"># {{ tag }}</v-chip>
+              <v-chip v-for="(tag, index) in tags" :key="index"># {{ tag }}</v-chip>
             </v-chip-group>
           </v-sheet>
         </v-lazy>
@@ -208,8 +208,8 @@
                 <!--<v-navigation-drawer floating permanent>-->
                 <v-list rounded dense shaped>
                   <v-list-item
-                    v-for="item in productMenuItems"
-                    :key="item.title"
+                    v-for="(item, index) in productMenuItems"
+                    :key="index"
                     link
                     @click="MenuShowProduct(item.title)"
                   >

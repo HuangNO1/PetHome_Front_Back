@@ -63,10 +63,10 @@
             append-icon="mdi-magnify"
             label="Search"
             filled
-            @change="searchNewOrder"
             single-line
           ></v-text-field>
           {{ search }}
+          <!--
           <v-simple-table height="400px">
             <template v-slot:default>
               <thead>
@@ -119,7 +119,53 @@
                 </tr>
               </tbody>
             </template>
-          </v-simple-table>
+          </v-simple-table>-->
+          <v-data-table
+            :height="400"
+            :headers="newOrderHeaders"
+            :items="newOrderData"
+            :search="search"
+            hide-default-footer
+            class="elevation-1"
+          >
+            <template v-slot:body="{ items }">
+              <tbody>
+                <tr v-for="(item, index) in items" :key="index">
+                  <td>{{ item.username }}</td>
+                  <td>
+                    <v-tooltip top>
+                      <template v-slot:activator="{ on }">
+                        <v-btn
+                          class="mx-2"
+                          fab
+                          small
+                          dark
+                          color="success"
+                          v-on="on"
+                        >
+                          <v-icon>mdi-camera-image</v-icon>
+                        </v-btn>
+                      </template>
+                      <span>
+                        <v-avatar tile size="130">
+                          <img :src="item.img" />
+                        </v-avatar>
+                      </span>
+                    </v-tooltip>
+                    {{ item.name }}
+                  </td>
+                  <td>{{ item.type }}</td>
+                  <td>{{ item.gender }}</td>
+                  <td>{{ item.age }}</td>
+                  <td>{{ item.number }}</td>
+                  <td>{{ item.price }}</td>
+                  <td>{{ (item.total = item.price * item.number) }}</td>
+                  <td>{{ item.time }}</td>
+                  <td>{{ item.status }}</td>
+                </tr>
+              </tbody>
+            </template>
+          </v-data-table>
         </v-card-text>
       </v-card>
     </div>
@@ -146,6 +192,7 @@ export default {
       "#c4ccd3",
     ];
     return {
+      webViewIsActive: false,
       search: "",
       chartData: {
         columns: ["Type", "Orders"],
@@ -157,8 +204,29 @@ export default {
           { Type: "Bird", Orders: 3792 },
         ],
       },
+      newOrderHeaders: [
+        {
+          text: "Username",
+          align: "start",
+          sortable: false,
+          value: "username",
+        },
+        {
+          text: "Name",
+          sortable: false,
+          value: "name",
+        },
+        { text: "Type", value: "type" },
+        { text: "Gander", value: "gender" },
+        { text: "Age", value: "age" },
+        { text: "Price($)", value: "price" },
+        { text: "Number", value: "number" },
+        { text: "Total($)", value: "total" },
+        { text: "Time(UTF-8)", value: "time" },
+        { text: "Status", value: "status" },
+      ],
       newOrderData: [],
-      showNewOrder: []
+      showNewOrder: [],
     };
   },
   created() {
@@ -176,7 +244,13 @@ export default {
     }
     this.showNewOrder = this.newOrderData;
   },
-  methods: {
+  methods: {},
+  computed: {
+    ...mapState({
+      order: (state) => {
+        return state.order.order;
+      },
+    }),
     searchNewOrder() {
       this.showNewOrder = this.newOrderData.filter((e) => {
         return (
@@ -186,13 +260,6 @@ export default {
         );
       });
     },
-  },
-  computed: {
-    ...mapState({
-      order: (state) => {
-        return state.order.order;
-      },
-    }),
   },
 };
 </script>

@@ -48,43 +48,42 @@
         <template v-slot:default="props">
           <v-row>
             <v-col
-              v-for="item in props.items"
-              :key="item.username"
+              v-for="(item, index) in props.items"
+              :key="index"
               cols="12"
               sm="6"
               md="4"
               lg="4"
             >
-              <v-card>
-                <v-card-title class="subheading font-weight-bold">
-                  <v-avatar size="36" style="margin-right: 1rem;">
-                    <img
-                      alt="Avatar"
-                      :src="item.avatar"
-                    />
-                  </v-avatar>
-                  {{ item.username }}
-                </v-card-title>
+              <v-hover v-slot:default="{ hover }">
+                <v-card :elevation="hover ? 24 : 6">
+                  <v-card-title class="subheading font-weight-bold">
+                    <v-avatar size="36" style="margin-right: 1rem;">
+                      <img alt="Avatar" :src="item.avatar" />
+                    </v-avatar>
+                    {{ item.username }}
+                  </v-card-title>
 
-                <v-divider></v-divider>
+                  <v-divider></v-divider>
 
-                <v-list>
-                  <v-list-item
-                    v-for="(key, index) in filteredKeys"
-                    :key="index"
-                  >
-                    <v-list-item-content
-                      :class="{ 'blue--text': sortBy === key }"
-                      >{{ key }}:</v-list-item-content
+                  <v-list>
+                    <v-list-item
+                      v-for="(key, index) in filteredKeys"
+                      :key="index"
                     >
-                    <v-list-item-content
-                      class="align-end"
-                      :class="{ 'blue--text': sortBy === key }"
-                      >{{ item[key.toLowerCase()] }}</v-list-item-content
-                    >
-                  </v-list-item>
-                </v-list>
-              </v-card>
+                      <v-list-item-content
+                        :class="{ 'blue--text': sortBy === key }"
+                        >{{ key }}:</v-list-item-content
+                      >
+                      <v-list-item-content
+                        class="align-end"
+                        :class="{ 'blue--text': sortBy === key }"
+                        >{{ item[key.toLowerCase()] }}</v-list-item-content
+                      >
+                    </v-list-item>
+                  </v-list>
+                </v-card>
+              </v-hover>
             </v-col>
           </v-row>
         </template>
@@ -148,12 +147,12 @@ export default {
   created() {},
   data() {
     return {
-      itemsPerPageArray: [4, 8, 12],
+      itemsPerPageArray: [8, 12, 24],
       search: "",
       filter: {},
       sortDesc: false,
       page: 1,
-      itemsPerPage: 4,
+      itemsPerPage: 8,
       sortBy: "name",
       keys: [
         "Username",

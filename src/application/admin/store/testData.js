@@ -1723,7 +1723,7 @@ export const TEST_USERS = [{
         password: "AAAAAAAAAAAAA",
     },
     {
-        username: "REM",
+        username: "HowHow",
         avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
         description: "前端負責人，1804 黃柏曛，I love ArchLinux.",
         email: "fh831.cp9gw@gmail.com",
@@ -1733,7 +1733,7 @@ export const TEST_USERS = [{
         password: "AAAAAAAAAAAAA",
     },
     {
-        username: "REM",
+        username: "阿基師",
         avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
         description: "前端負責人，1804 黃柏曛，I love ArchLinux.",
         email: "fh831.cp9gw@gmail.com",
@@ -1743,7 +1743,7 @@ export const TEST_USERS = [{
         password: "AAAAAAAAAAAAA",
     },
     {
-        username: "REM",
+        username: "蝙蝠",
         avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
         description: "前端負責人，1804 黃柏曛，I love ArchLinux.",
         email: "fh831.cp9gw@gmail.com",
@@ -1753,7 +1753,7 @@ export const TEST_USERS = [{
         password: "AAAAAAAAAAAAA",
     },
     {
-        username: "REM",
+        username: "羅志祥",
         avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
         description: "前端負責人，1804 黃柏曛，I love ArchLinux.",
         email: "fh831.cp9gw@gmail.com",
@@ -1763,7 +1763,7 @@ export const TEST_USERS = [{
         password: "AAAAAAAAAAAAA",
     },
     {
-        username: "REM",
+        username: "陳俊瑜X遙遙",
         avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
         description: "前端負責人，1804 黃柏曛，I love ArchLinux.",
         email: "fh831.cp9gw@gmail.com",
@@ -1773,7 +1773,7 @@ export const TEST_USERS = [{
         password: "AAAAAAAAAAAAA",
     },
     {
-        username: "REM",
+        username: "鬼雲邪神",
         avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
         description: "前端負責人，1804 黃柏曛，I love ArchLinux.",
         email: "fh831.cp9gw@gmail.com",
