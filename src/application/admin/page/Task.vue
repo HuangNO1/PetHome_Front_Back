@@ -99,20 +99,25 @@
     <!-- 顯示未完成訂單操作的 Dialog -->
     <v-dialog v-model="orderActionDialog" width="500" persistent>
       <v-card>
-        <v-card-title class="headline"
-          >Use Google's location service?</v-card-title
+        <v-card-title class="red lighten-1 white--text headline"
+          >WARNING</v-card-title
         >
 
-        <v-card-text>
-          Let Google help apps determine location. This means sending anonymous
-          location data to Google, even when no apps are running.
+        <v-card-text class="mt-4 subtitle-1 red--text">
+          Before you make this choice, please check whether this order has been
+          processed or cancelled.
         </v-card-text>
-
+        <v-card-text>
+          <v-radio-group v-model="selectAction" row>
+            <v-radio label="FINISHED" value="FINISHED" color="green"></v-radio>
+            <v-radio label="CANCEL" value="CANCEL" color="red"></v-radio>
+          </v-radio-group>
+        </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
 
-          <v-btn color="green darken-1" text @click="orderActionDialog = false">
-            Disagree
+          <v-btn color="red darken-1" text @click="orderActionDialog = false">
+            Cancel
           </v-btn>
 
           <v-btn color="green darken-1" text @click="orderActionDialog = false">
@@ -296,6 +301,7 @@ export default {
       cancelIsActive: false,
       // 顯示未完成訂單操作的 Dialog
       orderActionDialog: false,
+      selectAction: null,
       // 水球圖
       chartData: {
         columns: ["task", "percent"],
@@ -379,9 +385,9 @@ export default {
     console.log(finishOrderDataPersent);
   },
   methods: {
-    editOrderDialog(index){
+    editOrderDialog(index) {
       this.orderActionDialog = true;
-    }
+    },
   },
   computed: {
     ...mapState({
