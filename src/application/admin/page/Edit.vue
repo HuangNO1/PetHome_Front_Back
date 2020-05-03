@@ -1,5 +1,14 @@
 <template>
   <div>
+    <v-alert
+      class="mt-10 mb-10 mr-4 ml-4 mx-auto"
+      border="left"
+      elevation="8"
+      color="indigo"
+      dark
+    >
+      You can edit your products' details.
+    </v-alert>
     <div>
       <!-- 頂部輪播 -->
       <v-carousel
@@ -21,7 +30,7 @@
       <v-lazy
         v-model="isActive"
         :options="{
-          threshold: 1
+          threshold: 1,
         }"
         transition="slide-x-reverse-transition"
         origin="top right 50"
@@ -172,7 +181,7 @@
         <v-lazy
           v-model="isActive"
           :options="{
-            threshold: 1
+            threshold: 1,
           }"
           transition="slide-x-reverse-transition"
           origin="top right 50"
@@ -197,7 +206,7 @@
         <v-lazy
           v-model="isActive"
           :options="{
-            threshold: 1
+            threshold: 1,
           }"
           transition="slide-x-reverse-transition"
           origin="top right 50"
@@ -233,7 +242,7 @@
         <v-lazy
           v-model="i.isActive"
           :options="{
-            threshold: 1
+            threshold: 1,
           }"
           transition="slide-x-reverse-transition"
           origin="top right 50"
@@ -280,10 +289,11 @@
                 {{ item.price }}
               </span>
               <v-spacer></v-spacer>
+              <!--
               <v-btn class="mx-2" fab small icon>
                 <v-icon>mdi-share-variant</v-icon>
-              </v-btn>
-              <!-- 點贊 -->
+              </v-btn>-->
+              <!-- 點贊 
               <v-tooltip top>
                 <template v-slot:activator="{ on }">
                   <v-btn
@@ -317,8 +327,8 @@
                   </v-btn>
                 </template>
                 <span>{{ item.upVote }}</span>
-              </v-tooltip>
-              <!-- 收藏 -->
+              </v-tooltip>-->
+              <!-- 收藏 
               <v-btn
                 class="mx-2"
                 v-show="!item.likedClick"
@@ -340,7 +350,7 @@
                 color="pink"
               >
                 <v-icon>mdi-heart-multiple</v-icon>
-              </v-btn>
+              </v-btn>-->
               <!--
               <v-tooltip top>
                 <template v-slot:activator="{ on }">
@@ -375,10 +385,12 @@
       </v-btn>
     </v-snackbar>
     -->
-    <!-- 如果沒使用者登入的請求登入 dialog -->
+    <!-- 如果沒使用者登入的請求登入 dialog 
     <v-dialog v-model="signDialog" width="500" persistent>
       <v-card>
-        <v-card-title class="headline red--text">Hey! Please sign in.</v-card-title>
+        <v-card-title class="headline red--text"
+          >Hey! Please sign in.</v-card-title
+        >
         <v-card-text>
           You Have not sign in. You must to sign in to do this action.
         </v-card-text>
@@ -388,16 +400,12 @@
           <v-btn text @click="signDialog = false">
             Get it
           </v-btn>
-          <v-btn
-            color="green darken-1"
-            text
-            href="/sign#/Login"
-          >
+          <v-btn color="green darken-1" text href="/sign#/Login">
             Sign In
           </v-btn>
         </v-card-actions>
       </v-card>
-    </v-dialog>
+    </v-dialog>-->
   </div>
 </template>
 <script>
@@ -405,19 +413,19 @@ import Affix from "../components/Affix/Affix";
 import { mapState, mapMutations } from "vuex";
 import {
   ADD_TO_CART,
-  VIEW_PRODUCT_ITEM_DETAIL
+  VIEW_PRODUCT_ITEM_DETAIL,
 } from "../store/mutations-types/product";
 import {
   REMOVE_USER_LIKE_PRODUCT,
   ADD_USER_LIKE_PRODUCT,
   REMOVE_USER_UP_VOTE_PRODUCT,
-  ADD_USER_UP_VOTE_PRODUCT
+  ADD_USER_UP_VOTE_PRODUCT,
 } from "../store/mutations-types/user.js";
 import Cookies from "js-cookie"; // 引入 cookie API
 
 export default {
   components: {
-    Affix
+    Affix,
   },
   created() {
     this.recommendProductItems = this.productItems;
@@ -470,14 +478,14 @@ export default {
         "warning",
         "pink darken-2",
         "red lighten-1",
-        "deep-purple accent-4"
+        "deep-purple accent-4",
       ],
       slides: [
         "ALL 15% OFF",
         "NEW PRODUCT PUBLISHING",
         "95% POSITIVE FEEDBACK",
         "MEMBER CARD BENEFITS",
-        "GREAT"
+        "GREAT",
       ],
       // 價格區間
       priceRange: [0, 10000],
@@ -493,12 +501,12 @@ export default {
       select: null,
       productKeyword: [],
       productMenuItems: [
-        { title: "Recommend", icon: "mdi-history" },
+        { title: "All", icon: "mdi-history" },
         { title: "Dog", icon: "mdi-dog-side" },
         { title: "Cat", icon: "mdi-cat" },
         { title: "Fox", icon: "mdi-firefox" },
         { title: "Fish", icon: "mdi-fishbowl" },
-        { title: "Bird", icon: "mdi-twitter" }
+        { title: "Bird", icon: "mdi-twitter" },
       ],
       // tags
       tags: [],
@@ -524,7 +532,7 @@ export default {
   watch: {
     search(val) {
       val && val !== this.select && this.querySelections(val);
-    }
+    },
   },
   methods: {
     querySelections(v) {
@@ -597,7 +605,7 @@ export default {
     MenuShowProduct(type) {
       this.showProductItems = [];
       setTimeout(() => {
-        if (type === "Recommend") {
+        if (type === "All") {
           // 如果點的是 Recommend
           this.showProductItems = this.recommendProductItems;
         } else {
@@ -611,71 +619,71 @@ export default {
         }
       }, 100);
     },
-    addToCart(item) {
-      // 確認是否購物車有相同的物品，如果有 -> 添加數字，沒有 -> 添加 item
-      // 先申明一個變量 並將 item 的值賦進去，特別將 number 調為 1，解決指針問題
-      var tempItem = {
-        id: item.id,
-        name: item.name,
-        img: item.img,
-        type: item.type,
-        description: item.description,
-        price: item.price,
-        number: 1,
-        total: item.total,
-        time: item.time,
-        likedClick: item.likedClick,
-        upVote: item.upVote,
-        gender: item.gender,
-        age: item.age,
-        tags: item.tags,
-        comments: item.comments
-      };
-      var isSame = false;
-      for (let i = 0; i < this.cartProductItems.length; i++) {
-        if (this.cartProductItems[i].id === item.id) {
-          this.cartProductItems[i].number += 1;
-          isSame = true;
+    // addToCart(item) {
+    //   // 確認是否購物車有相同的物品，如果有 -> 添加數字，沒有 -> 添加 item
+    //   // 先申明一個變量 並將 item 的值賦進去，特別將 number 調為 1，解決指針問題
+    //   var tempItem = {
+    //     id: item.id,
+    //     name: item.name,
+    //     img: item.img,
+    //     type: item.type,
+    //     description: item.description,
+    //     price: item.price,
+    //     number: 1,
+    //     total: item.total,
+    //     time: item.time,
+    //     likedClick: item.likedClick,
+    //     upVote: item.upVote,
+    //     gender: item.gender,
+    //     age: item.age,
+    //     tags: item.tags,
+    //     comments: item.comments,
+    //   };
+    //   var isSame = false;
+    //   for (let i = 0; i < this.cartProductItems.length; i++) {
+    //     if (this.cartProductItems[i].id === item.id) {
+    //       this.cartProductItems[i].number += 1;
+    //       isSame = true;
 
-          // axios 將這商品寫入使用者數據庫
-          // var params = new URLSearchParams();
-          // params.append("sameProductAddCart", this.cartProductItems[i]);
-          // axios
-          //   .post(this.addCartURL, params)
-          //   .then(response => {
-          //     console.log(response);
-          //     console.log(response.data);
-          //   })
-          //   .catch(error => {
-          //     console.log(error);
-          //   });
-          break;
-        }
-      }
-      if (!isSame) {
-        this.$store.commit(ADD_TO_CART, tempItem);
-        // axios 將這商品寫入使用者數據庫
-        // var params = new URLSearchParams();
-        // params.append("productAddCart", tempItem);
-        // axios
-        //   .post(this.addCartURL, params)
-        //   .then(response => {
-        //     console.log(response);
-        //     console.log(response.data);
-        //   })
-        //   .catch(error => {
-        //     console.log(error);
-        //   });
-      }
-      // 出現提示窗
-      this.snackbar = true;
-      this.text = item.name;
-    },
+    //       // axios 將這商品寫入使用者數據庫
+    //       // var params = new URLSearchParams();
+    //       // params.append("sameProductAddCart", this.cartProductItems[i]);
+    //       // axios
+    //       //   .post(this.addCartURL, params)
+    //       //   .then(response => {
+    //       //     console.log(response);
+    //       //     console.log(response.data);
+    //       //   })
+    //       //   .catch(error => {
+    //       //     console.log(error);
+    //       //   });
+    //       break;
+    //     }
+    //   }
+    //   if (!isSame) {
+    //     this.$store.commit(ADD_TO_CART, tempItem);
+    //     // axios 將這商品寫入使用者數據庫
+    //     // var params = new URLSearchParams();
+    //     // params.append("productAddCart", tempItem);
+    //     // axios
+    //     //   .post(this.addCartURL, params)
+    //     //   .then(response => {
+    //     //     console.log(response);
+    //     //     console.log(response.data);
+    //     //   })
+    //     //   .catch(error => {
+    //     //     console.log(error);
+    //     //   });
+    //   }
+    //   // 出現提示窗
+    //   this.snackbar = true;
+    //   this.text = item.name;
+    // },
     filterFromPriceRange() {
       var temp = this.showProductItems;
       this.showProductItems = [];
       setTimeout(() => {
-        this.showProductItems = temp.filter(e => {
+        this.showProductItems = temp.filter((e) => {
           return e.price >= this.priceRange[0] && e.price <= this.priceRange[1];
         });
       }, 100);
@@ -684,100 +692,103 @@ export default {
       // 跳轉到 viewProduct 子組件檢視產品詳細，并添加 query string 作為参数
       this.$router.push({ path: "/Preview", query: { id: item.id } });
     },
-    updateUserLiked(item) {
-      // 如果使用者沒有登入就不允許操作
-      if(Cookies.get("userStatus") === undefined) {
-        this.signDialog = true;
-        return;
-      }
-      item.likedClick = !item.likedClick;
-      // 更新使用者的喜歡商品
-      if (item.likedClick === false) {
-        // 如果 取消喜歡，去掉使用者喜歡產品 ID array
-        this.$store.commit(REMOVE_USER_LIKE_PRODUCT, item.id);
-      } else {
-        // 如果喜歡 Push 進使用者喜歡產品 ID array
-        this.$store.commit(ADD_USER_LIKE_PRODUCT, item.id);
-      }
-      // axios 將這變更寫入使用者數據庫
-      // var params = new URLSearchParams();
-      // params.append("userLikedProduct", this.userLikedProduct);
-      // axios
-      //   .post(this.updateUserLikedURL, params)
-      //   .then(response => {
-      //     console.log(response);
-      //     console.log(response.data);
-      //   })
-      //   .catch(error => {
-      //     console.log(error);
-      //   });
-    },
-    updateUserUpVote(item) {
-      // 如果使用者沒有登入就不允許操作
-      if(Cookies.get("userStatus") === undefined) {
-        this.signDialog = true;
-        return;
-      }
-      item.upVoteClick = !item.upVoteClick;
-      // 更新使用者的點贊商品
-      if (item.upVoteClick === false) {
-        // 如果取消點贊，去掉使用者點贊的產品 ID array
-        this.$store.commit(REMOVE_USER_UP_VOTE_PRODUCT, item.id);
-        item.upVote -= 1;
-      } else {
-        // 如果點贊，Push 進使用者點贊的產品 ID array
-        this.$store.commit(ADD_USER_UP_VOTE_PRODUCT, item.id);
-        item.upVote += 1;
-      }
-      // axios 將這變更寫入使用者數據庫
-      // var params = new URLSearchParams();
-      // params.append("userUpVoteProduct", this.userUpVoteProduct);
-      // axios
-      //   .post(this.updateUserUpVoteURL, params)
-      //   .then(response => {
-      //     console.log(response);
-      //     console.log(response.data);
-      //   })
-      //   .catch(error => {
-      //     console.log(error);
-      //   });
-    },
+    // updateUserLiked(item) {
+    //   // 如果使用者沒有登入就不允許操作
+    //   if (Cookies.get("userStatus") === undefined) {
+    //     this.signDialog = true;
+    //     return;
+    //   }
+    //   item.likedClick = !item.likedClick;
+    //   // 更新使用者的喜歡商品
+    //   if (item.likedClick === false) {
+    //     // 如果 取消喜歡，去掉使用者喜歡產品 ID array
+    //     this.$store.commit(REMOVE_USER_LIKE_PRODUCT, item.id);
+    //   } else {
+    //     // 如果喜歡 Push 進使用者喜歡產品 ID array
+    //     this.$store.commit(ADD_USER_LIKE_PRODUCT, item.id);
+    //   }
+    //   // axios 將這變更寫入使用者數據庫
+    //   // var params = new URLSearchParams();
+    //   // params.append("userLikedProduct", this.userLikedProduct);
+    //   // axios
+    //   //   .post(this.updateUserLikedURL, params)
+    //   //   .then(response => {
+    //   //     console.log(response);
+    //   //     console.log(response.data);
+    //   //   })
+    //   //   .catch(error => {
+    //   //     console.log(error);
+    //   //   });
+    // },
+    // updateUserUpVote(item) {
+    //   // 如果使用者沒有登入就不允許操作
+    //   if (Cookies.get("userStatus") === undefined) {
+    //     this.signDialog = true;
+    //     return;
+    //   }
+    //   item.upVoteClick = !item.upVoteClick;
+    //   // 更新使用者的點贊商品
+    //   if (item.upVoteClick === false) {
+    //     // 如果取消點贊，去掉使用者點贊的產品 ID array
+    //     this.$store.commit(REMOVE_USER_UP_VOTE_PRODUCT, item.id);
+    //     item.upVote -= 1;
+    //   } else {
+    //     // 如果點贊，Push 進使用者點贊的產品 ID array
+    //     this.$store.commit(ADD_USER_UP_VOTE_PRODUCT, item.id);
+    //     item.upVote += 1;
+    //   }
+    //   // axios 將這變更寫入使用者數據庫
+    //   // var params = new URLSearchParams();
+    //   // params.append("userUpVoteProduct", this.userUpVoteProduct);
+    //   // axios
+    //   //   .post(this.updateUserUpVoteURL, params)
+    //   //   .then(response => {
+    //   //     console.log(response);
+    //   //     console.log(response.data);
+    //   //   })
+    //   //   .catch(error => {
+    //   //     console.log(error);
+    //   //   });
+    // },
     showUserLikeProduct() {
       // 顯示使用者喜歡的產品
       this.isClickShowUserLike = !this.isClickShowUserLike;
-      this.showProductItems = [];
-      if (this.isClickShowUserLike === true) {
-        setTimeout(() => {
-          this.showProductItems = this.productItems.filter(e => {
-            return e.likedClick === true;
-          });
-        }, 100);
-      } else {
-        setTimeout(() => {
-          this.showProductItems = this.productItems;
-        }, 100);
-      }
-    }
+
+      // 這裡是因為因應管理員界面，所以註解掉
+
+      // this.showProductItems = [];
+      // if (this.isClickShowUserLike === true) {
+      //   setTimeout(() => {
+      //     this.showProductItems = this.productItems.filter((e) => {
+      //       return e.likedClick === true;
+      //     });
+      //   }, 100);
+      // } else {
+      //   setTimeout(() => {
+      //     this.showProductItems = this.productItems;
+      //   }, 100);
+      // }
+    },
   },
   computed: {
     // get data from vuex
     ...mapState({
-      cartProductItems: state => {
+      cartProductItems: (state) => {
         return state.product.cartProductItems;
       },
-      recordProductItems: state => {
+      recordProductItems: (state) => {
         return state.product.recordProductItems;
       },
-      productItems: state => {
+      productItems: (state) => {
         return state.product.productItems;
       },
-      userLikedProduct: state => {
+      userLikedProduct: (state) => {
         return state.user.likedProduct;
       },
-      userUpVoteProduct: state => {
+      userUpVoteProduct: (state) => {
         return state.user.upVoteProduct;
-      }
-    })
-  }
+      },
+    }),
+  },
 };
 </script>

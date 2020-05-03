@@ -1,5 +1,14 @@
 <template>
   <div>
+  <v-alert
+      class="mt-10 mb-10 mr-4 ml-4 mx-auto"
+      border="left"
+      elevation="8"
+      color="indigo"
+      dark
+    >
+      You can view all users' data here.
+    </v-alert>
     <v-container fluid>
       <v-data-iterator
         :items="users"
@@ -147,12 +156,12 @@ export default {
   created() {},
   data() {
     return {
-      itemsPerPageArray: [8, 12, 24],
+      itemsPerPageArray: [9, 12, 24],
       search: "",
       filter: {},
       sortDesc: false,
       page: 1,
-      itemsPerPage: 8,
+      itemsPerPage: 9,
       sortBy: "name",
       keys: [
         "Username",
