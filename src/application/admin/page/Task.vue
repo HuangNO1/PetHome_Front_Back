@@ -108,7 +108,7 @@
           processed or cancelled.
         </v-card-text>
         <v-card-text>
-          <v-radio-group v-model="selectAction" row>
+          <v-radio-group v-model="selectAction" mandatory row>
             <v-radio label="FINISHED" value="FINISHED" color="green"></v-radio>
             <v-radio label="CANCEL" value="CANCEL" color="red"></v-radio>
           </v-radio-group>
@@ -120,8 +120,8 @@
             Cancel
           </v-btn>
 
-          <v-btn color="green darken-1" text @click="orderActionDialog = false">
-            Agree
+          <v-btn color="green darken-1" text @click="executeAction">
+            Yes
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -363,6 +363,8 @@ export default {
       unfinishOrderDataSearch: "",
       finishOrderDataSearch: "",
       cancelOrderDataSearch: "",
+      // 動作中的 order
+      actionOrder: 0,
     };
   },
   created() {
@@ -387,6 +389,25 @@ export default {
   methods: {
     editOrderDialog(index) {
       this.orderActionDialog = true;
+      this.actionOrder = index;
+    },
+    executeAction() {
+      if (this.selectAction === "FINISHED") {
+        this.finishOrderData.push(this.unfinishOrderData[this.actionOrder]);
+      } else {
+        this.cancelOrderData.push(this.unfinishOrderData[this.actionOrder]);
+      }
+      // 刪除
+      this.unfinishOrderData.splice(this.actionOrder, 1);
+      this.actionOrder = 0;
+      this.orderActionDialog = false;
+
+      // 水球圖
+      var finishOrderDataPersent = (
+        parseFloat(this.finishOrderData.length + this.cancelOrderData.length) /
+        parseFloat(this.order.length)
+      ).toFixed(2);
+      this.chartData.rows[0].percent = finishOrderDataPersent;
     },
   },
   computed: {
