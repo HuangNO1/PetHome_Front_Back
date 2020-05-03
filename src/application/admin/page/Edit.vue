@@ -406,6 +406,39 @@
         </v-card-actions>
       </v-card>
     </v-dialog>-->
+
+    <!-- 添加 Product 的按鈕 -->
+    <div class="addItemIconBtn">
+      <v-btn color="success" depressed fab large @click="addNewProductDialog = true">
+        <v-icon>mdi-plus</v-icon>
+      </v-btn>
+    </div>
+    <!-- 添加 Product 的 Dialog -->
+    <v-dialog v-model="addNewProductDialog" width="500" persistent>
+      <v-card>
+        <v-card-title class="primary lighten-1 white--text headline"
+          >ADD NEW ITEM</v-card-title
+        >
+
+        <v-card-text class="mt-4 subtitle-1 red--text">
+          Before you make this choice, please check whether this order has been
+          processed or cancelled.
+        </v-card-text>
+        <v-card-text>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-btn color="red darken-1" text @click="addNewProductDialog = false">
+            Cancel
+          </v-btn>
+
+          <v-btn color="green darken-1" text @click="addNewProductDialog = false">
+            Yes
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script>
@@ -473,6 +506,7 @@ export default {
   },
   data() {
     return {
+      // 輪播
       colors: [
         "indigo",
         "warning",
@@ -518,15 +552,18 @@ export default {
       showProductItems: [],
       recommendProductItems: [], // 推薦的商品
       initRecommendProductItemsURL: "",
-      addCartSameURL: "",
-      addCartURL: "",
-      // 使用者的 like 與 up vote
-      updateUserLikedURL: "",
-      updateUserUpVoteURL: "",
+      // addCartSameURL: "",
+      // addCartURL: "",
+      // // 使用者的 like 與 up vote
+      // updateUserLikedURL: "",
+      // updateUserUpVoteURL: "",
       // 是否展示使用者喜歡的產品
       isClickShowUserLike: false,
-      // 請求登入 dialog
-      signDialog: false,
+      // // 請求登入 dialog
+      // signDialog: false,
+
+      // 添加新產品的 dialog
+      addNewProductDialog: false
     };
   },
   watch: {
@@ -792,3 +829,11 @@ export default {
   },
 };
 </script>
+<style>
+.addItemIconBtn {
+  position: fixed;
+  z-index: 10;
+  right: 1rem;
+  bottom: 1rem;  
+}
+</style>
