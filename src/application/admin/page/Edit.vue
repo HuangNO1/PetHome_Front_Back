@@ -409,22 +409,76 @@
 
     <!-- 添加 Product 的按鈕 -->
     <div class="addItemIconBtn">
-      <v-btn color="success" depressed fab large @click="addNewProductDialog = true">
+      <v-btn
+        color="success"
+        depressed
+        fab
+        large
+        @click="addNewProductDialog = true"
+      >
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </div>
     <!-- 添加 Product 的 Dialog -->
-    <v-dialog v-model="addNewProductDialog" width="500" persistent>
+    <v-dialog v-model="addNewProductDialog" scrollable width="500" persistent>
       <v-card>
         <v-card-title class="primary lighten-1 white--text headline"
           >ADD NEW ITEM</v-card-title
         >
-
         <v-card-text class="mt-4 subtitle-1 red--text">
-          Before you make this choice, please check whether this order has been
-          processed or cancelled.
+          Please complete the form to add a new item.
         </v-card-text>
-        <v-card-text>
+        <v-card-text style="display: flex; justify-content: center;">
+          <!-- 圖片 -->
+          <v-img
+            max-width="200"
+            max-height="200"
+            :src="productImageURL"
+          ></v-img>
+        </v-card-text>
+        <v-card-text class="pt-1" style="text-align: center; height: 300px;">
+          <!-- product image url -->
+          <v-text-field
+            v-model="productImageURL"
+            prepend-icon="mdi-camera-image"
+            label="Image's URL"
+            outlined
+          ></v-text-field>
+          <!-- product name -->
+          <v-text-field
+            v-model="productName"
+            label="Name"
+            outlined
+            prepend-icon="mdi-paw"
+          ></v-text-field>
+          <!-- product types -->
+          <v-select
+            :items="productTypes"
+            label="Type"
+            prepend-icon="mdi-chart-pie"
+            outlined
+          ></v-select>
+          <!-- product description -->
+          <v-textarea
+            outlined
+            v-model="productDescription"
+            label="Description"
+            value=""
+            prepend-icon="mdi-tag-heart"
+          ></v-textarea>
+          <!-- product price -->
+          <v-text-field
+            v-model="productPrice"
+            label="Price"
+            outlined
+            prepend-icon="mdi-cash-usd"
+          ></v-text-field>
+
+          <vue-tags-input
+            v-model="productTag"
+            :tags="productTags"
+            @tags-changed="(newTags) => (productTags = newTags)"
+          />
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -433,7 +487,11 @@
             Cancel
           </v-btn>
 
-          <v-btn color="green darken-1" text @click="addNewProductDialog = false">
+          <v-btn
+            color="green darken-1"
+            text
+            @click="addNewProductDialog = false"
+          >
             Yes
           </v-btn>
         </v-card-actions>
@@ -455,10 +513,12 @@ import {
   ADD_USER_UP_VOTE_PRODUCT,
 } from "../store/mutations-types/user.js";
 import Cookies from "js-cookie"; // 引入 cookie API
+import VueTagsInput from "@johmun/vue-tags-input"; // 引入 tag-input
 
 export default {
   components: {
     Affix,
+    VueTagsInput,
   },
   created() {
     this.recommendProductItems = this.productItems;
@@ -563,7 +623,15 @@ export default {
       // signDialog: false,
 
       // 添加新產品的 dialog
-      addNewProductDialog: false
+      addNewProductDialog: false,
+      // 添加新產品的 dialog 欄位
+      productImageURL: "",
+      productName: "",
+      productTypes: ["Dog", "Cat", "fox", "Fish", "Bird"],
+      productDescription: "**You can write it by markdown.**",
+      productPrice: "",
+      productTags: [],
+      productTag: "",
     };
   },
   watch: {
@@ -834,6 +902,6 @@ export default {
   position: fixed;
   z-index: 10;
   right: 1rem;
-  bottom: 1rem;  
+  bottom: 1rem;
 }
 </style>
