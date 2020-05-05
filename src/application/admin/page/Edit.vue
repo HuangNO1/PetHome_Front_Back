@@ -289,6 +289,17 @@
                 {{ item.price }}
               </span>
               <v-spacer></v-spacer>
+              <v-btn
+                class="mx-2"
+                @click="editCurrentProductDetail(i)"
+                fab
+                icon
+                small
+                color="primary"
+              >
+                <v-icon>mdi-pencil</v-icon>
+              </v-btn>
+              <!-- 這裡不需要這功能 -->
               <!--
               <v-btn class="mx-2" fab small icon>
                 <v-icon>mdi-share-variant</v-icon>
@@ -377,6 +388,86 @@
         </v-lazy>
       </v-col>
     </v-row>
+    <!-- 編輯當前 Product item 的 Dialog -->
+    <v-dialog v-model="editProductDialog" scrollable width="500" persistent>
+      <v-card>
+        <v-card-title class="primary lighten-1 white--text headline"
+          >EDIT THE ITEM</v-card-title
+        >
+        <v-card-text class="mt-4 subtitle-1 red--text">
+          Please complete the form to change the item's detail.
+        </v-card-text>
+        <v-card-text style="display: flex; justify-content: center;">
+          <!-- 圖片 -->
+          <v-img
+            max-width="200"
+            max-height="200"
+            :src="editProductImageURL"
+          ></v-img>
+        </v-card-text>
+        <v-card-text class="pt-1" style="text-align: center; height: 300px;">
+          <!-- product image url -->
+          <v-text-field
+            v-model="editProductImageURL"
+            prepend-icon="mdi-camera-image"
+            label="Image's URL"
+            outlined
+          ></v-text-field>
+          <!-- product name -->
+          <v-text-field
+            v-model="editProductName"
+            label="Name"
+            outlined
+            prepend-icon="mdi-paw"
+          ></v-text-field>
+          <!-- product types -->
+          <v-select
+            v-model="editProductType"
+            :items="editProductTypes"
+            label="Type"
+            prepend-icon="mdi-chart-pie"
+            outlined
+          ></v-select>
+          <!-- product description -->
+          <v-textarea
+            outlined
+            v-model="editProductDescription"
+            label="Description"
+            value=""
+            prepend-icon="mdi-tag-heart"
+          ></v-textarea>
+          <!-- product price -->
+          <v-text-field
+            v-model="editProductPrice"
+            label="Price"
+            outlined
+            prepend-icon="mdi-cash-usd"
+          ></v-text-field>
+
+          <vue-tags-input
+            v-model="editProductTag"
+            :tags="editProductTags"
+            @tags-changed="(newTags) => (editProductTags = newTags)"
+          />
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-btn color="red darken-1" text @click="editProductDialog = false">
+            Cancel
+          </v-btn>
+
+          <v-btn
+            color="green darken-1"
+            text
+            @click="editProductDialog = false"
+          >
+            Yes
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <!-- 這裡不需要這功能 -->
     <!--
     <v-snackbar v-model="snackbar" top :timeout="3000">
       {{ text }} have added to cart.
@@ -433,52 +524,55 @@
           <v-img
             max-width="200"
             max-height="200"
-            :src="productImageURL"
+            :src="newProductImageURL"
           ></v-img>
         </v-card-text>
         <v-card-text class="pt-1" style="text-align: center; height: 300px;">
           <!-- product image url -->
           <v-text-field
-            v-model="productImageURL"
+            v-model="newProductImageURL"
             prepend-icon="mdi-camera-image"
             label="Image's URL"
             outlined
           ></v-text-field>
           <!-- product name -->
           <v-text-field
-            v-model="productName"
+            v-model="newProductName"
             label="Name"
             outlined
             prepend-icon="mdi-paw"
           ></v-text-field>
           <!-- product types -->
           <v-select
-            :items="productTypes"
+            v-model="newProductType"
+            :items="newProductTypes"
             label="Type"
             prepend-icon="mdi-chart-pie"
             outlined
           ></v-select>
+          <!--{{newProductType}}-->
           <!-- product description -->
           <v-textarea
             outlined
-            v-model="productDescription"
+            v-model="newProductDescription"
             label="Description"
             value=""
             prepend-icon="mdi-tag-heart"
           ></v-textarea>
           <!-- product price -->
           <v-text-field
-            v-model="productPrice"
+            v-model="newProductPrice"
             label="Price"
             outlined
             prepend-icon="mdi-cash-usd"
           ></v-text-field>
 
           <vue-tags-input
-            v-model="productTag"
-            :tags="productTags"
-            @tags-changed="(newTags) => (productTags = newTags)"
+            v-model="newProductTag"
+            :tags="newProductTags"
+            @tags-changed="(newTags) => (newProductTags = newTags)"
           />
+          {{newProductTags}}
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -622,16 +716,30 @@ export default {
       // // 請求登入 dialog
       // signDialog: false,
 
+      // 編輯當前產品的 dialog
+      editProductDialog: false,
+      // 編輯當前產品的 dialog 欄位
+      editProductImageURL: "",
+      editProductName: "",
+      editProductType: "",
+      editProductTypes: ["Dog", "Cat", "fox", "Fish", "Bird"],
+      editProductDescription: "**You can write it by markdown.**",
+      editProductPrice: "",
+      editProductTags: [],
+      editProductTag: "",
+
       // 添加新產品的 dialog
       addNewProductDialog: false,
       // 添加新產品的 dialog 欄位
-      productImageURL: "",
-      productName: "",
-      productTypes: ["Dog", "Cat", "fox", "Fish", "Bird"],
-      productDescription: "**You can write it by markdown.**",
-      productPrice: "",
-      productTags: [],
-      productTag: "",
+      newProductImageURL: "",
+      newProductName: "",
+      newProductType: "",
+      newProductTypes: ["Dog", "Cat", "fox", "Fish", "Bird"],
+      newProductDescription: "**You can write it by markdown.**",
+      newProductPrice: "",
+      newProductTags: [],
+      newProductTag: "",
+
     };
   },
   watch: {
@@ -724,6 +832,7 @@ export default {
         }
       }, 100);
     },
+    // 這裡不需要這功能
     // addToCart(item) {
     //   // 確認是否購物車有相同的物品，如果有 -> 添加數字，沒有 -> 添加 item
     //   // 先申明一個變量 並將 item 的值賦進去，特別將 number 調為 1，解決指針問題
@@ -797,6 +906,7 @@ export default {
       // 跳轉到 viewProduct 子組件檢視產品詳細，并添加 query string 作為参数
       this.$router.push({ path: "/Preview", query: { id: item.id } });
     },
+    // 這裡不需要這功能
     // updateUserLiked(item) {
     //   // 如果使用者沒有登入就不允許操作
     //   if (Cookies.get("userStatus") === undefined) {
@@ -825,6 +935,7 @@ export default {
     //   //     console.log(error);
     //   //   });
     // },
+    // 這裡不需要這功能
     // updateUserUpVote(item) {
     //   // 如果使用者沒有登入就不允許操作
     //   if (Cookies.get("userStatus") === undefined) {
@@ -874,6 +985,23 @@ export default {
       //   }, 100);
       // }
     },
+
+    editCurrentProductDetail(index) {
+      // 編輯當前的 product item
+      this.editProductDialog = true;
+      this.editProductImageURL = this.showProductItems[index].img;
+      this.editProductName = this.showProductItems[index].name;
+      this.editProductType = this.showProductItems[index].type;
+      this.editProductDescription = this.showProductItems[index].description;
+      this.editProductPrice = this.showProductItems[index].price;
+      this.editProductTags = [];
+      for(let i = 0; i < this.showProductItems[index].tags.length; i++) {
+        var temp =  { text: "", tiClasses: [ "ti-valid" ] }
+        temp.text = this.showProductItems[index].tags[i];
+        this.editProductTags.push(temp);
+      }
+      
+    }
   },
   computed: {
     // get data from vuex
