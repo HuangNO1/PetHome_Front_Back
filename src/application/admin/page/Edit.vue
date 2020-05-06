@@ -412,6 +412,9 @@
             prepend-icon="mdi-camera-image"
             label="Image's URL"
             outlined
+            :error-messages="editProductImageURLError"
+            @input="$v.editProductImageURL.$touch()"
+            @blur="$v.editProductImageURL.$touch()"
           ></v-text-field>
           <!-- product name -->
           <v-text-field
@@ -419,6 +422,9 @@
             label="Name"
             outlined
             prepend-icon="mdi-paw"
+            :error-messages="editProductNameError"
+            @input="$v.editProductName.$touch()"
+            @blur="$v.editProductName.$touch()"
           ></v-text-field>
           <!-- product types -->
           <v-select
@@ -427,6 +433,9 @@
             label="Type"
             prepend-icon="mdi-chart-pie"
             outlined
+            :error-messages="editProductTypeError"
+            @input="$v.editProductType.$touch()"
+            @blur="$v.editProductType.$touch()"
           ></v-select>
           <!-- product description -->
           <v-textarea
@@ -435,6 +444,9 @@
             label="Description"
             value=""
             prepend-icon="mdi-tag-heart"
+            :error-messages="editProductDescriptionError"
+            @input="$v.editProductDescription.$touch()"
+            @blur="$v.editProductDescription.$touch()"
           ></v-textarea>
           <!-- product price -->
           <v-text-field
@@ -442,6 +454,9 @@
             label="Price"
             outlined
             prepend-icon="mdi-cash-usd"
+            :error-messages="editProductPriceError"
+            @input="$v.editProductPrice.$touch()"
+            @blur="$v.editProductPrice.$touch()"
           ></v-text-field>
 
           <vue-tags-input
@@ -457,11 +472,7 @@
             Cancel
           </v-btn>
 
-          <v-btn
-            color="green darken-1"
-            text
-            @click="editProductDialog = false"
-          >
+          <v-btn color="green darken-1" text @click="editProductDialog = false">
             Yes
           </v-btn>
         </v-card-actions>
@@ -534,6 +545,9 @@
             prepend-icon="mdi-camera-image"
             label="Image's URL"
             outlined
+            :error-messages="newProductImageURLError"
+            @input="$v.newProductImageURL.$touch()"
+            @blur="$v.newProductImageURL.$touch()"
           ></v-text-field>
           <!-- product name -->
           <v-text-field
@@ -541,6 +555,9 @@
             label="Name"
             outlined
             prepend-icon="mdi-paw"
+            :error-messages="newProductNameError"
+            @input="$v.newProductName.$touch()"
+            @blur="$v.newProductName.$touch()"
           ></v-text-field>
           <!-- product types -->
           <v-select
@@ -549,6 +566,9 @@
             label="Type"
             prepend-icon="mdi-chart-pie"
             outlined
+            :error-messages="newProductTypeError"
+            @input="$v.newProductType.$touch()"
+            @blur="$v.newProductType.$touch()"
           ></v-select>
           <!--{{newProductType}}-->
           <!-- product description -->
@@ -558,6 +578,10 @@
             label="Description"
             value=""
             prepend-icon="mdi-tag-heart"
+            placeholder="**You can write it by markdown.**"
+            :error-messages="newProductDescriptionError"
+            @input="$v.newProductDescription.$touch()"
+            @blur="$v.newProductDescription.$touch()"
           ></v-textarea>
           <!-- product price -->
           <v-text-field
@@ -565,6 +589,9 @@
             label="Price"
             outlined
             prepend-icon="mdi-cash-usd"
+            :error-messages="newProductPriceError"
+            @input="$v.newProductPrice.$touch()"
+            @blur="$v.newProductPrice.$touch()"
           ></v-text-field>
 
           <vue-tags-input
@@ -572,7 +599,7 @@
             :tags="newProductTags"
             @tags-changed="(newTags) => (newProductTags = newTags)"
           />
-          {{newProductTags}}
+          {{ newProductTags }}
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -608,8 +635,54 @@ import {
 } from "../store/mutations-types/user.js";
 import Cookies from "js-cookie"; // 引入 cookie API
 import VueTagsInput from "@johmun/vue-tags-input"; // 引入 tag-input
+// 引入 vuelidate 前端輕型表單驗證
+import { validationMixin } from "vuelidate";
+import {
+  required,
+  maxLength,
+  minLength,
+  email,
+  sameAs,
+  withParams,
+} from "vuelidate/lib/validators";
 
 export default {
+  
+  // vuelidate
+  mixins: [validationMixin],
+
+  validations: {
+    editProductImageURL: {
+      required,
+    },
+    editProductName: {
+      required,
+    },
+    editProductType: {
+      required,
+    },
+    editProductDescription: {
+      required,
+    },
+    editProductPrice: {
+      required,
+    },
+    newProductImageURL: {
+      required,
+    },
+    newProductName: {
+      required,
+    },
+    newProductType: {
+      required,
+    },
+    newProductDescription: {
+      required,
+    },
+    newProductPrice: {
+      required,
+    },
+  },
   components: {
     Affix,
     VueTagsInput,
@@ -735,11 +808,10 @@ export default {
       newProductName: "",
       newProductType: "",
       newProductTypes: ["Dog", "Cat", "fox", "Fish", "Bird"],
-      newProductDescription: "**You can write it by markdown.**",
+      newProductDescription: "",
       newProductPrice: "",
       newProductTags: [],
       newProductTag: "",
-
     };
   },
   watch: {
@@ -995,13 +1067,12 @@ export default {
       this.editProductDescription = this.showProductItems[index].description;
       this.editProductPrice = this.showProductItems[index].price;
       this.editProductTags = [];
-      for(let i = 0; i < this.showProductItems[index].tags.length; i++) {
-        var temp =  { text: "", tiClasses: [ "ti-valid" ] }
+      for (let i = 0; i < this.showProductItems[index].tags.length; i++) {
+        var temp = { text: "", tiClasses: ["ti-valid"] };
         temp.text = this.showProductItems[index].tags[i];
         this.editProductTags.push(temp);
       }
-      
-    }
+    },
   },
   computed: {
     // get data from vuex
@@ -1022,6 +1093,70 @@ export default {
         return state.user.upVoteProduct;
       },
     }),
+
+    // vuelidate 輕型表單驗證
+    // edit
+    editProductImageURLError() {
+      const errors = [];
+      if (!this.$v.editProductImageURL.$dirty) return errors;
+      !this.$v.editProductImageURL.required && errors.push("Image is required.");
+      return errors;
+    },
+    editProductNameError(){
+      const errors = [];
+      if (!this.$v.editProductName.$dirty) return errors;
+      !this.$v.editProductName.required && errors.push("Name is required.");
+      return errors;
+    },
+    editProductTypeError() {
+      const errors = [];
+      if (!this.$v.editProductType.$dirty) return errors;
+      !this.$v.editProductType.required && errors.push("Type is required.");
+      return errors;
+    },
+    editProductDescriptionError() {
+      const errors = [];
+      if (!this.$v.editProductDescription.$dirty) return errors;
+      !this.$v.editProductDescription.required && errors.push("Description is required.");
+      return errors;
+    },
+    editProductPriceError() {
+      const errors = [];
+      if (!this.$v.editProductPrice.$dirty) return errors;
+      !this.$v.editProductPrice.required && errors.push("Price is required.");
+      return errors;
+    },
+    // new
+    newProductImageURLError() {
+      const errors = [];
+      if (!this.$v.newProductImageURL.$dirty) return errors;
+      !this.$v.newProductImageURL.required && errors.push("Image is required.");
+      return errors;
+    },
+    newProductNameError(){
+      const errors = [];
+      if (!this.$v.newProductName.$dirty) return errors;
+      !this.$v.newProductName.required && errors.push("Name is required.");
+      return errors;
+    },
+    newProductTypeError() {
+      const errors = [];
+      if (!this.$v.newProductType.$dirty) return errors;
+      !this.$v.newProductType.required && errors.push("Type is required.");
+      return errors;
+    },
+    newProductDescriptionError() {
+      const errors = [];
+      if (!this.$v.newProductDescription.$dirty) return errors;
+      !this.$v.newProductDescription.required && errors.push("Description is required.");
+      return errors;
+    },
+    newProductPriceError() {
+      const errors = [];
+      if (!this.$v.newProductPrice.$dirty) return errors;
+      !this.$v.newProductPrice.required && errors.push("Price is required.");
+      return errors;
+    },
   },
 };
 </script>
