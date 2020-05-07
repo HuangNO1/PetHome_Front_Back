@@ -412,7 +412,9 @@
             prepend-icon="mdi-camera-image"
             label="Image's URL"
             outlined
-            :error-messages="editProductImageURLError"
+            required
+            :error-messages="editProductImageURLErrors"
+            :success-messages="editProductImageURLSuccess"
             @input="$v.editProductImageURL.$touch()"
             @blur="$v.editProductImageURL.$touch()"
           ></v-text-field>
@@ -422,7 +424,9 @@
             label="Name"
             outlined
             prepend-icon="mdi-paw"
-            :error-messages="editProductNameError"
+            required
+            :error-messages="editProductNameErrors"
+            :success-messages="editProductNameSuccess"
             @input="$v.editProductName.$touch()"
             @blur="$v.editProductName.$touch()"
           ></v-text-field>
@@ -433,7 +437,9 @@
             label="Type"
             prepend-icon="mdi-chart-pie"
             outlined
-            :error-messages="editProductTypeError"
+            required
+            :error-messages="editProductTypeErrors"
+            :success-messages="editProductTypeSuccess"
             @input="$v.editProductType.$touch()"
             @blur="$v.editProductType.$touch()"
           ></v-select>
@@ -444,7 +450,10 @@
             label="Description"
             value=""
             prepend-icon="mdi-tag-heart"
-            :error-messages="editProductDescriptionError"
+            placeholder="**You can write it by markdown.**"
+            required
+            :error-messages="editProductDescriptionErrors"
+            :success-messages="editProductDescriptionSuccess"
             @input="$v.editProductDescription.$touch()"
             @blur="$v.editProductDescription.$touch()"
           ></v-textarea>
@@ -454,7 +463,9 @@
             label="Price"
             outlined
             prepend-icon="mdi-cash-usd"
-            :error-messages="editProductPriceError"
+            required
+            :error-messages="editProductPriceErrors"
+            :success-messages="editProductPriceSuccess"
             @input="$v.editProductPrice.$touch()"
             @blur="$v.editProductPrice.$touch()"
           ></v-text-field>
@@ -516,7 +527,7 @@
         depressed
         fab
         large
-        @click="addNewProductDialog = true"
+        @click="openAddNewProductDialog"
       >
         <v-icon>mdi-plus</v-icon>
       </v-btn>
@@ -545,7 +556,9 @@
             prepend-icon="mdi-camera-image"
             label="Image's URL"
             outlined
-            :error-messages="newProductImageURLError"
+            required
+            :error-messages="newProductImageURLErrors"
+            :success-messages="newProductImageURLSuccess"
             @input="$v.newProductImageURL.$touch()"
             @blur="$v.newProductImageURL.$touch()"
           ></v-text-field>
@@ -555,7 +568,9 @@
             label="Name"
             outlined
             prepend-icon="mdi-paw"
-            :error-messages="newProductNameError"
+            required
+            :error-messages="newProductNameErrors"
+            :success-messages="newProductNameSuccess"
             @input="$v.newProductName.$touch()"
             @blur="$v.newProductName.$touch()"
           ></v-text-field>
@@ -566,7 +581,9 @@
             label="Type"
             prepend-icon="mdi-chart-pie"
             outlined
-            :error-messages="newProductTypeError"
+            required
+            :error-messages="newProductTypeErrors"
+            :success-messages="newProductTypeSuccess"
             @input="$v.newProductType.$touch()"
             @blur="$v.newProductType.$touch()"
           ></v-select>
@@ -579,7 +596,9 @@
             value=""
             prepend-icon="mdi-tag-heart"
             placeholder="**You can write it by markdown.**"
-            :error-messages="newProductDescriptionError"
+            required
+            :error-messages="newProductDescriptionErrors"
+            :success-messages="newProductDescriptionSuccess"
             @input="$v.newProductDescription.$touch()"
             @blur="$v.newProductDescription.$touch()"
           ></v-textarea>
@@ -589,7 +608,9 @@
             label="Price"
             outlined
             prepend-icon="mdi-cash-usd"
-            :error-messages="newProductPriceError"
+            required
+            :error-messages="newProductPriceErrors"
+            :success-messages="newProductPriceSuccess"
             @input="$v.newProductPrice.$touch()"
             @blur="$v.newProductPrice.$touch()"
           ></v-text-field>
@@ -641,19 +662,21 @@ import {
   required,
   maxLength,
   minLength,
-  email,
-  sameAs,
   withParams,
+  numeric,
+  decimal,
 } from "vuelidate/lib/validators";
 
+const imageUrl = /(http)?s?:?(\/\/[^"']*\.(?:png|jpg|jpeg|gif|png|svg))/i;
+
 export default {
-  
   // vuelidate
   mixins: [validationMixin],
 
   validations: {
     editProductImageURL: {
       required,
+      imageUrlValid: imageUrl,
     },
     editProductName: {
       required,
@@ -666,9 +689,11 @@ export default {
     },
     editProductPrice: {
       required,
+      decimal,
     },
     newProductImageURL: {
       required,
+      imageUrlValid: imageUrl,
     },
     newProductName: {
       required,
@@ -681,6 +706,7 @@ export default {
     },
     newProductPrice: {
       required,
+      decimal,
     },
   },
   components: {
@@ -796,10 +822,17 @@ export default {
       editProductName: "",
       editProductType: "",
       editProductTypes: ["Dog", "Cat", "fox", "Fish", "Bird"],
-      editProductDescription: "**You can write it by markdown.**",
+      editProductDescription: "",
       editProductPrice: "",
       editProductTags: [],
       editProductTag: "",
+
+      // error
+      editProductImageURLError: true,
+      editProductNameError: true,
+      editProductTypeError: true,
+      editProductDescriptionError: true,
+      editProductPriceError: true,
 
       // 添加新產品的 dialog
       addNewProductDialog: false,
@@ -812,6 +845,13 @@ export default {
       newProductPrice: "",
       newProductTags: [],
       newProductTag: "",
+
+      // error
+      newProductImageURLError: true,
+      newProductNameError: true,
+      newProductTypeError: true,
+      newProductDescriptionError: true,
+      newProductPriceError: true,
     };
   },
   watch: {
@@ -1073,6 +1113,19 @@ export default {
         this.editProductTags.push(temp);
       }
     },
+    openAddNewProductDialog(){
+      this.addNewProductDialog = true;
+      this.$v.newProductImageURL.$reset();
+      this.$v.newProductName.$reset();
+      this.$v.newProductType.$reset();
+      this.$v.newProductDescription.$reset();
+      this.$v.newProductPrice.$reset();
+      this.newProductImageURL = "";
+      this.newProductName = "";
+      this.newProductType = "";
+      this.newProductDescription = "";
+      this.newProductPrice = "";
+    }
   },
   computed: {
     // get data from vuex
@@ -1095,67 +1148,175 @@ export default {
     }),
 
     // vuelidate 輕型表單驗證
+    // errors---------------------------------------
     // edit
-    editProductImageURLError() {
+    editProductImageURLErrors() {
       const errors = [];
       if (!this.$v.editProductImageURL.$dirty) return errors;
-      !this.$v.editProductImageURL.required && errors.push("Image is required.");
+      !this.$v.editProductImageURL.required &&
+        errors.push("Image is required.");
+      !this.$v.editProductImageURL.imageUrlValid &&
+        errors.push("Image is invalid.");
+      this.editProductImageURLError = true;
       return errors;
     },
-    editProductNameError(){
+    editProductNameErrors() {
       const errors = [];
       if (!this.$v.editProductName.$dirty) return errors;
       !this.$v.editProductName.required && errors.push("Name is required.");
+      this.editProductNameError = true;
       return errors;
     },
-    editProductTypeError() {
+    editProductTypeErrors() {
       const errors = [];
       if (!this.$v.editProductType.$dirty) return errors;
       !this.$v.editProductType.required && errors.push("Type is required.");
+      this.editProductTypeError = true;
       return errors;
     },
-    editProductDescriptionError() {
+    editProductDescriptionErrors() {
       const errors = [];
       if (!this.$v.editProductDescription.$dirty) return errors;
-      !this.$v.editProductDescription.required && errors.push("Description is required.");
+      !this.$v.editProductDescription.required &&
+        errors.push("Description is required.");
+      this.editProductDescriptionError = true;
       return errors;
     },
-    editProductPriceError() {
+    editProductPriceErrors() {
       const errors = [];
       if (!this.$v.editProductPrice.$dirty) return errors;
       !this.$v.editProductPrice.required && errors.push("Price is required.");
+      (!this.$v.editProductPrice.decimal || this.editProductPrice < 0) &&
+        errors.push("Must be a positive and real number.");
+      this.editProductPriceError = true;
       return errors;
     },
     // new
-    newProductImageURLError() {
+    newProductImageURLErrors() {
       const errors = [];
       if (!this.$v.newProductImageURL.$dirty) return errors;
       !this.$v.newProductImageURL.required && errors.push("Image is required.");
+      !this.$v.newProductImageURL.imageUrlValid &&
+        errors.push("Image is invalid.");
+      this.newProductImageURLError = true;
       return errors;
     },
-    newProductNameError(){
+    newProductNameErrors() {
       const errors = [];
       if (!this.$v.newProductName.$dirty) return errors;
       !this.$v.newProductName.required && errors.push("Name is required.");
+      this.newProductNameError = true;
       return errors;
     },
-    newProductTypeError() {
+    newProductTypeErrors() {
       const errors = [];
       if (!this.$v.newProductType.$dirty) return errors;
       !this.$v.newProductType.required && errors.push("Type is required.");
+      this.newProductTypeError = true;
       return errors;
     },
-    newProductDescriptionError() {
+    newProductDescriptionErrors() {
       const errors = [];
       if (!this.$v.newProductDescription.$dirty) return errors;
-      !this.$v.newProductDescription.required && errors.push("Description is required.");
+      !this.$v.newProductDescription.required &&
+        errors.push("Description is required.");
+      this.newProductDescriptionError = true;
       return errors;
     },
-    newProductPriceError() {
+    newProductPriceErrors() {
       const errors = [];
       if (!this.$v.newProductPrice.$dirty) return errors;
       !this.$v.newProductPrice.required && errors.push("Price is required.");
+      (!this.$v.newProductPrice.decimal || this.newProductPrice < 0) &&
+        errors.push("Must be a positive and real number.");
+      this.newProductPriceError = true;
       return errors;
+    },
+    // success -----------------------------------
+    editProductImageURLSuccess() {
+      if (
+        this.editProductImageURL !== "" &&
+        this.$v.editProductImageURL.imageUrlValid
+      ) {
+        this.editProductImageURLError = false;
+        console.log("editProductImageURLSuccess");
+        return "Image is OK.";
+      }
+    },
+    editProductNameSuccess() {
+      if (this.editProductName !== "") {
+        this.editProductImageURLError = false;
+        console.log("editProductNameSuccess");
+        return "Name is OK.";
+      }
+    },
+    editProductTypeSuccess() {
+      if (this.editProductType !== "") {
+        this.editProductTypeError = false;
+        console.log("editProductTypeSuccess");
+        return "Type is OK.";
+      }
+    },
+    editProductDescriptionSuccess() {
+      if (this.editProductDescription !== "") {
+        this.editProductDescriptionError = false;
+        console.log("editProductDescriptionSuccess");
+        return "Description is OK.";
+      }
+    },
+    editProductPriceSuccess() {
+      if (
+        this.editProductPrice !== "" &&
+        this.$v.editProductPrice.decimal &&
+        this.editProductPrice >= 0
+      ) {
+        this.editProductPriceError = false;
+        console.log("editProductPriceSuccess");
+        return "Price is OK.";
+      }
+    },
+    // new
+    newProductImageURLSuccess() {
+      if (
+        this.newProductImageURL !== "" &&
+        this.$v.newProductImageURL.imageUrlValid
+      ) {
+        this.newProductImageURLError = false;
+        console.log("newProductImageURLSuccess");
+        return "Image is OK.";
+      }
+    },
+    newProductNameSuccess() {
+      if (this.newProductName !== "") {
+        this.newProductNameError = false;
+        console.log("newProductNameSuccess");
+        return "Name is OK.";
+      }
+    },
+    newProductTypeSuccess() {
+      if (this.newProductType !== "") {
+        this.newProductTypeError = false;
+        console.log("newProductTypeSuccess");
+        return "Type is OK.";
+      }
+    },
+    newProductDescriptionSuccess() {
+      if (this.newProductDescription !== "") {
+        this.newProductDescriptionError = false;
+        console.log("newProductDescriptionSuccess");
+        return "Description is OK.";
+      }
+    },
+    newProductPriceSuccess() {
+      if (
+        this.newProductPrice !== "" &&
+        this.$v.newProductPrice.decimal &&
+        this.newProductPrice >= 0
+      ) {
+        this.newProductPriceError = false;
+        console.log("newProductPriceSuccess");
+        return "Price is OK.";
+      }
     },
   },
 };
