@@ -406,6 +406,12 @@
           ></v-img>
         </v-card-text>
         <v-card-text class="pt-1" style="text-align: center; height: 300px;">
+          {{ showProductItems[editTempIndex].img }}<br />
+          {{ showProductItems[editTempIndex].name }}<br />
+          {{ showProductItems[editTempIndex].type }}<br />
+          {{ showProductItems[editTempIndex].description }}<br />
+          {{ showProductItems[editTempIndex].price }}<br />
+          {{ tempOriginEditProductTags }}
           <!-- product image url -->
           <v-text-field
             v-model="editProductImageURL"
@@ -832,6 +838,8 @@ export default {
       editProductPrice: "",
       editProductTags: [],
       editProductTag: "",
+      // 紀錄正在編輯的 item index
+      editTempIndex: 0,
 
       // error
       editProductImageURLError: true,
@@ -858,6 +866,8 @@ export default {
       newProductTypeError: true,
       newProductDescriptionError: true,
       newProductPriceError: true,
+
+      tempOriginEditProductTags: [],
     };
   },
   watch: {
@@ -1103,8 +1113,9 @@ export default {
       //   }, 100);
       // }
     },
-
+    // 編輯當前 product item 的 dialog
     editCurrentProductDetail(index) {
+      this.editTempIndex = index;
       // 編輯當前的 product item
       this.editProductDialog = true;
       // 初始化
@@ -1125,6 +1136,7 @@ export default {
       this.editProductDescriptionError = false;
       this.editProductPriceError = false;
     },
+    // 開啟添加新 product item 的 dialog
     openAddNewProductDialog() {
       // 開啟 dialog
       this.addNewProductDialog = true;
@@ -1145,6 +1157,8 @@ export default {
       this.newProductDescriptionError = true;
       this.newProductPriceError = true;
     },
+    // 編輯當前 product item 成功動作
+    executeEdit() {},
   },
   computed: {
     // get data from vuex
@@ -1339,13 +1353,61 @@ export default {
     },
     // 判斷是否可以變更編輯的 product detail
     adjustEditProductValid() {
-      return (
+      this.tempOriginEditProductTags = [];
+      for (
+        let i = 0;
+        i < this.showProductItems[this.editTempIndex].tags.length;
+        i++
+      ) {
+        var temp = { text: "", tiClasses: ["ti-valid"] };
+        temp.text = this.showProductItems[this.editTempIndex].tags[i];
+        this.tempOriginEditProductTags.push(temp);
+      }
+      // return (
+      //   this.editProductImageURLError ||
+      //   this.editProductNameError ||
+      //   this.editProductTypeError ||
+      //   this.editProductDescriptionError ||
+      //   this.editProductPriceError ||
+      //   (this.editProductImageURL ===
+      //     this.showProductItems[this.editTempIndex].img &&
+      //     this.editProductName ===
+      //       this.showProductItems[this.editTempIndex].name &&
+      //     this.editProductType ===
+      //       this.showProductItems[this.editTempIndex].type &&
+      //     this.editProductDescription ===
+      //       this.showProductItems[this.editTempIndex].description &&
+      //     this.editProductPrice ===
+      //       this.showProductItems[this.editTempIndex].price &&
+      //     this.editProductTags === this.tempOriginEditProductTags)
+      // );
+      if (
         this.editProductImageURLError ||
         this.editProductNameError ||
         this.editProductTypeError ||
         this.editProductDescriptionError ||
         this.editProductPriceError
-      );
+      ) {
+        return true;
+      } else {
+        if (
+          this.editProductImageURL ===
+            this.showProductItems[this.editTempIndex].img &&
+          this.editProductName ===
+            this.showProductItems[this.editTempIndex].name &&
+          this.editProductType ===
+            this.showProductItems[this.editTempIndex].type &&
+          this.editProductDescription ===
+            this.showProductItems[this.editTempIndex].description &&
+          this.editProductPrice ===
+            this.showProductItems[this.editTempIndex].price &&
+          this.editProductTags === this.tempOriginEditProductTags
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      }
     },
     // 判斷是否可以添加新的 product item
     adjustNewProductValid() {
