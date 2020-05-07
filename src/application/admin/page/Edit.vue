@@ -483,7 +483,12 @@
             Cancel
           </v-btn>
 
-          <v-btn color="green darken-1" text @click="editProductDialog = false">
+          <v-btn
+            color="green darken-1"
+            text
+            :disabled="adjustEditProductValid"
+            @click="editProductDialog = false"
+          >
             Yes
           </v-btn>
         </v-card-actions>
@@ -632,6 +637,7 @@
           <v-btn
             color="green darken-1"
             text
+            :disabled="adjustNewProductValid"
             @click="addNewProductDialog = false"
           >
             Yes
@@ -1101,6 +1107,7 @@ export default {
     editCurrentProductDetail(index) {
       // 編輯當前的 product item
       this.editProductDialog = true;
+      // 初始化
       this.editProductImageURL = this.showProductItems[index].img;
       this.editProductName = this.showProductItems[index].name;
       this.editProductType = this.showProductItems[index].type;
@@ -1112,9 +1119,16 @@ export default {
         temp.text = this.showProductItems[index].tags[i];
         this.editProductTags.push(temp);
       }
+      this.editProductImageURLError = false;
+      this.editProductNameError = false;
+      this.editProductTypeError = false;
+      this.editProductDescriptionError = false;
+      this.editProductPriceError = false;
     },
-    openAddNewProductDialog(){
+    openAddNewProductDialog() {
+      // 開啟 dialog
       this.addNewProductDialog = true;
+      // 初始化
       this.$v.newProductImageURL.$reset();
       this.$v.newProductName.$reset();
       this.$v.newProductType.$reset();
@@ -1125,7 +1139,12 @@ export default {
       this.newProductType = "";
       this.newProductDescription = "";
       this.newProductPrice = "";
-    }
+      this.newProductImageURLError = true;
+      this.newProductNameError = true;
+      this.newProductTypeError = true;
+      this.newProductDescriptionError = true;
+      this.newProductPriceError = true;
+    },
   },
   computed: {
     // get data from vuex
@@ -1245,7 +1264,7 @@ export default {
     },
     editProductNameSuccess() {
       if (this.editProductName !== "") {
-        this.editProductImageURLError = false;
+        this.editProductNameError = false;
         console.log("editProductNameSuccess");
         return "Name is OK.";
       }
@@ -1317,6 +1336,26 @@ export default {
         console.log("newProductPriceSuccess");
         return "Price is OK.";
       }
+    },
+    // 判斷是否可以變更編輯的 product detail
+    adjustEditProductValid() {
+      return (
+        this.editProductImageURLError ||
+        this.editProductNameError ||
+        this.editProductTypeError ||
+        this.editProductDescriptionError ||
+        this.editProductPriceError
+      );
+    },
+    // 判斷是否可以添加新的 product item
+    adjustNewProductValid() {
+      return (
+        this.newProductImageURLError ||
+        this.newProductNameError ||
+        this.newProductTypeError ||
+        this.newProductDescriptionError ||
+        this.newProductPriceError
+      );
     },
   },
 };
