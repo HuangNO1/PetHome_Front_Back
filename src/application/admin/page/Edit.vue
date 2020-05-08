@@ -277,7 +277,7 @@
                 </div>
                 <div class="ml-2" style="width: 27rem;">
                   <!--{{ item.description }}-->
-                  <v-chip v-for="(tag, i) in item.tags" :key="i"
+                  <v-chip class="ma-1" v-for="(tag, i) in item.tags" :key="i"
                     ># {{ tag }}
                   </v-chip>
                 </div>
@@ -406,7 +406,7 @@
           ></v-img>
         </v-card-text>
         <v-card-text class="pt-1" style="text-align: center; height: 300px;">
-        <!--
+          <!--
           {{ showProductItems[editTempIndex].img }} -
           {{ editProductImageURL !== showProductItems[editTempIndex].img
           }}<br />
@@ -505,7 +505,7 @@
             color="green darken-1"
             text
             :disabled="adjustEditProductValid"
-            @click="editProductDialog = false"
+            @click="executeEditProductSuccess"
           >
             Yes
           </v-btn>
@@ -768,17 +768,17 @@ export default {
         }
         haveSameTag = false;
       }
-      // 初始化各產品的 liked upVote
-      for (let j = 0; j < this.userLikedProduct.length; j++) {
-        if (this.productItems[i].id === this.userLikedProduct[j]) {
-          this.productItems[i].likedClick = true;
-        }
-      }
-      for (let j = 0; j < this.userUpVoteProduct.length; j++) {
-        if (this.productItems[i].id === this.userUpVoteProduct[j]) {
-          this.productItems[i].upVoteClick = true;
-        }
-      }
+      // // 初始化各產品的 liked upVote
+      // for (let j = 0; j < this.userLikedProduct.length; j++) {
+      //   if (this.productItems[i].id === this.userLikedProduct[j]) {
+      //     this.productItems[i].likedClick = true;
+      //   }
+      // }
+      // for (let j = 0; j < this.userUpVoteProduct.length; j++) {
+      //   if (this.productItems[i].id === this.userUpVoteProduct[j]) {
+      //     this.productItems[i].upVoteClick = true;
+      //   }
+      // }
     }
   },
   data() {
@@ -1170,7 +1170,47 @@ export default {
       this.newProductPriceError = true;
     },
     // 編輯當前 product item 成功動作
-    executeEdit() {},
+    executeEditProductSuccess() {
+      // 先寫入新的內容
+      this.showProductItems[this.editTempIndex].img = this.editProductImageURL;
+
+      this.showProductItems[this.editTempIndex].name = this.editProductName;
+
+      this.showProductItems[this.editTempIndex].type = this.editProductType;
+
+      this.showProductItems[
+        this.editTempIndex
+      ].description = this.editProductDescription;
+
+      this.showProductItems[this.editTempIndex].price = this.editProductPrice;
+
+      this.showProductItems[this.editTempIndex].tags = [];
+      for (let i = 0; i < this.editProductTags.length; i++) {
+        this.showProductItems[this.editTempIndex].tags.push(
+          this.editProductTags[i].text
+        );
+      }
+
+      // 關掉 dialog
+      this.editProductDialog = false;
+
+      // 遍歷商品的所有 tag，並將重複的 tag 去除，將 tag 存到這裡的 tags
+      for (let i = 0; i < this.productItems.length; i++) {
+        for (let j = 0; j < this.productItems[i].tags.length; j++) {
+          let haveSameTag = false;
+          for (let k = 0; k < this.tags.length; k++) {
+            if (this.tags[k] === this.productItems[i].tags[j]) {
+              haveSameTag = true;
+              break;
+            }
+          }
+          if (haveSameTag === false) {
+            this.tags.push(this.productItems[i].tags[j]);
+          }
+          haveSameTag = false;
+        }
+      }
+    },
   },
   computed: {
     // get data from vuex
@@ -1393,13 +1433,17 @@ export default {
       //       this.showProductItems[this.editTempIndex].price &&
       //     this.editProductTags === this.tempOriginEditProductTags)
       // );
+      // 將 Array 字定義屬性 將 數組的內容轉成 Map 映射 使 不會因為對象數組的先後順序而導致報相等
       Array.prototype.equals = function(array) {
+        // 先判斷數組是否為空
         if (!array) {
           return false;
         }
+        // 判斷長度
         if (this.length != array.length) {
           return false;
         }
+        // 轉成映射
         let textMap = this.reduce(function(map, obj) {
           map[obj.text] = true;
           return map;

@@ -21,7 +21,7 @@
       <v-lazy
         v-model="isActive"
         :options="{
-          threshold: 1
+          threshold: 1,
         }"
         transition="slide-x-reverse-transition"
         origin="top right 50"
@@ -172,7 +172,7 @@
         <v-lazy
           v-model="isActive"
           :options="{
-            threshold: 1
+            threshold: 1,
           }"
           transition="slide-x-reverse-transition"
           origin="top right 50"
@@ -184,7 +184,9 @@
               @change="showTagsProductItems"
               multiple
             >
-              <v-chip v-for="(tag, index) in tags" :key="index"># {{ tag }}</v-chip>
+              <v-chip v-for="(tag, index) in tags" :key="index"
+                ># {{ tag }}</v-chip
+              >
             </v-chip-group>
           </v-sheet>
         </v-lazy>
@@ -197,7 +199,7 @@
         <v-lazy
           v-model="isActive"
           :options="{
-            threshold: 1
+            threshold: 1,
           }"
           transition="slide-x-reverse-transition"
           origin="top right 50"
@@ -233,7 +235,7 @@
         <v-lazy
           v-model="i.isActive"
           :options="{
-            threshold: 1
+            threshold: 1,
           }"
           transition="slide-x-reverse-transition"
           origin="top right 50"
@@ -268,7 +270,7 @@
                 </div>
                 <div class="ml-2" style="width: 27rem;">
                   <!--{{ item.description }}-->
-                  <v-chip v-for="(tag, i) in item.tags" :key="i"
+                  <v-chip class="ma-1" v-for="(tag, i) in item.tags" :key="i"
                     ># {{ tag }}
                   </v-chip>
                 </div>
@@ -378,7 +380,9 @@
     <!-- 如果沒使用者登入的請求登入 dialog -->
     <v-dialog v-model="signDialog" width="500" persistent>
       <v-card>
-        <v-card-title class="headline red--text">Hey! Please sign in.</v-card-title>
+        <v-card-title class="headline red--text"
+          >Hey! Please sign in.</v-card-title
+        >
         <v-card-text>
           You Have not sign in. You must to sign in to do this action.
         </v-card-text>
@@ -388,11 +392,7 @@
           <v-btn text @click="signDialog = false">
             Get it
           </v-btn>
-          <v-btn
-            color="green darken-1"
-            text
-            href="/sign#/Login"
-          >
+          <v-btn color="green darken-1" text href="/sign#/Login">
             Sign In
           </v-btn>
         </v-card-actions>
@@ -405,19 +405,19 @@ import Affix from "../components/Affix/Affix";
 import { mapState, mapMutations } from "vuex";
 import {
   ADD_TO_CART,
-  VIEW_PRODUCT_ITEM_DETAIL
+  VIEW_PRODUCT_ITEM_DETAIL,
 } from "../store/mutations-types/product";
 import {
   REMOVE_USER_LIKE_PRODUCT,
   ADD_USER_LIKE_PRODUCT,
   REMOVE_USER_UP_VOTE_PRODUCT,
-  ADD_USER_UP_VOTE_PRODUCT
+  ADD_USER_UP_VOTE_PRODUCT,
 } from "../store/mutations-types/user.js";
 import Cookies from "js-cookie"; // 引入 cookie API
 
 export default {
   components: {
-    Affix
+    Affix,
   },
   created() {
     this.recommendProductItems = this.productItems;
@@ -470,14 +470,14 @@ export default {
         "warning",
         "pink darken-2",
         "red lighten-1",
-        "deep-purple accent-4"
+        "deep-purple accent-4",
       ],
       slides: [
         "ALL 15% OFF",
         "NEW PRODUCT PUBLISHING",
         "95% POSITIVE FEEDBACK",
         "MEMBER CARD BENEFITS",
-        "GREAT"
+        "GREAT",
       ],
       // 價格區間
       priceRange: [0, 10000],
@@ -498,7 +498,7 @@ export default {
         { title: "Cat", icon: "mdi-cat" },
         { title: "Fox", icon: "mdi-firefox" },
         { title: "Fish", icon: "mdi-fishbowl" },
-        { title: "Bird", icon: "mdi-twitter" }
+        { title: "Bird", icon: "mdi-twitter" },
       ],
       // tags
       tags: [],
@@ -524,7 +524,7 @@ export default {
   watch: {
     search(val) {
       val && val !== this.select && this.querySelections(val);
-    }
+    },
   },
   methods: {
     querySelections(v) {
@@ -629,7 +629,7 @@ export default {
         gender: item.gender,
         age: item.age,
         tags: item.tags,
-        comments: item.comments
+        comments: item.comments,
       };
       var isSame = false;
       for (let i = 0; i < this.cartProductItems.length; i++) {
@@ -675,7 +675,7 @@ export default {
       var temp = this.showProductItems;
       this.showProductItems = [];
       setTimeout(() => {
-        this.showProductItems = temp.filter(e => {
+        this.showProductItems = temp.filter((e) => {
           return e.price >= this.priceRange[0] && e.price <= this.priceRange[1];
         });
       }, 100);
@@ -686,7 +686,7 @@ export default {
     },
     updateUserLiked(item) {
       // 如果使用者沒有登入就不允許操作
-      if(Cookies.get("userStatus") === undefined) {
+      if (Cookies.get("userStatus") === undefined) {
         this.signDialog = true;
         return;
       }
@@ -714,7 +714,7 @@ export default {
     },
     updateUserUpVote(item) {
       // 如果使用者沒有登入就不允許操作
-      if(Cookies.get("userStatus") === undefined) {
+      if (Cookies.get("userStatus") === undefined) {
         this.signDialog = true;
         return;
       }
@@ -748,7 +748,7 @@ export default {
       this.showProductItems = [];
       if (this.isClickShowUserLike === true) {
         setTimeout(() => {
-          this.showProductItems = this.productItems.filter(e => {
+          this.showProductItems = this.productItems.filter((e) => {
             return e.likedClick === true;
           });
         }, 100);
@@ -757,27 +757,27 @@ export default {
           this.showProductItems = this.productItems;
         }, 100);
       }
-    }
+    },
   },
   computed: {
     // get data from vuex
     ...mapState({
-      cartProductItems: state => {
+      cartProductItems: (state) => {
         return state.product.cartProductItems;
       },
-      recordProductItems: state => {
+      recordProductItems: (state) => {
         return state.product.recordProductItems;
       },
-      productItems: state => {
+      productItems: (state) => {
         return state.product.productItems;
       },
-      userLikedProduct: state => {
+      userLikedProduct: (state) => {
         return state.user.likedProduct;
       },
-      userUpVoteProduct: state => {
+      userUpVoteProduct: (state) => {
         return state.user.upVoteProduct;
-      }
-    })
-  }
+      },
+    }),
+  },
 };
 </script>
