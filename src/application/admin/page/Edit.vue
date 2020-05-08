@@ -406,12 +406,24 @@
           ></v-img>
         </v-card-text>
         <v-card-text class="pt-1" style="text-align: center; height: 300px;">
-          {{ showProductItems[editTempIndex].img }}<br />
-          {{ showProductItems[editTempIndex].name }}<br />
-          {{ showProductItems[editTempIndex].type }}<br />
-          {{ showProductItems[editTempIndex].description }}<br />
-          {{ showProductItems[editTempIndex].price }}<br />
-          {{ tempOriginEditProductTags }}
+        <!--
+          {{ showProductItems[editTempIndex].img }} -
+          {{ editProductImageURL !== showProductItems[editTempIndex].img
+          }}<br />
+          {{ showProductItems[editTempIndex].name }} -
+          {{ editProductName !== showProductItems[editTempIndex].name }}<br />
+          {{ showProductItems[editTempIndex].type }} -
+          {{ editProductType !== showProductItems[editTempIndex].type }}<br />
+          {{ showProductItems[editTempIndex].description }} -
+          {{
+            editProductDescription !==
+              showProductItems[editTempIndex].description
+          }}<br />
+          {{ showProductItems[editTempIndex].price }} -
+          {{ editProductPrice !== showProductItems[editTempIndex].price }}<br />
+          {{ tempOriginEditProductTags }} -
+          {{ editProductTags !== tempOriginEditProductTags }}<br />
+          {{ editProductTags }}-->
           <!-- product image url -->
           <v-text-field
             v-model="editProductImageURL"
@@ -1381,6 +1393,25 @@ export default {
       //       this.showProductItems[this.editTempIndex].price &&
       //     this.editProductTags === this.tempOriginEditProductTags)
       // );
+      Array.prototype.equals = function(array) {
+        if (!array) {
+          return false;
+        }
+        if (this.length != array.length) {
+          return false;
+        }
+        let textMap = this.reduce(function(map, obj) {
+          map[obj.text] = true;
+          return map;
+        }, {});
+        for (let i = 0; i < this.length; i++) {
+          if (!textMap[array[i].text]) {
+            return false;
+          }
+        }
+        return true;
+      };
+
       if (
         this.editProductImageURLError ||
         this.editProductNameError ||
@@ -1391,21 +1422,21 @@ export default {
         return true;
       } else {
         if (
-          this.editProductImageURL ===
-            this.showProductItems[this.editTempIndex].img &&
-          this.editProductName ===
-            this.showProductItems[this.editTempIndex].name &&
-          this.editProductType ===
-            this.showProductItems[this.editTempIndex].type &&
-          this.editProductDescription ===
-            this.showProductItems[this.editTempIndex].description &&
-          this.editProductPrice ===
-            this.showProductItems[this.editTempIndex].price &&
-          this.editProductTags === this.tempOriginEditProductTags
+          this.editProductImageURL !==
+            this.showProductItems[this.editTempIndex].img ||
+          this.editProductName !==
+            this.showProductItems[this.editTempIndex].name ||
+          this.editProductType !==
+            this.showProductItems[this.editTempIndex].type ||
+          this.editProductDescription !==
+            this.showProductItems[this.editTempIndex].description ||
+          this.editProductPrice !==
+            this.showProductItems[this.editTempIndex].price ||
+          !this.editProductTags.equals(this.tempOriginEditProductTags)
         ) {
-          return true;
-        } else {
           return false;
+        } else {
+          return true;
         }
       }
     },
