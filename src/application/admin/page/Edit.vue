@@ -261,7 +261,7 @@
                 <v-avatar
                   @click="toViewProduct(item)"
                   tile
-                  size="130"
+                  size="150"
                   class="ml-4"
                 >
                   <v-img :src="item.img" />
@@ -656,7 +656,7 @@
             color="green darken-1"
             text
             :disabled="adjustNewProductValid"
-            @click="addNewProductDialog = false"
+            @click="executeNewProductSuccess"
           >
             Yes
           </v-btn>
@@ -1211,6 +1211,43 @@ export default {
         }
       }
     },
+    // 添加新 product item 成功動作
+    executeNewProductSuccess() {
+      var tempNewTags = []
+
+      for(let i = 0; i < this.newProductTags.length; i++)
+      {
+        tempNewTags.push(this.newProductTags[i].text);
+      }
+
+      var newProductItem = {
+        username: "",
+        status: 0,
+        id: 1,
+        name: this.newProductName,
+        img: this.newProductImageURL,
+        type: this.newProductType,
+        description: this.newProductDescription,
+        price: this.newProductPrice,
+        number: 1,
+        total: 0,
+        time: "",
+        likedClick: false,
+        liked: 0,
+        upVoteClick: false,
+        upVote: 0,
+        gender: "",
+        age: "",
+        tags: tempNewTags,
+        comments: [
+        ]
+      }
+      // 推入 VueX
+      this.productItems.push(newProductItem)
+
+      // close dialog
+      this.addNewProductDialog = false
+    }
   },
   computed: {
     // get data from vuex

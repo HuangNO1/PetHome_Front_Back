@@ -402,7 +402,7 @@ export default {
       if (!this.$v.phone.$dirty) return errors;
       !this.$v.phone.phoneValid && errors.push("Must be valid phone number.");
       !this.$v.phone.required && errors.push("Phone number is required.");
-      this.emailError = true;
+      this.phoneError = true;
       return errors;
     },
     passwordErrors() {

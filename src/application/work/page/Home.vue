@@ -254,7 +254,7 @@
                 <v-avatar
                   @click="toViewProduct(item)"
                   tile
-                  size="130"
+                  size="150"
                   class="ml-4"
                 >
                   <v-img :src="item.img" />
