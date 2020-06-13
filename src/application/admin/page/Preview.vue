@@ -30,8 +30,8 @@
       >
         <v-card class="mb-4" elevation="10">
           <v-card-title
-            :class="this.$store.state.theme.navTheme"
             class="white--text"
+            style="background-color: #505050"
             >{{ viewProductItemDetail.name }}</v-card-title
           >
           <v-card-text class="mt-2">
@@ -362,8 +362,6 @@ export default {
   },
   data() {
     return {
-      // 用來判斷是否登入成功
-      loginSuccess: false,
       isActive: false,
       images: ["https://i.loli.net/2020/03/12/XzTSKdPf2BGaJO1.png"],
       defaultGender: 0,
@@ -406,10 +404,6 @@ export default {
     this.$store.commit(VIEW_PRODUCT_ITEM_DETAIL, show);
   },
   created() {
-    // 先獲取 cookie
-    var userStatus = Cookies.get("userStatus");
-    this.loginSuccess = userStatus === undefined ? false : true;
-
     let id = this.$route.query.id;
     let show = this.productItems.find(e => {
       return e.id === id;
@@ -420,7 +414,7 @@ export default {
     goBack() {
       window.history.length > 1
         ? this.$router.go(-1)
-        : this.$router.push("/Home");
+        : this.$router.push("/Edit");
     },
     inited(viewer) {
       this.$viewer = viewer;
