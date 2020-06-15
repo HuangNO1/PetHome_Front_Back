@@ -427,7 +427,7 @@ export default {
       //!this.$v.captcha.minLength && errors.push("must have 4 letters.");
       //!this.$v.captcha.maxLength && errors.push("must have 4 letters.");
       !this.$v.captcha.required && errors.push("captcha is required.");
-      //!this.$v.captcha.isUnique && errors.push("Captcha isn't true.");
+      !this.$v.captcha.isUnique && errors.push("Captcha isn't true.");
       this.captchaError = true;
       return errors;
     },

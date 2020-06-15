@@ -91,7 +91,7 @@
 import { validationMixin } from "vuelidate";
 import { required, minLength, email } from "vuelidate/lib/validators";
 import axios from "axios";
-import Cookies from 'js-cookie' // 引入 cookie API
+import Cookies from "js-cookie"; // 引入 cookie API
 
 export default {
   mixins: [validationMixin],
@@ -102,12 +102,12 @@ export default {
     checkbox: {
       checked(val) {
         return val;
-      }
-    }
+      },
+    },
   },
   data() {
     return {
-      msg: ""
+      msg: "",
     };
   },
   data: () => ({
@@ -120,9 +120,9 @@ export default {
     nameError: true,
     passwordError: true,
     // checkboxError: false,
-    loginURL: "http://localhost:8081/account/check",
+    loginURL: "http://35.238.213.70:8081/account/check",
     loginSuccess: true,
-    openDialog: true
+    openDialog: true,
   }),
 
   computed: {
@@ -163,7 +163,7 @@ export default {
         this.passwordError = false;
         console.log("passwordSuccess");
       }
-    }
+    },
     // checkboxSuccess() {
     //   if (this.checkbox === true && this.$v.checkbox.checked) {
     //     this.checkboxError = false;
@@ -187,23 +187,54 @@ export default {
         this.checkbox === true
       ) {
         // submit the login request
-        /*
+
         var params = new URLSearchParams();
         params.append("username", this.name);
         params.append("password", this.password);
         axios
           .post(this.loginURL, params)
-          .then(response => {
-            console.log(response);
+          .then((response) => {
+            //console.log(response);
             console.log(response.data);
-            this.loginSuccess = response.data;
+            this.loginSuccess = response.data.status === 1 ? true : false;
+            this.openDialog = false;
+            this.dialog = true;
+            if (this.loginSuccess === true) {
+              // 登入狀態存 cookie 7 天 存 username 或是 email
+              Cookies.set("userID", response.data.data.id, { expires: 7 });
+              Cookies.set("userEmail", response.data.data.email, {
+                expires: 7,
+              });
+              Cookies.set("userUsername", response.data.data.username, {
+                expires: 7,
+              });
+              Cookies.set("userPhone", response.data.data.phone, {
+                expires: 7,
+              });
+              Cookies.set("userCash", response.data.data.cash, { expires: 7 });
+              Cookies.set("userDescription", response.data.data.description, {
+                expires: 7,
+              });
+              Cookies.set("userAddress", response.data.data.address, {
+                expires: 7,
+              });
+              Cookies.set("userBGColor", response.data.data.backgroudcolor, {
+                expires: 7,
+              });
+              Cookies.set("userBGUrl", response.data.data.backgroudurl, {
+                expires: 7,
+              });
+              Cookies.set("userAvatar", response.data.data.avatar, {
+                expires: 7,
+              });
+              Cookies.set("userPower", response.data.data.power, {
+                expires: 7,
+              });
+            }
           })
-          .catch(error => {
+          .catch((error) => {
             console.log(error);
           });
-        */
-        this.openDialog = false;
-        this.dialog = true;
       } else {
         this.dialog = false;
       }
@@ -229,18 +260,13 @@ export default {
     onSuccess() {
       console.log("Success verity");
       this.dialog = false;
-      /*axios
-        .get("http://localhost:8081/account/setCookies", {
-          params: {
-            username: this.name
-          }
-        })
-        .then(response => {
-          console.log(response);
-        });*/
-        // 登入狀態存 cookie 7 天 存 username 或是 email
-      Cookies.set('userStatus', this.name, { expires: 7 })
-      document.location.href = "/work#/Home";
+      var power = Cookies.get("userPower");
+
+      if (power === 1) {
+        document.location.href = "/admin#/Dashboard";
+      } else {
+        document.location.href = "/work#/Home";
+      }
     },
     onFail() {
       this.msg = "";
@@ -248,10 +274,10 @@ export default {
     onRefresh() {
       this.msg = "";
     },
-    guest(){
+    guest() {
       document.location.href = "/work#/Home";
-    }
-  }
+    },
+  },
 };
 </script>
 <style>
