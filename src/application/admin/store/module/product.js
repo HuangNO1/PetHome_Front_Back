@@ -29,7 +29,7 @@ const product = {
             state.recordProductItems = item;
         },
         [INIT_PRODUCT_ITEMS](state, item) {
-            state.productItems = item;
+            state.productItems.push(item);
         },
         [VIEW_PRODUCT_ITEM_DETAIL](state, item) {
             state.viewProductItemDetail = item;

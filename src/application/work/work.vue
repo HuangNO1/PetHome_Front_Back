@@ -164,7 +164,7 @@
 
 <script>
 import Cookies from "js-cookie"; // 引入 cookie API
-
+import axios from "axios"; // axios
 // import HelloWorld from "./components/HelloWorld";
 import { mapState, mapMutations } from "vuex";
 import {
@@ -288,6 +288,8 @@ export default {
       this.getUserCart();
       // 使用者 訂單資料
       this.getUserOrder();
+      // 初始化所有產品
+      this.getAllProduct();
     }
 
     if (this.navTheme === "") {
@@ -412,7 +414,7 @@ export default {
               status: 0,
               id: response.data.data[i].id,
               name: response.data.data[i].product,
-              img: response.data.data[i],
+              img: response.data.data[i].url,
               type: response.data.data[i].type,
               description: "",
               price: response.data.data[i].price,
@@ -451,7 +453,7 @@ export default {
               status: 0,
               id: response.data.data[i].id,
               name: response.data.data[i].product,
-              img: response.data.data[i],
+              img: response.data.data[i].url,
               type: response.data.data[i].type,
               description: "",
               price: response.data.data[i].price,
