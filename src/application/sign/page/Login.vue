@@ -204,37 +204,38 @@ export default {
             //console.log(response);
             console.log(response.data);
             this.loginSuccess = response.data.status === 1 ? true : false;
+            console.log("loginsuccess: " + this.loginSuccess)
             this.openDialog = false;
             this.dialog = true;
             if (this.loginSuccess === true) {
               // 登入狀態存 cookie 7 天 存 username 或是 email
-              Cookies.set("userID", response.data.data.id, { expires: 7 });
-              Cookies.set("userEmail", response.data.data.email, {
+              Cookies.set("userID", response.data.data[0].id, { expires: 7 });
+              Cookies.set("userEmail", response.data.data[0].email, {
                 expires: 7,
               });
-              Cookies.set("userUsername", response.data.data.username, {
+              Cookies.set("userUsername", response.data.data[0].username, {
                 expires: 7,
               });
-              Cookies.set("userPhone", response.data.data.phone, {
+              Cookies.set("userPhone", response.data.data[0].phone, {
                 expires: 7,
               });
-              Cookies.set("userCash", response.data.data.cash, { expires: 7 });
-              Cookies.set("userDescription", response.data.data.description, {
+              Cookies.set("userCash", response.data.data[0].cash, { expires: 7 });
+              Cookies.set("userDescription", response.data.data[0].description, {
                 expires: 7,
               });
-              Cookies.set("userAddress", response.data.data.address, {
+              Cookies.set("userAddress", response.data.data[0].address, {
                 expires: 7,
               });
-              Cookies.set("userBGColor", response.data.data.backgroudcolor, {
+              Cookies.set("userBGColor", response.data.data[0].backgroudcolor, {
                 expires: 7,
               });
-              Cookies.set("userBGUrl", response.data.data.backgroudurl, {
+              Cookies.set("userBGUrl", response.data.data[0].backgroudurl, {
                 expires: 7,
               });
-              Cookies.set("userAvatar", response.data.data.avatar, {
+              Cookies.set("userAvatar", response.data.data[0].avatar, {
                 expires: 7,
               });
-              Cookies.set("userPower", response.data.data.power, {
+              Cookies.set("userPower", response.data.data[0].power, {
                 expires: 7,
               });
             }
