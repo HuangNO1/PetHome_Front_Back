@@ -191,6 +191,42 @@ import {
   ADD_TO_CART,
 } from "./store/mutations-types/product";
 
+const testComment = [
+  {
+    username: "Rem",
+    avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
+    content:
+      "I love it.I love it.I love it.I love it.I love it.I love it.I love it.I love it.I love it.I love it.I love it.I love it.",
+    time: "2020/03/17 下午 6:17",
+    isActive: false,
+    clickEdit: false,
+  },
+  {
+    username: "Rem",
+    avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
+    content: "I love it.I love it.I love it.I love it.I love it.I love it.",
+    time: "2020/03/17 下午 6:17",
+    isActive: false,
+    clickEdit: false,
+  },
+  {
+    username: "Rem",
+    avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
+    content: "I love it.",
+    time: "2020/03/17 下午 6:17",
+    isActive: false,
+    clickEdit: false,
+  },
+  {
+    username: "Rem",
+    avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
+    content: "I love it.",
+    time: "2020/03/17 下午 6:17",
+    isActive: false,
+    clickEdit: false,
+  },
+];
+
 export default {
   name: "App",
 
@@ -221,7 +257,7 @@ export default {
     }
 
     if (userStatus !== undefined) {
-      //   獲取初始資料
+      // 獲取初始資料
       // 使用者基本資料
       this.$store.commit(UPDATE_USER_USERNAME, Cookies.get("userUsername"));
       if (Cookies.get("userAvatar") !== undefined) {
@@ -252,23 +288,6 @@ export default {
       this.getUserCart();
       // 使用者 訂單資料
       this.getUserOrder();
-      //   // 獲取使用者資料（包含主題）
-      //   axios
-      //     .post(this.initUserURL, params: userStatus)
-      //     .then(response => {
-      //       console.log(response.data);
-      //       // 使用者基本資料
-      //       this.$store.commit(UPDATE_USER_LIKE_PRODUCT, response.data.userLikedProduct);
-      //       this.$store.commit(UPDATE_USER_UP_VOTE_PRODUCT, response.data.this.userUpVoteProduct);
-      //       // 主題
-      //       this.$store.commit(UPDATE_NAV_THEME, response.data.navTheme);
-      //       this.$store.commit(UPDATE_NAV_IMAGE, response.data.navImage);
-      //       // 黑色 或 白色主題
-      //       this.$vuetify.theme.dark = response.data.darkTheme;
-      //     })
-      //     .catch(error => {
-      //       console.log(error);
-      //     });
     }
 
     if (this.navTheme === "") {
@@ -276,7 +295,7 @@ export default {
     }
   },
   data: () => ({
-    initProductURL: "",
+    getAllProductURL: "http://35.238.213.70:8081/product/findAll",
     getUserCartURL: "http://35.238.213.70:8081/shoppingcart/order",
     getUserOrderURL: "http://35.238.213.70:8081/accountorder/order",
     // 判斷側邊欄是否能見
@@ -317,68 +336,23 @@ export default {
     miniMenu() {
       const contentWidth = this.$refs.contentStyle.$el.clientWidth;
       console.log("contentWidth: " + contentWidth);
-      console.log(
-        "click Menu => " +
-          "miniVariant: " +
-          this.miniVariant +
-          ", drawer: " +
-          this.drawer +
-          ", menuIsClose: " +
-          this.menuIsClose
-      );
       // open menu
       if (this.menuIsClose === true) {
         console.log("enter open");
         this.miniVariant = false;
         this.drawer = true;
         this.menuIsClose = false;
-        console.log(
-          "open Menu 1=> " +
-            "miniVariant: " +
-            this.miniVariant +
-            ", drawer: " +
-            this.drawer +
-            ", menuIsClose: " +
-            this.menuIsClose
-        );
       } else {
         // close menu
         console.log("enter close");
         if (this.drawer === true) {
           this.miniVariant = true;
           // can't mini variant
-          console.log(
-            "close Menu 1=> " +
-              "miniVariant: " +
-              this.miniVariant +
-              ", drawer: " +
-              this.drawer +
-              ", menuIsClose: " +
-              this.menuIsClose
-          );
           if (this.miniVariant === false) {
             // just close menu
             this.drawer = false;
-            console.log(
-              "close Menu 2=> " +
-                "miniVariant: " +
-                this.miniVariant +
-                ", drawer: " +
-                this.drawer +
-                ", menuIsClose: " +
-                this.menuIsClose
-            );
           } else {
             this.drawer = true;
-            console.log(
-              "close Menu 3=> " +
-                "miniVariant: " +
-                this.miniVariant +
-                ", drawer: " +
-                this.drawer +
-                ", menuIsClose: " +
-                this.menuIsClose
-            );
           }
           this.menuIsClose = true;
         } else {
@@ -386,15 +360,6 @@ export default {
           this.miniVariant = false;
           this.drawer = true;
           this.menuIsClose = false;
-          console.log(
-            "open Menu 2=> " +
-              "miniVariant: " +
-              this.miniVariant +
-              ", drawer: " +
-              this.drawer +
-              ", menuIsClose: " +
-              this.menuIsClose
-          );
         }
       }
       console.log("draw - " + this.drawer);
@@ -502,6 +467,55 @@ export default {
               comments: [],
             };
             this.$store.commit(ADD_TO_RECORD, tempItem);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    async getAllProduct() {
+      axios({
+        method: "get",
+        url: this.getAllProductURL,
+        headers: {},
+        data: {},
+      })
+        .then((response) => {
+          console.log(response.data);
+          // 先依據每個產品，塞入 tags
+          for (let i = 0; i < response.data.data.good.length; i++) {
+            // 新將 tags 找出來
+            var tempTags = [];
+            for(let j = 0; j < response.data.data.goodTag.length; j++) {
+              // 如果找到 id 相同
+              if(response.data.data.goodTag[j].productid === response.data.data.good[i].id) {
+                // 推進 tempTags
+                tempTags.push(response.data.data.goodTag[j].tagdes);
+              }
+            }
+
+            var tempItem = {
+              username: "",
+              status: 0,
+              id: response.data.data.good[i].id,
+              name: response.data.data.good[i].name,
+              img: response.data.data.good[i].url,
+              type: response.data.data.good[i].category,
+              description: "",
+              price: response.data.data.good[i].money,
+              number: 1,
+              total: 0,
+              time: "",
+              likedClick: false,
+              liked: response.data.data.good[i].love,
+              upVoteClick: false,
+              upVote: response.data.data.good[i].likenum,
+              gender: "",
+              age: "",
+              tags: tempTags,
+              comments: testComment,
+            };
+            this.$store.commit(INIT_PRODUCT_ITEMS, tempItem);
           }
         })
         .catch((error) => {
