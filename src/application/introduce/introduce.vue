@@ -120,7 +120,7 @@ export default {
   }),
   methods: {
     Sign() {
-      var testUserStatus = Cookies.get('userStatus');
+      var testUserStatus = Cookies.get('userID');
       console.log("test: " + testUserStatus);
       if(testUserStatus === undefined) {
         document.location.href = "/sign#/Login";
@@ -130,7 +130,7 @@ export default {
     }
   },
   create() {
-    console.log('userStatus : ' + Cookies.get('userStatus'));
+    console.log('userStatus : ' + Cookies.get('userID'));
   },
   computed: {}
 };
