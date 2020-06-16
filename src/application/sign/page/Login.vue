@@ -120,7 +120,7 @@ export default {
     nameError: true,
     passwordError: true,
     // checkboxError: false,
-    loginURL: "http://35.238.213.70:8081/account/check",
+    loginURL: "http://35.238.213.70:8081/account/login",
     loginSuccess: true,
     openDialog: true,
   }),
@@ -187,12 +187,19 @@ export default {
         this.checkbox === true
       ) {
         // submit the login request
-
+        console.log("submit");
         var params = new URLSearchParams();
         params.append("username", this.name);
         params.append("password", this.password);
-        axios
-          .post(this.loginURL, params)
+        axios({
+          method: "post",
+          url: this.loginURL,
+          headers: {},
+          data: {
+            username: this.name,
+            password: this.password,
+          },
+        })
           .then((response) => {
             //console.log(response);
             console.log(response.data);

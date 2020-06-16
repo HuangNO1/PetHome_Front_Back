@@ -211,8 +211,12 @@ export default {
   },
   created() {
     // 先獲取 cookie
-    var userStatus = Cookies.get("userStatus");
+    var userStatus = Cookies.get("userUsername");
     this.loginSuccess = (userStatus === undefined) ? false : true;
+    // document.location.href = "/work#/Home";
+    if (document.location.href === "/work") {
+      document.location.href = "/work#/Home";
+    }
     // if (userStatus !== undefined) {
     //   獲取初始資料
     //   產品資料
@@ -264,10 +268,7 @@ export default {
     if (this.navTheme === "") {
       this.$store.commit(UPDATE_NAV_THEME, "teal");
     }
-    // document.location.href = "/work#/Home";
-    if (document.location.href === "/work") {
-      document.location.href = "/work#/Home";
-    }
+    
   },
   data: () => ({
     initProductURL: "",

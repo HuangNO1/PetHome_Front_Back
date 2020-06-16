@@ -300,32 +300,16 @@ export default {
       required,
       maxLength: maxLength(4),
       minLength: minLength(4),
-      isUnique(value) {
-        // standalone validator ideally should not assume a field is required
-        if (value === "") return true;
-        // axios : verity the captcha is true.
-        
-        var params = new URLSearchParams();
-        params.append("email", this.email);
-        params.append("captcha", this.captcha);
-        // + "?email=" + this.email + "&captcha=" + this.captcha
-        axios
-          .post(this.verifyCaptchaURL, params)
-          .then(response => {
-            console.log(response.data);
-            if (response.data.status === 1) {
-              return true;
-            } else {
-              return false;
-            }
-          })
-          .catch(error => {
-            console.log(error);
-          });
-        
-        // simulate async call, fail for all logins with even length
-        // return true;
-      },
+      // isUnique(value) {
+      //   // standalone validator ideally should not assume a field is required
+      //   if (value === "") return false;
+      //   // axios : verity the captcha is true.
+      //   var result = this.checkCap(value);
+      //   console.log("result: " + result)
+      //   return result;
+      //   // simulate async call, fail for all logins with even length
+      //   // return true;
+      // },
     },
     checkbox: {
       checked(val) {
@@ -427,7 +411,7 @@ export default {
       //!this.$v.captcha.minLength && errors.push("must have 4 letters.");
       //!this.$v.captcha.maxLength && errors.push("must have 4 letters.");
       !this.$v.captcha.required && errors.push("captcha is required.");
-      !this.$v.captcha.isUnique && errors.push("Captcha isn't true.");
+      //!this.$v.captcha.isUnique && errors.push("Captcha isn't true.");
       this.captchaError = true;
       return errors;
     },
@@ -467,12 +451,10 @@ export default {
       }
     },
     captchaSuccess() {
-      if (
-        this.captcha !== ""
-      ) {
+      if (this.captcha !== "") {
         this.captchaError = false;
         console.log("captchaSuccess");
-        //return "Captcha is OK.";
+        return "Captcha is OK.";
       }
     },
   },
@@ -489,6 +471,7 @@ export default {
       console.log("this.repeatPasswordError: " + this.repeatPasswordError);
       console.log("this.captchaError: " + this.captchaError);
       console.log("this.checkbox: " + this.checkbox);
+
       if (
         this.nameError === false &&
         this.emailError === false &&
@@ -498,26 +481,37 @@ export default {
         this.captchaError === false &&
         this.checkbox === true
       ) {
-        // submit the register requestion
-        // submit the register requestion
-        var params = new URLSearchParams();
-        params.append("username", this.name);
-        params.append("password", this.password);
-        params.append("email", this.email);
-        params.append("phone", this.phone);
-        axios
-          .post(this.registerURL, params)
-          .then((response) => {
-            console.log(response.data);
-            this.registerSuccess = response.data.data;
-            this.openDialog = false;
-            this.dialog = true;
+        this.checkCap(this.captcha);
+        console.log("this.captchaError  " + this.captchaError);
+        if (this.captchaError === false) {
+          // submit the register requestion
+          // submit the register requestion
+          var params = new URLSearchParams();
+          params.append("username", this.name);
+          params.append("password", this.password);
+          params.append("email", this.email);
+          params.append("phone", this.phone);
+          axios({
+            method: "post",
+            url: this.registerURL,
+            headers: {},
+            data: {
+              username: this.name,
+              password: this.password,
+              email: this.email,
+              phone: this.phone,
+            },
           })
-          .catch((error) => {
-            console.log(error);
-            this.openDialog = false;
-            this.dialog = true;
-          });
+            .then((response) => {
+              console.log(response.data);
+              this.registerSuccess = response.data.data;
+              this.openDialog = false;
+              this.dialog = true;
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
       }
     },
     comfirmClear() {
@@ -560,6 +554,25 @@ export default {
     readStatement() {
       this.statementDialog = true;
     },
+    checkCap(value) {
+      var params = new URLSearchParams();
+      params.append("email", this.email);
+      params.append("captcha", value);
+      // + "?email=" + this.email + "&captcha=" + this.captcha
+      axios
+        .post(this.verifyCaptchaURL, params)
+        .then((response) => {
+          console.log(response.data);
+          if (response.data.status === 1) {
+            this.captchaError = false;
+          } else {
+            this.captchaError = true;
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
   watch: {
     loader() {
@@ -574,13 +587,19 @@ export default {
       // request captcha
       var params = new URLSearchParams();
       params.append("email", this.email);
-      axios
-        .post(this.requestCaptchaURL, params)
-        .then(response => {
+      axios({
+        method: "post",
+        url: this.requestCaptchaURL,
+        headers: {},
+        data: {
+          email: this.email,
+        },
+      })
+        .then((response) => {
           console.log(response);
           console.log(response.data);
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
     },
