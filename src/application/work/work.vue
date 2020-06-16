@@ -169,7 +169,7 @@ import Cookies from "js-cookie"; // 引入 cookie API
 import { mapState, mapMutations } from "vuex";
 import {
   UPDATE_NAV_THEME,
-  UPDATE_NAV_IMAGE
+  UPDATE_NAV_IMAGE,
 } from "./store/mutations-types/theme";
 import {
   UPDATE_USER_USERNAME,
@@ -181,12 +181,14 @@ import {
   UPDATE_USER_ADDRESS,
   UPDATE_ALL_USER_DATA,
   UPDATE_USER_LIKE_PRODUCT,
-  UPDATE_USER_UP_VOTE_PRODUCT
+  UPDATE_USER_UP_VOTE_PRODUCT,
 } from "./store/mutations-types/user";
 import {
   UPDATE_CART_ITEMS,
   UPDATE_RECORD_ITEMS,
-  INIT_PRODUCT_ITEMS
+  INIT_PRODUCT_ITEMS,
+  ADD_TO_RECORD,
+  ADD_TO_CART,
 } from "./store/mutations-types/product";
 
 export default {
@@ -196,12 +198,12 @@ export default {
   props: {
     attrs: {
       type: Object,
-      default: () => ({})
-    }
+      default: () => ({}),
+    },
   },
 
-  data: vm => ({
-    initialDark: vm.$vuetify ? vm.$vuetify.theme.dark : false
+  data: (vm) => ({
+    initialDark: vm.$vuetify ? vm.$vuetify.theme.dark : false,
   }),
 
   beforeDestroy() {
@@ -212,67 +214,71 @@ export default {
   created() {
     // 先獲取 cookie
     var userStatus = Cookies.get("userUsername");
-    this.loginSuccess = (userStatus === undefined) ? false : true;
+    this.loginSuccess = userStatus === undefined ? false : true;
     // document.location.href = "/work#/Home";
     if (document.location.href === "/work") {
       document.location.href = "/work#/Home";
     }
-    // if (userStatus !== undefined) {
-    //   獲取初始資料
-    //   產品資料
-    //   axios
-    //     .post(this.initProductURL, params: userStatus)
-    //     .then(response => {
-    //       console.log(response);
-    //       console.log(response.data);
-    //       // 將產品資料寫入 Vuex
-    //       this.$store.commit(INIT_PRODUCT_ITEMS, response.data);
-    //     })
-    //     .catch(error => {
-    //       console.log(error);
-    //     });
-    //   // 獲取使用者資料（包含主題）
-    //   axios
-    //     .post(this.initUserURL, params: userStatus)
-    //     .then(response => {
-    //       console.log(response);
-    //       console.log(response.data);
-    //       // 使用者基本資料
-    //       this.$store.commit(UPDATE_USER_USERNAME, response.data.username);
-    //       this.$store.commit(UPDATE_USER_AVATAR, response.data.avatar);
-    //       this.$store.commit(UPDATE_USER_DESCRIPTION, response.data.description);
-    //       this.$store.commit(UPDATE_USER_EMAIL, response.data.email);
-    //       this.$store.commit(UPDATE_USER_PHONE, response.data.phone);
-    //       this.$store.commit(UPDATE_USER_CASH, response.data.cash);
-    //       this.$store.commit(UPDATE_USER_ADDRESS, response.data.address);
-    //       this.$store.commit(UPDATE_USER_LIKE_PRODUCT, response.data.userLikedProduct);
-    //       this.$store.commit(UPDATE_USER_UP_VOTE_PRODUCT, response.data.this.userUpVoteProduct);
-    //       // 購物車
-    //       this.$store.commit(UPDATE_CART_ITEMS, response.data.cart);
-    //       // 購物紀錄
-    //       this.$store.commit(UPDATE_RECORD_ITEMS, response.data.record);
-    //       // 主題
-    //       this.$store.commit(UPDATE_NAV_THEME, response.data.navTheme);
-    //       this.$store.commit(UPDATE_NAV_IMAGE, response.data.navImage);
-    //       // 黑色 或 白色主題
-    //       this.$vuetify.theme.dark = response.data.darkTheme;
-    //     })
-    //     .catch(error => {
-    //       console.log(error);
-    //     });
-    //   this.loginSuccess = true;
-    // } else {
-    //   this.loginSuccess = false;
-    // }
+
+    if (userStatus !== undefined) {
+      //   獲取初始資料
+      // 使用者基本資料
+      this.$store.commit(UPDATE_USER_USERNAME, Cookies.get("userUsername"));
+      if (Cookies.get("userAvatar") !== undefined) {
+        this.$store.commit(UPDATE_USER_AVATAR, Cookies.get("userAvatar"));
+      }
+      if (Cookies.get("userDescription") !== undefined) {
+        this.$store.commit(
+          UPDATE_USER_DESCRIPTION,
+          Cookies.get("userDescription")
+        );
+      } else {
+        this.$store.commit(UPDATE_USER_DESCRIPTION, "None");
+      }
+      this.$store.commit(UPDATE_USER_EMAIL, Cookies.get("userEmail"));
+      this.$store.commit(UPDATE_USER_PHONE, Cookies.get("userPhone"));
+      if (Cookies.get("userCash") !== undefined) {
+        this.$store.commit(UPDATE_USER_CASH, Cookies.get("userCash"));
+      } else {
+        this.$store.commit(UPDATE_USER_CASH, 0);
+      }
+      if (Cookies.get("userAddress") !== undefined) {
+        this.$store.commit(UPDATE_USER_ADDRESS, Cookies.get("userAddress"));
+      } else {
+        this.$store.commit(UPDATE_USER_ADDRESS, "None");
+      }
+
+      // 使用者 購物車資料
+      this.getUserCart();
+      // 使用者 訂單資料
+      this.getUserOrder();
+      //   // 獲取使用者資料（包含主題）
+      //   axios
+      //     .post(this.initUserURL, params: userStatus)
+      //     .then(response => {
+      //       console.log(response.data);
+      //       // 使用者基本資料
+      //       this.$store.commit(UPDATE_USER_LIKE_PRODUCT, response.data.userLikedProduct);
+      //       this.$store.commit(UPDATE_USER_UP_VOTE_PRODUCT, response.data.this.userUpVoteProduct);
+      //       // 主題
+      //       this.$store.commit(UPDATE_NAV_THEME, response.data.navTheme);
+      //       this.$store.commit(UPDATE_NAV_IMAGE, response.data.navImage);
+      //       // 黑色 或 白色主題
+      //       this.$vuetify.theme.dark = response.data.darkTheme;
+      //     })
+      //     .catch(error => {
+      //       console.log(error);
+      //     });
+    }
 
     if (this.navTheme === "") {
       this.$store.commit(UPDATE_NAV_THEME, "teal");
     }
-    
   },
   data: () => ({
     initProductURL: "",
-    initUserURL: "",
+    getUserCartURL: "http://35.238.213.70:8081/shoppingcart/order",
+    getUserOrderURL: "http://35.238.213.70:8081/accountorder/order",
     // 判斷側邊欄是否能見
     drawer: true,
     // 側邊欄 items
@@ -282,12 +288,12 @@ export default {
       { title: "Record", icon: "mdi-google-spreadsheet" },
       { title: "User", icon: "mdi-account" },
       { title: "Setting", icon: "mdi-cogs" },
-      { title: "About", icon: "mdi-forum" }
+      { title: "About", icon: "mdi-forum" },
     ],
     // 如果使用者沒有登入的側邊欄 items
     noSignInItems: [
       { title: "Home", icon: "mdi-view-dashboard" },
-      { title: "About", icon: "mdi-forum" }
+      { title: "About", icon: "mdi-forum" },
     ],
     right: true,
     miniVariant: false,
@@ -296,13 +302,13 @@ export default {
     menuItem: [
       { title: "Account", icon: "mdi-account", url: "User" },
       { title: "Cart", icon: "mdi-cart", url: "Cart" },
-      { title: "Setting", icon: "mdi-cogs", url: "Setting" }
+      { title: "Setting", icon: "mdi-cogs", url: "Setting" },
     ],
     signOutDialog: false,
     // 用來判斷是否登入成功，決定顯示右上角的使用者顯示
     loginSuccess: false,
     // axios 更新全局主題
-    changeAllThemeURL: ""
+    changeAllThemeURL: "",
   }),
   methods: {
     toIntroduct() {
@@ -395,7 +401,18 @@ export default {
       console.log("miniVariant - " + this.miniVariant);
     },
     signOut() {
-      Cookies.remove('userStatus');
+      // 刪除 cookie
+      Cookies.remove("userID");
+      Cookies.remove("userEmail");
+      Cookies.remove("userUsername");
+      Cookies.remove("userPhone");
+      Cookies.remove("userCash");
+      Cookies.remove("userDescription");
+      Cookies.remove("userAddress");
+      Cookies.remove("userBGColor");
+      Cookies.remove("userBGUrl");
+      Cookies.remove("userAvatar");
+      Cookies.remove("userPower");
       document.location.href = "/introduce";
     },
     changeAllTheme() {
@@ -412,45 +429,121 @@ export default {
       //   .catch(error => {
       //     console.log(error);
       //   });
-    }
+    },
+    async getUserCart() {
+      axios({
+        method: "post",
+        url: this.getUserCartURL,
+        headers: {},
+        data: {
+          username: Cookies.get("userUsername"),
+        },
+      })
+        .then((response) => {
+          console.log(response.data);
+          for (let i = 0; i < response.data.data.length; i++) {
+            var tempItem = {
+              username: response.data.data[i].account,
+              status: 0,
+              id: response.data.data[i].id,
+              name: response.data.data[i].product,
+              img: response.data.data[i],
+              type: response.data.data[i].type,
+              description: "",
+              price: response.data.data[i].price,
+              number: response.data.data[i].figure,
+              total: 0,
+              time: response.data.data[i].shoptime,
+              likedClick: false,
+              upVoteClick: false,
+              upVote: 0,
+              gender: response.data.data[i].gender,
+              age: response.data.data[i].age,
+              tags: [],
+              comments: [],
+            };
+            this.$store.commit(ADD_TO_CART, tempItem);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    async getUserOrder() {
+      axios({
+        method: "post",
+        url: this.getUserOrderURL,
+        headers: {},
+        data: {
+          username: Cookies.get("userUsername"),
+        },
+      })
+        .then((response) => {
+          console.log(response.data);
+          for (let i = 0; i < response.data.data.length; i++) {
+            var tempItem = {
+              username: response.data.data[i].account,
+              status: 0,
+              id: response.data.data[i].id,
+              name: response.data.data[i].product,
+              img: response.data.data[i],
+              type: response.data.data[i].type,
+              description: "",
+              price: response.data.data[i].price,
+              number: response.data.data[i].figure,
+              total: 0,
+              time: response.data.data[i].shoptime,
+              likedClick: false,
+              upVoteClick: false,
+              upVote: 0,
+              gender: response.data.data[i].gender,
+              age: response.data.data[i].age,
+              tags: [],
+              comments: [],
+            };
+            this.$store.commit(ADD_TO_RECORD, tempItem);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
   computed: {
     ...mapState({
-      navTheme: state => {
+      navTheme: (state) => {
         return state.theme.navTheme;
       },
-      username: state => {
+      username: (state) => {
         return state.user.username;
       },
-      avatar: state => {
+      avatar: (state) => {
         return state.user.avatar;
       },
-      cartProductItems: state => {
+      cartProductItems: (state) => {
         return state.product.cartProductItems;
-      }
+      },
     }),
     getCartProductNumber() {
       var total = 0;
-      for(let i = 0; i < this.cartProductItems.length; i++) {
+      for (let i = 0; i < this.cartProductItems.length; i++) {
         total += this.cartProductItems[i].number;
       }
       return total;
     },
     getCartBadgeColor() {
       var color = 0;
-      for(let i = 0; i < this.cartProductItems.length; i++) {
+      for (let i = 0; i < this.cartProductItems.length; i++) {
         color += this.cartProductItems[i].number;
       }
-      if(color >= 10) {
+      if (color >= 10) {
         return "red";
-      }
-      else if(color >= 5) {
+      } else if (color >= 5) {
         return "orange";
-      }
-      else {
+      } else {
         return "green";
       }
-    }
-  }
+    },
+  },
 };
 </script>
