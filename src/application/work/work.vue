@@ -256,14 +256,27 @@ export default {
       document.location.href = "/work#/Home";
     }
 
-    if (userStatus !== undefined) {
+    if (userStatus !== undefined && userStatus !== null) {
       // 獲取初始資料
       // 使用者基本資料
       this.$store.commit(UPDATE_USER_USERNAME, Cookies.get("userUsername"));
-      if (Cookies.get("userAvatar") !== undefined) {
-        this.$store.commit(UPDATE_USER_AVATAR, Cookies.get("userAvatar"));
+      console.log("userAvatar: " + typeof Cookies.get("userAvatar"));
+      var tempAvater = Cookies.get("userAvatar");
+      if (tempAvater === "null" || tempAvater === undefined) {
+        this.$store.commit(
+          UPDATE_USER_AVATAR,
+          "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4"
+        );
+        console.log("default");
+      } else {
+        this.$store.commit(UPDATE_USER_AVATAR, tempAvater);
+        console.log("init");
       }
-      if (Cookies.get("userDescription") !== undefined) {
+
+      if (
+        Cookies.get("userDescription") !== undefined &&
+        Cookies.get("userDescription") !== "null"
+      ) {
         this.$store.commit(
           UPDATE_USER_DESCRIPTION,
           Cookies.get("userDescription")
@@ -273,12 +286,18 @@ export default {
       }
       this.$store.commit(UPDATE_USER_EMAIL, Cookies.get("userEmail"));
       this.$store.commit(UPDATE_USER_PHONE, Cookies.get("userPhone"));
-      if (Cookies.get("userCash") !== undefined) {
+      if (
+        Cookies.get("userCash") !== undefined &&
+        Cookies.get("userCash") !== "null"
+      ) {
         this.$store.commit(UPDATE_USER_CASH, Cookies.get("userCash"));
       } else {
         this.$store.commit(UPDATE_USER_CASH, 0);
       }
-      if (Cookies.get("userAddress") !== undefined) {
+      if (
+        Cookies.get("userAddress") !== undefined &&
+        Cookies.get("userAddress") !== "null"
+      ) {
         this.$store.commit(UPDATE_USER_ADDRESS, Cookies.get("userAddress"));
       } else {
         this.$store.commit(UPDATE_USER_ADDRESS, "None");
@@ -488,9 +507,12 @@ export default {
           for (let i = 0; i < response.data.data.good.length; i++) {
             // 新將 tags 找出來
             var tempTags = [];
-            for(let j = 0; j < response.data.data.goodTag.length; j++) {
+            for (let j = 0; j < response.data.data.goodTag.length; j++) {
               // 如果找到 id 相同
-              if(response.data.data.goodTag[j].productid === response.data.data.good[i].id) {
+              if (
+                response.data.data.goodTag[j].productid ===
+                response.data.data.good[i].id
+              ) {
                 // 推進 tempTags
                 tempTags.push(response.data.data.goodTag[j].tagdes);
               }

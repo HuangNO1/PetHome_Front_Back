@@ -433,7 +433,7 @@ export default {
   },
   created() {
     // 先獲取 cookie
-    var userStatus = Cookies.get("userStatus");
+    var userStatus = Cookies.get("userID");
     this.loginSuccess = userStatus === undefined ? false : true;
 
     let id = this.$route.query.id;
