@@ -511,13 +511,13 @@ export default {
               // 如果找到 id 相同
               if (
                 response.data.data.goodTag[j].productid ===
-                response.data.data.good[i].id
+                response.data.data.good[i].id.toString()
               ) {
                 // 推進 tempTags
                 tempTags.push(response.data.data.goodTag[j].tagdes);
               }
             }
-
+            console.log(tempTags)
             var tempItem = {
               username: "",
               status: 0,
@@ -525,7 +525,7 @@ export default {
               name: response.data.data.good[i].name,
               img: response.data.data.good[i].url,
               type: response.data.data.good[i].category,
-              description: "",
+              description: response.data.data.good[i].productdescription,
               price: response.data.data.good[i].money,
               number: 1,
               total: 0,

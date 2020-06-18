@@ -10,7 +10,7 @@ import { TEST_PRODUCT_DATA } from '../testData'
 
 const product = {
     state: {
-        productItems: TEST_PRODUCT_DATA,
+        productItems: [],
         cartProductItems: [],
         recordProductItems: [],
         viewProductItemDetail: {}
@@ -29,7 +29,7 @@ const product = {
             state.recordProductItems = item;
         },
         [INIT_PRODUCT_ITEMS](state, item) {
-            state.productItems = item;
+            state.productItems.push(item);
         },
         [VIEW_PRODUCT_ITEM_DETAIL](state, item) {
             state.viewProductItemDetail = item;
