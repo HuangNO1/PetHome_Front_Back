@@ -476,18 +476,12 @@ export default {
               name: response.data.data[i].product,
               img: response.data.data[i].img,
               type: response.data.data[i].type,
-              description: "",
               price: parseInt(response.data.data[i].price),
               number: parseInt(response.data.data[i].figure),
               total: 0,
               time: response.data.data[i].shoptime,
-              likedClick: false,
-              upVoteClick: false,
-              upVote: 0,
               gender: response.data.data[i].gender,
               age: response.data.data[i].age,
-              tags: [],
-              comments: [],
             };
             this.$store.commit(ADD_TO_RECORD, tempItem);
           }

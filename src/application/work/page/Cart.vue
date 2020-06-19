@@ -102,7 +102,7 @@
                     color="purple"
                     v-model="selectHeader"
                     v-on="on"
-                    @change="selectAll()"
+                    
                     :indeterminate="isNotSelectAll"
                   ></v-simple-checkbox>
                 </template>
@@ -647,19 +647,19 @@ export default {
       }
       return sum;
     },
-    selectAll() {
-      if (this.selectHeader === true) {
-        // select is true
-        this.cartSelected = this.cartProduct;
-      } else {
-        // select is false
-        if (this.cartSelected === this.cartProduct) {
-          this.cartSelected = [];
-        } else {
-          return;
-        }
-      }
-    },
+    // selectAll() {
+    //   if (this.selectHeader === true) {
+    //     // select is true
+    //     this.cartSelected = this.cartProduct;
+    //   } else {
+    //     // select is false
+    //     if (this.cartSelected === this.cartProduct) {
+    //       this.cartSelected = [];
+    //     } else {
+    //       return;
+    //     }
+    //   }
+    // },
     isNotSelectAll() {
       if (
         this.cartSelected !== this.cartProduct &&
@@ -686,6 +686,21 @@ export default {
       //   .catch(error => {
       //     console.log(error);
       //   });
+    },
+  },
+  watch: {
+    selectHeader: function(){
+      if (this.selectHeader === true) {
+        // select is true
+        this.cartSelected = this.cartProduct;
+      } else {
+        // select is false
+        if (this.cartSelected === this.cartProduct) {
+          this.cartSelected = [];
+        } else {
+          return;
+        }
+      }
     },
   },
 };
