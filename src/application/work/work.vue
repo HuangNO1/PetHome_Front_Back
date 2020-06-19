@@ -304,7 +304,7 @@ export default {
       }
 
       // 使用者 購物車資料
-      this.getUserCart();
+      // this.getUserCart();
       // 使用者 訂單資料
       this.getUserOrder();
       // 初始化所有產品

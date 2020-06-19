@@ -27,7 +27,7 @@
       <v-lazy
         v-model="isActive"
         :options="{
-          threshold: 1
+          threshold: 1,
         }"
         transition="slide-x-reverse-transition"
         origin="top right 50"
@@ -67,7 +67,7 @@
       <v-lazy
         v-model="isActive"
         :options="{
-          threshold: 1
+          threshold: 1,
         }"
         transition="slide-x-reverse-transition"
         origin="top right 50"
@@ -90,7 +90,7 @@
                 :search="search"
                 item-key="name"
                 show-select
-                items-per-page="7"
+                :items-per-page="7"
                 hide-default-footer
                 class="elevation-1"
                 @page-count="pageCount = $event"
@@ -102,7 +102,7 @@
                     color="purple"
                     v-model="selectHeader"
                     v-on="on"
-                    @change="selectAll"
+                    @change="selectAll()"
                     :indeterminate="isNotSelectAll"
                   ></v-simple-checkbox>
                 </template>
@@ -253,7 +253,7 @@
                             inline
                             center
                             controls
-                            @change="updateCartItems"
+                            @change="updateCartItems()"
                           >
                           </number-input>
                         </td>
@@ -378,7 +378,7 @@
           <v-btn color="red darken-1" text @click="comfirmDealDialog = false">
             Cancel
           </v-btn>
-          <v-btn color="green darken-1" text @click="addToRecord">
+          <v-btn color="green darken-1" text @click="addToRecord()">
             Sure
           </v-btn>
         </v-card-actions>
@@ -398,7 +398,7 @@
 import { mapState, mapMutations } from "vuex";
 import {
   ADD_TO_RECORD,
-  UPDATE_CART_ITEMS
+  UPDATE_CART_ITEMS,
 } from "../store/mutations-types/product";
 import { UPDATE_USER_CASH } from "../store/mutations-types/user";
 import Cookies from "js-cookie"; // 引入 cookie API
@@ -409,6 +409,8 @@ export default {
   created() {
     // 引入 VUEX 的數據，並初始附值。
     this.cartProduct = this.cartProductItems;
+    console.log("this.cartProduct");
+    console.log(this.cartProduct);
   },
   data() {
     return {
@@ -426,14 +428,14 @@ export default {
           text: "name",
           align: "start",
           sortable: false,
-          value: "name"
+          value: "name",
         },
         { text: "Gender", value: "gender" },
         { text: "Age", value: "age" },
         { text: "Price($)", value: "price" },
         { text: "number", value: "number" },
         { text: "Total($)", value: "total" },
-        { text: "Action", value: "action" }
+        { text: "Action", value: "action" },
       ],
       cartProduct: [],
       page: 1,
@@ -446,13 +448,13 @@ export default {
       deleteDialog: false,
       comfirmDelete: false,
       deleteItem: {
-        index: 0
+        index: 0,
       },
       defaultItem: {
         name: "",
         price: 0,
         number: 0,
-        total: 0
+        total: 0,
       },
       // checkout----------------------
       checkoutHeaders: [
@@ -460,13 +462,13 @@ export default {
           text: "Name",
           align: "start",
           sortable: false,
-          value: "name"
+          value: "name",
         },
-        { text: "Gander", value: "gender" },
+        { text: "Gender", value: "gender" },
         { text: "Age", value: "age" },
         { text: "Price($)", value: "price" },
         { text: "Number", value: "number" },
-        { text: "Total($)", value: "total" }
+        { text: "Total($)", value: "total" },
       ],
       checkoutPage: 1,
       checkoutPageCount: 0,
@@ -478,7 +480,7 @@ export default {
       updateCartItemsURL: "",
       addToRecordURL: "",
       // snackbar
-      removeItemSnackbar: false
+      removeItemSnackbar: false,
     };
   },
   watch: {},
@@ -603,26 +605,26 @@ export default {
     toViewProduct(item) {
       // 跳轉到 viewProduct 子組件檢視產品詳細，并添加 query string 作為参数
       this.$router.push({ path: "/ViewProduct", query: { id: item.id } });
-    }
+    },
   },
   computed: {
     // get data from vuex
     ...mapState({
-      cartProductItems: state => {
+      cartProductItems: (state) => {
         return state.product.cartProductItems;
       },
-      recordProductItems: state => {
+      recordProductItems: (state) => {
         return state.product.recordProductItems;
       },
-      cash: state => {
+      cash: (state) => {
         return state.user.cash;
       },
-      email: state => {
+      email: (state) => {
         return state.user.email;
       },
-      username: state => {
+      username: (state) => {
         return state.user.username;
-      }
+      },
     }),
     currentTitle() {
       switch (this.step) {
@@ -684,8 +686,8 @@ export default {
       //   .catch(error => {
       //     console.log(error);
       //   });
-    }
-  }
+    },
+  },
 };
 </script>
 <style></style>
