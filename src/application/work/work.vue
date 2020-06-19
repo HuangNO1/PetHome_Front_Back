@@ -436,18 +436,18 @@ export default {
               name: response.data.data[i].product,
               img: response.data.data[i].img,
               type: response.data.data[i].type,
-              description: "",
+              // description: "",
               price: parseInt(response.data.data[i].price, 10),
               number: parseInt(response.data.data[i].figure, 10),
               total: 0,
               time: response.data.data[i].shoptime,
-              likedClick: false,
-              upVoteClick: false,
-              upVote: 0,
+              // likedClick: false,
+              // upVoteClick: false,
+              // upVote: 0,
               gender: response.data.data[i].gender,
               age: response.data.data[i].age,
-              tags: [],
-              comments: [],
+              // tags: [],
+              // comments: [],
             };
             this.$store.commit(ADD_TO_CART, tempItem);
           }
@@ -486,6 +486,8 @@ export default {
             };
             this.$store.commit(ADD_TO_RECORD, tempItem);
           }
+          console.log("record")
+          console.log(this.recordProductItems)
         })
         .catch((error) => {
           console.log(error);

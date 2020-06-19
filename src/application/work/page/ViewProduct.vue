@@ -466,7 +466,6 @@ export default {
       var tempItem = {
         username: this.username,
         status: item.status,
-        id: item.id,
         name: item.name,
         img: item.img,
         type: item.type,
@@ -486,14 +485,19 @@ export default {
       var isSame = false;
       for (let i = 0; i < this.cartProductItems.length; i++) {
         if (
-          this.cartProductItems[i].id === tempItem.id &&
+          this.cartProductItems[i].name === tempItem.name &&
           this.cartProductItems[i].gender === tempItem.gender &&
           this.cartProductItems[i].age === tempItem.age
         ) {
           console.log(">>>>>>>> " + "is same");
           this.cartProductItems[i].number += tempItem.number;
+          // 覆蓋成 新 num
+          tempItem.number = this.cartProductItems[i].number;
+          // 把 id 覆蓋
+          tempItem.id = this.cartProductItems[i].id;
           isSame = true;
-
+          console.log("update cart tempItem")
+          console.log(tempItem)
           // axios 將這商品寫入使用者數據庫
           // 使用 update
           

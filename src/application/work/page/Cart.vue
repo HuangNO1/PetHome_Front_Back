@@ -477,7 +477,7 @@ export default {
       finishDeal: false,
       // 數據操作請求
       updateCartItemsURL: "",
-      addToRecordURL: "",
+      addToRecordURL: "http://35.238.213.70:8081/accountorder/save",
       deleteCartItemURL: "http://35.238.213.70:8081/shoppingcart/delete",
       // snackbar
       removeItemSnackbar: false,
@@ -509,8 +509,9 @@ export default {
       this.removeItemSnackbar = true;
       this.deleteDialog = false;
       this.$store.commit(UPDATE_CART_ITEMS, this.cartProduct);
-
-      this.deleteCartItemRequest();
+      // axios
+      let deleteArray = [{id: this.deleteItem.id}];
+      this.deleteCartItemRequest(deleteArray);
     },
     nextWindow() {
       if (this.step + 1 === 3) {
@@ -538,37 +539,27 @@ export default {
         this.$store.commit(ADD_TO_RECORD, this.cartSelected[i]);
       }
       // 刪除 cartProduct
+      // id 存 array
+      let deleteArray = [];
       while (this.cartSelected.length !== 0) {
         let i = 0;
         for (let j = 0; j < this.cartProduct.length; j++) {
           if (
-            this.cartProduct[j].id === this.cartSelected[i].id &&
-            this.cartProduct[j].gender === this.cartSelected[i].gender &&
-            this.cartProduct[j].age === this.cartSelected[i].age
+            this.cartProduct[j].id === this.cartSelected[i].id
           ) {
+            deleteArray.push({id: this.cartSelected[i].id});
             this.cartProduct.splice(j, 1);
             break;
           }
         }
       }
+      // axios
+      this.deleteCartItemRequest(deleteArray);
 
       this.$store.commit(UPDATE_CART_ITEMS, this.cartProduct);
       // Vuex 更新使用者 cash
       this.$store.commit(UPDATE_USER_CASH, this.countResult);
       console.log(recordProductItems);
-      // axios 更新 Record
-      // var paramsRecord = new URLSearchParams();
-      // paramsRecord.append("addToRecordItem", this.cartSelected);
-      // paramsRecord.append("email", this.email);
-      // axios
-      //   .post(this.addToRecordURL, paramsRecord)
-      //   .then(response => {
-      //     console.log(response);
-      //     console.log(response.data);
-      //   })
-      //   .catch(error => {
-      //     console.log(error);
-      //   });
       // axios 更新 購物車
       // var paramsCart = new URLSearchParams();
       // paramsCart.append("cartItems", this.cartProduct);
@@ -600,13 +591,12 @@ export default {
       // 跳轉到 viewProduct 子組件檢視產品詳細，并添加 query string 作為参数
       this.$router.push({ path: "/ViewProduct", query: { name: item.name } });
     },
-    async deleteCartItemRequest(CartItemId) {
-      console.log("CartItemId  " + CartItemId)
+    async deleteCartItemRequest(deleteArray) {
       axios({
         method: "delete",
         url: this.deleteCartItemURL,
         headers: {},
-        data: [{id: this.deleteItem.id}],
+        data: deleteArray,
       })
         .then((response) => {
           console.log(response.data);
@@ -615,6 +605,21 @@ export default {
           console.log(error);
         });
     },
+    async addToRecordRequest() {
+
+      axios({
+        method: "post",
+        url: this.addToRecordURL,
+        headers: {},
+        data: this.cartSelected,
+      })
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   },
   computed: {
     // get data from vuex
