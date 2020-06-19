@@ -380,6 +380,7 @@ import {
   ADD_USER_UP_VOTE_PRODUCT,
 } from "../store/mutations-types/user.js";
 import Cookies from "js-cookie"; // 引入 cookie API
+import axios from "axios"; // axios
 
 export default {
   components: {
@@ -423,6 +424,9 @@ export default {
       addCartSnackbarText: "",
       // 請求登入 dialog
       signDialog: false,
+      // 請求 URL
+      addToCartURL: "http://35.238.213.70:8081/shoppingcart/save",
+      updateCartURL: "http://35.238.213.70:8081/shoppingcart/update",
     };
   },
   beforeRouteUpdate(to, from, next) {
@@ -434,7 +438,7 @@ export default {
   created() {
     // 先獲取 cookie
     var userStatus = Cookies.get("userID");
-    this.loginSuccess = userStatus === undefined ? false : true;
+    this.loginSuccess = (userStatus === undefined) ? false : true;
 
     let id = this.$route.query.id;
     let show = this.productItems.find((e) => {
@@ -453,7 +457,7 @@ export default {
     },
     addToCart(item) {
       // 如果使用者沒有登入就不允許操作
-      if (Cookies.get("userStatus") === undefined) {
+      if (Cookies.get("userID") === undefined) {
         this.signDialog = true;
         return;
       }
@@ -491,34 +495,18 @@ export default {
           isSame = true;
 
           // axios 將這商品寫入使用者數據庫
-          // var params = new URLSearchParams();
-          // params.append("sameProductAddCart", this.cartProductItems[i]);
-          // axios
-          //   .post(this.addCartURL, params)
-          //   .then(response => {
-          //     console.log(response);
-          //     console.log(response.data);
-          //   })
-          //   .catch(error => {
-          //     console.log(error);
-          //   });
+          // 使用 update
+          
+          this.updateCartRequeat(tempItem)
           break;
         }
       }
       if (!isSame) {
         this.$store.commit(ADD_TO_CART, tempItem);
         // axios 將這商品寫入使用者數據庫
-        // var params = new URLSearchParams();
-        // params.append("productAddCart", tempItem);
-        // axios
-        //   .post(this.addCartURL, params)
-        //   .then(response => {
-        //     console.log(response);
-        //     console.log(response.data);
-        //   })
-        //   .catch(error => {
-        //     console.log(error);
-        //   });
+        // 使用 addNewToCart
+        console.log("addNewCartRequest")
+        this.addNewToCartRequest(tempItem)
       }
       // 出現提示窗
       this.addCartSnackbar = true;
@@ -557,7 +545,7 @@ export default {
     },
     updateUserUpVote(item) {
       // 如果使用者沒有登入就不允許操作
-      if (Cookies.get("userStatus") === undefined) {
+      if (Cookies.get("userID") === undefined) {
         this.signDialog = true;
         return;
       }
@@ -585,6 +573,53 @@ export default {
       //   .catch(error => {
       //     console.log(error);
       //   });
+    },
+    async addNewToCartRequest(item) {
+      axios({
+        method: "post",
+        url: this.addToCartURL,
+        headers: {},
+        data: {
+          account: item.username.toString(),
+          product: item.name.toString(),
+          figure: item.number.toString(),
+          age: item.age.toString(),
+          gender: item.gender.toString(),
+          type: item.type.toString(),
+          img: item.img.toString(),
+          price: item.price.toString()
+        },
+      })
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    async updateCartRequeat(item) {
+      axios({
+        method: "put",
+        url: this.updateCartURL,
+        headers: {},
+        data: {
+          id: Cookies.get("userID"),
+          account: item.username.toString(),
+          product: item.name.toString(),
+          figure: item.number.toString(),
+          age: item.age.toString(),
+          gender: item.gender.toString(),
+          type: item.type.toString(),
+          img: item.img.toString(),
+          price: item.price.toString()
+        },
+      })
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
   computed: {

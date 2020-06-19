@@ -401,6 +401,8 @@ import {
   UPDATE_CART_ITEMS
 } from "../store/mutations-types/product";
 import { UPDATE_USER_CASH } from "../store/mutations-types/user";
+import Cookies from "js-cookie"; // 引入 cookie API
+import axios from "axios"; // axios
 
 export default {
   components: {},

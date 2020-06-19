@@ -422,7 +422,7 @@ export default {
         url: this.getUserCartURL,
         headers: {},
         data: {
-          username: Cookies.get("userUsername"),
+          account: Cookies.get("userUsername"),
         },
       })
         .then((response) => {
@@ -433,11 +433,11 @@ export default {
               status: 0,
               id: response.data.data[i].id,
               name: response.data.data[i].product,
-              img: response.data.data[i].url,
+              img: response.data.data[i].img,
               type: response.data.data[i].type,
               description: "",
-              price: response.data.data[i].price,
-              number: response.data.data[i].figure,
+              price: parseInt(response.data.data[i].price, 10),
+              number: parseInt(response.data.data[i].figure, 10),
               total: 0,
               time: response.data.data[i].shoptime,
               likedClick: false,
@@ -450,6 +450,8 @@ export default {
             };
             this.$store.commit(ADD_TO_CART, tempItem);
           }
+          console.log("cart")
+          console.log(this.cartProductItems)
         })
         .catch((error) => {
           console.log(error);
@@ -461,7 +463,7 @@ export default {
         url: this.getUserOrderURL,
         headers: {},
         data: {
-          username: Cookies.get("userUsername"),
+          account: Cookies.get("userUsername"),
         },
       })
         .then((response) => {
@@ -472,11 +474,11 @@ export default {
               status: 0,
               id: response.data.data[i].id,
               name: response.data.data[i].product,
-              img: response.data.data[i].url,
+              img: response.data.data[i].img,
               type: response.data.data[i].type,
               description: "",
-              price: response.data.data[i].price,
-              number: response.data.data[i].figure,
+              price: parseInt(response.data.data[i].price),
+              number: parseInt(response.data.data[i].figure),
               total: 0,
               time: response.data.data[i].shoptime,
               likedClick: false,
@@ -525,14 +527,14 @@ export default {
               img: response.data.data.good[i].url,
               type: response.data.data.good[i].category,
               description: response.data.data.good[i].productdescription,
-              price: response.data.data.good[i].money,
+              price: parseInt(response.data.data.good[i].money),
               number: 1,
               total: 0,
               time: "",
               likedClick: false,
-              liked: response.data.data.good[i].love,
+              liked: parseInt(response.data.data.good[i].love),
               upVoteClick: false,
-              upVote: response.data.data.good[i].likenum,
+              upVote: parseInt(response.data.data.good[i].likenum),
               gender: "",
               age: "",
               tags: tempTags,
@@ -540,6 +542,7 @@ export default {
             };
             this.$store.commit(INIT_PRODUCT_ITEMS, tempItem);
           }
+          console.log(this.productItems)
           console.log("Before")
           console.log(this.tags)
           // 初始化 tags
@@ -590,6 +593,9 @@ export default {
       },
       cartProductItems: (state) => {
         return state.product.cartProductItems;
+      },
+      recordProductItems: state => {
+        return state.product.recordProductItems;
       },
       productItems: (state) => {
         return state.product.productItems;
