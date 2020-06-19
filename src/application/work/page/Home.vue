@@ -436,32 +436,32 @@ export default {
     //   });
 
     // 遍歷商品的所有 tag，並將重複的 tag 去除，將 tag 存到這裡的 tags
-    for (let i = 0; i < this.productItems.length; i++) {
-      for (let j = 0; j < this.productItems[i].tags.length; j++) {
-        let haveSameTag = false;
-        for (let k = 0; k < this.tags.length; k++) {
-          if (this.tags[k] === this.productItems[i].tags[j]) {
-            haveSameTag = true;
-            break;
-          }
-        }
-        if (haveSameTag === false) {
-          this.tags.push(this.productItems[i].tags[j]);
-        }
-        haveSameTag = false;
-      }
-      // 初始化各產品的 liked upVote
-      for (let j = 0; j < this.userLikedProduct.length; j++) {
-        if (this.productItems[i].id === this.userLikedProduct[j]) {
-          this.productItems[i].likedClick = true;
-        }
-      }
-      for (let j = 0; j < this.userUpVoteProduct.length; j++) {
-        if (this.productItems[i].id === this.userUpVoteProduct[j]) {
-          this.productItems[i].upVoteClick = true;
-        }
-      }
-    }
+    // for (let i = 0; i < this.productItems.length; i++) {
+    //   for (let j = 0; j < this.productItems[i].tags.length; j++) {
+    //     let haveSameTag = false;
+    //     for (let k = 0; k < this.tags.length; k++) {
+    //       if (this.tags[k] === this.productItems[i].tags[j]) {
+    //         haveSameTag = true;
+    //         break;
+    //       }
+    //     }
+    //     if (haveSameTag === false) {
+    //       this.tags.push(this.productItems[i].tags[j]);
+    //     }
+    //     haveSameTag = false;
+    //   }
+    //   // 初始化各產品的 liked upVote
+    //   for (let j = 0; j < this.userLikedProduct.length; j++) {
+    //     if (this.productItems[i].id === this.userLikedProduct[j]) {
+    //       this.productItems[i].likedClick = true;
+    //     }
+    //   }
+    //   for (let j = 0; j < this.userUpVoteProduct.length; j++) {
+    //     if (this.productItems[i].id === this.userUpVoteProduct[j]) {
+    //       this.productItems[i].upVoteClick = true;
+    //     }
+    //   }
+    // }
   },
   data() {
     return {
@@ -501,7 +501,7 @@ export default {
         { title: "Bird", icon: "mdi-twitter" },
       ],
       // tags
-      tags: [],
+      //tags: [],
       selectedTags: [],
       // 提示窗
       // snackbar: false,
@@ -716,6 +716,9 @@ export default {
       },
       userUpVoteProduct: (state) => {
         return state.user.upVoteProduct;
+      },
+      tags: (state) => {
+        return state.product.tags;
       },
     }),
   },

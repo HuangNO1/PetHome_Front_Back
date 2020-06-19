@@ -122,7 +122,7 @@ export default {
     Sign() {
       var testUserStatus = Cookies.get('userID');
       console.log("test: " + testUserStatus);
-      if(testUserStatus === undefined) {
+      if(testUserStatus === undefined || testUserStatus === "null") {
         document.location.href = "/sign#/Login";
       } else {
         document.location.href = "/work#/Home";

@@ -13,7 +13,8 @@ const product = {
         productItems: [],
         cartProductItems: [],
         recordProductItems: [],
-        viewProductItemDetail: {}
+        viewProductItemDetail: {},
+        tags: [],
     },
     mutations: {
         [ADD_TO_CART](state, item) {

@@ -517,7 +517,6 @@ export default {
                 tempTags.push(response.data.data.goodTag[j].tagdes);
               }
             }
-            console.log(tempTags)
             var tempItem = {
               username: "",
               status: 0,
@@ -541,6 +540,37 @@ export default {
             };
             this.$store.commit(INIT_PRODUCT_ITEMS, tempItem);
           }
+          console.log("Before")
+          console.log(this.tags)
+          // 初始化 tags
+          for (let i = 0; i < this.productItems.length; i++) {
+            for (let j = 0; j < this.productItems[i].tags.length; j++) {
+              let haveSameTag = false;
+              for (let k = 0; k < this.tags.length; k++) {
+                if (this.tags[k] === this.productItems[i].tags[j]) {
+                  haveSameTag = true;
+                  break;
+                }
+              }
+              if (haveSameTag === false) {
+                this.tags.push(this.productItems[i].tags[j]);
+              }
+              haveSameTag = false;
+            }
+            // 初始化各產品的 liked upVote
+            for (let j = 0; j < this.userLikedProduct.length; j++) {
+              if (this.productItems[i].id === this.userLikedProduct[j]) {
+                this.productItems[i].likedClick = true;
+              }
+            }
+            for (let j = 0; j < this.userUpVoteProduct.length; j++) {
+              if (this.productItems[i].id === this.userUpVoteProduct[j]) {
+                this.productItems[i].upVoteClick = true;
+              }
+            }
+          }
+          console.log("After")
+          console.log(this.tags)
         })
         .catch((error) => {
           console.log(error);
@@ -560,6 +590,18 @@ export default {
       },
       cartProductItems: (state) => {
         return state.product.cartProductItems;
+      },
+      productItems: (state) => {
+        return state.product.productItems;
+      },
+      tags: (state) => {
+        return state.product.tags;
+      },
+      userLikedProduct: (state) => {
+        return state.user.likedProduct;
+      },
+      userUpVoteProduct: (state) => {
+        return state.user.upVoteProduct;
       },
     }),
     getCartProductNumber() {

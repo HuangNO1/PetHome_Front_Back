@@ -205,8 +205,6 @@ export default {
             console.log(response.data);
             this.loginSuccess = response.data.status === 1 ? true : false;
             console.log("loginsuccess: " + this.loginSuccess)
-            this.openDialog = false;
-            this.dialog = true;
             if (this.loginSuccess === true) {
               // 登入狀態存 cookie 7 天 存 username 或是 email
               Cookies.set("userID", response.data.data[0].id, { expires: 7 });
@@ -239,6 +237,8 @@ export default {
                 expires: 7,
               });
             }
+            this.openDialog = false;
+            this.dialog = true;
           })
           .catch((error) => {
             console.log(error);
