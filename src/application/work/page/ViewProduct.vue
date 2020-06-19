@@ -431,7 +431,7 @@ export default {
   },
   beforeRouteUpdate(to, from, next) {
     let show = this.productItems.find((e) => {
-      return e.id === to.query.id;
+      return e.name === to.query.name;
     });
     this.$store.commit(VIEW_PRODUCT_ITEM_DETAIL, show);
   },
@@ -440,9 +440,9 @@ export default {
     var userStatus = Cookies.get("userID");
     this.loginSuccess = (userStatus === undefined) ? false : true;
 
-    let id = this.$route.query.id;
+    let name = this.$route.query.name;
     let show = this.productItems.find((e) => {
-      return e.id === id;
+      return e.name === name;
     });
     this.$store.commit(VIEW_PRODUCT_ITEM_DETAIL, show);
   },

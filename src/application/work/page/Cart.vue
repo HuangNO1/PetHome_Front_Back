@@ -102,7 +102,6 @@
                     color="purple"
                     v-model="selectHeader"
                     v-on="on"
-                    
                     :indeterminate="isNotSelectAll"
                   ></v-simple-checkbox>
                 </template>
@@ -479,6 +478,7 @@ export default {
       // 數據操作請求
       updateCartItemsURL: "",
       addToRecordURL: "",
+      deleteCartItemURL: "http://35.238.213.70:8081/shoppingcart/delete",
       // snackbar
       removeItemSnackbar: false,
     };
@@ -491,32 +491,26 @@ export default {
     },
     deleteItemDialog(index) {
       this.deleteItem.index = index;
+      this.deleteItem.id = this.cartProduct[index].id;
       this.deleteItem.name = this.cartProduct[index].name;
+      this.deleteItem.age = this.cartProduct[index].age;
+      this.deleteItem.gender = this.cartProduct[index].gender;
       this.deleteDialog = true;
     },
     deleteProduct(index) {
       this.cartProduct.splice(index, 1);
       for (let i = 0; i < this.cartSelected.length; i++) {
-        if (this.cartSelected[i].name === this.deleteItem.name) {
+        if (
+          this.cartSelected[i].id === this.deleteItem.id
+        ) {
           this.cartSelected.splice(i, 1);
         }
       }
       this.removeItemSnackbar = true;
       this.deleteDialog = false;
       this.$store.commit(UPDATE_CART_ITEMS, this.cartProduct);
-      // axios 更新購物車產品
-      // var params = new URLSearchParams();
-      // params.append("cartItems", this.cartProduct);
-      // params.append("email", this.email);
-      // axios
-      //   .post(this.updateCartItemsURL, params)
-      //   .then(response => {
-      //     console.log(response);
-      //     console.log(response.data);
-      //   })
-      //   .catch(error => {
-      //     console.log(error);
-      //   });
+
+      this.deleteCartItemRequest();
     },
     nextWindow() {
       if (this.step + 1 === 3) {
@@ -604,7 +598,22 @@ export default {
     },
     toViewProduct(item) {
       // 跳轉到 viewProduct 子組件檢視產品詳細，并添加 query string 作為参数
-      this.$router.push({ path: "/ViewProduct", query: { id: item.id } });
+      this.$router.push({ path: "/ViewProduct", query: { name: item.name } });
+    },
+    async deleteCartItemRequest(CartItemId) {
+      console.log("CartItemId  " + CartItemId)
+      axios({
+        method: "delete",
+        url: this.deleteCartItemURL,
+        headers: {},
+        data: [{id: this.deleteItem.id}],
+      })
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
   computed: {
@@ -689,7 +698,7 @@ export default {
     },
   },
   watch: {
-    selectHeader: function(){
+    selectHeader: function() {
       if (this.selectHeader === true) {
         // select is true
         this.cartSelected = this.cartProduct;

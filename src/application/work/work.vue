@@ -304,7 +304,7 @@ export default {
       }
 
       // 使用者 購物車資料
-      // this.getUserCart();
+      this.getUserCart();
       // 使用者 訂單資料
       this.getUserOrder();
       // 初始化所有產品
@@ -431,6 +431,7 @@ export default {
             var tempItem = {
               username: response.data.data[i].account,
               status: 0,
+              // 購物車的 id 不等於 商品 id
               id: response.data.data[i].id,
               name: response.data.data[i].product,
               img: response.data.data[i].img,
