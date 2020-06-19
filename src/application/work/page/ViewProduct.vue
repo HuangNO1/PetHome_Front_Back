@@ -603,7 +603,7 @@ export default {
         url: this.updateCartURL,
         headers: {},
         data: {
-          id: Cookies.get("userID"),
+          id: item.id,
           account: item.username.toString(),
           product: item.name.toString(),
           figure: item.number.toString(),
