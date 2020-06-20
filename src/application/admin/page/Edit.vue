@@ -972,67 +972,7 @@ export default {
         }
       }, 100);
     },
-    // 這裡不需要這功能
-    // addToCart(item) {
-    //   // 確認是否購物車有相同的物品，如果有 -> 添加數字，沒有 -> 添加 item
-    //   // 先申明一個變量 並將 item 的值賦進去，特別將 number 調為 1，解決指針問題
-    //   var tempItem = {
-    //     id: item.id,
-    //     name: item.name,
-    //     img: item.img,
-    //     type: item.type,
-    //     description: item.description,
-    //     price: item.price,
-    //     number: 1,
-    //     total: item.total,
-    //     time: item.time,
-    //     likedClick: item.likedClick,
-    //     upVote: item.upVote,
-    //     gender: item.gender,
-    //     age: item.age,
-    //     tags: item.tags,
-    //     comments: item.comments,
-    //   };
-    //   var isSame = false;
-    //   for (let i = 0; i < this.cartProductItems.length; i++) {
-    //     if (this.cartProductItems[i].id === item.id) {
-    //       this.cartProductItems[i].number += 1;
-    //       isSame = true;
-
-    //       // axios 將這商品寫入使用者數據庫
-    //       // var params = new URLSearchParams();
-    //       // params.append("sameProductAddCart", this.cartProductItems[i]);
-    //       // axios
-    //       //   .post(this.addCartURL, params)
-    //       //   .then(response => {
-    //       //     console.log(response);
-    //       //     console.log(response.data);
-    //       //   })
-    //       //   .catch(error => {
-    //       //     console.log(error);
-    //       //   });
-    //       break;
-    //     }
-    //   }
-    //   if (!isSame) {
-    //     this.$store.commit(ADD_TO_CART, tempItem);
-    //     // axios 將這商品寫入使用者數據庫
-    //     // var params = new URLSearchParams();
-    //     // params.append("productAddCart", tempItem);
-    //     // axios
-    //     //   .post(this.addCartURL, params)
-    //     //   .then(response => {
-    //     //     console.log(response);
-    //     //     console.log(response.data);
-    //     //   })
-    //     //   .catch(error => {
-    //     //     console.log(error);
-    //     //   });
-    //   }
-    //   // 出現提示窗
-    //   this.snackbar = true;
-    //   this.text = item.name;
-    // },
+    
     filterFromPriceRange() {
       var temp = this.showProductItems;
       this.showProductItems = [];
@@ -1046,66 +986,7 @@ export default {
       // 跳轉到 viewProduct 子組件檢視產品詳細，并添加 query string 作為参数
       this.$router.push({ path: "/Preview", query: { id: item.id } });
     },
-    // 這裡不需要這功能
-    // updateUserLiked(item) {
-    //   // 如果使用者沒有登入就不允許操作
-    //   if (Cookies.get("userStatus") === undefined) {
-    //     this.signDialog = true;
-    //     return;
-    //   }
-    //   item.likedClick = !item.likedClick;
-    //   // 更新使用者的喜歡商品
-    //   if (item.likedClick === false) {
-    //     // 如果 取消喜歡，去掉使用者喜歡產品 ID array
-    //     this.$store.commit(REMOVE_USER_LIKE_PRODUCT, item.id);
-    //   } else {
-    //     // 如果喜歡 Push 進使用者喜歡產品 ID array
-    //     this.$store.commit(ADD_USER_LIKE_PRODUCT, item.id);
-    //   }
-    //   // axios 將這變更寫入使用者數據庫
-    //   // var params = new URLSearchParams();
-    //   // params.append("userLikedProduct", this.userLikedProduct);
-    //   // axios
-    //   //   .post(this.updateUserLikedURL, params)
-    //   //   .then(response => {
-    //   //     console.log(response);
-    //   //     console.log(response.data);
-    //   //   })
-    //   //   .catch(error => {
-    //   //     console.log(error);
-    //   //   });
-    // },
-    // 這裡不需要這功能
-    // updateUserUpVote(item) {
-    //   // 如果使用者沒有登入就不允許操作
-    //   if (Cookies.get("userStatus") === undefined) {
-    //     this.signDialog = true;
-    //     return;
-    //   }
-    //   item.upVoteClick = !item.upVoteClick;
-    //   // 更新使用者的點贊商品
-    //   if (item.upVoteClick === false) {
-    //     // 如果取消點贊，去掉使用者點贊的產品 ID array
-    //     this.$store.commit(REMOVE_USER_UP_VOTE_PRODUCT, item.id);
-    //     item.upVote -= 1;
-    //   } else {
-    //     // 如果點贊，Push 進使用者點贊的產品 ID array
-    //     this.$store.commit(ADD_USER_UP_VOTE_PRODUCT, item.id);
-    //     item.upVote += 1;
-    //   }
-    //   // axios 將這變更寫入使用者數據庫
-    //   // var params = new URLSearchParams();
-    //   // params.append("userUpVoteProduct", this.userUpVoteProduct);
-    //   // axios
-    //   //   .post(this.updateUserUpVoteURL, params)
-    //   //   .then(response => {
-    //   //     console.log(response);
-    //   //     console.log(response.data);
-    //   //   })
-    //   //   .catch(error => {
-    //   //     console.log(error);
-    //   //   });
-    // },
+    
     showUserLikeProduct() {
       // 顯示使用者喜歡的產品
       this.isClickShowUserLike = !this.isClickShowUserLike;
