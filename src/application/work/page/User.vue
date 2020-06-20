@@ -935,7 +935,7 @@ export default {
         headers: {},
         data: {
           id: Cookies.get("userID"),
-          account: Cookies.get("userUsername"),
+          account: this.username,
           password: Cookies.get("userPassword"),
           email: Cookies.get("userEmail"),
           phone: Cookies.get("userPhone"),

@@ -120,6 +120,7 @@ import {
   ADD_TO_CART,
 } from "./store/mutations-types/product";
 import { UPDATE_ALL_ORDER } from "./store/mutations-types/order";
+import { UPDATE_ALL_USERS_DETAIL } from "./store/mutations-types/manageUsers";
 
 const testComment = [
   {
@@ -186,6 +187,8 @@ export default {
     this.getAllProduct();
     // 初始化所有訂單
     this.getAllOrder();
+    // 
+    this.getAllUser();
   },
   methods: {
     toIntroduct() {
@@ -343,6 +346,35 @@ export default {
           console.log(error);
         });
     },
+    async getAllUser() {
+      axios({
+        method: "get",
+        url: this.getAllUserURL,
+        headers: {},
+        data: {},
+      })
+        .then((response) => {
+          console.log(response.data);
+          for (let i = 0; i < response.data.data.length; i++) {
+            var tempItem = {
+              username: response.data.data[i].username,
+              avatar: response.data.data[i].avatar,
+              description: response.data.data[i].description,
+              email: response.data.data[i].email,
+              phone: response.data.data[i].phone,
+              cash: parseInt(response.data.data[i].cash),
+              address: response.data.data[i].address,
+              password: response.data.data[i].password
+            };
+            this.$store.commit(UPDATE_ALL_USERS_DETAIL, tempItem);
+          }
+          console.log("users");
+          console.log(this.users);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   },
   computed: {
     ...mapState({
@@ -360,6 +392,9 @@ export default {
       },
       tags: (state) => {
         return state.product.tags;
+      },
+      users: (state) => {
+        return state.manageUsers.users;
       },
     }),
   },
