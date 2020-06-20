@@ -399,6 +399,7 @@ export default {
       Cookies.remove("userBGUrl");
       Cookies.remove("userAvatar");
       Cookies.remove("userPower");
+      Cookies.remove("userPassword");
       document.location.href = "/introduce";
     },
     changeAllTheme() {

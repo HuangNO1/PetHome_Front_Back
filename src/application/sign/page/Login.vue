@@ -273,7 +273,7 @@ export default {
       this.dialog = false;
       var power = Cookies.get("userPower");
 
-      if (power === 1) {
+      if (power === 1 || power === "1") {
         document.location.href = "/admin#/Dashboard";
       } else {
         document.location.href = "/work#/Home";
