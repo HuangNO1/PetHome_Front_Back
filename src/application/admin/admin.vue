@@ -119,6 +119,7 @@ import {
   ADD_TO_RECORD,
   ADD_TO_CART,
 } from "./store/mutations-types/product";
+import { UPDATE_ALL_ORDER } from "./store/mutations-types/order";
 
 const testComment = [
   {
@@ -183,6 +184,8 @@ export default {
   created() {
     // 初始化所有產品
     this.getAllProduct();
+    // 初始化所有訂單
+    this.getAllOrder();
   },
   methods: {
     toIntroduct() {
@@ -235,14 +238,12 @@ export default {
       document.location.href = "/introduce";
     },
 
-    async getUserOrder() {
+    async getAllOrder() {
       axios({
-        method: "post",
-        url: this.getUserOrderURL,
+        method: "get",
+        url: this.getAllOrderURL,
         headers: {},
-        data: {
-          account: Cookies.get("userUsername"),
-        },
+        data: {},
       })
         .then((response) => {
           console.log(response.data);
@@ -261,10 +262,10 @@ export default {
               gender: response.data.data[i].gender,
               age: response.data.data[i].age,
             };
-            this.$store.commit(ADD_TO_RECORD, tempItem);
+            this.$store.commit(UPDATE_ALL_ORDER, tempItem);
           }
-          console.log("record");
-          console.log(this.recordProductItems);
+          console.log("order");
+          console.log(this.orderProductItems);
         })
         .catch((error) => {
           console.log(error);
@@ -347,6 +348,9 @@ export default {
     ...mapState({
       cartProductItems: (state) => {
         return state.product.cartProductItems;
+      },
+      orderProductItems: (state) => {
+        return state.order.order;
       },
       recordProductItems: (state) => {
         return state.product.recordProductItems;

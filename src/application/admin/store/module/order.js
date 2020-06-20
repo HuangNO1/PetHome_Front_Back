@@ -6,11 +6,11 @@ import {
 import { TEST_ORDER } from '../testData'
 const order = {
     state: {
-        order: TEST_ORDER
+        order: []
     },
     mutations: {
         [UPDATE_ALL_ORDER](state, order) {
-            state.order = order;
+            state.order.push(order);
         },
     },
     actions: {},
