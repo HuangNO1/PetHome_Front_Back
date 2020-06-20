@@ -338,7 +338,7 @@
         </v-card>
       </v-lazy>
     </div>
-    {{ cartSelected }}
+    <!--{{ cartSelected }}-->
     <!-- delete dialog -->
     <v-dialog v-model="deleteDialog" width="500" persistent>
       <v-card>
@@ -528,6 +528,9 @@ export default {
       this.step++;
       console.log("this.comfirmDealDialog = false");
       this.comfirmDealDialog = false;
+      // axios 請求用的 array
+      var tempAddRecord = [];
+      // Date()
       var FinishDealDate = new Date();
       var FinishDealTime =
         FinishDealDate.getFullYear() +
@@ -541,12 +544,25 @@ export default {
       for (let i = 0; i < this.cartSelected.length; i++) {
         this.cartSelected[i].time = FinishDealTime;
         this.$store.commit(ADD_TO_RECORD, this.cartSelected[i]);
+        var temp = {
+          account: this.username,
+          product: this.cartSelected[i].name,
+          figure: this.cartSelected[i].number.toString(),
+          age: this.cartSelected[i].age,
+          gender: this.cartSelected[i].gender,
+          type: this.cartSelected[i].type,
+          img: this.cartSelected[i].img,
+          price: this.cartSelected[i].price.toString(),
+        }
+        tempAddRecord.push(temp);
       }
+      
+      
       // axios
-      //this.addToRecordRequest();
+      this.addToRecordRequest(tempAddRecord);
       // 刪除 cartProduct
       // id 存 array
-      //let deleteArray = [];
+      let deleteArray = [];
       console.log("delete cart item");
       for(let i = 0; i < this.cartSelected.length; i++){
         for (let j = 0; j < this.cartProduct.length; j++) {
@@ -555,13 +571,13 @@ export default {
             this.cartProduct[j].gender === this.cartSelected[i].gender &&
             this.cartProduct[j].age === this.cartSelected[i].age
           ) {
-            //deleteArray.push({id: this.cartSelected[i].id});
+            deleteArray.push({id: this.cartSelected[i].id});
             this.cartProduct.splice(j, 1);
           }
         }
       }
       // axios
-      //this.deleteCartItemRequest(deleteArray);
+      this.deleteCartItemRequest(deleteArray);
       console.log("change vuex");
       this.$store.commit(UPDATE_CART_ITEMS, this.cartProduct);
       // Vuex 更新使用者 cash
@@ -569,18 +585,7 @@ export default {
       console.log(recordProductItems);
 
       // axios 更新使用者 cash
-      // var paramsCash = new URLSearchParams();
-      // paramsCash.append("cash", this.countResult);
-      // paramsCash.append("email", this.email);
-      // axios
-      //   .post(this.updateCartItemsURL, paramsCash)
-      //   .then(response => {
-      //     console.log(response);
-      //     console.log(response.data);
-      //   })
-      //   .catch(error => {
-      //     console.log(error);
-      //   });
+      this.updateUserCashRequest();
     },
     toViewProduct(item) {
       // 跳轉到 viewProduct 子組件檢視產品詳細，并添加 query string 作為参数
@@ -601,12 +606,12 @@ export default {
           console.log(error);
         });
     },
-    async addToRecordRequest() {
+    async addToRecordRequest(tempAddRecord) {
       axios({
         method: "post",
         url: this.addToRecordURL,
         headers: {},
-        data: this.cartSelected,
+        data: tempAddRecord,
       })
         .then((response) => {
           console.log(response.data);
@@ -642,6 +647,35 @@ export default {
     updateCartItems() {
       this.$store.commit(UPDATE_CART_ITEMS, this.cartProduct);
     },
+    async updateUserCashRequest() {
+      axios({
+        method: "put",
+        url: this.updateAllURL,
+        headers: {},
+        data: {
+          id: Cookies.get("userID"),
+          account: this.username,
+          password: Cookies.get("userPassword"),
+          email: this.email,
+          phone: this.phone,
+          cash: this.countResult.toString(),
+          description: this.description,
+          address: this.address,
+          avatar: this.avatar,
+          backgroundcolor: Cookies.get("userBGColor"),
+          backgroundurl: Cookies.get("userBGUrl"),
+          power: Cookies.get("userPower"),
+          darktheme: this.$vuetify.theme.dark,
+        },
+      })
+        .then((response) => {
+          console.log(response.data);
+          this.countResult = parseInt(this.countResult, 10);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   },
   computed: {
     // get data from vuex
@@ -652,14 +686,29 @@ export default {
       recordProductItems: (state) => {
         return state.product.recordProductItems;
       },
-      cash: (state) => {
-        return state.user.cash;
+      username: (state) => {
+        return state.user.username;
+      },
+      avatar: (state) => {
+        return state.user.avatar;
+      },
+      description: (state) => {
+        return state.user.description;
       },
       email: (state) => {
         return state.user.email;
       },
-      username: (state) => {
-        return state.user.username;
+      phone: (state) => {
+        return state.user.phone;
+      },
+      cash: (state) => {
+        return state.user.cash;
+      },
+      address: (state) => {
+        return state.user.address;
+      },
+      password: (state) => {
+        return state.user.password;
       },
     }),
     currentTitle() {
