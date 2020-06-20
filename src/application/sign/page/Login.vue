@@ -214,6 +214,9 @@ export default {
               Cookies.set("userUsername", response.data.data[0].username, {
                 expires: 7,
               });
+              Cookies.set("userPassword", response.data.data[0].password, {
+                expires: 7,
+              });
               Cookies.set("userPhone", response.data.data[0].phone, {
                 expires: 7,
               });

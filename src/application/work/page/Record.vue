@@ -165,7 +165,7 @@ export default {
           sortable: false,
           value: "name",
         },
-        { text: "Gander", value: "gender" },
+        { text: "Gender", value: "gender" },
         { text: "Age", value: "age" },
         { text: "Price($)", value: "price" },
         { text: "Number", value: "number" },
@@ -181,7 +181,7 @@ export default {
   methods: {
     toViewProduct(item) {
       // 跳轉到 viewProduct 子組件檢視產品詳細，并添加 query string 作為参数
-      this.$router.push({ path: "/ViewProduct", query: { id: item.id } });
+      this.$router.push({ path: "/ViewProduct", query: { name: item.name } });
     },
   },
   computed: {

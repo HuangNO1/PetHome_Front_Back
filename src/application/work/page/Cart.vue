@@ -150,6 +150,7 @@
                           inline
                           center
                           controls
+                          @change="updateCartItems()"
                         >
                         </number-input>
                       </td>
@@ -282,10 +283,10 @@
                     >$ {{ (countResult = cash - countSum) }}</span
                   >
                 </div>
-                <v-alert type="error" v-if="countResult <= 0">
+                <v-alert type="error" v-if="countResult < 0">
                   Please to add your credit.
                 </v-alert>
-                <div style="text-align: end;" v-if="countResult <= 0">
+                <div style="text-align: end;" v-if="countResult < 0">
                   <v-btn to="User">Add credit</v-btn>
                 </div>
               </v-card-text>
@@ -325,7 +326,7 @@
               :disabled="
                 step === 3 ||
                   cartSelected.length === 0 ||
-                  (countResult <= 0 && step === 2)
+                  (countResult < 0 && step === 2)
               "
               color="primary"
               depressed
@@ -476,7 +477,7 @@ export default {
       comfirmDealDialog: false,
       finishDeal: false,
       // 數據操作請求
-      updateCartItemsURL: "",
+      updateCartItemsURL: "http://35.238.213.70:8081/shoppingcart/update",
       addToRecordURL: "http://35.238.213.70:8081/accountorder/save",
       deleteCartItemURL: "http://35.238.213.70:8081/shoppingcart/delete",
       // snackbar
@@ -538,41 +539,31 @@ export default {
         this.cartSelected[i].time = FinishDealTime;
         this.$store.commit(ADD_TO_RECORD, this.cartSelected[i]);
       }
+      // axios
+      //this.addToRecordRequest();
       // 刪除 cartProduct
       // id 存 array
-      let deleteArray = [];
+      //let deleteArray = [];
       while (this.cartSelected.length !== 0) {
         let i = 0;
         for (let j = 0; j < this.cartProduct.length; j++) {
           if (
             this.cartProduct[j].id === this.cartSelected[i].id
           ) {
-            deleteArray.push({id: this.cartSelected[i].id});
+            //deleteArray.push({id: this.cartSelected[i].id});
             this.cartProduct.splice(j, 1);
             break;
           }
         }
       }
       // axios
-      this.deleteCartItemRequest(deleteArray);
-
+      //this.deleteCartItemRequest(deleteArray);
+      
       this.$store.commit(UPDATE_CART_ITEMS, this.cartProduct);
       // Vuex 更新使用者 cash
       this.$store.commit(UPDATE_USER_CASH, this.countResult);
       console.log(recordProductItems);
-      // axios 更新 購物車
-      // var paramsCart = new URLSearchParams();
-      // paramsCart.append("cartItems", this.cartProduct);
-      // paramsCart.append("email", this.email);
-      // axios
-      //   .post(this.updateCartItemsURL, paramsCart)
-      //   .then(response => {
-      //     console.log(response);
-      //     console.log(response.data);
-      //   })
-      //   .catch(error => {
-      //     console.log(error);
-      //   });
+      
       // axios 更新使用者 cash
       // var paramsCash = new URLSearchParams();
       // paramsCash.append("cash", this.countResult);
@@ -591,6 +582,7 @@ export default {
       // 跳轉到 viewProduct 子組件檢視產品詳細，并添加 query string 作為参数
       this.$router.push({ path: "/ViewProduct", query: { name: item.name } });
     },
+    
     async deleteCartItemRequest(deleteArray) {
       axios({
         method: "delete",
@@ -619,7 +611,34 @@ export default {
         .catch((error) => {
           console.log(error);
         });
-    }
+    },
+    async updateCartRequest(item) {
+      axios({
+        method: "put",
+        url: this.updateCartItemsURL,
+        headers: {},
+        data: {
+          id: item.id,
+          account: item.username.toString(),
+          product: item.name.toString(),
+          figure: item.number.toString(),
+          age: item.age.toString(),
+          gender: item.gender.toString(),
+          type: item.type.toString(),
+          img: item.img.toString(),
+          price: item.price.toString()
+        },
+      })
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    updateCartItems() {
+      this.$store.commit(UPDATE_CART_ITEMS, this.cartProduct);
+    },
   },
   computed: {
     // get data from vuex
@@ -685,22 +704,6 @@ export default {
         return false;
       }
     },
-    updateCartItems() {
-      this.$store.commit(UPDATE_CART_ITEMS, this.cartProduct);
-      var params = new URLSearchParams();
-      // axios 更新購物車產品
-      // params.append("cartItems", this.cartProduct);
-      // params.append("email", this.email);
-      // axios
-      //   .post(this.updateCartItemsURL, params)
-      //   .then(response => {
-      //     console.log(response);
-      //     console.log(response.data);
-      //   })
-      //   .catch(error => {
-      //     console.log(error);
-      //   });
-    },
   },
   watch: {
     selectHeader: function() {
@@ -716,6 +719,13 @@ export default {
         }
       }
     },
+    // cartProduct: function() {
+    //   // axios 更新購物車產品
+    //   console.log("to change number")
+    //   for(let i = 0; i < this.cartProduct.length; i++) {
+    //     this.updateCartRequest(this.cartProduct[i])
+    //   }
+    // }
   },
 };
 </script>

@@ -5,7 +5,7 @@
         <v-lazy
           v-model="isActive"
           :options="{
-            threshold: 1
+            threshold: 1,
           }"
           transition="slide-x-reverse-transition"
           origin="top right 50"
@@ -23,7 +23,7 @@
         <v-lazy
           v-model="isActive"
           :options="{
-            threshold: 1
+            threshold: 1,
           }"
           transition="slide-x-reverse-transition"
           origin="top right 50"
@@ -157,7 +157,7 @@
         <v-lazy
           v-model="isActive"
           :options="{
-            threshold: 1
+            threshold: 1,
           }"
           transition="slide-x-reverse-transition"
           origin="top right 50"
@@ -178,7 +178,7 @@
               <v-lazy
                 v-model="isActiveEditName"
                 :options="{
-                  threshold: 1
+                  threshold: 1,
                 }"
                 transition="slide-x-reverse-transition"
                 origin="top right 50"
@@ -212,7 +212,7 @@
         <v-lazy
           v-model="isActive"
           :options="{
-            threshold: 1
+            threshold: 1,
           }"
           transition="slide-x-reverse-transition"
           origin="top right 50"
@@ -233,7 +233,7 @@
               <v-lazy
                 v-model="isActiveEditDescription"
                 :options="{
-                  threshold: 1
+                  threshold: 1,
                 }"
                 transition="slide-x-reverse-transition"
                 origin="top right 50"
@@ -270,7 +270,7 @@
         <v-lazy
           v-model="isActive"
           :options="{
-            threshold: 1
+            threshold: 1,
           }"
           transition="slide-x-reverse-transition"
           origin="top right 50"
@@ -291,7 +291,7 @@
               <v-lazy
                 v-model="isActiveEditEmail"
                 :options="{
-                  threshold: 1
+                  threshold: 1,
                 }"
                 transition="slide-x-reverse-transition"
                 origin="top right 50"
@@ -357,7 +357,7 @@
         <v-lazy
           v-model="isActive"
           :options="{
-            threshold: 1
+            threshold: 1,
           }"
           transition="slide-x-reverse-transition"
           origin="top right 50"
@@ -378,7 +378,7 @@
               <v-lazy
                 v-model="isActiveEditPhone"
                 :options="{
-                  threshold: 1
+                  threshold: 1,
                 }"
                 transition="slide-x-reverse-transition"
                 origin="top right 50"
@@ -412,7 +412,7 @@
         <v-lazy
           v-model="isActive"
           :options="{
-            threshold: 1
+            threshold: 1,
           }"
           transition="slide-x-reverse-transition"
           origin="top right 50"
@@ -436,7 +436,7 @@
         <v-lazy
           v-model="isActive"
           :options="{
-            threshold: 1
+            threshold: 1,
           }"
           transition="slide-x-reverse-transition"
           origin="top right 50"
@@ -457,7 +457,7 @@
               <v-lazy
                 v-model="isActiveEditAddress"
                 :options="{
-                  threshold: 1
+                  threshold: 1,
                 }"
                 transition="slide-x-reverse-transition"
                 origin="top right 50"
@@ -491,7 +491,7 @@
         <v-lazy
           v-model="isActive"
           :options="{
-            threshold: 1
+            threshold: 1,
           }"
           transition="slide-x-reverse-transition"
           origin="top right 50"
@@ -512,7 +512,7 @@
               <v-lazy
                 v-model="isActiveEditPassword"
                 :options="{
-                  threshold: 1
+                  threshold: 1,
                 }"
                 transition="slide-x-reverse-transition"
                 origin="top right 50"
@@ -635,7 +635,7 @@ import {
   UPDATE_USER_PHONE,
   UPDATE_USER_CASH,
   UPDATE_USER_ADDRESS,
-  UPDATE_ALL_USER_DATA
+  UPDATE_ALL_USER_DATA,
 } from "../store/mutations-types/user";
 import Cookies from "js-cookie"; // 引入 cookie API
 import { validationMixin } from "vuelidate";
@@ -645,7 +645,7 @@ import {
   minLength,
   email,
   sameAs,
-  withParams
+  withParams,
 } from "vuelidate/lib/validators";
 import Vue from "vue";
 import { VueAvatar } from "vue-avatar-editor-improved";
@@ -653,11 +653,11 @@ import axios from "axios";
 import Qs from "qs";
 
 // chinese phone number
-const isPhone = value => /^((13|14|15|17|18)[0-9]{1}\d{8})$/.test(value);
+const isPhone = (value) => /^((13|14|15|17|18)[0-9]{1}\d{8})$/.test(value);
 
 export default {
   components: {
-    VueAvatar
+    VueAvatar,
     // "my-upload": myUpload
   },
   mixins: [validationMixin],
@@ -691,11 +691,11 @@ export default {
 
         // simulate async call, fail for all logins with even length
         return true;
-      }
+      },
     },
     newDescription: {
       required,
-      maxLength: maxLength(30)
+      maxLength: maxLength(30),
     },
     newEmail: {
       required,
@@ -724,17 +724,17 @@ export default {
           */
         // simulate async call, fail for all logins with even length
         return true;
-      }
+      },
     },
     newPhone: {
       required,
-      phoneValid: isPhone
+      phoneValid: isPhone,
     },
     newAddress: { required, maxLength: maxLength(50) },
     newPassword: { required, minLength: minLength(6) },
     newRepeatPassword: {
       required,
-      sameAsPassword: sameAs("newPassword")
+      sameAsPassword: sameAs("newPassword"),
     },
     captcha: {
       required,
@@ -764,8 +764,8 @@ export default {
         */
         // simulate async call, fail for all logins with even length
         return true;
-      }
-    }
+      },
+    },
   },
   data: () => ({
     isActive: false,
@@ -813,6 +813,8 @@ export default {
     newAddressURL: "",
     newPasswordURL: "",
     addCashURL: "",
+    // updateAllURL
+    updateAllURL: "http://35.238.213.70:8081/account/update",
     // 驗證碼按鈕的 loading 判斷變數
     loader: null,
     loading: false,
@@ -855,7 +857,7 @@ export default {
     // 充值-------------------
     addCreditDialog: false,
     tags: [50, 100, 500, 1000],
-    money: 50
+    money: 50,
   }),
   created() {
     this.imgDataUrl = this.avatar;
@@ -927,279 +929,309 @@ export default {
     },
     updateAvatar() {
       // axios 提交新頭像
-      // var params = new URLSearchParams();
-      // params.append("newDescription", this.newDescription);
-      // params.append("email", this.email);
-      // axios
-      //   .post(this.updateAvatarURL, params)
-      //   .then(response => {
-      //     console.log(response);
-      //     console.log(response.data);
-      //     if (response.data === false) {
-      //       this.updateAvatarSuccess = false;
-      //       this.changeFailDialog = true;
-      //     } else {
-      //       // 更新前端頭像 關閉 edit
-      //       this.updateAvatarSuccess = true;
-      //       this.$store.commit(UPDATE_USER_AVATAR, this.imgDataUrl);
-      //       this.editAvatarDialog = false;
-      //       // 出現提示窗
-      //       this.snackbar = true;
-      //       this.text = "Your avatar";
-      //     }
-      //   })
-      //   .catch(error => {
-      //     console.log(error);
-      //   });
-      // 假設成功
-      this.updateAvatarSuccess = true;
-      this.$store.commit(UPDATE_USER_AVATAR, this.imgDataUrl);
-      this.editAvatarDialog = false;
-      // 消息條
-      this.snackbar = true;
-      this.text = "Your avatar";
+      axios({
+        method: "put",
+        url: this.updateAllURL,
+        headers: {},
+        data: {
+          id: Cookies.get("userID"),
+          account: Cookies.get("userUsername"),
+          password: Cookies.get("userPassword"),
+          email: Cookies.get("userEmail"),
+          phone: Cookies.get("userPhone"),
+          cash: Cookies.get("userCash"),
+          description: Cookies.get("userDescription"),
+          address: Cookies.get("userAddress"),
+          avatar: this.imgDataUrl,
+          backgroundcolor: Cookies.get("userBGColor"),
+          backgroundurl: Cookies.get("userBGUrl"),
+          power: Cookies.get("userPower"),
+          darktheme: this.$vuetify.theme.dark,
+        },
+      })
+        .then((response) => {
+          console.log(response.data);
+          // 假設成功
+          this.updateAvatarSuccess = true;
+          this.$store.commit(UPDATE_USER_AVATAR, this.imgDataUrl);
+          this.editAvatarDialog = false;
+          // 改變 cookie
+          Cookies.set("userAvatar", this.imgDataUrl);
+          // 消息條
+          this.snackbar = true;
+          this.text = "Your avatar";
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     // 發送更改資料 都以傳送 email 作為更改資料搜索使用者的依據
     submitNewUsername() {
       // axios 提交新使用者名稱
-      // var params = new URLSearchParams();
-      // params.append("newUsername", this.newUsername);
-      // params.append("email", this.email);
-      // axios
-      //   .post(this.newUsernameURL, params)
-      //   .then(response => {
-      //     console.log(response);
-      //     console.log(response.data);
-      //     if (response.data === false) {
-      //       this.updateUsernameSuccess = false;
-      //       this.changeFailDialog = true;
-      //     } else {
-      //       // 更新前端使用者名稱 關閉 edit
-      //       this.updateUsernameSuccess = true;
-      //       this.$store.commit(UPDATE_USER_USERNAME, this.newUsername);
-      //       this.editName();
-      //       // 出現提示窗
-      //       this.snackbar = true;
-      //       this.text = "Your username";
-      //       // Cookies 變更
-      //       Cookies.set('userStatus', this.user.name)
-      //     }
-      //   })
-      //   .catch(error => {
-      //     console.log(error);
-      //   });
-      // 假設測試成功
-      this.updateUsernameSuccess = true;
-      this.$store.commit(UPDATE_USER_USERNAME, this.newUsername);
-      this.editName();
-      // 出現提示窗
-      this.snackbar = true;
-      this.text = "Your username";
+      axios({
+        method: "put",
+        url: this.updateAllURL,
+        headers: {},
+        data: {
+          id: Cookies.get("userID"),
+          account: this.newUsername,
+          password: Cookies.get("userPassword"),
+          email: Cookies.get("userEmail"),
+          phone: Cookies.get("userPhone"),
+          cash: Cookies.get("userCash"),
+          description: Cookies.get("userDescription"),
+          address: Cookies.get("userAddress"),
+          avatar: this.avatar,
+          backgroundcolor: Cookies.get("userBGColor"),
+          backgroundurl: Cookies.get("userBGUrl"),
+          power: Cookies.get("userPower"),
+          darktheme: this.$vuetify.theme.dark,
+        },
+      })
+        .then((response) => {
+          console.log(response.data);
+          // 假設測試成功
+          this.updateUsernameSuccess = true;
+          this.$store.commit(UPDATE_USER_USERNAME, this.newUsername);
+          this.editName();
+          // 改變 cookie
+          Cookies.set("userUsername", this.newUsername);
+          // 出現提示窗
+          this.snackbar = true;
+          this.text = "Your username";
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     submitNewDescription() {
       // axios 提交新描述
-      // var params = new URLSearchParams();
-      // params.append("newDescription", this.newDescription);
-      // params.append("email", this.email);
-      // axios
-      //   .post(this.newDescriptionURL, params)
-      //   .then(response => {
-      //     console.log(response);
-      //     console.log(response.data);
-      //     if (response.data === false) {
-      //       this.updateDescriptionSuccess = false;
-      //       this.changeFailDialog = true;
-      //     } else {
-      //       // 更新前端描述 關閉 edit
-      //       this.updateDescriptionSuccess = true;
-      //       this.$store.commit(UPDATE_USER_DESCRIPTION, this.newDescription);
-      //       this.editEmail();
-      //       // 出現提示窗
-      //       this.snackbar = true;
-      //       this.text = "Your description";
-      //     }
-      //   })
-      //   .catch(error => {
-      //     console.log(error);
-      //   });
-      // 假設測試成功
-      this.updateDescriptionSuccess = true;
-      this.$store.commit(UPDATE_USER_DESCRIPTION, this.newDescription);
-      this.editDescription();
-      // 出現提示窗
-      this.snackbar = true;
-      this.text = "Your description";
+      axios({
+        method: "put",
+        url: this.updateAllURL,
+        headers: {},
+        data: {
+          id: Cookies.get("userID"),
+          account: this.username,
+          password: Cookies.get("userPassword"),
+          email: Cookies.get("userEmail"),
+          phone: Cookies.get("userPhone"),
+          cash: Cookies.get("userCash"),
+          description: this.newDescription,
+          address: Cookies.get("userAddress"),
+          avatar: this.avatar,
+          backgroundcolor: Cookies.get("userBGColor"),
+          backgroundurl: Cookies.get("userBGUrl"),
+          power: Cookies.get("userPower"),
+          darktheme: this.$vuetify.theme.dark,
+        },
+      })
+        .then((response) => {
+          console.log(response.data);
+          // 假設測試成功
+          this.updateDescriptionSuccess = true;
+          this.$store.commit(UPDATE_USER_DESCRIPTION, this.newDescription);
+          this.editDescription();
+          // 改變 cookie
+          Cookies.set("userDescription", this.newDescription);
+          // 出現提示窗
+          this.snackbar = true;
+          this.text = "Your description";
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     submitNewEmail() {
       // axios 提交新 email
-      // var params = new URLSearchParams();
-      // params.append("newEmail", this.newEmail);
-      // params.append("email", this.email);
-      // axios
-      //   .post(this.newEmailURL, params)
-      //   .then(response => {
-      //     console.log(response);
-      //     console.log(response.data);
-      //     if (response.data === false) {
-      //       this.updateEmailSuccess = false;
-      //       this.changeFailDialog = true;
-      //     } else {
-      //       // 更前端 email 關閉 edit
-      //       this.updateEmailSuccess = true;
-      //       this.$store.commit(UPDATE_USER_EMAIL, this.newEmail);
-      //       this.editEmail();
-      //       // 出現提示窗
-      //       this.snackbar = true;
-      //       this.text = "Your E-mail";
-      //     }
-      //   })
-      //   .catch(error => {
-      //     console.log(error);
-      //   });
-      // 假設測試成功
-      this.updateEmailSuccess = true;
-      this.$store.commit(UPDATE_USER_EMAIL, this.newEmail);
-      this.editEmail();
-      // 出現提示窗
-      this.snackbar = true;
-      this.text = "your E-mail";
+      axios({
+        method: "put",
+        url: this.updateAllURL,
+        headers: {},
+        data: {
+          id: Cookies.get("userID"),
+          account: this.username,
+          password: Cookies.get("userPassword"),
+          email: this.newEmail,
+          phone: Cookies.get("userPhone"),
+          cash: Cookies.get("userCash"),
+          description: this.description,
+          address: Cookies.get("userAddress"),
+          avatar: this.avatar,
+          backgroundcolor: Cookies.get("userBGColor"),
+          backgroundurl: Cookies.get("userBGUrl"),
+          power: Cookies.get("userPower"),
+          darktheme: this.$vuetify.theme.dark,
+        },
+      })
+        .then((response) => {
+          console.log(response.data);
+          // 假設測試成功
+          this.updateEmailSuccess = true;
+          this.$store.commit(UPDATE_USER_EMAIL, this.newEmail);
+          // 改變 cookie
+          Cookies.set("userEmail", this.newEmail);
+          this.editEmail();
+          // 出現提示窗
+          this.snackbar = true;
+          this.text = "your E-mail";
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     submitNewPhone() {
       // axios 提交新手機號
-      // var params = new URLSearchParams();
-      // params.append("newPhone", this.newPhone);
-      // params.append("email", this.email);
-      // axios
-      //   .post(this.newPhoneURL, params)
-      //   .then(response => {
-      //     console.log(response);
-      //     console.log(response.data);
-      //     if (response.data === false) {
-      //       this.updatePhoneSuccess = false;
-      //       this.changeFailDialog = true;
-      //     } else {
-      //       // 更新前端 phone 關閉 edit
-      //       this.updatePhoneSuccess = true;
-      //       this.$store.commit(UPDATE_USER_EMAIL, this.newPhone);
-      //       this.editPhone();
-      //       // 出現提示窗
-      //       this.snackbar = true;
-      //       this.text = "your phone";
-      //     }
-      //   })
-      //   .catch(error => {
-      //     console.log(error);
-      //   });
-      // 假設測試成功
-      this.updatePhoneSuccess = true;
-      this.$store.commit(UPDATE_USER_EMAIL, this.newPhone);
-      this.editPhone();
-      // 出現提示窗
-      this.snackbar = true;
-      this.text = "Your phone";
+      axios({
+        method: "put",
+        url: this.updateAllURL,
+        headers: {},
+        data: {
+          id: Cookies.get("userID"),
+          account: this.username,
+          password: Cookies.get("userPassword"),
+          email: this.email,
+          phone: this.newPhone,
+          cash: Cookies.get("userCash"),
+          description: this.description,
+          address: Cookies.get("userAddress"),
+          avatar: this.avatar,
+          backgroundcolor: Cookies.get("userBGColor"),
+          backgroundurl: Cookies.get("userBGUrl"),
+          power: Cookies.get("userPower"),
+          darktheme: this.$vuetify.theme.dark,
+        },
+      })
+        .then((response) => {
+          console.log(response.data);
+          // 假設測試成功
+          this.updatePhoneSuccess = true;
+          this.$store.commit(UPDATE_USER_EMAIL, this.newPhone);
+          this.editPhone();
+          // 改變 cookie
+          Cookies.set("userPhone", this.newPhone);
+          // 出現提示窗
+          this.snackbar = true;
+          this.text = "Your phone";
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     submitNewAddress() {
       // axios 提交 新地址
-      // var params = new URLSearchParams();
-      // params.append("newAddress", this.newAddress);
-      // params.append("email", this.email);
-      // axios
-      //   .post(this.newAddressURL, params)
-      //   .then(response => {
-      //     console.log(response);
-      //     console.log(response.data);
-      //     if (response.data === false) {
-      //       this.updateAddressSuccess = false;
-      //       this.changeFailDialog = true;
-      //     } else {
-      //       // 更新前端 address，
-      //       this.updateAddressSuccess = true;
-      //       this.$store.commit(UPDATE_USER_ADDRESS, this.newAddress);
-      //       this.editAddress();
-      //       // 出現提示窗
-      //       this.snackbar = true;
-      //       this.text = "Your Address";
-      //     }
-      //   })
-      //   .catch(error => {
-      //     console.log(error);
-      //   });
-      // 假設測試成功
-      this.updateAddressSuccess = true;
-      this.$store.commit(UPDATE_USER_ADDRESS, this.newAddress);
-      this.editAddress();
-      // 出現提示窗
-      this.snackbar = true;
-      this.text = "Your Address";
+      axios({
+        method: "put",
+        url: this.updateAllURL,
+        headers: {},
+        data: {
+          id: Cookies.get("userID"),
+          account: this.username,
+          password: Cookies.get("userPassword"),
+          email: this.email,
+          phone: this.phone,
+          cash: Cookies.get("userCash"),
+          description: this.description,
+          address: this.newAddress,
+          avatar: this.avatar,
+          backgroundcolor: Cookies.get("userBGColor"),
+          backgroundurl: Cookies.get("userBGUrl"),
+          power: Cookies.get("userPower"),
+          darktheme: this.$vuetify.theme.dark,
+        },
+      })
+        .then((response) => {
+          console.log(response.data);
+          // 假設測試成功
+          this.updateAddressSuccess = true;
+          this.$store.commit(UPDATE_USER_ADDRESS, this.newAddress);
+          this.editAddress();
+          // cookie
+          Cookies.set("userAddress", this.newAddress);
+          // 出現提示窗
+          this.snackbar = true;
+          this.text = "Your Address";
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     submitAddCash() {
+      var totalCash = parseInt(this.cash, 10) + parseInt(this.tags[this.money], 10);
+      totalCash = parseInt(totalCash, 10)
       // axios 提交 充值
-      // var params = new URLSearchParams();
-      // params.append("addCash", this.tags[this.money]);
-      // params.append("email", this.email);
-      // axios
-      //   .post(this.addCashURL, params)
-      //   .then(response => {
-      //     console.log(response);
-      //     console.log(response.data);
-      //     if (response.data === false) {
-      //       this.updateCashSuccess = false;
-      //       this.changeFailDialog = true;
-      //     } else {
-      //       // 更新前端 cash 數據
-      //       this.updateCashSuccess = true;
-      //       var totalCash = this.cash + this.tags[this.money];
-      //       this.$store.commit(UPDATE_USER_CASH, totalCash);
-      //       this.addCreditDialog = false;
-      //       // 出現提示窗
-      //       this.snackbar = true;
-      //       this.text = "Your credit";
-      //     }
-      //   })
-      //   .catch(error => {
-      //     console.log(error);
-      //   });
-      // 假設測試成功
-      this.updateCashSuccess = true;
-      var totalCash = this.cash + this.tags[this.money];
-      this.$store.commit(UPDATE_USER_CASH, totalCash);
-      this.addCreditDialog = false;
-      // 出現提示窗
-      this.snackbar = true;
-      this.text = "Your credit";
+      axios({
+        method: "put",
+        url: this.updateAllURL,
+        headers: {},
+        data: {
+          id: Cookies.get("userID"),
+          account: this.username,
+          password: Cookies.get("userPassword"),
+          email: this.email,
+          phone: this.phone,
+          cash: totalCash.toString(),
+          description: this.description,
+          address: this.address,
+          avatar: this.avatar,
+          backgroundcolor: Cookies.get("userBGColor"),
+          backgroundurl: Cookies.get("userBGUrl"),
+          power: Cookies.get("userPower"),
+          darktheme: this.$vuetify.theme.dark,
+        },
+      })
+        .then((response) => {
+          console.log(response.data);
+          // 假設測試成功
+          this.updateCashSuccess = true;
+          totalCash = parseInt(totalCash, 10)
+          this.$store.commit(UPDATE_USER_CASH, totalCash);
+          this.addCreditDialog = false;
+          Cookies.set("userCash", totalCash);
+          // 出現提示窗
+          this.snackbar = true;
+          this.text = "Your credit";
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     submitNewPassword() {
       // axios 提交新密碼
-      // var params = new URLSearchParams();
-      // params.append("oringinPassword", this.originPassword);
-      // params.append("newPassword", this.newPassword);
-      // params.append("email", this.email);
-      // axios
-      //   .post(this.newPasswordURL, params)
-      //   .then(response => {
-      //     console.log(response);
-      //     console.log(response.data);
-      //     if (response.data === false) {
-      //       this.updatePassword = false;
-      //       this.changeFailDialog = true;
-      //     } else {
-      //       // 不會在前端更新密碼形式，前端不顯示密碼以保安全
-      //       this.updatePassword = true;
-      //       this.editPassword();
-      //       // 出現提示窗
-      //       this.snackbar = true;
-      //       this.text = "your password";
-      //     }
-      //   })
-      //   .catch(error => {
-      //     console.log(error);
-      //   });
-      // 假設測試成功
-      this.updatePassword = true;
-      this.editPassword();
-      // 出現提示窗
-      this.snackbar = true;
-      this.text = "Your password";
+      axios({
+        method: "put",
+        url: this.updateAllURL,
+        headers: {},
+        data: {
+          id: Cookies.get("userID"),
+          account: this.username,
+          password: this.newPassword,
+          email: this.email,
+          phone: this.phone,
+          cash: Cookies.get("userCash"),
+          description: this.description,
+          address: this.address,
+          avatar: this.avatar,
+          backgroundcolor: Cookies.get("userBGColor"),
+          backgroundurl: Cookies.get("userBGUrl"),
+          power: Cookies.get("userPower"),
+          darktheme: this.$vuetify.theme.dark,
+        },
+      })
+        .then((response) => {
+          console.log(response.data);
+          // 假設測試成功
+          this.updatePassword = true;
+          this.editPassword();
+          // 修改 cookie
+          Cookies.set("userPassword", this.newPassword);
+          // 出現提示窗
+          this.snackbar = true;
+          this.text = "Your password";
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     // crop image ------------------------------------
     /**
@@ -1282,7 +1314,7 @@ export default {
     onImageReady() {
       this.scale = 1;
       this.rotation = 0;
-    }
+    },
   },
   // post: function(url, data) {
   //   axios.defaults.headers.post["Content-Type"] =
@@ -1332,30 +1364,30 @@ export default {
   computed: {
     // vuex 引入 user
     ...mapState({
-      username: state => {
+      username: (state) => {
         return state.user.username;
       },
-      avatar: state => {
+      avatar: (state) => {
         return state.user.avatar;
       },
-      description: state => {
+      description: (state) => {
         return state.user.description;
       },
-      email: state => {
+      email: (state) => {
         return state.user.email;
       },
-      phone: state => {
+      phone: (state) => {
         return state.user.phone;
       },
-      cash: state => {
+      cash: (state) => {
         return state.user.cash;
       },
-      address: state => {
+      address: (state) => {
         return state.user.address;
       },
-      password: state => {
+      password: (state) => {
         return state.user.password;
-      }
+      },
     }),
     newUsernameErrors() {
       const errors = [];
@@ -1507,7 +1539,7 @@ export default {
         console.log("captchaSuccess");
         return "Captcha is OK.";
       }
-    }
+    },
   },
   watch: {
     loader() {
@@ -1531,7 +1563,7 @@ export default {
         .catch(error => {
           console.log(error);
         });*/
-    }
-  }
+    },
+  },
 };
 </script>

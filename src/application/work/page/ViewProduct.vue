@@ -506,6 +506,7 @@ export default {
         }
       }
       if (!isSame) {
+        tempItem.id = item.id;
         this.$store.commit(ADD_TO_CART, tempItem);
         // axios 將這商品寫入使用者數據庫
         // 使用 addNewToCart
