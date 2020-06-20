@@ -626,7 +626,7 @@ export default {
     },
     updateUserLiked(item) {
       // 如果使用者沒有登入就不允許操作
-      if (Cookies.get("userStatus") === undefined) {
+      if (Cookies.get("userID") === undefined) {
         this.signDialog = true;
         return;
       }
@@ -654,7 +654,7 @@ export default {
     },
     updateUserUpVote(item) {
       // 如果使用者沒有登入就不允許操作
-      if (Cookies.get("userStatus") === undefined) {
+      if (Cookies.get("userID") === undefined) {
         this.signDialog = true;
         return;
       }
