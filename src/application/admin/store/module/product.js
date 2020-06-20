@@ -10,10 +10,11 @@ import { TEST_PRODUCT_DATA } from '../testData'
 
 const product = {
     state: {
-        productItems: TEST_PRODUCT_DATA,
+        productItems: [],
         cartProductItems: [],
         recordProductItems: [],
         viewProductItemDetail: {},
+        tags: []
     },
     mutations: {
         [ADD_TO_CART](state, item) {

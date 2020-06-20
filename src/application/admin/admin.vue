@@ -108,6 +108,54 @@
   </v-app>
 </template>
 <script>
+import Cookies from "js-cookie"; // 引入 cookie API
+import axios from "axios"; // axios
+// import HelloWorld from "./components/HelloWorld";
+import { mapState, mapMutations } from "vuex";
+import {
+  UPDATE_CART_ITEMS,
+  UPDATE_RECORD_ITEMS,
+  INIT_PRODUCT_ITEMS,
+  ADD_TO_RECORD,
+  ADD_TO_CART,
+} from "./store/mutations-types/product";
+
+const testComment = [
+  {
+    username: "Rem",
+    avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
+    content:
+      "I love it.I love it.I love it.I love it.I love it.I love it.I love it.I love it.I love it.I love it.I love it.I love it.",
+    time: "2020/03/17 下午 6:17",
+    isActive: false,
+    clickEdit: false,
+  },
+  {
+    username: "Rem",
+    avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
+    content: "I love it.I love it.I love it.I love it.I love it.I love it.",
+    time: "2020/03/17 下午 6:17",
+    isActive: false,
+    clickEdit: false,
+  },
+  {
+    username: "Rem",
+    avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
+    content: "I love it.",
+    time: "2020/03/17 下午 6:17",
+    isActive: false,
+    clickEdit: false,
+  },
+  {
+    username: "Rem",
+    avatar: "https://avatars0.githubusercontent.com/u/48636976?s=460&v=4",
+    content: "I love it.",
+    time: "2020/03/17 下午 6:17",
+    isActive: false,
+    clickEdit: false,
+  },
+];
+
 export default {
   name: "App",
   components: {},
@@ -126,7 +174,15 @@ export default {
         { title: "About", icon: "mdi-forum" },
       ],
       miniVariant: false,
+      // axios request
+      getAllOrderURL: "http://35.238.213.70:8081/accountorder/findAll",
+      getAllUserURL: "http://35.238.213.70:8081/account/findAll",
+      getAllProductURL: "http://35.238.213.70:8081/product/findAll",
     };
+  },
+  created() {
+    // 初始化所有產品
+    this.getAllProduct();
   },
   methods: {
     toIntroduct() {
@@ -178,7 +234,130 @@ export default {
       Cookies.remove("userPassword");
       document.location.href = "/introduce";
     },
+
+    async getUserOrder() {
+      axios({
+        method: "post",
+        url: this.getUserOrderURL,
+        headers: {},
+        data: {
+          account: Cookies.get("userUsername"),
+        },
+      })
+        .then((response) => {
+          console.log(response.data);
+          for (let i = 0; i < response.data.data.length; i++) {
+            var tempItem = {
+              username: response.data.data[i].account,
+              status: 0,
+              id: response.data.data[i].id,
+              name: response.data.data[i].product,
+              img: response.data.data[i].img,
+              type: response.data.data[i].type,
+              price: parseInt(response.data.data[i].price),
+              number: parseInt(response.data.data[i].figure),
+              total: 0,
+              time: response.data.data[i].shoptime,
+              gender: response.data.data[i].gender,
+              age: response.data.data[i].age,
+            };
+            this.$store.commit(ADD_TO_RECORD, tempItem);
+          }
+          console.log("record");
+          console.log(this.recordProductItems);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    async getAllProduct() {
+      axios({
+        method: "get",
+        url: this.getAllProductURL,
+        headers: {},
+        data: {},
+      })
+        .then((response) => {
+          console.log(response.data);
+          // 先依據每個產品，塞入 tags
+          for (let i = 0; i < response.data.data.good.length; i++) {
+            // 新將 tags 找出來
+            var tempTags = [];
+            for (let j = 0; j < response.data.data.goodTag.length; j++) {
+              // 如果找到 id 相同
+              if (
+                response.data.data.goodTag[j].productid ===
+                response.data.data.good[i].id.toString()
+              ) {
+                // 推進 tempTags
+                tempTags.push(response.data.data.goodTag[j].tagdes);
+              }
+            }
+            var tempItem = {
+              username: "",
+              status: 0,
+              id: response.data.data.good[i].id,
+              name: response.data.data.good[i].name,
+              img: response.data.data.good[i].url,
+              type: response.data.data.good[i].category,
+              description: response.data.data.good[i].productdescription,
+              price: parseInt(response.data.data.good[i].money),
+              number: 1,
+              total: 0,
+              time: "",
+              likedClick: false,
+              liked: parseInt(response.data.data.good[i].love),
+              upVoteClick: false,
+              upVote: parseInt(response.data.data.good[i].likenum),
+              gender: "",
+              age: "",
+              tags: tempTags,
+              comments: testComment,
+            };
+            this.$store.commit(INIT_PRODUCT_ITEMS, tempItem);
+          }
+          console.log(this.productItems);
+          console.log("Before");
+          console.log(this.tags);
+          // 初始化 tags
+          for (let i = 0; i < this.productItems.length; i++) {
+            for (let j = 0; j < this.productItems[i].tags.length; j++) {
+              let haveSameTag = false;
+              for (let k = 0; k < this.tags.length; k++) {
+                if (this.tags[k] === this.productItems[i].tags[j]) {
+                  haveSameTag = true;
+                  break;
+                }
+              }
+              if (haveSameTag === false) {
+                this.tags.push(this.productItems[i].tags[j]);
+              }
+              haveSameTag = false;
+            }
+          }
+          console.log("After");
+          console.log(this.tags);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
-  computed: {},
+  computed: {
+    ...mapState({
+      cartProductItems: (state) => {
+        return state.product.cartProductItems;
+      },
+      recordProductItems: (state) => {
+        return state.product.recordProductItems;
+      },
+      productItems: (state) => {
+        return state.product.productItems;
+      },
+      tags: (state) => {
+        return state.product.tags;
+      },
+    }),
+  },
 };
 </script>

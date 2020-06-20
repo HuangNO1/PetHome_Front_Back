@@ -752,34 +752,6 @@ export default {
     //   .catch(error => {
     //     console.log(error);
     //   });
-
-    // 遍歷商品的所有 tag，並將重複的 tag 去除，將 tag 存到這裡的 tags
-    for (let i = 0; i < this.productItems.length; i++) {
-      for (let j = 0; j < this.productItems[i].tags.length; j++) {
-        let haveSameTag = false;
-        for (let k = 0; k < this.tags.length; k++) {
-          if (this.tags[k] === this.productItems[i].tags[j]) {
-            haveSameTag = true;
-            break;
-          }
-        }
-        if (haveSameTag === false) {
-          this.tags.push(this.productItems[i].tags[j]);
-        }
-        haveSameTag = false;
-      }
-      // // 初始化各產品的 liked upVote
-      // for (let j = 0; j < this.userLikedProduct.length; j++) {
-      //   if (this.productItems[i].id === this.userLikedProduct[j]) {
-      //     this.productItems[i].likedClick = true;
-      //   }
-      // }
-      // for (let j = 0; j < this.userUpVoteProduct.length; j++) {
-      //   if (this.productItems[i].id === this.userUpVoteProduct[j]) {
-      //     this.productItems[i].upVoteClick = true;
-      //   }
-      // }
-    }
   },
   data() {
     return {
@@ -820,7 +792,6 @@ export default {
         { title: "Bird", icon: "mdi-twitter" },
       ],
       // tags
-      tags: [],
       selectedTags: [],
       // 提示窗
       // snackbar: false,
@@ -972,7 +943,7 @@ export default {
         }
       }, 100);
     },
-    
+
     filterFromPriceRange() {
       var temp = this.showProductItems;
       this.showProductItems = [];
@@ -986,7 +957,7 @@ export default {
       // 跳轉到 viewProduct 子組件檢視產品詳細，并添加 query string 作為参数
       this.$router.push({ path: "/Preview", query: { id: item.id } });
     },
-    
+
     showUserLikeProduct() {
       // 顯示使用者喜歡的產品
       this.isClickShowUserLike = !this.isClickShowUserLike;
@@ -1094,10 +1065,9 @@ export default {
     },
     // 添加新 product item 成功動作
     executeNewProductSuccess() {
-      var tempNewTags = []
+      var tempNewTags = [];
 
-      for(let i = 0; i < this.newProductTags.length; i++)
-      {
+      for (let i = 0; i < this.newProductTags.length; i++) {
         tempNewTags.push(this.newProductTags[i].text);
       }
 
@@ -1120,15 +1090,14 @@ export default {
         gender: "",
         age: "",
         tags: tempNewTags,
-        comments: [
-        ]
-      }
+        comments: [],
+      };
       // 推入 VueX
-      this.productItems.push(newProductItem)
+      this.productItems.push(newProductItem);
 
       // close dialog
-      this.addNewProductDialog = false
-    }
+      this.addNewProductDialog = false;
+    },
   },
   computed: {
     // get data from vuex
@@ -1147,6 +1116,9 @@ export default {
       },
       userUpVoteProduct: (state) => {
         return state.user.upVoteProduct;
+      },
+      tags: (state) => {
+        return state.product.tags;
       },
     }),
 
