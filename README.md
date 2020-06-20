@@ -59,6 +59,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
  - **[echarts](https://www.npmjs.com/package/echarts)**，圖表。
  - **[v-charts](https://v-charts.js.org/#/)**，圖表，基于 Vue2.0 和 **echarts** 封装的 **v-charts** 图表组件。
  - **[@johmun/vue-tags-input](https://github.com/JohMun/vue-tags-input)**，A tags input component for VueJS with autocompletion, custom validation, templating and much more。
+ - **[@chenfengyuan/vue-number-input](https://github.com/fengyuanchen/vue-number-input)**，Number input component for Vue.js。
 
 ## 頁面
 
