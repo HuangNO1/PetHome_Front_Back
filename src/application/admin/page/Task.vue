@@ -12,6 +12,10 @@
         <ve-liquidfill :data="chartData"></ve-liquidfill>
       </div>
     </v-lazy>
+    <!--
+    {{unfinishOrderData}} <br>
+    {{finishOrderData}} <br>
+    {{cancelOrderData}} <br>-->
     <!-- 未完成的清單 -->
     <v-lazy
       v-model="unfinishIsActive"
@@ -288,6 +292,7 @@
 </template>
 <script>
 import { mapState, mapMutations } from "vuex";
+import axios from "axios"; // axios
 
 export default {
   name: "App",
@@ -365,6 +370,8 @@ export default {
       cancelOrderDataSearch: "",
       // 動作中的 order
       actionOrder: 0,
+      // axios
+      updateOrderURL: "http://35.238.213.70:8081/accountorder/changeStatue",
     };
   },
   created() {
@@ -394,8 +401,18 @@ export default {
     executeAction() {
       if (this.selectAction === "FINISHED") {
         this.finishOrderData.push(this.unfinishOrderData[this.actionOrder]);
+        // axios
+        this.changeOrderStatusRequest(
+          this.unfinishOrderData[this.actionOrder].id,
+          "1"
+        );
       } else {
         this.cancelOrderData.push(this.unfinishOrderData[this.actionOrder]);
+        // axios
+        this.changeOrderStatusRequest(
+          this.unfinishOrderData[this.actionOrder].id,
+          "2"
+        );
       }
       // 刪除
       this.unfinishOrderData.splice(this.actionOrder, 1);
@@ -409,12 +426,38 @@ export default {
       ).toFixed(2);
       this.chartData.rows[0].percent = finishOrderDataPersent;
     },
+    async changeOrderStatusRequest(orderId, orderStatus) {
+      axios({
+        method: "put",
+        url: this.updateOrderURL,
+        headers: {},
+        data: {
+          id: orderId,
+          orderstatue: orderStatus,
+        },
+      })
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
   computed: {
     ...mapState({
       order: (state) => {
         return state.order.order;
       },
+      // unfinishOrderData: (state) => {
+      //   return state.order.unfinishOrderData;
+      // },
+      // finishOrderData: (state) => {
+      //   return state.order.finishOrderData;
+      // },
+      // cancelOrderData: (state) => {
+      //   return state.order.cancelOrderData;
+      // },
     }),
     finishPersentage() {
       return (

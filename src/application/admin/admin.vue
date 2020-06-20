@@ -187,7 +187,7 @@ export default {
     this.getAllProduct();
     // 初始化所有訂單
     this.getAllOrder();
-    // 
+    //
     this.getAllUser();
   },
   methods: {
@@ -253,13 +253,13 @@ export default {
           for (let i = 0; i < response.data.data.length; i++) {
             var tempItem = {
               username: response.data.data[i].account,
-              status: 0,
+              status: parseInt(response.data.data[i].orderstatue, 10),
               id: response.data.data[i].id,
               name: response.data.data[i].product,
               img: response.data.data[i].img,
               type: response.data.data[i].type,
-              price: parseInt(response.data.data[i].price),
-              number: parseInt(response.data.data[i].figure),
+              price: parseInt(response.data.data[i].price, 10),
+              number: parseInt(response.data.data[i].figure, 10),
               total: 0,
               time: response.data.data[i].shoptime,
               gender: response.data.data[i].gender,
@@ -269,6 +269,17 @@ export default {
           }
           console.log("order");
           console.log(this.orderProductItems);
+
+          // // 初始化數據
+          // this.unfinishOrderData = this.orderProductItems.filter((e) => {
+          //   return e.status === 0 || e.status === "Processing";
+          // });
+          // this.finishOrderData = this.orderProductItems.filter((e) => {
+          //   return e.status === 1 || e.status === "Solved";
+          // });
+          // this.cancelOrderData = this.orderProductItems.filter((e) => {
+          //   return e.status === 2 || e.status === "Cancel";
+          // });
         })
         .catch((error) => {
           console.log(error);
@@ -364,7 +375,7 @@ export default {
               phone: response.data.data[i].phone,
               cash: parseInt(response.data.data[i].cash),
               address: response.data.data[i].address,
-              password: response.data.data[i].password
+              password: response.data.data[i].password,
             };
             this.$store.commit(UPDATE_ALL_USERS_DETAIL, tempItem);
           }
@@ -374,7 +385,7 @@ export default {
         .catch((error) => {
           console.log(error);
         });
-    }
+    },
   },
   computed: {
     ...mapState({
@@ -395,6 +406,15 @@ export default {
       },
       users: (state) => {
         return state.manageUsers.users;
+      },
+      unfinishOrderData: (state) => {
+        return state.order.unfinishOrderData;
+      },
+      finishOrderData: (state) => {
+        return state.order.finishOrderData;
+      },
+      cancelOrderData: (state) => {
+        return state.order.cancelOrderData;
       },
     }),
   },

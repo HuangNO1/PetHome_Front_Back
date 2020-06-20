@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import Cookies from 'js-cookie' // 引入 cookie API
+import Cookies from "js-cookie"; // 引入 cookie API
 
 export default {
   name: "App",
@@ -83,29 +83,29 @@ export default {
       "warning",
       "pink darken-2",
       "red lighten-1",
-      "deep-purple accent-4"
+      "deep-purple accent-4",
     ],
     slides: [
       {
         src: require("../../assets/carousel/bird_fix.png"),
-        descript: "Pet Home is the best pet store"
+        descript: "Pet Home is the best pet store",
       },
       {
         src: require("../../assets/carousel/cat_fix.png"),
-        descript: "We value the mind and body of animals"
+        descript: "We value the mind and body of animals",
       },
       {
         src: require("../../assets/carousel/dog_fix.png"),
-        descript: "We only provide high quality services"
+        descript: "We only provide high quality services",
       },
       {
         src: require("../../assets/carousel/fish_fix.png"),
-        descript: "Observe credit to customers"
+        descript: "Observe credit to customers",
       },
       {
         src: require("../../assets/carousel/fox_fix.png"),
-        descript: "Pet Home are your best choice"
-      }
+        descript: "Pet Home are your best choice",
+      },
     ],
     icons: [
       { icon: "mdi-home", href: "" },
@@ -113,26 +113,30 @@ export default {
       { icon: "mdi-calendar", href: "" },
       {
         icon: "mdi-github",
-        href: "https://github.com/HuangNO1/PetHome_Front_Back"
-      }
+        href: "https://github.com/HuangNO1/PetHome_Front_Back",
+      },
     ],
-    href: ""
+    href: "",
   }),
   methods: {
     Sign() {
-      var testUserStatus = Cookies.get('userID');
+      var testUserStatus = Cookies.get("userID");
       console.log("test: " + testUserStatus);
-      if(testUserStatus === undefined || testUserStatus === "null") {
+      if (testUserStatus === undefined || testUserStatus === "null") {
         document.location.href = "/sign#/Login";
       } else {
-        document.location.href = "/work#/Home";
+        if (Cookies.get("userPower") === "1") {
+          document.location.href = "/admin#/Dashboard";
+        } else {
+          document.location.href = "/work#/Home";
+        }
       }
-    }
+    },
   },
   create() {
-    console.log('userStatus : ' + Cookies.get('userID'));
+    console.log("userStatus : " + Cookies.get("userID"));
   },
-  computed: {}
+  computed: {},
 };
 </script>
 <style>

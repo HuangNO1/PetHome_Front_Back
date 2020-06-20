@@ -6,7 +6,10 @@ import {
 import { TEST_ORDER } from '../testData'
 const order = {
     state: {
-        order: []
+        order: [],
+        unfinishOrderData: [],
+        finishOrderData: [],
+        cancelOrderData: []
     },
     mutations: {
         [UPDATE_ALL_ORDER](state, order) {
