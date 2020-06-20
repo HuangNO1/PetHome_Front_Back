@@ -481,6 +481,8 @@ export default {
       updateCartItemsURL: "http://35.238.213.70:8081/shoppingcart/update",
       addToRecordURL: "http://35.238.213.70:8081/accountorder/save",
       deleteCartItemURL: "http://35.238.213.70:8081/shoppingcart/delete",
+      // updateAllURL
+      updateAllURL: "http://35.238.213.70:8081/account/update",
       // snackbar
       removeItemSnackbar: false,
     };
@@ -553,25 +555,24 @@ export default {
           type: this.cartSelected[i].type,
           img: this.cartSelected[i].img,
           price: this.cartSelected[i].price.toString(),
-        }
+        };
         tempAddRecord.push(temp);
       }
-      
-      
+
       // axios
       this.addToRecordRequest(tempAddRecord);
       // 刪除 cartProduct
       // id 存 array
       let deleteArray = [];
       console.log("delete cart item");
-      for(let i = 0; i < this.cartSelected.length; i++){
+      for (let i = 0; i < this.cartSelected.length; i++) {
         for (let j = 0; j < this.cartProduct.length; j++) {
           if (
             this.cartProduct[j].id === this.cartSelected[i].id &&
             this.cartProduct[j].gender === this.cartSelected[i].gender &&
             this.cartProduct[j].age === this.cartSelected[i].age
           ) {
-            deleteArray.push({id: this.cartSelected[i].id});
+            deleteArray.push({ id: this.cartSelected[i].id });
             this.cartProduct.splice(j, 1);
           }
         }
@@ -585,7 +586,7 @@ export default {
       console.log(recordProductItems);
 
       // axios 更新使用者 cash
-      this.updateUserCashRequest();
+      this.updateUserCashRequest(this.countResult);
     },
     toViewProduct(item) {
       // 跳轉到 viewProduct 子組件檢視產品詳細，并添加 query string 作為参数
@@ -647,7 +648,8 @@ export default {
     updateCartItems() {
       this.$store.commit(UPDATE_CART_ITEMS, this.cartProduct);
     },
-    async updateUserCashRequest() {
+    async updateUserCashRequest(newCash) {
+      console.log("countResult: " + newCash);
       axios({
         method: "put",
         url: this.updateAllURL,
@@ -671,11 +673,12 @@ export default {
         .then((response) => {
           console.log(response.data);
           this.countResult = parseInt(this.countResult, 10);
+          Cookies.set("userCash", this.countResult);
         })
         .catch((error) => {
           console.log(error);
         });
-    }
+    },
   },
   computed: {
     // get data from vuex
