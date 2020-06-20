@@ -289,6 +289,9 @@
                 {{ item.price }}
               </span>
               <v-spacer></v-spacer>
+              <v-btn color="red" @click="deleteItemDialog(i)" icon>
+                <v-icon>mdi-delete</v-icon>
+              </v-btn>
               <v-btn
                 class="mx-2"
                 @click="editCurrentProductDetail(i)"
@@ -663,6 +666,37 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <!-- delete dialog -->
+    <v-dialog v-model="deleteDialog" width="500" persistent>
+      <v-card>
+        <v-card-title class="headline red--text">WARNING</v-card-title>
+
+        <v-card-text>
+          Are you sure you want to remove <b>{{ deleteItem.name }}</b
+          >?
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" text @click="deleteDialog = false">
+            Cancel
+          </v-btn>
+          <v-btn
+            color="red darken-1"
+            text
+            @click="deleteProduct(deleteItem.index)"
+          >
+            Remove
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-snackbar v-model="removeItemSnackbar" top :timeout="3000">
+      The Pet Have being Removed.
+      <v-btn color="pink" icon fab @click="removeItemSnackbar = false">
+        <v-icon dark>mdi-close-circle</v-icon>
+      </v-btn>
+    </v-snackbar>
   </div>
 </template>
 <script>
@@ -851,6 +885,16 @@ export default {
       newProductPriceError: true,
 
       tempOriginEditProductTags: [],
+      // delete item
+      deleteDialog: false,
+      comfirmDelete: false,
+      deleteItem: {
+        index: 0,
+      },
+      // axios
+      updateProductURL: "",
+      addNewProductURL: "",
+      deleteProductURL: "",
     };
   },
   watch: {
@@ -1097,6 +1141,20 @@ export default {
 
       // close dialog
       this.addNewProductDialog = false;
+    },
+    deleteItemDialog(index) {
+      this.deleteItem.index = index;
+      this.deleteItem.id = this.showProductItems[index].id;
+      this.deleteItem.name = this.showProductItems[index].name;
+      this.deleteItem.age = this.showProductItems[index].age;
+      this.deleteItem.gender = this.showProductItems[index].gender;
+      this.deleteDialog = true;
+    },
+    deleteProduct(index) {
+      this.showProductItems.splice(index, 1);
+      this.removeItemSnackbar = true;
+      this.deleteDialog = false;
+      this.$store.commit(UPDATE_CART_ITEMS, this.cartProduct);
     },
   },
   computed: {
