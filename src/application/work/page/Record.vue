@@ -99,7 +99,7 @@
                   <td>{{ item.age }}</td>
                   <td>{{ item.price }}</td>
                   <td>{{ item.number }}</td>
-                  <td>{{ item.total }}</td>
+                  <td>{{ item.total = item.price * item.number }}</td>
                   <td>{{ item.time }}</td>
                   <td>{{ item.status }}</td>
                 </tr>
