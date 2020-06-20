@@ -39,6 +39,14 @@
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item @click.stop="signOutDialog = true">
+          <v-list-item-icon>
+            <v-icon class="red--text">mdi-door-open</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title class="red--text">Sign Out</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
@@ -67,6 +75,28 @@
       <v-spacer></v-spacer>
     </v-app-bar>
 
+    <!-- comfirm Sign Out Dialog-->
+    <v-dialog v-model="signOutDialog" width="500" persistent>
+      <v-card>
+        <v-card-title class="headline red white--text lighten-1" primary-title>
+          <p>WARRING</p>
+        </v-card-title>
+
+        <v-card-text class="title" style="padding: 1rem;">
+          Are you sure you want to sign out?
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" text @click="signOutDialog = false">
+            <span>Cancel</span>
+          </v-btn>
+          <v-btn color="error" text @click="signOut">
+            <span>Sure</span>
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <!-- Sizes your content based upon application components -->
     <v-content>
       <!-- Provides the application the proper gutter -->
@@ -83,6 +113,7 @@ export default {
   components: {},
   data() {
     return {
+      signOutDialog: false,
       // 判斷側邊欄是否能見
       drawer: true,
       // 側邊欄 items
@@ -92,9 +123,9 @@ export default {
         { title: "Task", icon: "mdi-calendar-multiple-check" },
         { title: "Edit", icon: "mdi-grease-pencil" },
         { title: "Manage", icon: "mdi-account-cog" },
-        { title: "About", icon: "mdi-forum" }
+        { title: "About", icon: "mdi-forum" },
       ],
-      miniVariant: false
+      miniVariant: false,
     };
   },
   methods: {
@@ -130,8 +161,24 @@ export default {
       }
       console.log("draw - " + this.drawer);
       console.log("miniVariant - " + this.miniVariant);
-    }
+    },
+    signOut() {
+      // 刪除 cookie
+      Cookies.remove("userID");
+      Cookies.remove("userEmail");
+      Cookies.remove("userUsername");
+      Cookies.remove("userPhone");
+      Cookies.remove("userCash");
+      Cookies.remove("userDescription");
+      Cookies.remove("userAddress");
+      Cookies.remove("userBGColor");
+      Cookies.remove("userBGUrl");
+      Cookies.remove("userAvatar");
+      Cookies.remove("userPower");
+      Cookies.remove("userPassword");
+      document.location.href = "/introduce";
+    },
   },
-  computed: {}
+  computed: {},
 };
 </script>
