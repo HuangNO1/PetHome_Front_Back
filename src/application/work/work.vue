@@ -440,7 +440,7 @@ export default {
               price: parseInt(response.data.data[i].price, 10),
               number: parseInt(response.data.data[i].figure, 10),
               total: 0,
-              time: response.data.data[i].shoptime,
+              time: "",
               // likedClick: false,
               // upVoteClick: false,
               // upVote: 0,

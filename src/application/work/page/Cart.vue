@@ -338,6 +338,7 @@
         </v-card>
       </v-lazy>
     </div>
+    {{ cartSelected }}
     <!-- delete dialog -->
     <v-dialog v-model="deleteDialog" width="500" persistent>
       <v-card>
@@ -378,7 +379,7 @@
           <v-btn color="red darken-1" text @click="comfirmDealDialog = false">
             Cancel
           </v-btn>
-          <v-btn color="green darken-1" text @click="addToRecord()">
+          <v-btn color="green darken-1" text @click="addToRecord">
             Sure
           </v-btn>
         </v-card-actions>
@@ -501,9 +502,7 @@ export default {
     deleteProduct(index) {
       this.cartProduct.splice(index, 1);
       for (let i = 0; i < this.cartSelected.length; i++) {
-        if (
-          this.cartSelected[i].id === this.deleteItem.id
-        ) {
+        if (this.cartSelected[i].id === this.deleteItem.id) {
           this.cartSelected.splice(i, 1);
         }
       }
@@ -511,7 +510,7 @@ export default {
       this.deleteDialog = false;
       this.$store.commit(UPDATE_CART_ITEMS, this.cartProduct);
       // axios
-      let deleteArray = [{id: this.deleteItem.id}];
+      let deleteArray = [{ id: this.deleteItem.id }];
       this.deleteCartItemRequest(deleteArray);
     },
     nextWindow() {
@@ -523,8 +522,11 @@ export default {
       }
     },
     addToRecord() {
+      console.log("add to record");
       // 提交購物紀錄 以及 添加交易完成時間 以及 刪除購物車商品
+      console.log("step++");
       this.step++;
+      console.log("this.comfirmDealDialog = false");
       this.comfirmDealDialog = false;
       var FinishDealDate = new Date();
       var FinishDealTime =
@@ -535,6 +537,7 @@ export default {
         FinishDealDate.getDate() +
         " " +
         FinishDealDate.toLocaleTimeString();
+      console.log("update time");
       for (let i = 0; i < this.cartSelected.length; i++) {
         this.cartSelected[i].time = FinishDealTime;
         this.$store.commit(ADD_TO_RECORD, this.cartSelected[i]);
@@ -544,26 +547,27 @@ export default {
       // 刪除 cartProduct
       // id 存 array
       //let deleteArray = [];
-      while (this.cartSelected.length !== 0) {
-        let i = 0;
+      console.log("delete cart item");
+      for(let i = 0; i < this.cartSelected.length; i++){
         for (let j = 0; j < this.cartProduct.length; j++) {
           if (
-            this.cartProduct[j].id === this.cartSelected[i].id
+            this.cartProduct[j].id === this.cartSelected[i].id &&
+            this.cartProduct[j].gender === this.cartSelected[i].gender &&
+            this.cartProduct[j].age === this.cartSelected[i].age
           ) {
             //deleteArray.push({id: this.cartSelected[i].id});
             this.cartProduct.splice(j, 1);
-            break;
           }
         }
       }
       // axios
       //this.deleteCartItemRequest(deleteArray);
-      
+      console.log("change vuex");
       this.$store.commit(UPDATE_CART_ITEMS, this.cartProduct);
       // Vuex 更新使用者 cash
       this.$store.commit(UPDATE_USER_CASH, this.countResult);
       console.log(recordProductItems);
-      
+
       // axios 更新使用者 cash
       // var paramsCash = new URLSearchParams();
       // paramsCash.append("cash", this.countResult);
@@ -582,7 +586,7 @@ export default {
       // 跳轉到 viewProduct 子組件檢視產品詳細，并添加 query string 作為参数
       this.$router.push({ path: "/ViewProduct", query: { name: item.name } });
     },
-    
+
     async deleteCartItemRequest(deleteArray) {
       axios({
         method: "delete",
@@ -598,7 +602,6 @@ export default {
         });
     },
     async addToRecordRequest() {
-
       axios({
         method: "post",
         url: this.addToRecordURL,
@@ -626,7 +629,7 @@ export default {
           gender: item.gender.toString(),
           type: item.type.toString(),
           img: item.img.toString(),
-          price: item.price.toString()
+          price: item.price.toString(),
         },
       })
         .then((response) => {
