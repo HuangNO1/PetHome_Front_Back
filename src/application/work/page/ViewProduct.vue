@@ -654,7 +654,7 @@ export default {
         clickEdit: false,
       };
       this.viewProductItemDetail.comments.push(temp);
-      this.removeItemSnackbar = true;
+      this.sendCommentSnackbar = true;
       this.newComment = "";
     },
     deleteItemDialog(index) {
