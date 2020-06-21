@@ -259,6 +259,7 @@
               </v-col>
               <v-col>
                 <v-textarea
+                  v-model="newComment"
                   outlined
                   label="Comment"
                   value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
@@ -267,7 +268,7 @@
             </v-row>
             <v-row class="mb-3" v-if="loginSuccess">
               <v-spacer></v-spacer>
-              <v-btn color="primary" class="mr-10">Send</v-btn>
+              <v-btn color="primary" class="mr-10" @click="sendComment">Send</v-btn>
             </v-row>
             <v-divider v-if="loginSuccess"></v-divider>
             <!-- 談論區 -->
@@ -287,11 +288,17 @@
                   <v-alert>
                     {{ item.content }}
                   </v-alert>
-                  <v-btn v-if="loginSuccess" text small color="error">
+                  <v-btn
+                    v-if="(loginSuccess && item.username === username)"
+                    text
+                    small
+                    color="error"
+                    @click="deleteItemDialog(index)"
+                  >
                     Delete
                   </v-btn>
                   <v-btn
-                    v-if="loginSuccess"
+                    v-if="loginSuccess && item.username === username"
                     text
                     small
                     color="primary"
@@ -309,9 +316,9 @@
                 >
                   <div v-if="item.clickEdit">
                     <v-textarea
+                      v-model="item.content"
                       outlined
                       label="Comment"
-                      :value="item.content"
                     ></v-textarea>
                   </div>
                 </v-lazy>
@@ -345,6 +352,44 @@
           </v-btn>
           <v-btn color="green darken-1" text href="/sign#/Login">
             Sign In
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <!-- send comment snackbar -->
+    <v-snackbar v-model="sendCommentSnackbar" top :timeout="3000">
+      Your Comment Has Being Sended.
+      <v-btn color="pink" icon fab @click="sendCommentSnackbar = false">
+        <v-icon dark>mdi-close-circle</v-icon>
+      </v-btn>
+    </v-snackbar>
+    <!-- delete comment snackbar -->
+    <v-snackbar v-model="removeItemSnackbar" top :timeout="3000">
+      The Comment Has Being Removed.
+      <v-btn color="pink" icon fab @click="removeItemSnackbar = false">
+        <v-icon dark>mdi-close-circle</v-icon>
+      </v-btn>
+    </v-snackbar>
+    <!-- delete dialog -->
+    <v-dialog v-model="deleteDialog" width="500" persistent>
+      <v-card>
+        <v-card-title class="headline red--text">WARNING</v-card-title>
+
+        <v-card-text>
+          Are you sure you want to remove it ?
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" text @click="deleteDialog = false">
+            Cancel
+          </v-btn>
+          <v-btn
+            color="red darken-1"
+            text
+            @click="deleteComment(deleteItem.index)"
+          >
+            Remove
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -424,6 +469,16 @@ export default {
       addCartSnackbarText: "",
       // 請求登入 dialog
       signDialog: false,
+      // comment
+      newComment: "",
+      sendCommentSnackbar: false,
+      // delete comment ----------------------
+      deleteDialog: false,
+      comfirmDelete: false,
+      deleteItem: {
+        index: 0,
+      },
+      removeItemSnackbar: false,
       // 請求 URL
       addToCartURL: "http://35.238.213.70:8081/shoppingcart/save",
       updateCartURL: "http://35.238.213.70:8081/shoppingcart/update",
@@ -438,7 +493,7 @@ export default {
   created() {
     // 先獲取 cookie
     var userStatus = Cookies.get("userID");
-    this.loginSuccess = (userStatus === undefined) ? false : true;
+    this.loginSuccess = userStatus === undefined ? false : true;
 
     let name = this.$route.query.name;
     let show = this.productItems.find((e) => {
@@ -496,12 +551,12 @@ export default {
           // 把 id 覆蓋
           tempItem.id = this.cartProductItems[i].id;
           isSame = true;
-          console.log("update cart tempItem")
-          console.log(tempItem)
+          console.log("update cart tempItem");
+          console.log(tempItem);
           // axios 將這商品寫入使用者數據庫
           // 使用 update
-          
-          this.updateCartRequeat(tempItem)
+
+          this.updateCartRequeat(tempItem);
           break;
         }
       }
@@ -510,8 +565,8 @@ export default {
         this.$store.commit(ADD_TO_CART, tempItem);
         // axios 將這商品寫入使用者數據庫
         // 使用 addNewToCart
-        console.log("addNewCartRequest")
-        this.addNewToCartRequest(tempItem)
+        console.log("addNewCartRequest");
+        this.addNewToCartRequest(tempItem);
       }
       // 出現提示窗
       this.addCartSnackbar = true;
@@ -579,6 +634,38 @@ export default {
       //     console.log(error);
       //   });
     },
+    sendComment() {
+      // Date()
+      var FinishDealDate = new Date();
+      var FinishDealTime =
+        FinishDealDate.getFullYear() +
+        "/" +
+        FinishDealDate.getMonth() +
+        "/" +
+        FinishDealDate.getDate() +
+        " " +
+        FinishDealDate.toLocaleTimeString();
+      var temp = {
+        username: this.username,
+        avatar: this.avatar,
+        content: this.newComment,
+        time: FinishDealTime,
+        isActive: false,
+        clickEdit: false,
+      };
+      this.viewProductItemDetail.comments.push(temp);
+      this.removeItemSnackbar = true;
+      this.newComment = "";
+    },
+    deleteItemDialog(index) {
+      this.deleteItem.index = index;
+      this.deleteDialog = true;
+    },
+    deleteComment(index) {
+      this.viewProductItemDetail.comments.splice(index, 1);
+      this.removeItemSnackbar = true;
+      this.deleteDialog = false;
+    },
     async addNewToCartRequest(item) {
       axios({
         method: "post",
@@ -592,7 +679,7 @@ export default {
           gender: item.gender.toString(),
           type: item.type.toString(),
           img: item.img.toString(),
-          price: item.price.toString()
+          price: item.price.toString(),
         },
       })
         .then((response) => {
@@ -616,7 +703,7 @@ export default {
           gender: item.gender.toString(),
           type: item.type.toString(),
           img: item.img.toString(),
-          price: item.price.toString()
+          price: item.price.toString(),
         },
       })
         .then((response) => {
